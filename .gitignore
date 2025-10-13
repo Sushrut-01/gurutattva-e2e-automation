@@ -1,0 +1,53 @@
+# Robot Framework
+*.log
+*.html
+*.xml
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp3
+*.mp4
+*.zip
+
+# Test Results
+results/
+downloads/
+temp_zip/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+email_args.json
+
+# Keep important files
+!test_data/
+!requirements.txt
+!README.md
+!PROJECT_SUMMARY.md
+!azure-pipelines-e2e.yml
+!send_email_env.py

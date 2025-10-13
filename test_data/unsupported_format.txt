@@ -1,0 +1,2 @@
+This is a test file with unsupported format for testing image upload validation.
+The application should reject this file and show an appropriate error message. 
