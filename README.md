@@ -432,6 +432,7 @@ robot --loglevel DEBUG --outputdir results tests/
 4. Update this README when adding new features
 
 ## 📞 Support
+   Email : warish.kumar@rysun.com
 
 For issues or questions:
 1. Check the troubleshooting section
