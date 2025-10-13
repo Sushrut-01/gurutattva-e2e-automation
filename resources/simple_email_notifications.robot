@@ -12,12 +12,12 @@ ${SMTP_USERNAME}            smtp@rysun.com
 ${SMTP_PASSWORD}            uA4VEvIpnN5tKVjT
 ${EMAIL_FROM}               smtp@rysun.com
 ${EMAIL_TO}                 warish.kumar@rysun.com
-${EMAIL_CC}                 technology.warish@gmail.com
+${EMAIL_CC}                 rumana.mansuri@rysun.com
 ${EMAIL_BCC}                
 
 # Test Execution Details
 ${TEST_ENVIRONMENT}         Local Machine
-${PROJECT_NAME}             Gurutattva E2E Testing
+${PROJECT_NAME}             Gurutattva Automation
 ${REPORT_DIRECTORY}         ${EXECDIR}/results
 ${ZIP_FILE_NAME}            Test_Report_${EMPTY}
 ${SMTP_USE_STARTTLS}        True
