@@ -117,7 +117,7 @@ Verify that the user is able to add a Hindi news, publish it in the CMS, and ver
     Close Gurutattva App
 
 Test Unpublish News from CMS and Verify in Mobile App
-    [Tags]    TC04    E2ENews    Unpublish    E2E
+    [Tags]    TC04    E2ENews    Unpublish    E2E    milestone2
     [Documentation]    Unpublish News from CMS app and check reflection in Mobile app
     
     # Generate unique test data for this test run
@@ -163,7 +163,7 @@ Test Unpublish News from CMS and Verify in Mobile App
     Log To Console    🎉 E2E News Unpublish Test Completed Successfully!
 
 Test News Category Tab In Mobile App
-    [Tags]    TC05    E2ENews    E2E    Milestone2
+    [Tags]    TC05    E2ENews    E2E    milestone2
     [Documentation]    In Mobile app, check for Category tab, it should list all the News (Local+ global) of that category
     
     # --- Mobile App: Open and Navigate to News Categories ---
@@ -195,7 +195,7 @@ Test News Category Tab In Mobile App
     Log To Console    🎉 News Category Tab Test Completed Successfully!
 
 Test Check Local News Filter Functionality
-    [Tags]    TC46    E2ENews    Mobile    Filter
+    [Tags]    TC46    E2ENews    Mobile    Filter    milestone2
     [Documentation]    Check Local News Filter functionality with all dropdown in Mobile
     
     # --- Mobile App: Open app and navigate to News ---
@@ -233,7 +233,7 @@ Test Check Local News Filter Functionality
     Log To Console    🎉 Local News Filter Test Completed Successfully!
 
 Test Sanchalak Adds Local News And Super Admin Approves It
-    [Tags]    TC47    E2ENews    Sanchalak    Approval    E2E
+    [Tags]    TC47    E2ENews    Sanchalak    Approval    E2E    milestone2
     [Documentation]    Sanchalak adds local news, once Acharya/Super Admin Approves it then only that news is reflected in Mobile app under local news section
     
     # Generate unique test data for this test run
@@ -328,7 +328,7 @@ Test Sanchalak Adds Local News And Super Admin Approves It
     Log To Console    🎉 Sanchalak Local News Approval Test Completed Successfully!
 
 Test Sanchalak Adds Local News And Super Admin Rejects It
-    [Tags]    TC48    E2ENews    Sanchalak    Rejection    E2E
+    [Tags]    TC48    E2ENews    Sanchalak    Rejection    E2E    milestone2
     [Documentation]    Sanchalak adds local news, once Acharya/Super Admin Rejects it then that news should not be reflected in Mobile app under local news section
     
     # Generate unique test data for this test run
@@ -418,7 +418,7 @@ Test Sanchalak Adds Local News And Super Admin Rejects It
     Log To Console    🎉 Sanchalak Local News Rejection Test Completed Successfully!
 
 Add News Category from CMS. Add News uder that category. check list of all categories in the Mobile app under Category tab.
-    [Tags]    TC78    E2ENews    Gurutattva
+    [Tags]    TC78    E2ENews    Gurutattva    milestone2
     Generate News Category for Test Data
     Open Web Browser
     Login in with valid credentials

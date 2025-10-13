@@ -156,7 +156,7 @@ Verify that the user is able to add a Hindi event, publish it in the CMS, and ve
     Log To Console    🎉 E2E Hindi Events Test Completed Successfully!
 
 Test Add Event Category from CMS and Add Events under that Category
-    [Tags]    TC43    E2EEvents    Category    E2E
+    [Tags]    TC43    E2EEvents    Category    E2E    milestone2
     [Documentation]    Add Event Category from CMS, Add Events under that category, and verify categories in Mobile app
     
     # Generate unique test data for this test run
@@ -211,7 +211,7 @@ Test Add Event Category from CMS and Add Events under that Category
     Log To Console    🎉 E2E Event Category Test Completed Successfully!
 
 Test Unpublish Event from CMS and Verify in Mobile App
-    [Tags]    TC44    E2EEvents    Unpublish    E2E
+    [Tags]    TC44    E2EEvents    Unpublish    E2E    milestone2
     [Documentation]    Unpublish Event from CMS app and check reflection in Mobile app
     
     # Generate unique test data for this test run
@@ -274,7 +274,7 @@ Test Unpublish Event from CMS and Verify in Mobile App
     Log To Console    🎉 E2E Event Unpublish Test Completed Successfully!
 
 Test Event Category Tab In Mobile App
-    [Tags]    TC45    E2EEvents    Mobile    Category
+    [Tags]    TC45    E2EEvents    Mobile    Category    milestone2
     [Documentation]    In Mobile app, check for Category tab, it should list all the Event (Local+ global) of that category
     
     # --- Mobile App: Open app and navigate to Events ---
@@ -305,7 +305,7 @@ Test Event Category Tab In Mobile App
     Log To Console    🎉 E2E Event Category Tab Test Completed Successfully!
 
 Test Check Local Event Filter Functionality
-    [Tags]    TC46    E2EEvents    Mobile    Filter
+    [Tags]    TC46    E2EEvents    Mobile    Filter    milestone2
     [Documentation]    Check Local Event Filter functionality with all dropdown in Mobile
     
     # --- Mobile App: Open app and navigate to Events ---
