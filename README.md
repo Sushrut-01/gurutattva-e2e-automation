@@ -70,17 +70,183 @@ E2E_Project/
 
 ## 🧪 Running Tests
 
-### Basic Test Execution
+### Why `--outputdir results` is Required
+
+**✅ ALWAYS use `--outputdir results`** for the following reasons:
+
+1. **Clean Project Structure**: Keeps reports organized in `results/` folder
+2. **Email System Compatibility**: Email notifications expect reports in `results/` directory
+3. **File Management**: Prevents cluttering the main project directory
+4. **CI/CD Integration**: Standard practice for automated pipelines
+
+**❌ Without `--outputdir results`:**
+- Reports created in root directory (`D:\E2E_Project\`)
+- Email system may fail to find report files
+- Project directory becomes cluttered
+
+### Command Examples
+
+#### **1. Basic Test Execution**
 
 ```cmd
-# Run all tests
+# Run all tests in the project
 robot --outputdir results tests/
 
 # Run specific test suite
 robot --outputdir results tests/E2EEvents.robot
 
-# Run with specific tags
-robot --outputdir results --include TC46 tests/E2EEvents.robot
+# Run specific test suite with verbose output
+robot --outputdir results --loglevel DEBUG tests/E2EAudio.robot
+```
+
+#### **2. Tag-Based Execution**
+
+```cmd
+# Run tests with specific tag (single tag)
+robot --outputdir results --include tc58_01 tests/E2EAudio.robot
+
+# Run tests with multiple tags (AND condition)
+robot --outputdir results --include tc58_01 --include E2EAudio tests/E2EAudio.robot
+
+# Run tests with any of the tags (OR condition)
+robot --outputdir results --include tc58_01ORtc58_02 tests/E2EAudio.robot
+
+# Run tests with milestone tag across all test files
+robot --outputdir results --include milestone2 tests/
+
+# Run tests with regression tag across specific modules
+robot --outputdir results --include regression tests/E2EEvents.robot tests/E2ENews.robot
+
+# Exclude specific tags
+robot --outputdir results --exclude skip tests/
+
+# Combine include and exclude
+robot --outputdir results --include smoke --exclude flaky tests/
+```
+
+#### **3. Module-Specific Execution**
+
+```cmd
+# Run all Events tests
+robot --outputdir results tests/E2EEvents.robot
+
+# Run all News tests
+robot --outputdir results tests/E2ENews.robot
+
+# Run all Audio tests
+robot --outputdir results tests/E2EAudio.robot
+
+# Run all Prayer tests
+robot --outputdir results tests/E2EPrayer.robot
+
+# Run all Registration tests
+robot --outputdir results tests/E2ERegistration.robot
+```
+
+#### **4. Advanced Execution Options**
+
+```cmd
+# Run with custom output directory
+robot --outputdir custom_results tests/
+
+# Run with custom name for output files
+robot --outputdir results --name "Smoke_Test_Run" tests/
+
+# Run with specific log level
+robot --outputdir results --loglevel TRACE tests/
+
+# Run with variable substitution
+robot --outputdir results --variable BROWSER:Chrome tests/
+
+# Run with multiple variables
+robot --outputdir results --variable BROWSER:Chrome --variable ENVIRONMENT:Staging tests/
+
+# Run with dry run (no actual execution)
+robot --outputdir results --dryrun tests/
+
+# Run with specific test case name
+robot --outputdir results --test "Test Add New Event" tests/E2EEvents.robot
+
+# Run with specific suite name
+robot --outputdir results --suite E2EEvents tests/
+```
+
+#### **5. Parallel Execution (if supported)**
+
+```cmd
+# Run tests in parallel (requires pabot)
+pabot --outputdir results tests/
+
+# Run specific suites in parallel
+pabot --outputdir results tests/E2EEvents.robot tests/E2ENews.robot
+```
+
+#### **6. CI/CD Pipeline Commands**
+
+```cmd
+# Production test run
+robot --outputdir results --include production tests/
+
+# Smoke test run
+robot --outputdir results --include smoke tests/
+
+# Regression test run
+robot --outputdir results --include regression tests/
+
+# Critical path tests
+robot --outputdir results --include critical tests/
+```
+
+#### **7. Debug and Troubleshooting**
+
+```cmd
+# Run with maximum verbosity
+robot --outputdir results --loglevel TRACE --debugfile debug.log tests/
+
+# Run single test case for debugging
+robot --outputdir results --test "Test Podcast Different Filter Functionality" tests/E2EAudio.robot
+
+# Run with console output
+robot --outputdir results --consolecolors on tests/
+
+# Run with timestamp in output
+robot --outputdir results --timestampoutputs tests/
+```
+
+### **Common Tag Examples**
+
+Based on your project structure, here are common tag patterns:
+
+```cmd
+# Test Case IDs
+--include tc58_01
+--include tc46_01
+--include tc47_01
+
+# Module Tags
+--include E2EAudio
+--include E2EEvents
+--include E2ENews
+
+# Priority Tags
+--include high
+--include medium
+--include low
+
+# Test Type Tags
+--include smoke
+--include regression
+--include integration
+
+# Milestone Tags
+--include milestone1
+--include milestone2
+--include sprint1
+
+# Status Tags
+--include ready
+--include wip
+--include skip
 ```
 
 ### Test Execution with Email Notifications
