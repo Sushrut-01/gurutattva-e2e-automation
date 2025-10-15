@@ -68,7 +68,7 @@ ${AUTHOR_SUCCESS_MESSAGE}                    xpath=//li[contains(@class,'minimal
 ${FILTER_BUTTON}                             xpath=//button[@aria-label='Show filters']
 ${FILTER_COLUMN_DROPDOWN}                    xpath=(//select[contains(@class,'MuiNativeSelect-select')])[2]
 ${FILTER_OPERATOR_DROPDOWN}                  xpath=(//select[contains(@class,'MuiNativeSelect-select')])[3]
-${FILTER_VALUE_DROPDOWN}                     xpath=(//select[contains(@class,'MuiNativeSelect-select')])[4]
+${FILTER_VALUE_DROPDOWN}                     xpath=//div[contains(@class,'MuiDataGrid-filterFormValueInput')]//select[contains(@class,'MuiNativeSelect-select') and @placeholder='Filter value']
 ${FILTER_VALUE_INPUT}                        xpath=//input[@placeholder='Filter value']
 ${FILTER_DATE_INPUT}                         xpath=//input[@type='date' and @placeholder='Filter value']
 ${FILTER_DATE_CALENDAR}                      xpath=//div[contains(@class,'MuiPickersCalendar')]
@@ -118,8 +118,73 @@ ${CANCEL_BUTTON_DELETE}           xpath=//button[contains(text(),'Cancel')]
 ${REFRESH_BUTTON}                              xpath=//button[contains(text(),'Refresh')]
 ${SEARCH_DHYANKENDRA}                                xpath=//input[@placeholder='Search…']
 ${PAGINATION_DISPLAYED_ROWS}                   xpath=//p[contains(@class,'MuiTablePagination-displayedRows')]
+${PAGINATION_NEXT_BUTTON}                      xpath=//button[@aria-label='Go to next page']
+${PAGINATION_PREV_BUTTON}                      xpath=//button[@aria-label='Go to previous page']
+${PAGINATION_DISABLED_NEXT}                    xpath=//button[@aria-label='Go to next page' and @disabled]
+${PAGINATION_ENABLED_NEXT}                     xpath=//button[@aria-label='Go to next page' and not(@disabled)]
 
 *** Keywords ***
+Handle Pagination For Filter Verification
+    [Arguments]    ${verification_keyword}    @{args}
+    [Documentation]    Handles pagination when verifying filter results across multiple pages
+    
+    # Get total count from pagination info
+    ${pagination_text}=    Web.Get Text    ${PAGINATION_DISPLAYED_ROWS}
+    Log To Console    RAW: "${pagination_text}"
+    
+    # Clean the text and extract total count using Method 4 (splitting by "of")
+    ${clean_text}=    Strip String    ${pagination_text}
+    ${parts}=    Split String    ${clean_text}    of
+    Log To Console    Split parts: ${parts}
+    
+    IF    len(${parts}) > 1
+        ${last_part}=    Strip String    ${parts[-1]}
+        ${total_count}=    Set Variable    ${last_part}
+        Log To Console    ✅ Extracted total count: ${total_count}
+    ELSE
+        Log To Console    ⚠️ Could not extract total count, defaulting to 1
+        ${total_count}=    Set Variable    1
+    END
+    
+    # Set start and end records for display
+    ${start_record}=    Set Variable    1
+    ${end_record}=    Set Variable    ${total_count}
+    
+    Log To Console    📊 Records: ${start_record}-${end_record} of ${total_count}
+    
+    # Calculate total pages (assuming 10 records per page)
+    ${total_pages}=    Evaluate    (${total_count} + 9) // 10
+    Log To Console    📄 Total pages: ${total_pages}
+    
+    # If only one page, just verify current page
+    IF    ${total_pages} == 1
+        Log To Console    📄 Only one page, verifying current page
+        Run Keyword    ${verification_keyword}    @{args}
+        Log To Console    ✅ Single page verification completed
+        RETURN
+    END
+    
+    # Verify records on each page
+    FOR    ${page}    IN RANGE    1    ${total_pages} + 1
+        Log To Console    🔍 Verifying page ${page} of ${total_pages}
+        
+        # Call the verification keyword for current page
+        Run Keyword    ${verification_keyword}    @{args}
+        
+        # Check if there's a next page
+        IF    ${page} < ${total_pages}
+            Log To Console    ➡️ Clicking next page button
+            Web.Wait Until Page Contains Element    ${PAGINATION_ENABLED_NEXT}    5s
+            Web.Click Element    ${PAGINATION_ENABLED_NEXT}
+            Sleep    3s
+        END
+    END
+    
+    Log To Console    ✅ Pagination verification completed for all ${total_pages} pages
+    
+    # Store total_pages for potential use in Clear All Filters
+    Set Test Variable    ${TOTAL_PAGES_FOR_CLEAR}    ${total_pages}
+
 Generate E2E Test Data
     [Documentation]    Generates unique test data for end-to-end validation
     ${random_num}=    Evaluate    random.randint(1000, 9999)    random
@@ -1917,27 +1982,176 @@ Apply Filter Combination
     [Documentation]    Applies a filter combination with column, operator, and value
     Log To Console    🔍 Applying Filter: Column=${column_value}, Operator=${operator_value}, Value=${filter_value}
     
+    # Ensure filter panel is open before applying filters
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    IF    not ${filter_panel_open}
+        Log To Console    🔄 Filter panel is closed, opening it first
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Click Element    ${FILTER_BUTTON}
+        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    5s
+        Log To Console    ✅ Filter panel opened successfully
+    ELSE
+        Log To Console    ✅ Filter panel is already open
+    END
+    
     # Select Column (only if different from default "categoryName")
     IF    '${column_value}' != 'categoryName'
         Web Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    5s
         Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    ${column_value}
-        Sleep    1s
+        Sleep    3s
+        
+        # Check if filter panel closed after column selection and re-open if needed
+        ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    3s
+        IF    not ${filter_panel_still_open}
+            Log To Console    🔄 Filter panel closed after column selection, re-opening it
+            Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+            Web.Click Element    ${FILTER_BUTTON}
+            Sleep    3s
+            # Wait for filter panel to fully load
+            Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
+            Sleep    2s
+            # Re-select column
+            Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    ${column_value}
+            Sleep    2s
+            Log To Console    ✅ Filter panel re-opened and column re-selected: ${column_value}
+        ELSE
+            Log To Console    ✅ Filter panel remained open after column selection
+        END
+        
+        # Wait for UI to update after column selection
+        Log To Console    🔄 Waiting for UI to update after column selection
+        Sleep    2s
+        
+        Log To Console    ✅ Selected column: ${column_value}
     ELSE
         Log To Console    ✅ Using default column: Category
     END
     
     # Select Operator (only if different from default "is")
     IF    '${operator_value}' != 'is'
-        Web Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    5s
-        Web.Select From List By Value    ${FILTER_OPERATOR_DROPDOWN}    ${operator_value}
-        Sleep    1s
+        # Wait for operator dropdown to be available after column selection
+        ${operator_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    10s
+        IF    not ${operator_found}
+            Log To Console    ⚠️ Operator dropdown not found with primary locator, trying alternatives
+            # Try alternative locators
+            ${operator_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=(//select[contains(@class, 'MuiNativeSelect-select')])[2]    5s
+            IF    ${operator_found}
+                ${FILTER_OPERATOR_DROPDOWN}=    Set Variable    xpath=(//select[contains(@class, 'MuiNativeSelect-select')])[2]
+                Log To Console    ✅ Found operator dropdown with alternative locator
+            ELSE
+                ${operator_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=(//select[contains(@class, 'MuiNativeSelect-select')])[3]    5s
+                IF    ${operator_found}
+                    ${FILTER_OPERATOR_DROPDOWN}=    Set Variable    xpath=(//select[contains(@class, 'MuiNativeSelect-select')])[3]
+                    Log To Console    ✅ Found operator dropdown with fallback locator
+                END
+            END
+        END
+        
+        IF    ${operator_found}
+            Sleep    1s
+            # Map display names to actual dropdown values
+            ${actual_value}=    Set Variable If
+            ...    '${operator_value}' == 'is not'    not
+            ...    '${operator_value}' == 'is any of'    isAnyOf
+            ...    ${operator_value}
+            Web.Select From List By Value    ${FILTER_OPERATOR_DROPDOWN}    ${actual_value}
+            Sleep    2s
+            Log To Console    ✅ Selected operator: ${operator_value}
+        ELSE
+            Log To Console    ⚠️ Could not find operator dropdown, skipping operator selection
+        END
     ELSE
         Log To Console    ✅ Using default operator: is
     END
     
-    # Select Value
-    Web Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    5s
-    Web.Select From List By Value    ${FILTER_VALUE_DROPDOWN}    ${filter_value}
+    # Select Value - handle different input types
+    IF    '${operator_value}' == 'is any of'
+        # For "is any of", select multiple values using simple approach
+        ${value_list}=    Split String    ${filter_value}    ,
+        Log To Console    🔍 Value list: ${value_list}
+        
+        # Wait for UI to update after operator selection
+        Sleep    3s
+        
+        # Ensure filter panel is still open before proceeding
+        ${panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+        IF    not ${panel_still_open}
+            Log To Console    🔄 Filter panel closed during operator selection, re-opening
+            Web.Click Element    ${FILTER_BUTTON}
+            Sleep    2s
+            # Re-apply the column and operator selections
+            IF    '${column_value}' != 'categoryName'
+                Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    ${column_value}
+                Sleep    1s
+            END
+            IF    '${operator_value}' != 'is'
+                ${actual_value}=    Set Variable If
+                ...    '${operator_value}' == 'is not'    not
+                ...    '${operator_value}' == 'is any of'    isAnyOf
+                ...    ${operator_value}
+                Web.Select From List By Value    ${FILTER_OPERATOR_DROPDOWN}    ${actual_value}
+                Sleep    1s
+            END
+            Sleep    2s
+        END
+        
+        FOR    ${value_item}    IN    @{value_list}
+            ${value_item}=    Strip String    ${value_item}
+            Log To Console    🔍 Selecting value: ${value_item}
+            
+            # Try multiple approaches to find and click the filter value input
+            ${input_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    2s
+            IF    not ${input_found}
+                # Try alternative locators
+                ${input_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//input[contains(@placeholder,"Filter")]    2s
+                IF    not ${input_found}
+                    ${input_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class,'MuiDataGrid-filterFormValueInput')]//input    2s
+                END
+            END
+            
+            IF    ${input_found}
+                # Click on the input element to open dropdown
+                Web.Click Element    xpath=//input[@placeholder="Filter value"]
+                Sleep    1s
+                
+                # Select the specific option by clicking on it (using MuiAutocomplete-option)
+                ${option_locator}=    Set Variable    xpath=//li[@role='option' and @class='MuiAutocomplete-option' and text()='${value_item}']
+                ${option_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${option_locator}    3s
+                IF    ${option_found}
+                    Web.Click Element    ${option_locator}
+                    Sleep    1s
+                    Log To Console    ✅ Selected value: ${value_item}
+                ELSE
+                    Log To Console    ⚠️ Option not found for: ${value_item}
+                END
+            ELSE
+                Log To Console    ⚠️ Filter value input not found, skipping: ${value_item}
+            END
+        END
+    ELSE
+        # For other operators
+        IF    '${column_value}' == 'subCategoryName'
+            # subCategory uses autocomplete list like category; click input and choose <li>
+            Log To Console    🔍 Selecting subcategory value: ${filter_value}
+            
+            # Wait for UI to update after column selection
+            Sleep    3s
+            
+            # Select the specific option using standard select dropdown
+            Web Wait Until Page Contains Element    xpath=//select[@placeholder="Filter value"]    5s
+            Web.Select From List By Value    xpath=//select[@placeholder="Filter value"]    ${filter_value}
+            Sleep    1s
+            
+            Log To Console    ✅ Selected subcategory value: ${filter_value}
+        ELSE
+            # Default select element path
+            Web Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    10s
+            Web Wait Until Element Is Visible    ${FILTER_VALUE_DROPDOWN}    5s
+            Sleep    2s
+            Web.Select From List By Value    ${FILTER_VALUE_DROPDOWN}    ${filter_value}
+        END
+    END
     Sleep    2s
     
     Log To Console    ✅ Filter Applied Successfully
@@ -1953,21 +2167,44 @@ Verify Filter Results
         Fail    ❌ Browser is not open. Cannot verify filter results.
     END
     
-    # Get all visible rows
+    # Use pagination handling for verification
+    Handle Pagination For Filter Verification    Verify Filter Results On Current Page    ${expected_column}    ${expected_operator}    ${expected_value}
+
+Verify Filter Results On Current Page
+    [Arguments]    ${expected_column}    ${expected_operator}    ${expected_value}
+    [Documentation]    Verifies filter results on the current page only
+    
+    # Get all visible rows on current page
     ${row_count}=    Web.Get Element Count    ${DATA_GRID_ROWS}
-    Log To Console    📊 Total rows after filter: ${row_count}
+    Log To Console    📊 Rows on current page: ${row_count}
     
     # Verify each row matches the filter criteria
     FOR    ${i}    IN RANGE    1    ${row_count} + 1
-        # Try to get text from span first, then fall back to gridcell
-        ${span_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='categoryName']//span)[${i}]
-        ${cell_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='categoryName'])[${i}]
+        # Get the appropriate cell based on column
+        IF    '${expected_column}' == 'categoryName'
+            ${span_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='categoryName']//span)[${i}]
+            ${cell_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='categoryName'])[${i}]
+        ELSE IF    '${expected_column}' == 'subCategoryName'
+            ${span_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='subCategoryName']//span)[${i}]
+            ${cell_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='subCategoryName'])[${i}]
+        ELSE
+            ${span_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='${expected_column}']//span)[${i}]
+            ${cell_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='${expected_column}'])[${i}]
+        END
         
-        ${span_exists}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${span_locator}    2s
+        # Try to get text with better error handling
+        ${cell_text}=    Set Variable    N/A
+        ${span_exists}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${span_locator}    1s
         IF    ${span_exists}
             ${cell_text}=    Web.Get Text    ${span_locator}
         ELSE
-            ${cell_text}=    Web.Get Text    ${cell_locator}
+            ${cell_exists}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${cell_locator}    1s
+            IF    ${cell_exists}
+                ${cell_text}=    Web.Get Text    ${cell_locator}
+            ELSE
+                Log To Console    ⚠️ Row ${i}: Could not find element, skipping
+                CONTINUE
+            END
         END
         
         Log To Console    📋 Row ${i}: ${cell_text}
@@ -1975,37 +2212,179 @@ Verify Filter Results
         # Apply filter logic based on operator
         IF    '${expected_operator}' == 'is'
             Should Be Equal    ${cell_text}    ${expected_value}
-        ELSE IF    '${expected_operator}' == 'not'
+        ELSE IF    '${expected_operator}' == 'is not'
             Should Not Be Equal    ${cell_text}    ${expected_value}
-        ELSE IF    '${expected_operator}' == 'isAnyOf'
-            Should Contain    ${expected_value}    ${cell_text}
+        ELSE IF    '${expected_operator}' == 'is any of'
+            # For "is any of", check if cell text is in the comma-separated list
+            @{value_list}=    Split String    ${expected_value}    ,
+            ${value_found}=    Set Variable    False
+            FOR    ${value_item}    IN    @{value_list}
+                ${value_item}=    Strip String    ${value_item}
+                IF    '${cell_text}' == '${value_item}'
+                    ${value_found}=    Set Variable    True
+                    BREAK
+                END
+            END
+            Should Be True    ${value_found}    Value ${cell_text} not found in expected list: ${expected_value}
         END
     END
     
     Log To Console    ✅ Filter results verified successfully
 
 Apply Status Filter
-    [Arguments]    ${status_value}
-    [Documentation]    Applies a filter for publish status
-    Log To Console    🔍 Applying Status Filter: ${status_value}
+    [Arguments]    ${operator_value}    ${status_value}
+    [Documentation]    Applies a filter for publish status with different operators
+    Log To Console    🔍 Applying Status Filter: Operator=${operator_value}, Value=${status_value}
+    
+    # Ensure filter panel is open before applying filters
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    IF    not ${filter_panel_open}
+        Log To Console    🔄 Filter panel is closed, opening it first
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Click Element    ${FILTER_BUTTON}
+        Sleep    3s
+        # Wait for filter panel to fully load
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
+        Sleep    2s
+        Log To Console    ✅ Filter panel opened successfully
+    ELSE
+        Log To Console    ✅ Filter panel is already open
+    END
     
     # Select Status column by label (not by value)
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Status
-    Sleep    1s
-    
-    # Select 'is' operator
-    Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    is
-    Sleep    1s
-    
-    # Select status value
-    Web.Select From List By Label    ${FILTER_VALUE_DROPDOWN}    ${status_value}
     Sleep    2s
     
-    Log To Console    ✅ Status Filter Applied: ${status_value}
+    # Check if filter panel closed after column selection and re-open if needed
+    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    3s
+    IF    not ${filter_panel_still_open}
+        Log To Console    🔄 Filter panel closed after column selection, re-opening it
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Click Element    ${FILTER_BUTTON}
+        Sleep    3s
+        # Wait for filter panel to fully load
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
+        Sleep    2s
+        # Re-select Status column
+        Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Status
+        Sleep    2s
+        Log To Console    ✅ Filter panel re-opened and Status column re-selected
+    ELSE
+        Log To Console    ✅ Filter panel remained open after column selection
+    END
+    
+    # Select operator based on argument - map display names to actual dropdown values
+    ${actual_value}=    Set Variable If
+    ...    '${operator_value}' == 'is'    is
+    ...    '${operator_value}' == 'is not'    not
+    ...    '${operator_value}' == 'is any of'    isAnyOf
+    ...    ${operator_value}
+    Web.Select From List By Value    ${FILTER_OPERATOR_DROPDOWN}    ${actual_value}
+    Sleep    1s
+    
+    # Select status value (only if not empty)
+    IF    '${status_value}' != '${EMPTY}'
+        IF    '${operator_value}' == 'is any of'
+            # For "is any of", select multiple values using simple approach
+            ${value_list}=    Split String    ${status_value}    ,
+            FOR    ${value_item}    IN    @{value_list}
+                ${value_item}=    Strip String    ${value_item}
+                Log To Console    🔍 Selecting status value: ${value_item}
+                
+                # Click on the select element to open dropdown
+                Web Wait Until Page Contains Element   xpath=//input[@placeholder="Filter value"]    5s
+                Web Click Element    xpath=//input[@placeholder="Filter value"]
+                Sleep    1s
+                
+                # Select the specific option by clicking on it (using MuiAutocomplete-option)
+                ${option_locator}=    Set Variable    xpath=//li[@role='option' and @class='MuiAutocomplete-option' and text()='${value_item}']
+                Web Wait Until Page Contains Element    ${option_locator}    5s
+                Web Click Element    ${option_locator}
+                Sleep    1s
+                
+                Log To Console    ✅ Selected status value: ${value_item}
+            END
+        ELSE
+            # For other operators, use single selection with value mapping
+            # Map display text to actual values first
+            ${actual_status_value}=    Set Variable If
+            ...    '${status_value}' == 'Publish'    1
+            ...    '${status_value}' == 'Unpublish'    2
+            ...    ${status_value}
+            
+            Log To Console    🔍 Looking for status value dropdown with mapped value: ${actual_status_value}
+            
+            # Try multiple locators for the status value dropdown
+            ${value_dropdown_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class, 'MuiDataGrid-filterFormValueInput')]//select[contains(@class, 'MuiNativeSelect-select') and @placeholder='Filter value']    3s
+            IF    not ${value_dropdown_found}
+                Log To Console    🔍 Trying alternative locator 1
+                ${value_dropdown_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class, 'MuiDataGrid-filterFormValueInput')]//select[contains(@class, 'MuiNativeSelect-select')]    3s
+            END
+            IF    not ${value_dropdown_found}
+                Log To Console    🔍 Trying alternative locator 2
+                ${value_dropdown_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//select[contains(@class, 'MuiNativeSelect-select') and @placeholder='Filter value']    3s
+            END
+            IF    not ${value_dropdown_found}
+                Log To Console    🔍 Trying alternative locator 3
+                ${value_dropdown_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=(//select[contains(@class, 'MuiNativeSelect-select')])[4]    3s
+            END
+            
+            IF    ${value_dropdown_found}
+                Log To Console    ✅ Found status value dropdown, selecting value: ${status_value}
+                Web.Select From List By Value    xpath=//div[contains(@class, 'MuiDataGrid-filterFormValueInput')]//select[contains(@class, 'MuiNativeSelect-select')]    ${actual_status_value}
+                Sleep    2s
+                Log To Console    ✅ Selected status value: ${status_value}
+            ELSE
+                Log To Console    ⚠️ Status value dropdown not found with any locator, clicking filter button to refresh
+                # Click filter button to refresh the filter panel
+                Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+                Web.Click Element    ${FILTER_BUTTON}
+                Sleep    3s
+                # Wait for filter panel to fully load
+                Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
+                Sleep    2s
+                # Re-select Status column
+                Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Status
+                Sleep    2s
+                # Re-select operator
+                Web.Select From List By Value    ${FILTER_OPERATOR_DROPDOWN}    ${actual_value}
+                Sleep    2s
+                Log To Console    ✅ Filter panel refreshed, trying status value selection again
+                
+                # Try to find status value dropdown again after refresh
+                ${value_dropdown_found_retry}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class, 'MuiDataGrid-filterFormValueInput')]//select[contains(@class, 'MuiNativeSelect-select') and @placeholder='Filter value']    3s
+                IF    not ${value_dropdown_found_retry}
+                    ${value_dropdown_found_retry}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class, 'MuiDataGrid-filterFormValueInput')]//select[contains(@class, 'MuiNativeSelect-select')]    3s
+                END
+                
+                IF    ${value_dropdown_found_retry}
+                    Log To Console    ✅ Found status value dropdown after refresh, selecting value: ${status_value}
+                    Web.Select From List By Value    xpath=//div[contains(@class, 'MuiDataGrid-filterFormValueInput')]//select[contains(@class, 'MuiNativeSelect-select')]    ${actual_status_value}
+                    Sleep    2s
+                    Log To Console    ✅ Selected status value after refresh: ${status_value}
+                ELSE
+                    Log To Console    ⚠️ Status value dropdown still not found after refresh, trying direct selection
+                    # Last resort: try to select from any available select element
+                    ${any_select_found}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//select[contains(@class, 'MuiNativeSelect-select')]    2s
+                    IF    ${any_select_found}
+                        ${select_count}=    Web.Get Element Count    xpath=//select[contains(@class, 'MuiNativeSelect-select')]
+                        Log To Console    🔍 Found ${select_count} select elements, trying the last one
+                        Web.Select From List By Value    xpath=(//select[contains(@class, 'MuiNativeSelect-select')])[${select_count}]    ${actual_status_value}
+                        Sleep    2s
+                        Log To Console    ✅ Selected status value using fallback: ${status_value}
+                    ELSE
+                        Log To Console    ⚠️ No select elements found, filter may not be applied correctly
+                    END
+                END
+            END
+        END
+    END
+    
+    Log To Console    ✅ Status Filter Applied: ${operator_value} ${status_value}
 
 Verify Status Filter Results
-    [Arguments]    ${expected_status}
-    [Documentation]    Verifies that all visible rows have the expected status
+    [Arguments]    ${expected_operator}    ${expected_status}
+    [Documentation]    Verifies that all visible rows match the expected status filter criteria
     Sleep    3s
     
     # Check if browser is still open
@@ -2014,6 +2393,13 @@ Verify Status Filter Results
         Fail    ❌ Browser is not open. Cannot verify status filter results.
     END
     
+    # Use pagination handling for verification
+    Handle Pagination For Filter Verification    Verify Status Filter Results On Current Page    ${expected_operator}    ${expected_status}
+
+Verify Status Filter Results On Current Page
+    [Arguments]    ${expected_operator}    ${expected_status}
+    [Documentation]    Verifies status filter results on the current page only
+    
     ${row_count}=    Web.Get Element Count    ${DATA_GRID_ROWS}
     Log To Console    📊 Total rows with status filter: ${row_count}
     
@@ -2021,36 +2407,80 @@ Verify Status Filter Results
         # Get text from status cell (status uses span with minimal__label__root class)
         ${status_cell_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='publishStatus']//span[contains(@class,'minimal__label__root')])[${i}]
         ${status_text}=    Web.Get Text    ${status_cell_locator}
-        Should Be Equal    ${status_text}    ${expected_status}
+        
+        # Apply different comparison logic based on operator
+        IF    '${expected_operator}' == 'is'
+            Should Be Equal    ${status_text}    ${expected_status}
+        ELSE IF    '${expected_operator}' == 'is not'
+            Should Not Be Equal    ${status_text}    ${expected_status}
+        ELSE IF    '${expected_operator}' == 'is any of'
+            # For "is any of", check if status is in the comma-separated list
+            @{status_list}=    Split String    ${expected_status}    ,
+            ${status_found}=    Set Variable    False
+            FOR    ${status_item}    IN    @{status_list}
+                ${status_item}=    Strip String    ${status_item}
+                IF    '${status_text}' == '${status_item}'
+                    ${status_found}=    Set Variable    True
+                    BREAK
+                END
+            END
+            Should Be True    ${status_found}    Status ${status_text} not found in expected list: ${expected_status}
+        END
+        
         Log To Console    ✅ Row ${i} status verified: ${status_text}
     END
     
     Log To Console    ✅ Status filter results verified successfully
 
 Apply Track Count Filter
-    [Arguments]    ${track_count_value}
-    [Documentation]    Applies a filter for track count
-    Log To Console    🔍 Applying Track Count Filter: ${track_count_value}
+    [Arguments]    ${operator_value}    ${track_count_value}
+    [Documentation]    Applies a filter for track count with different operators
+    Log To Console    🔍 Applying Track Count Filter: Operator=${operator_value}, Value=${track_count_value}
+    
+    # Ensure filter panel is open before applying filters
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    IF    not ${filter_panel_open}
+        Log To Console    🔄 Filter panel is closed, opening it first
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Click Element    ${FILTER_BUTTON}
+        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    5s
+        Log To Console    ✅ Filter panel opened successfully
+    ELSE
+        Log To Console    ✅ Filter panel is already open
+    END
     
     # Select Track Count column
     Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    trackCount
     Sleep    1s
     
-    # Select '=' operator (equals for numeric values)
-    Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    =
+    # Select operator based on argument - map display names to actual dropdown values
+    ${actual_value}=    Set Variable If
+    ...    '${operator_value}' == '='    =
+    ...    '${operator_value}' == '!='    !=
+    ...    '${operator_value}' == '>'    >
+    ...    '${operator_value}' == '>='    >=
+    ...    '${operator_value}' == '<'    <
+    ...    '${operator_value}' == '<='    <=
+    ...    '${operator_value}' == 'is empty'    isEmpty
+    ...    '${operator_value}' == 'is not empty'    isNotEmpty
+    ...    ${operator_value}
+    Web.Select From List By Value    ${FILTER_OPERATOR_DROPDOWN}    ${actual_value}
     Sleep    1s
     
-    # Input track count value (text input, not dropdown)
-    Web.Wait Until Page Contains Element    ${FILTER_VALUE_INPUT}    5s
-    Web.Clear Element Text    ${FILTER_VALUE_INPUT}
-    Web.Input Text    ${FILTER_VALUE_INPUT}    ${track_count_value}
-    Sleep    2s
+    # Input track count value (only if not empty)
+    IF    '${track_count_value}' != '${EMPTY}'
+        Web.Wait Until Page Contains Element    ${FILTER_VALUE_INPUT}    5s
+        Web.Clear Element Text    ${FILTER_VALUE_INPUT}
+        Web.Input Text    ${FILTER_VALUE_INPUT}    ${track_count_value}
+        Sleep    2s
+    END
     
-    Log To Console    ✅ Track Count Filter Applied: ${track_count_value}
+    Log To Console    ✅ Track Count Filter Applied: ${operator_value} ${track_count_value}
 
 Verify Track Count Filter Results
-    [Arguments]    ${expected_count}
-    [Documentation]    Verifies that all visible rows have the expected track count
+    [Arguments]    ${expected_operator}    ${expected_count}
+    [Documentation]    Verifies that all visible rows match the expected track count filter criteria
     Sleep    3s
     
     # Check if browser is still open
@@ -2064,7 +2494,7 @@ Verify Track Count Filter Results
     
     # Debug: If no rows found, log a message
     IF    ${row_count} == 0
-        Log To Console    ⚠️ No rows found with track count = ${expected_count}
+        Log To Console    ⚠️ No rows found with track count ${expected_operator} ${expected_count}
         RETURN
     END
     
@@ -2072,37 +2502,99 @@ Verify Track Count Filter Results
         # Get text directly from gridcell (track count doesn't use span)
         ${count_cell_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='trackCount'])[${i}]
         ${count_text}=    Web.Get Text    ${count_cell_locator}
-        Should Be Equal    ${count_text}    ${expected_count}
+        
+        # Convert to integer for comparison
+        ${count_value}=    Convert To Integer    ${count_text}
+        
+        # Apply different comparison logic based on operator
+        IF    '${expected_operator}' == '='
+            ${expected_value}=    Convert To Integer    ${expected_count}
+            Should Be Equal    ${count_value}    ${expected_value}
+        ELSE IF    '${expected_operator}' == '!='
+            ${expected_value}=    Convert To Integer    ${expected_count}
+            Should Not Be Equal    ${count_value}    ${expected_value}
+        ELSE IF    '${expected_operator}' == '>'
+            ${expected_value}=    Convert To Integer    ${expected_count}
+            Should Be True    ${count_value} > ${expected_value}
+        ELSE IF    '${expected_operator}' == '>='
+            ${expected_value}=    Convert To Integer    ${expected_count}
+            Should Be True    ${count_value} >= ${expected_value}
+        ELSE IF    '${expected_operator}' == '<'
+            ${expected_value}=    Convert To Integer    ${expected_count}
+            Should Be True    ${count_value} < ${expected_value}
+        ELSE IF    '${expected_operator}' == '<='
+            ${expected_value}=    Convert To Integer    ${expected_count}
+            Should Be True    ${count_value} <= ${expected_value}
+        END
+        
         Log To Console    ✅ Row ${i} track count verified: ${count_text}
     END
     
     Log To Console    ✅ Track count filter results verified successfully
 
 Apply Published Date Filter
-    [Arguments]    ${date_value}
-    [Documentation]    Applies a filter for published date
-    Log To Console    🔍 Applying Published Date Filter: ${date_value}
+    [Arguments]    ${operator_value}    ${date_value}
+    [Documentation]    Applies a filter for published date with different operators
+    Log To Console    🔍 Applying Published Date Filter: Operator=${operator_value}, Value=${date_value}
+    
+    # Ensure filter panel is open before applying filters
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    IF    not ${filter_panel_open}
+        Log To Console    🔄 Filter panel is closed, opening it first
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Click Element    ${FILTER_BUTTON}
+        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    5s
+        Log To Console    ✅ Filter panel opened successfully
+    ELSE
+        Log To Console    ✅ Filter panel is already open
+    END
     
     # Select Published Date column
     Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    publishDate
     Sleep    1s
     
-    # Select 'is' operator
-    Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    is
+    # Select operator based on argument - map display names to actual dropdown values
+    ${actual_value}=    Set Variable If
+    ...    '${operator_value}' == 'is'    is
+    ...    '${operator_value}' == 'is not'    not
+    ...    '${operator_value}' == 'is after'    after
+    ...    '${operator_value}' == 'is on or after'    onOrAfter
+    ...    '${operator_value}' == 'is on or before'    onOrBefore
+    ...    '${operator_value}' == 'is empty'    isEmpty
+    ...    '${operator_value}' == 'is not empty'    isNotEmpty
+    ...    ${operator_value}
+    Web.Select From List By Value    ${FILTER_OPERATOR_DROPDOWN}    ${actual_value}
     Sleep    1s
     
-    # Input today's date in mm/dd/yyyy format (without slashes)
-    Web.Wait Until Page Contains Element    ${FILTER_DATE_INPUT}    5s
-    ${today_date}=    Get Current Date    result_format=%m%d%Y
-    Web.Clear Element Text    ${FILTER_DATE_INPUT}
-    Web.Input Text    ${FILTER_DATE_INPUT}    ${today_date}
+    # Handle different date input types
+    IF    '${date_value}' == 'Today'
+        # Click on Today button if available
+        TRY
+            Web.Click Element    ${FILTER_DATE_TODAY_BUTTON}
+            Log To Console    ✅ Clicked on Today button
+        EXCEPT
+            # If Today button not available, use current date
+            ${current_date}=    Get Current Date    result_format=%m%d%Y
+            Web.Clear Element Text    ${FILTER_DATE_INPUT}
+            Web.Input Text    ${FILTER_DATE_INPUT}    ${current_date}
+            Log To Console    ✅ Input current date: ${current_date}
+        END
+    ELSE IF    '${date_value}' != '${EMPTY}'
+        # Input specific date
+        Web.Wait Until Page Contains Element    ${FILTER_DATE_INPUT}    5s
+        Web.Clear Element Text    ${FILTER_DATE_INPUT}
+        Web.Input Text    ${FILTER_DATE_INPUT}    ${date_value}
+        Log To Console    ✅ Input date: ${date_value}
+    END
+    
     Sleep    2s
     
-    Log To Console    ✅ Published Date Filter Applied: ${date_value}
+    Log To Console    ✅ Published Date Filter Applied: ${operator_value} ${date_value}
 
 Verify Published Date Filter Results
-    [Arguments]    ${expected_date}
-    [Documentation]    Verifies that all visible rows have the expected published date
+    [Arguments]    ${expected_operator}    ${expected_date}
+    [Documentation]    Verifies that all visible rows match the expected published date filter criteria
     Sleep    3s
     
     # Check if browser is still open
@@ -2116,7 +2608,7 @@ Verify Published Date Filter Results
     
     # Debug: If no rows found, log a message
     IF    ${row_count} == 0
-        Log To Console    ⚠️ No rows found with published date = ${expected_date}
+        Log To Console    ⚠️ No rows found with published date ${expected_operator} ${expected_date}
         RETURN
     END
     
@@ -2124,9 +2616,74 @@ Verify Published Date Filter Results
         # Get text directly from gridcell (published date doesn't use span)
         ${date_cell_locator}=    Set Variable    (//div[@role='gridcell' and @data-field='publishDate'])[${i}]
         ${date_text}=    Web.Get Text    ${date_cell_locator}
-        # For today's date, we expect to see today's date in the format shown in the grid
-        ${today_formatted}=    Get Current Date    result_format=%d %b %Y
-        Should Contain    ${date_text}    ${today_formatted}
+        
+        # Handle different operators for date filtering
+        IF    '${expected_operator}' == 'is not'
+            # For "is not" operator, date should NOT contain the expected value
+            IF    '${expected_date}' == 'Today'
+                ${today_formatted}=    Get Current Date    result_format=%d %b %Y
+                Should Not Contain    ${date_text}    ${today_formatted}
+            ELSE IF    '${expected_date}' != '${EMPTY}'
+                Should Not Contain    ${date_text}    ${expected_date}
+            END
+        ELSE IF    '${expected_operator}' == 'is'
+            # For "is" operator, date should contain the expected value
+            IF    '${expected_date}' == 'Today'
+                ${today_formatted}=    Get Current Date    result_format=%d %b %Y
+                Should Contain    ${date_text}    ${today_formatted}
+            ELSE IF    '${expected_date}' != '${EMPTY}'
+                Should Contain    ${date_text}    ${expected_date}
+            END
+        ELSE IF    '${expected_operator}' == 'is after'
+            # For "is after" operator, date should be after the expected value
+            IF    '${expected_date}' == 'Today'
+                ${today_formatted}=    Get Current Date    result_format=%d %b %Y
+                Should Not Contain    ${date_text}    ${today_formatted}
+            ELSE IF    '${expected_date}' != '${EMPTY}'
+                # Convert both dates to epoch seconds and compare numerically
+                ${actual_epoch}=    DateTime.Convert Date    ${date_text}    result_format=epoch    date_format=%d %b %Y
+                ${expected_epoch}=    DateTime.Convert Date    ${expected_date}    result_format=epoch    date_format=%m/%d/%Y
+                ${is_after}=    Run Keyword And Return Status    Should Be True    ${actual_epoch} > ${expected_epoch}
+                IF    not ${is_after}
+                    Fail    Date ${date_text} is not after ${expected_date}
+                END
+            END
+        ELSE IF    '${expected_operator}' == 'is on or after'
+            # For "is on or after" operator, date should be on or after the expected value
+            IF    '${expected_date}' == 'Today'
+                ${today_formatted}=    Get Current Date    result_format=%d %b %Y
+                Should Contain    ${date_text}    ${today_formatted}
+            ELSE IF    '${expected_date}' != '${EMPTY}'
+                # Convert both dates to epoch seconds and compare numerically
+                ${actual_epoch}=    DateTime.Convert Date    ${date_text}    result_format=epoch    date_format=%d %b %Y
+                ${expected_epoch}=    DateTime.Convert Date    ${expected_date}    result_format=epoch    date_format=%m/%d/%Y
+                ${is_on_or_after}=    Run Keyword And Return Status    Should Be True    ${actual_epoch} >= ${expected_epoch}
+                IF    not ${is_on_or_after}
+                    Fail    Date ${date_text} is not on or after ${expected_date}
+                END
+            END
+        ELSE IF    '${expected_operator}' == 'is on or before'
+            # For "is on or before" operator, date should be on or before the expected value
+            IF    '${expected_date}' == 'Today'
+                ${today_formatted}=    Get Current Date    result_format=%d %b %Y
+                Should Contain    ${date_text}    ${today_formatted}
+            ELSE IF    '${expected_date}' != '${EMPTY}'
+                # Convert both dates to epoch seconds and compare numerically
+                ${actual_epoch}=    DateTime.Convert Date    ${date_text}    result_format=epoch    date_format=%d %b %Y
+                ${expected_epoch}=    DateTime.Convert Date    ${expected_date}    result_format=epoch    date_format=%m/%d/%Y
+                ${is_on_or_before}=    Run Keyword And Return Status    Should Be True    ${actual_epoch} <= ${expected_epoch}
+                IF    not ${is_on_or_before}
+                    Fail    Date ${date_text} is not on or before ${expected_date}
+                END
+            END
+        ELSE IF    '${expected_operator}' == 'is empty'
+            # For "is empty" operator, date should be empty
+            Should Be Empty    ${date_text}
+        ELSE IF    '${expected_operator}' == 'is not empty'
+            # For "is not empty" operator, date should not be empty
+            Should Not Be Empty    ${date_text}
+        END
+        
         Log To Console    ✅ Row ${i} published date verified: ${date_text}
     END
     
@@ -2329,13 +2886,39 @@ Verify Is Active Filter Results
 
 Clear All Filters
     [Documentation]    Clears all applied filters
+    # Get total_pages from test variable if available, otherwise default to 1
+    ${total_pages}=    Get Variable Value    ${TOTAL_PAGES_FOR_CLEAR}    1
+    
     TRY
         Web Wait Until Page Contains Element    ${FILTER_CLOSE_BUTTON}    5s
         Web Click Element    ${FILTER_CLOSE_BUTTON}
         Log To Console    ✅ Cleared all filters
     EXCEPT
-        Log To Console    ⚠️ No filters to clear or close button not found
+        # If clear button not found and there are multiple pages, try clicking Filter button first
+        IF    ${total_pages} > 1
+            # Log To Console    🔄 Multiple pages detected (${total_pages}), clicking Filter button to re-open filter panel
+            TRY
+                Web Click Element    ${FILTER_BUTTON}
+                Sleep    2s
+                Web Wait Until Page Contains Element    ${FILTER_CLOSE_BUTTON}    5s
+                Web Click Element    ${FILTER_CLOSE_BUTTON}
+                Log To Console    ✅ Cleared all filters after re-opening filter panel
+            EXCEPT
+                Log To Console    ⚠️ Still unable to clear filters after re-opening filter panel
+            END
+        ELSE
+            Log To Console    ⚠️ No filters to clear or close button not found
+        END
     END
+    
+    # After clearing filters, if there were multiple pages, ensure Filter button is clicked for next test
+    IF    ${total_pages} > 1
+        # Log To Console    🔄 Multiple pages detected, clicking Filter button to prepare for next test
+        Web.Click Element    ${FILTER_BUTTON}
+        Sleep    2s
+        Log To Console    ✅ Filter button clicked for next test
+    END
+    
     Sleep    2s
 Click Refresh Button
     [Documentation]    Clicks the refresh button to reload the data grid

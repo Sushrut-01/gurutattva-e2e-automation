@@ -12,7 +12,7 @@ ${SMTP_USERNAME}            smtp@rysun.com
 ${SMTP_PASSWORD}            uA4VEvIpnN5tKVjT
 ${EMAIL_FROM}               smtp@rysun.com
 ${EMAIL_TO}                 warish.kumar@rysun.com
-${EMAIL_CC}                 rumana.mansuri@rysun.com
+${EMAIL_CC}                 
 ${EMAIL_BCC}                
 
 # Test Execution Details

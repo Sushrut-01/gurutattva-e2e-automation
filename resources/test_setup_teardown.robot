@@ -4,6 +4,7 @@ Resource   keywords.robot
 Resource   ../resources/simple_email_notifications.robot
 Library   DateTime
 Library   String
+Library   Process
 
 *** Variables ***
 ${SCREENSHOT_DIR}    ${EXECDIR}/results/Screenshot
@@ -39,6 +40,11 @@ Test Teardown
     # Clean up downloaded files
     Run Keyword And Ignore Error    Cleanup Downloaded Files
     
+    # Trigger delayed email notification for individual test execution
+    Log To Console    📧 Triggering delayed email notification...
+    Run Keyword And Ignore Error    Start Process    python    send_email.py    shell=True
+    Log To Console    📧 Delayed email process started - will send after reports are fully generated
+    
     Log To Console    ===== Test Teardown Completed =====
 
 Suite Setup
@@ -61,26 +67,12 @@ Suite Teardown
     # Clean up any remaining processes
     Run Keyword And Ignore Error    Run    adb shell am force-stop ${APP_PACKAGE}
     
-    # Send email notification with test results
-    Log To Console    📧 Attempting to send email notification...
+    # Trigger delayed email notification (waits for reports to be fully generated)
+    Log To Console    📧 Triggering delayed email notification...
     
-    # Get test statistics by parsing the output.xml file
-    ${output_xml}=    Get File    ${REPORT_DIRECTORY}/output.xml
-    ${total_tests}=    Get Regexp Matches    ${output_xml}    tests="(\d+)"    1
-    ${passed_tests}=    Get Regexp Matches    ${output_xml}    pass="(\d+)"    1
-    ${failed_tests}=    Get Regexp Matches    ${output_xml}    fail="(\d+)"    1
-    
-    # Set default values if parsing fails
-    ${total_tests}=    Set Variable If    '${total_tests}' == '[]'    1    ${total_tests[0]}
-    ${passed_tests}=    Set Variable If    '${passed_tests}' == '[]'    1    ${passed_tests[0]}
-    ${failed_tests}=    Set Variable If    '${failed_tests}' == '[]'    0    ${failed_tests[0]}
-    
-    Log To Console    📊 Test Statistics - Total: ${total_tests}, Passed: ${passed_tests}, Failed: ${failed_tests}
-    
-    # Send email with statistics
-    Run Keyword And Ignore Error    Send Test Completion Email    ${SUITE_NAME}    ${total_tests}    ${passed_tests}    ${failed_tests}
-    
-    Log To Console    📧 Email notification attempt completed
+    # Start the delayed email process in the background
+    Run Keyword And Ignore Error    Start Process    python    send_email.py    shell=True
+    Log To Console    📧 Delayed email process started - will send after reports are fully generated
     
     Log To Console    ===== Suite Teardown Completed =====
 

@@ -251,11 +251,36 @@ Based on your project structure, here are common tag patterns:
 
 ### Test Execution with Email Notifications
 
-The project automatically sends email notifications after test completion. No additional setup required - just run your tests normally:
+The project sends email notifications after **complete test execution** (all test files). Use one of these methods:
 
+#### **Method 1: Using Batch/PowerShell Scripts (Recommended)**
 ```cmd
+# Windows Batch
+run_tests_with_final_email.bat
+
+# PowerShell
+.\run_tests_with_final_email.ps1
+```
+
+#### **Method 2: Manual Execution**
+```cmd
+# Run tests
+robot --outputdir results tests/
+
+# Wait for reports to be finalized
+timeout /t 3 /nobreak
+
+# Send final email
+python send_final_email.py
+```
+
+#### **Method 3: Direct Robot Framework (No Email)**
+```cmd
+# Run tests without email notification
 robot --outputdir results tests/
 ```
+
+**⚠️ Important:** Email is sent only after **all test files** are completed, ensuring the ZIP contains the final reports.
 
 ## 📧 Email Notifications
 
@@ -265,21 +290,41 @@ robot --outputdir results tests/
 - **ZIP file attachment**: Contains report.html, log.html, and output.xml
 - **Multiple CC recipients**: Support for multiple email addresses
 - **Professional HTML format**: Clean, readable email templates
+- **Delayed email triggering**: Waits for reports to be fully generated before sending
 - **Automatic triggering**: Sends after every test suite execution
+
+### How It Works
+
+The email system now uses a **delayed email approach** to ensure you receive the latest reports:
+
+1. **Test Execution**: Robot Framework runs tests and generates reports
+2. **Teardown**: Suite teardown triggers a background delayed email process
+3. **Report Wait**: The delayed email script waits for all HTML reports to be fully generated
+4. **ZIP Creation**: Creates a ZIP file with the latest report.html, log.html, and output.xml
+5. **Email Send**: Sends email with the complete, up-to-date reports
+
+### Manual Email Triggering
+
+If you need to send email manually after test execution:
+
+```cmd
+# Direct Python (recommended)
+python send_email.py
+```
 
 ### Email Configuration
 
-Update the email settings in `resources/simple_email_notifications.robot`:
+Update the email settings in `send_email.py`:
 
-```robot
-*** Variables ***
-${SMTP_SERVER}              smtp.gmail.com
-${SMTP_PORT}                587
-${SMTP_USERNAME}            your-email@gmail.com
-${SMTP_PASSWORD}            your-app-password
-${EMAIL_FROM}               your-email@gmail.com
-${EMAIL_TO}                 recipient@example.com
-${EMAIL_CC}                 cc1@example.com,cc2@example.com
+```python
+# Email Configuration
+SMTP_SERVER = "mail.smtp2go.com"
+SMTP_PORT = 587
+SMTP_USERNAME = "smtp@rysun.com"
+SMTP_PASSWORD = "your-password"
+EMAIL_FROM = "smtp@rysun.com"
+EMAIL_TO = "recipient@example.com"
+PROJECT_NAME = "Gurutattva Automation"
 ```
 
 ### Gmail Setup (if using Gmail)

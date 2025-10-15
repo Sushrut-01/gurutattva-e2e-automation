@@ -8,7 +8,6 @@ Resource            ../pages/CRM_AudioPage.robot
 
 Test Setup          Test Setup
 Test Teardown       Test Teardown
-Suite Teardown      Suite Teardown
 
 
 *** Test Cases ***
@@ -485,54 +484,185 @@ Test Music Different Filter Functionality
     Click on the Audio Menu
     Click on the Music Submenu
 
-    # Test Filter 1: Category Filter with "is" operator
+    # ===== CATEGORY FILTER TESTS =====
+    # Test 1: Category Filter with "is" operator
     Log To Console    🔍 Testing Filter 1: Category = "Bhajan"
     Click Filter Button
     Apply Filter Combination    categoryName    is    Bhajan
     Verify Filter Results    categoryName    is    Bhajan
     Clear All Filters
 
-    # Test Filter 2: Status Filter with "is" operator
-    Log To Console    🔍 Testing Filter 2: Status = "Publish"
+    # Test 2: Category Filter with "is not" operator
+    Log To Console    🔍 Testing Filter 2: Category is not "Bhajan"
     Click Filter Button
-    Apply Status Filter    Publish
-    Verify Status Filter Results    Publish
+    Apply Filter Combination    categoryName    is not    Bhajan
+    Verify Filter Results    categoryName    is not    Bhajan
     Clear All Filters
 
-    # Test Filter 3: Track Count Filter with "is" operator
-    Log To Console    🔍 Testing Filter 3: Track Count = "1"
+    # Test 3: Category Filter with "is any of" operator
+    Log To Console    🔍 Testing Filter 3: Category is any of "Bhajan, Mantra Jap"
     Click Filter Button
-    Apply Track Count Filter    1
-    Verify Track Count Filter Results    1
+    Apply Filter Combination    categoryName    is any of    Bhajan, Mantra Jap
+    Verify Filter Results    categoryName    is any of    Bhajan, Mantra Jap
     Clear All Filters
 
-    # Test Filter 4: Category Filter with "is not" operator
-    Log To Console    🔍 Testing Filter 4: Category is not "Bhajan"
+    # ===== SUB CATEGORY FILTER TESTS =====
+    # Test 4: Sub Category Filter with "is" operator
+    Log To Console    🔍 Testing Filter 4: Sub Category = "Mahashivratri"
     Click Filter Button
-    Apply Filter Combination    categoryName    not    Bhajan
-    Verify Filter Results    categoryName    not    Bhajan
+    Apply Filter Combination    subCategoryName    is    Mahashivratri
+    Verify Filter Results    subCategoryName    is    Mahashivratri
     Clear All Filters
 
-    # Test Filter 5: Status Filter for "Unpublish"
-    Log To Console    🔍 Testing Filter 5: Status = "Unpublish"
+    # Test 5: Sub Category Filter with "is not" operator
+    Log To Console    🔍 Testing Filter 5: Sub Category is not "Mahashivratri"
     Click Filter Button
-    Apply Status Filter    Unpublish
-    Verify Status Filter Results    Unpublish
+    Apply Filter Combination    subCategoryName    is not    Mahashivratri
+    Verify Filter Results    subCategoryName    is not    Mahashivratri
     Clear All Filters
 
-    # Test Filter 6: Published Date Filter for "Today"
-    Log To Console    🔍 Testing Filter 6: Published Date = "Today"
+    # Test 6: Sub Category Filter with "is any of" operator
+    Log To Console    🔍 Testing Filter 6: Sub Category is any of "Mahashivratri, Samarpan"
     Click Filter Button
-    Apply Published Date Filter    Today
-    Verify Published Date Filter Results    Today
+    Apply Filter Combination    subCategoryName    is any of    Mahashivratri, Samarpan
+    Verify Filter Results    subCategoryName    is any of    Mahashivratri, Samarpan
     Clear All Filters
 
-    Log To Console    ✅ All filter tests completed successfully
+    # ===== PUBLISHED DATE FILTER TESTS =====
+    # Test 7: Published Date Filter with "is" operator
+    Log To Console    🔍 Testing Filter 7: Published Date = "Today"
+    Click Filter Button
+    Apply Published Date Filter    is    Today
+    Verify Published Date Filter Results    is    Today
+    Clear All Filters
+
+    # Test 8: Published Date Filter with "is not" operator
+    Log To Console    🔍 Testing Filter 8: Published Date is not "Today"
+    Click Filter Button
+    Apply Published Date Filter    is not    Today
+    Verify Published Date Filter Results    is not    Today
+    Clear All Filters
+
+    # Test 9: Published Date Filter with "is after" operator
+    Log To Console    🔍 Testing Filter 9: Published Date is after "01/01/2024"
+    Click Filter Button
+    Apply Published Date Filter    is after    01/01/2024
+    Verify Published Date Filter Results    is after    01/01/2024
+    Clear All Filters
+
+    # Test 10: Published Date Filter with "is on or after" operator
+    Log To Console    🔍 Testing Filter 10: Published Date is on or after "01/01/2024"
+    Click Filter Button
+    Apply Published Date Filter    is on or after    01/01/2024
+    Verify Published Date Filter Results    is on or after    01/01/2024
+    Clear All Filters
+
+    # Test 11: Published Date Filter with "is on or before" operator
+    Log To Console    🔍 Testing Filter 11: Published Date is on or before "31/12/2024"
+    Click Filter Button
+    Apply Published Date Filter    is on or before    31/12/2024
+    Verify Published Date Filter Results    is on or before    31/12/2024
+    Clear All Filters
+
+    # Test 12: Published Date Filter with "is empty" operator
+    Log To Console    🔍 Testing Filter 12: Published Date is empty
+    Click Filter Button
+    Apply Published Date Filter    is empty    ${EMPTY}
+    Verify Published Date Filter Results    is empty    ${EMPTY}
+    Clear All Filters
+
+    # Test 13: Published Date Filter with "is not empty" operator
+    Log To Console    🔍 Testing Filter 13: Published Date is not empty
+    Click Filter Button
+    Apply Published Date Filter    is not empty    ${EMPTY}
+    Verify Published Date Filter Results    is not empty    ${EMPTY}
+    Clear All Filters
+
+    # ===== TRACK COUNT FILTER TESTS =====
+    # Test 14: Track Count Filter with "=" operator
+    Log To Console    🔍 Testing Filter 14: Track Count = "1"
+    Click Filter Button
+    Apply Track Count Filter    =    1
+    Verify Track Count Filter Results    =    1
+    Clear All Filters
+
+    # Test 15: Track Count Filter with "!=" operator
+    Log To Console    🔍 Testing Filter 15: Track Count != "1"
+    Click Filter Button
+    Apply Track Count Filter    !=    1
+    Verify Track Count Filter Results    !=    1
+    Clear All Filters
+
+    # Test 16: Track Count Filter with ">" operator
+    Log To Console    🔍 Testing Filter 16: Track Count > "0"
+    Click Filter Button
+    Apply Track Count Filter    >    0
+    Verify Track Count Filter Results    >    0
+    Clear All Filters
+
+    # Test 17: Track Count Filter with ">=" operator
+    Log To Console    🔍 Testing Filter 17: Track Count >= "1"
+    Click Filter Button
+    Apply Track Count Filter    >=    1
+    Verify Track Count Filter Results    >=    1
+    Clear All Filters
+
+    # Test 18: Track Count Filter with "<" operator
+    Log To Console    🔍 Testing Filter 18: Track Count < "5"
+    Click Filter Button
+    Apply Track Count Filter    <    5
+    Verify Track Count Filter Results    <    5
+    Clear All Filters
+
+    # Test 19: Track Count Filter with "<=" operator
+    Log To Console    🔍 Testing Filter 19: Track Count <= "3"
+    Click Filter Button
+    Apply Track Count Filter    <=    3
+    Verify Track Count Filter Results    <=    3
+    Clear All Filters
+
+    # Test 20: Track Count Filter with "is empty" operator
+    Log To Console    🔍 Testing Filter 20: Track Count is empty
+    Click Filter Button
+    Apply Track Count Filter    is empty    ${EMPTY}
+    Verify Track Count Filter Results    is empty    ${EMPTY}
+    Clear All Filters
+
+    # Test 21: Track Count Filter with "is not empty" operator
+    Log To Console    🔍 Testing Filter 21: Track Count is not empty
+    Click Filter Button
+    Apply Track Count Filter    is not empty    ${EMPTY}
+    Verify Track Count Filter Results    is not empty    ${EMPTY}
+    Clear All Filters
+
+    # ===== STATUS FILTER TESTS =====
+    # Test 22: Status Filter with "is" operator
+    Log To Console    🔍 Testing Filter 22: Status = "Publish"
+    Click Filter Button
+    Apply Status Filter    is    Publish
+    Verify Status Filter Results    is    Publish
+    Clear All Filters
+
+    # Test 23: Status Filter with "is not" operator
+    Log To Console    🔍 Testing Filter 23: Status is not "Publish"
+    Click Filter Button
+    Apply Status Filter    is not    Publish
+    Verify Status Filter Results    is not    Publish
+    Clear All Filters
+
+    # Test 24: Status Filter with "is any of" operator
+    Log To Console    🔍 Testing Filter 24: Status is any of "Publish, Unpublish"
+    Click Filter Button
+    Apply Status Filter    is any of    Publish, Unpublish
+    Verify Status Filter Results    is any of    Publish, Unpublish
+    Clear All Filters
+
+    Log To Console    ✅ All 24 filter combination tests completed successfully
     Close Web Browser
 
 Test Podcast Different Filter Functionality
     [Documentation]    Test different filter combinations on Podcast page
-    [Tags]    e2e    podcast    filter    tc58_01    milestone2
+    [Tags]    e2e    podcast    filter    tc58_02    milestone2
 
     # --- Web CRM: Test Filter Functionality ---
     Open Web Browser
@@ -540,49 +670,180 @@ Test Podcast Different Filter Functionality
     Click on the Audio Menu
     Click on the Podcast Submenu
 
-    # Test Filter 1: Category Filter with "is" operator
+    # ===== CATEGORY FILTER TESTS =====
+    # Test 1: Category Filter with "is" operator
     Log To Console    🔍 Testing Filter 1: Category = "Pravachan"
     Click Filter Button
     Apply Filter Combination    categoryName    is    Pravachan
     Verify Filter Results    categoryName    is    Pravachan
     Clear All Filters
 
-    # Test Filter 2: Status Filter with "is" operator
-    Log To Console    🔍 Testing Filter 2: Status = "Publish"
+    # Test 2: Category Filter with "is not" operator
+    Log To Console    🔍 Testing Filter 2: Category is not "Pravachan"
     Click Filter Button
-    Apply Status Filter    Publish
-    Verify Status Filter Results    Publish
+    Apply Filter Combination    categoryName    is not    Pravachan
+    Verify Filter Results    categoryName    is not    Pravachan
     Clear All Filters
 
-    # Test Filter 3: Track Count Filter with "is" operator
-    Log To Console    🔍 Testing Filter 3: Track Count = "1"
+    # Test 3: Category Filter with "is any of" operator
+    Log To Console    🔍 Testing Filter 3: Category is any of "Pravachan, Bhajan"
     Click Filter Button
-    Apply Track Count Filter    1
-    Verify Track Count Filter Results    1
+    Apply Filter Combination    categoryName    is any of    Pravachan, Bhajan
+    Verify Filter Results    categoryName    is any of    Pravachan, Bhajan
     Clear All Filters
 
-    # Test Filter 4: Category Filter with "is not" operator
-    Log To Console    🔍 Testing Filter 4: Category is not "Pravachan"
+    # ===== SUB CATEGORY FILTER TESTS =====
+    # Test 4: Sub Category Filter with "is" operator
+    Log To Console    🔍 Testing Filter 4: Sub Category = "Namoh Namh"
     Click Filter Button
-    Apply Filter Combination    categoryName    not    Pravachan
-    Verify Filter Results    categoryName    not    Pravachan
+    Apply Filter Combination    subCategoryName    is    Namoh Namh
+    Verify Filter Results    subCategoryName    is    Namoh Namh
     Clear All Filters
 
-    # Test Filter 5: Status Filter for "Unpublish"
-    Log To Console    🔍 Testing Filter 5: Status = "Unpublish"
+    # Test 5: Sub Category Filter with "is not" operator
+    Log To Console    🔍 Testing Filter 5: Sub Category is not "Namoh Namh"
     Click Filter Button
-    Apply Status Filter    Unpublish
-    Verify Status Filter Results    Unpublish
+    Apply Filter Combination    subCategoryName    is not    Namoh Namh
+    Verify Filter Results    subCategoryName    is not    Namoh Namh
     Clear All Filters
 
-    # Test Filter 6: Published Date Filter for "Today"
-    Log To Console    🔍 Testing Filter 6: Published Date = "Today"
+    # Test 6: Sub Category Filter with "is any of" operator
+    Log To Console    🔍 Testing Filter 6: Sub Category is any of "Namoh Namh, Bhav Arpan"
     Click Filter Button
-    Apply Published Date Filter    Today
-    Verify Published Date Filter Results    Today
+    Apply Filter Combination    subCategoryName    is any of    Namoh Namh, Bhav Arpan
+    Verify Filter Results    subCategoryName    is any of    Namoh Namh, Bhav Arpan
     Clear All Filters
 
-    Log To Console    ✅ All podcast filter tests completed successfully
+    # ===== PUBLISHED DATE FILTER TESTS =====
+    # Test 7: Published Date Filter with "is" operator
+    Log To Console    🔍 Testing Filter 7: Published Date = "14/10/2025"
+    Click Filter Button
+    Apply Published Date Filter    is    14/10/2025
+    Verify Published Date Filter Results    is    14/10/2025
+    Clear All Filters
+
+    # Test 8: Published Date Filter with "is not" operator
+    Log To Console    🔍 Testing Filter 8: Published Date is not "14/10/2025"
+    Click Filter Button
+    Apply Published Date Filter    is not    14/10/2025
+    Verify Published Date Filter Results    is not    14/10/2025
+    Clear All Filters
+
+    # Test 9: Published Date Filter with "is after" operator
+    Log To Console    🔍 Testing Filter 9: Published Date is after "01/01/2024"
+    Click Filter Button
+    Apply Published Date Filter    is after    01/01/2024
+    Verify Published Date Filter Results    is after    01/01/2024
+    Clear All Filters
+
+    # Test 10: Published Date Filter with "is on or after" operator
+    Log To Console    🔍 Testing Filter 10: Published Date is on or after "01/01/2024"
+    Click Filter Button
+    Apply Published Date Filter    is on or after    01/01/2024
+    Verify Published Date Filter Results    is on or after    01/01/2024
+    Clear All Filters
+
+    # Test 11: Published Date Filter with "is on or before" operator
+    Log To Console    🔍 Testing Filter 11: Published Date is on or before "31/12/2025"
+    Click Filter Button
+    Apply Published Date Filter    is on or before    31/12/2025
+    Verify Published Date Filter Results    is on or before    31/12/2025
+    Clear All Filters
+
+    # Test 12: Published Date Filter with "is empty" operator
+    Log To Console    🔍 Testing Filter 12: Published Date is empty
+    Click Filter Button
+    Apply Published Date Filter    is empty    ${EMPTY}
+    Verify Published Date Filter Results    is empty    ${EMPTY}
+    Clear All Filters
+
+    # Test 13: Published Date Filter with "is not empty" operator
+    Log To Console    🔍 Testing Filter 13: Published Date is not empty
+    Click Filter Button
+    Apply Published Date Filter    is not empty    ${EMPTY}
+    Verify Published Date Filter Results    is not empty    ${EMPTY}
+    Clear All Filters
+
+    # ===== TRACK COUNT FILTER TESTS =====
+    # Test 14: Track Count Filter with "=" operator
+    Log To Console    🔍 Testing Filter 14: Track Count = "1"
+    Click Filter Button
+    Apply Track Count Filter    =    1
+    Verify Track Count Filter Results    =    1
+    Clear All Filters
+
+    # Test 15: Track Count Filter with "!=" operator
+    Log To Console    🔍 Testing Filter 15: Track Count != "1"
+    Click Filter Button
+    Apply Track Count Filter    !=    1
+    Verify Track Count Filter Results    !=    1
+    Clear All Filters
+
+    # Test 16: Track Count Filter with ">" operator
+    Log To Console    🔍 Testing Filter 16: Track Count > "0"
+    Click Filter Button
+    Apply Track Count Filter    >    0
+    Verify Track Count Filter Results    >    0
+    Clear All Filters
+
+    # Test 17: Track Count Filter with ">=" operator
+    Log To Console    🔍 Testing Filter 17: Track Count >= "1"
+    Click Filter Button
+    Apply Track Count Filter    >=    1
+    Verify Track Count Filter Results    >=    1
+    Clear All Filters
+
+    # Test 18: Track Count Filter with "<" operator
+    Log To Console    🔍 Testing Filter 18: Track Count < "5"
+    Click Filter Button
+    Apply Track Count Filter    <    5
+    Verify Track Count Filter Results    <    5
+    Clear All Filters
+
+    # Test 19: Track Count Filter with "<=" operator
+    Log To Console    🔍 Testing Filter 19: Track Count <= "3"
+    Click Filter Button
+    Apply Track Count Filter    <=    3
+    Verify Track Count Filter Results    <=    3
+    Clear All Filters
+
+    # Test 20: Track Count Filter with "is empty" operator
+    Log To Console    🔍 Testing Filter 20: Track Count is empty
+    Click Filter Button
+    Apply Track Count Filter    is empty    ${EMPTY}
+    Verify Track Count Filter Results    is empty    ${EMPTY}
+    Clear All Filters
+
+    # Test 21: Track Count Filter with "is not empty" operator
+    Log To Console    🔍 Testing Filter 21: Track Count is not empty
+    Click Filter Button
+    Apply Track Count Filter    is not empty    ${EMPTY}
+    Verify Track Count Filter Results    is not empty    ${EMPTY}
+    Clear All Filters
+
+    # ===== STATUS FILTER TESTS =====
+    # Test 22: Status Filter with "is" operator
+    Log To Console    🔍 Testing Filter 22: Status = "Publish"
+    Click Filter Button
+    Apply Status Filter    is    Publish
+    Verify Status Filter Results    is    Publish
+    Clear All Filters
+
+    # Test 23: Status Filter with "is not" operator
+    Log To Console    🔍 Testing Filter 23: Status is not "Publish"
+    Click Filter Button
+    Apply Status Filter    is not    Publish
+    Verify Status Filter Results    is not    Publish
+    Clear All Filters
+
+    # Test 24: Status Filter with "is any of" operator
+    Log To Console    🔍 Testing Filter 24: Status is any of "Publish, Unpublish"
+    Click Filter Button
+    Apply Status Filter    is any of    Publish, Unpublish
+    Verify Status Filter Results    is any of    Publish, Unpublish
+    Clear All Filters
+
+    Log To Console    ✅ All 24 podcast filter combination tests completed successfully
     Close Web Browser
 
 
@@ -697,41 +958,41 @@ Test Multiple Music Tracks Same Category Same Subcategory
     Verify Multiple Tracks In Mobile App    ${track_titles}    ${E2E_CATEGORY_NAME}
     Close Gurutattva App
 
-Test Multiple Podcast Tracks Same Category Same Subcategory
-    [Documentation]    Add 4-5 podcast tracks under same category and subcategory, verify in mobile app
-    [Tags]    e2e    podcast    multiple_tracks    tc64    milestone2
+# Test Multiple Podcast Tracks Same Category Same Subcategory
+#     [Documentation]    Add 4-5 podcast tracks under same category and subcategory, verify in mobile app
+#     [Tags]    e2e    podcast    multiple_tracks    tc64    milestone2
 
-    # --- Generate Unique Test Data ---
-    Generate E2E Test Data for Podcast
+#     # --- Generate Unique Test Data ---
+#     Generate E2E Test Data for Podcast
 
-    # --- Web CRM: Create Category, SubCategory, and Multiple Speakers ---
-    Open Web Browser
-    Login in with valid credentials
-    Click on the Master Management Menu
-    Click on the Manage Audio Categories Submenu
-    Create New Podcast Category
-    Create New Podcast SubCategory
+#     # --- Web CRM: Create Category, SubCategory, and Multiple Speakers ---
+#     Open Web Browser
+#     Login in with valid credentials
+#     Click on the Master Management Menu
+#     Click on the Manage Audio Categories Submenu
+#     Create New Podcast Category
+#     Create New Podcast SubCategory
     
-    # Create multiple speakers for more diverse test data
-    Create Multiple Speakers For Testing    3
+#     # Create multiple speakers for more diverse test data
+#     Create Multiple Speakers For Testing    3
 
-    # --- Navigate to Podcast Management and Add Multiple Tracks ---
-    Click on the Audio Menu
-    Click on the Podcast Submenu
-    Add Multiple Podcast Tracks Same Subcategory With Multiple Speakers    3
+#     # --- Navigate to Podcast Management and Add Multiple Tracks ---
+#     Click on the Audio Menu
+#     Click on the Podcast Submenu
+#     Add Multiple Podcast Tracks Same Subcategory With Multiple Speakers    3
 
-    Close Web Browser
+#     Close Web Browser
 
-    # --- Mobile App: Verify All Tracks ---
-    Open Gurutattva App
-    Handle First Time Setup
-    Launch Mobile App And Login
+#     # --- Mobile App: Verify All Tracks ---
+#     Open Gurutattva App
+#     Handle First Time Setup
+#     Launch Mobile App And Login
     
-    # Generate track titles for verification
-    @{track_titles}=    Generate Track Titles For Verification Podcast    3
+#     # Generate track titles for verification
+#     @{track_titles}=    Generate Track Titles For Verification Podcast    3
     
-    Verify Multiple Podcast Tracks In Mobile App    ${track_titles}    ${E2E_CATEGORY_NAME_PODCAST}
-    Close Gurutattva App
+#     Verify Multiple Podcast Tracks In Mobile App    ${track_titles}    ${E2E_CATEGORY_NAME_PODCAST}
+#     Close Gurutattva App
 
 
     

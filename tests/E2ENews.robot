@@ -11,7 +11,6 @@ Resource    ../pages/E2EAudioPage.robot
 
 Test Setup    Test Setup
 Test Teardown    Test Teardown
-Suite Teardown    Suite Teardown
 
 *** Test Cases ***
 Verify the image upload validation in CMS

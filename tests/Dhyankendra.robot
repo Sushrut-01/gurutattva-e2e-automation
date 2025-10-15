@@ -385,3 +385,16 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Click on the DhyanKendra Tab
     Validate the fields after approval in the mobile app
     Close Gurutattva App
+
+Change the Primary Sanchalak from Dhyankendra and add other sanchalak
+    [Tags]    Web    Dhyankendra    TC_CHANGE_SANCHALAK    milestone2
+    Open Web Browser
+    Login in with valid credentials
+    Click on the Dhyankendra Management Menu
+    Open Dhyankendra Management And Show Approved Records
+    Open Edit For First Approved Dhyankendra
+    Go To Sanchalak Details Section
+    Change Primary Sanchalak To    Keshav    Keshav - 20
+    Handle Validation And Submit Or Cancel
+    Verify Sanchalak Update Outcome
+    Close Web Browser
