@@ -136,7 +136,7 @@ Swipe Until Element Visible
     ${start_y}=     Evaluate    int(${height} * 0.8)
     ${end_y}=       Evaluate    int(${height} * 0.2)
 
-    FOR    ${i}    IN RANGE    0    7
+    FOR    ${i}    IN RANGE    0    25
         ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    ${locator}
         Exit For Loop If    ${visible}
         Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    800ms

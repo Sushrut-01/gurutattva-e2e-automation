@@ -22,10 +22,10 @@ ${GLOBAL_EVENT_COORDINATOR_PASSWORD}   Admin@123
 ${ACHARYA_EMAIL}                   uttamshlok.sharma@rysun.com
 ${ACHARYA_PASSWORD}                Admin@123
 
-${MAHA_ACHARYA_EMAIL}              # Add email when provided
+${MAHA_ACHARYA_EMAIL}              Bhavya.gajjar@rysun.com
 ${MAHA_ACHARYA_PASSWORD}           Admin@123
 
-${NAMKARAN_COORDINATOR_EMAIL}      adesh.pawar@rysun.com
+${NAMKARAN_COORDINATOR_EMAIL}      ayush.chauhan@rysun.com
 ${NAMKARAN_COORDINATOR_PASSWORD}   Admin@123
 
 # Menu Items by Role
@@ -33,7 +33,7 @@ ${PRAYER_COORDINATOR_MENUS}        Prayer
 ${GLOBAL_EVENT_COORDINATOR_MENUS}  Events - Global,Events - Local,Dhyansthali Management - Dhyansthali
 ${ACHARYA_MENUS}                   Dhyansthali Management - Dhyansthali,Dhyankendra,News - Local,Events - Local,User Management
 ${MAHA_ACHARYA_MENUS}              Dhyansthali Management - Dhyansthali,Dhyankendra,News - Local,Events - Local,User Management
-${NAMKARAN_COORDINATOR_MENUS}      Namkaran
+${NAMKARAN_COORDINATOR_MENUS}      Dhyansthali Management - Dhyansthali,Namkaran
 
 # Common Menu Locators (using href attributes for better reliability)
 ${MASTER_MANAGEMENT_MENU}          xpath=//a[@href='/master-management']
