@@ -83,7 +83,7 @@ Login in with Harsh Sanchalak credentials
     [Documentation]    Logs in to web application with Harsh Sanchalak credentials
     Web Wait Until Page Contains Element    ${EMAIL_FIELD}    10s
     Web Input Text    ${EMAIL_FIELD}    harsh.rathod@rysun.com
-    Web Input Password    ${PASSWORD_FIELD}    Admin123
+    Web Input Password    ${PASSWORD_FIELD}    Admin@123
     Web Click Button    ${LOGIN_BUTTON}
     Web Wait Until Page Contains    ${DASHBOARD_TEXT}    10s
 

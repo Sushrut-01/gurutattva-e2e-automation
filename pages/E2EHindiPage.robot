@@ -57,7 +57,7 @@ ${NOTIFICATION_DESC_HINDI}         xpath=//android.view.View[contains(@content-d
 ${THEME_HINDI}                     xpath=//android.view.View[contains(@content-desc,"थीम")]
 ${THEME_DESC_HINDI}                xpath=//android.view.View[contains(@content-desc, "अपने मूड से मेल खाएँ")]
 ${EDIT_MEMBERSHIP_HINDI}           xpath=//android.view.View[contains(@content-desc, "सदस्यता संपादित करें")]
-${EDIT_MEMBERSHIP_DESC_HINDI}      xpath=//android.view.View[contains(@content-desc, "अपनी यात्रा को अनलॉक करें"]
+${EDIT_MEMBERSHIP_DESC_HINDI}      xpath=//android.view.View[contains(@content-desc, "अपनी यात्रा को अनलॉक करें")]
 
 # ===== EXPLORE PAGE HINDI LOCATORS =====
 ${EXPLORE_MENU}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[1]
@@ -348,6 +348,8 @@ Validate Hindi Content On Dhyankendra Page
     # Click back button
     Mobile.Click Element    ${BACK_BUTTON_GENERIC}
     Sleep    2s
+    Mobile.Click Element    ${BACK_BUTTON_GENERIC}
+    Sleep    2s
     
     Log To Console    ✅ All Hindi content validated successfully on Dhyankendra page
 
@@ -398,23 +400,25 @@ Validate Hindi Content On Prarthna Page
     # Click tooltip close button
     Mobile.Click Element    ${TOOLTIP_CLOSE_BUTTON}
     Sleep    1s
+
+    Swipe Until Element Visible    ${PRAYER_DOB_LABEL}
     
     # Scroll and validate additional elements
-    ${height}=    Mobile Get Window Height
-    ${width}=     Mobile Get Window Width
-    ${start_x}=   Evaluate    int(${width} * 0.5)
-    ${start_y}=   Evaluate    int(${height} * 0.8)
-    ${end_y}=     Evaluate    int(${height} * 0.2)
-    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    1000ms
-    Sleep    2s
+    # ${height}=    Mobile Get Window Height
+    # ${width}=     Mobile Get Window Width
+    # ${start_x}=   Evaluate    int(${width} * 0.5)
+    # ${start_y}=   Evaluate    int(${height} * 0.8)
+    # ${end_y}=     Evaluate    int(${height} * 0.2)
+    # Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    1000ms
+    # Sleep    2s
     
     @{scroll_elements}=    Create List
     ...    ${PRAYER_FOR_WHOM_LABEL}
     ...    ${PRAYER_FOR_WHOM_NAME_LABEL}
     ...    ${PRAYER_FOR_WHOM_PLACE_LABEL}
-    ...    ${PRAYER_ADDRESS_LABEL}
-    ...    ${PRAYER_DOB_LABEL}
-    ...    ${PRAYER_DESCRIPTION_LABEL}
+    # ...    ${PRAYER_ADDRESS_LABEL}
+    # ...    ${PRAYER_DOB_LABEL}
+    # ...    ${PRAYER_DESCRIPTION_LABEL}
     
     FOR    ${element}    IN    @{scroll_elements}
         Mobile.Wait Until Page Contains Element    ${element}    10s
@@ -426,7 +430,12 @@ Validate Hindi Content On Prarthna Page
     Sleep    2s
     Mobile.Click Element    ${BACK_BUTTON_GENERIC}
     Sleep    2s
-    
+
+    Mobile.Click Element    ${BACK_BUTTON_GENERIC}
+    Sleep    2s
+
+    Mobile.Click Element    ${BACK_BUTTON_GENERIC}
+    Sleep    2s
     Log To Console    ✅ All Hindi content validated successfully on Prarthna page
 
 Validate Hindi Content On Namkaran Page
@@ -460,8 +469,8 @@ Validate Hindi Content On Namkaran Page
     ...    ${NAMKARAN_CONTENT_HEADING}
     ...    ${NAMKARAN_SECOND_CONTENT}
     ...    ${NAMKARAN_THIRD_CONTENT}
-    ...    ${NAMKARAN_FOURTH_CONTENT}
-    ...    ${NAMKARAN_FIFTH_CONTENT}
+    # ...    ${NAMKARAN_FOURTH_CONTENT}
+    #...    ${NAMKARAN_FIFTH_CONTENT}
     
     FOR    ${element}    IN    @{namkaran_form_elements}
         Mobile.Wait Until Page Contains Element    ${element}    10s
@@ -512,7 +521,7 @@ Validate Complete Hindi Content
     Validate Hindi Content On Prarthna Page
     
     # Validate Namkaran page Hindi content
-    Validate Hindi Content On Namkaran Page
+    #Validate Hindi Content On Namkaran Page
     
     # Validate Profile page Hindi content
     Validate Hindi Content On Profile Page

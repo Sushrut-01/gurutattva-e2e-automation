@@ -280,6 +280,7 @@ Click on the Submit Button for Dhyankendra
     Scroll until element found    ${DHYANKENDRA_SUBMIT}
     Mobile Click Element    ${DHYANKENDRA_SUBMIT}
     Log To Console    Clicked on the Submit Button for Dhyankendra
+    Sleep    10s
 
 Verify Dhyankendra Success Message
     Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUCCESS_MESSAGE}    10s

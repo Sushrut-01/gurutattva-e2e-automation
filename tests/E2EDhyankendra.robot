@@ -181,7 +181,7 @@ Sanchalak login to CMS application and as per the role and rights it should have
     Close Web Browser
 
 Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields of Mobile with CMS.
-    [Tags]  E2E  TC64  Dhyankendra  milestone2
+    [Tags]  E2E  TC64  Dhyankendra
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
@@ -220,7 +220,7 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Validate the filled value on that sadak user on the CMS side
 
 Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the changes requeted. check reflection in mobile app. 
-    [Tags]  E2E  TC67  Dhyankendra  milestone2
+    [Tags]  E2E  TC67  Dhyankendra  
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
@@ -297,7 +297,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Close Gurutattva App
 
 Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the changes requeted. Check refleciton in Mobile app. 
-    [Tags]  E2E  TC66  Dhyankendra  milestone2
+    [Tags]  E2E  TC66  Dhyankendra  
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
@@ -375,7 +375,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Close Gurutattva App
 
 Change the Primary Sanchalak from Dhyankendra and add other sanchalak
-    [Tags]    Web    Dhyankendra    TC_CHANGE_SANCHALAK    milestone2
+    [Tags]    Web    Dhyankendra    TC_CHANGE_SANCHALAK    
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
