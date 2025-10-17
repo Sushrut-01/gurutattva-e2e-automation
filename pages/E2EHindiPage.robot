@@ -59,6 +59,99 @@ ${THEME_DESC_HINDI}                xpath=//android.view.View[contains(@content-d
 ${EDIT_MEMBERSHIP_HINDI}           xpath=//android.view.View[contains(@content-desc, "सदस्यता संपादित करें")]
 ${EDIT_MEMBERSHIP_DESC_HINDI}      xpath=//android.view.View[contains(@content-desc, "अपनी यात्रा को अनलॉक करें")]
 
+# ===== PROFILE PAGE ADDITIONAL LOCATORS =====
+# Profile Page Additional Elements
+${PERMISSION_HINDI}                 xpath=//android.view.View[@content-desc="अनुमतियाँ"]
+${PRIVACY_POLICY_HINDI}             xpath=//android.view.View[contains(@content-desc,"गोपनीयता नीति")]
+${TERMS_CONDITION_HINDI}            xpath=//android.view.View[contains(@content-desc,"नियम व शर्तें")]
+${FAQ_HINDI}                        xpath=//android.view.View[contains(@content-desc,"प्रश्नोत्तर")]
+${APP_VERSION_HINDI}                xpath=//android.view.View[contains(@content-desc,"ऐप संस्करण")]
+${DELETE_LOGOUT_HEADING_HINDI}      xpath=//android.view.View[@content-desc="खाता हटाएं और लॉगआउट करें"]
+${DELETE_ACCOUNT_HINDI}             xpath=//android.widget.ImageView[@content-desc="खाता हटा दो"]
+${LOGOUT_BUTTON_HINDI}              xpath=//android.widget.ImageView[@content-desc="लॉग आउट"]
+
+# Edit Profile Elements
+${EDIT_ICON_HINDI}                  xpath=//android.view.View[@content-desc="प्रोफ़ाइल"]/android.widget.ImageView[2]
+${EDIT_PROFILE_HEADING_HINDI}       xpath=//android.view.View[@content-desc="प्रोफ़ाइल संपादित करें"]
+${FIRST_NAME_HINDI}                 xpath=//android.view.View[@content-desc="पहला नाम"]
+${MIDDLE_NAME_HINDI}                xpath=//android.view.View[@content-desc="मध्य नाम"]
+${LAST_NAME_HINDI}                  xpath=//android.view.View[@content-desc="मध्य नाम"]
+${EMAIL_HINDI}                      xpath=//android.view.View[@content-desc="ईमेल"]
+${MOBILE_NUMBER_HINDI}              xpath=//android.view.View[@content-desc="ईमेल"]
+${SAVE_BUTTON_HINDI}                xpath=//android.view.View[@content-desc="सहेजें"]
+
+# Edit Profile Additional Elements
+${DOB_HINDI}                        xpath=//android.view.View[@content-desc="जन्म तिथि"]
+${COUNTRY_HINDI}                    xpath=//android.view.View[@content-desc="देश"]
+${STATE_HINDI}                      xpath=//android.view.View[@content-desc="देश"]
+${DISTRICT_HINDI}                   xpath=//android.view.View[@content-desc="देश"]
+${CITY_HINDI}                       xpath=//android.view.View[@content-desc="देश"]
+${VILLAGE_HINDI}                    xpath=//android.view.View[@content-desc="देश"]
+${EDIT_PROFILE_BACK_BUTTON}         xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView
+
+# ===== ADDITIONAL HINDI CONTENT LOCATORS =====
+# Home Page Additional Elements
+${DHYANSTHALI_INSIGHT_HINDI}       xpath=//android.view.View[@content-desc="ध्यानस्थली अंतर्दृष्टि"]
+${RECOMMENDED_FOR_YOU_HINDI}        xpath=//android.view.View[@content-desc="आपके लिए अनुशंसित"]
+
+# Namkaran Form Additional Elements
+${NAMKARAN_CATEGORIES_LABEL}       xpath=//android.view.View[@content-desc="नामकरण श्रेणियां *"]
+${DULHAN_NAMING_BUTTON}            xpath=//android.widget.Button[@content-desc="दुल्हन का नामकरण"]
+${DULHAN_NAME_DESCRIPTION}         xpath=//android.view.View[@content-desc="दुल्हन का नाम विवरण"]
+${FIRST_NAME_LABEL_1}              xpath=(//android.view.View[@content-desc="पहला नाम *"])[1]
+${MIDDLE_NAME_LABEL_1}             xpath=(//android.view.View[@content-desc="मध्य नाम *"])[1]
+${LAST_NAME_LABEL_1}               xpath=(//android.view.View[@content-desc="अंतिम नाम *"])[1]
+${DULHE_NAME_DESCRIPTION}          xpath=//android.view.View[@content-desc="दूल्हे का नाम विवरण"]
+${FIRST_NAME_LABEL_2}              xpath=(//android.view.View[@content-desc="पहला नाम *"])[2]
+${MARRIAGE_PLACE_LABEL}            xpath=//android.view.View[@content-desc="विवाह स्थान *"]
+${EMAIL_LABEL}                     xpath=//android.view.View[@content-desc="ईमेल *"]
+${PHONE_NUMBER_LABEL}              xpath=//android.view.View[@content-desc="फ़ोन नंबर *"]
+${MARRIAGE_DATE_LABEL}             xpath=//android.view.View[@content-desc="विवाह तिथि *"]
+${MARRIAGE_DATE_PICKER}            xpath=//android.widget.ImageView[@content-desc="विवाह तिथि चुनें"]
+${MARRIAGE_PLACE_PICKER}           xpath=//android.widget.ImageView[@content-desc="विवाह स्थान चुनें"]
+${NAME_OPTION_QUESTION}            xpath=//android.view.View[@content-desc="क्या आप दुल्हन के लिए नाम विकल्प प्रदान करना चाहते हैं?"]
+${NO_OPTION}                       xpath=//android.view.View[@content-desc="नहीं"]
+${SUBMIT_BUTTON}                   xpath=//android.view.View[@content-desc="सबमिट करें"]
+${MARRIAGE_PLACE_INPUT}            xpath=//android.widget.EditText[contains(@hint,"विवाह स्थल दर्ज करें")]
+
+# Audio Page Elements
+${MUSIC_TAB_HINDI}                 xpath=//android.widget.ImageView[@content-desc="संगीत"]
+${PODCAST_TAB_HINDI}               xpath=//android.widget.ImageView[@content-desc="पॉडकास्ट"]
+${RADIO_TAB_HINDI}                 xpath=//android.widget.ImageView[@content-desc="रेडियो"]
+${RECENT_MUSIC_HEADING}            xpath=//android.widget.ImageView[contains(@content-desc,"हाल ही में जोड़ा गया")]
+${SEE_MORE_BUTTON}                 xpath=//android.view.View[contains(@content-desc,"सभी देखें")]
+${WRITER_HEADING}                  xpath=//android.widget.ImageView[contains(@content-desc,"लेखक")]
+${RADIO_HEADING}                   xpath=//android.widget.ImageView[contains(@content-desc,"रेडियो")]
+${RECENTLY_ADDED_HEADING}          xpath=//android.view.View[@content-desc="हाल ही में जोड़ा गया"]
+
+# News Page Elements
+${NEWS_PAGE_BUTTON}                xpath=//android.widget.ImageView[@content-desc="समाचार"]
+${NEWS_PAGE_TITLE}                 xpath=//android.view.View[@content-desc="समाचार"]
+${GLOBAL_NEWS_TAB}                 xpath=//android.view.View[@content-desc="वैश्विक समाचार"]
+${LOCAL_NEWS_TAB}                  xpath=//android.view.View[@content-desc="स्थानीय समाचार"]
+${CATEGORY_BUTTON}                 xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[2]
+${CATEGORY_PAGE_HEADING}           xpath=//android.view.View[@content-desc="श्रेणियाँ"]
+
+# Events Page Elements
+${EVENTS_PAGE_BUTTON}              xpath=//android.widget.ImageView[@content-desc="घटनाएं"]
+${EVENTS_PAGE_TITLE}               xpath=//android.view.View[@content-desc="घटनाएं"]
+${GLOBAL_EVENTS_TAB}               xpath=//android.view.View[@content-desc="वैश्विक घटनाएं"]
+${LOCAL_EVENTS_TAB}                xpath=//android.view.View[@content-desc="स्थानीय घटनाएं"]
+${LOCAL_EVENTS_PAGE}               xpath=//android.view.View[@content-desc="स्थानीय घटनाएं"]
+${FILTER_ICON}                     xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[2]
+${FILTER_HEADING}                  xpath=//android.view.View[@content-desc="फ़िल्टर"]
+${COUNTRY_FIELD_HEADING}           xpath=//android.view.View[@content-desc="देश"]
+${COUNTRY_DROPDOWN}                xpath=//android.view.View[@content-desc="देश चुनें"]
+${STATE_FIELD_HEADING}             xpath=//android.view.View[@content-desc="राज्य"]
+${STATE_DROPDOWN}                  xpath=//android.view.View[@content-desc="राज्य चुनें"]
+${DISTRICT_HEADING}                xpath=//android.view.View[@content-desc="जिला"]
+${DISTRICT_DROPDOWN}               xpath=//android.view.View[@content-desc="अपना जिला चुनें"]
+${APPLY_BUTTON}                    xpath=//android.view.View[@content-desc="लागू करें"]
+${CLEAR_BUTTON}                    xpath=//android.view.View[@content-desc="सभी साफ़ करें"]
+${FILTER_CLOSE_BUTTON}             xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]
+${EVENTS_CATEGORY_BUTTON}          xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[3]
+${EVENTS_CATEGORY_HEADING}         xpath=//android.view.View[@content-desc="श्रेणियाँ"]
+
 # ===== EXPLORE PAGE HINDI LOCATORS =====
 ${EXPLORE_MENU}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[1]
 ${EXPLORE_TITLE}                   xpath=(//android.view.View[@content-desc="अन्वेषण"])[1]
@@ -125,13 +218,50 @@ ${NAMKARAN_FIRST_CONTENT}          xpath=//android.widget.ScrollView/android.vie
 ${NAMKARAN_CONTENT_HEADING}        xpath=//android.view.View[@content-desc="नामकरण हेतु आवेदन करते समय कृपया निम्न बातों का ध्यान रखें:"]
 ${NAMKARAN_SECOND_CONTENT}         xpath=//android.view.View[@content-desc="वर्तमान में गुरुदेव चार श्रेणियों में नामकरण कर रहे हैं: (1) नवविवाहिता दुल्हन (2) व्यवसाय (3) घर/निवास (4) नवजात शिशु"]
 ${NAMKARAN_THIRD_CONTENT}          xpath=//android.view.View[@content-desc="नामकरण के लिए आवेदन करते समय प्रत्येक जानकारी को भरना अनिवार्य है, अतः साधकों से अनुरोध है कि सभी विवरण ध्यानपूर्वक और सही-सही भरें।"]
-${NAMKARAN_FOURTH_CONTENT}         xpath=//android.view.View[@content-desc="आवेदन के अंत में विकल्प चयन का विकल्प दिया गया है, यदि आप नाम परम पूज्य स्वामी जी से प्राप्त करना चाहते हैं तो विकल्प में "नहीं" चुनें। लेकिन यदि आपके पास चार नामों के विकल्प हैं और आप चाहते हैं कि स्वामी जी उन्हीं में से एक नाम चुनें, तो विकल्प में "हाँ" चुनें और चारों नाम अनिवार्य रूप से भरें।"]
+${NAMKARAN_FOURTH_CONTENT}         xpath=//android.view.View[contains(@content-desc,"आवेदन के अंत में ")]
 ${NAMKARAN_FIFTH_CONTENT}          xpath=//android.view.View[@content-desc="व्यवसाय के नामकरण हेतु आवेदन करते समय कृपया अपने व्यवसाय का विवरण संक्षेप में और स्पष्ट रूप से लिखें तथा व्यवसाय का पूरा पता अवश्य भरें।"]
 ${NAMKARAN_SUBMIT_BUTTON}          xpath=//android.view.View[@content-desc="अभी आवेदन करें"]
 ${NAMKARAN_AGREEMENT_MESSAGE}      xpath=//android.view.View[@content-desc="क्या आप सभी शर्तों से सहमत हैं?"]
 ${NAMKARAN_AGREE_BUTTON}           xpath=//android.view.View[@content-desc="मैं सहमत हूं"]
 
 *** Keywords ***
+
+# ===== HELPER KEYWORDS =====
+
+Get Element Text Content
+    [Documentation]    Gets the text content of an element, with graceful error handling
+    [Arguments]    ${locator}    ${element_name}
+    ${text_content}=    Set Variable    ${EMPTY}
+    
+    TRY
+        ${text_content}=    Mobile Get Element Attribute    ${locator}    content-desc
+        IF    "${text_content}" == "None" or "${text_content}" == ""
+            ${text_content}=    Mobile Get Element Attribute    ${locator}    text
+        END
+        IF    "${text_content}" == "None" or "${text_content}" == ""
+            ${text_content}=    Mobile Get Element Attribute    ${locator}    hint
+        END
+        IF    "${text_content}" == "None" or "${text_content}" == ""
+            ${text_content}=    Mobile Get Element Attribute    ${locator}    resource-id
+        END
+        IF    "${text_content}" == "None" or "${text_content}" == ""
+            ${text_content}=    Mobile Get Element Attribute    ${locator}    class
+        END
+        IF    "${text_content}" == "None" or "${text_content}" == ""
+            ${text_content}=    Set Variable    [Element found but no text content available]
+        END
+    EXCEPT    AS    ${error}
+        ${text_content}=    Set Variable    [Unable to get text content: ${error}]
+    END
+    
+    Log To Console    ✅ Found ${element_name}: "${text_content}"
+    [Return]    ${text_content}
+
+Validate Element With Text Content
+    [Documentation]    Validates element exists and logs its text content
+    [Arguments]    ${locator}    ${element_name}
+    Mobile.Wait Until Page Contains Element    ${locator}    10s
+    Get Element Text Content    ${locator}    ${element_name}
 
 # ===== MAIN TEST KEYWORDS =====
 
@@ -210,42 +340,28 @@ Validate Hindi Content On Home Page
     Sleep    3s
     
     # Validate Hindi content elements
-    @{hindi_elements}=    Create List
-    ...    ${EXPLORE_SECTION_TITLE}
-    ...    ${DHYANKENDRA_HINDI}
-    ...    ${DHYANSTHALI_HINDI}
-    ...    ${PRAYER_HINDI}
-    ...    ${NAMKARAN_HINDI}
-    ...    ${AUDIO_OF_DAY_HINDI}
-    ...    ${VIEW_ALL_HINDI}
-    
-    FOR    ${element}    IN    @{hindi_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Hindi element: ${element}
-    END
+    Validate Element With Text Content    ${EXPLORE_SECTION_TITLE}    "Explore Section Title"
+    Validate Element With Text Content    ${DHYANKENDRA_HINDI}    "Dhyankendra Card"
+    Validate Element With Text Content    ${DHYANSTHALI_HINDI}    "Dhyansthali Card"
+    Validate Element With Text Content    ${PRAYER_HINDI}    "Prayer Card"
+    Validate Element With Text Content    ${NAMKARAN_HINDI}    "Namkaran Card"
+    Validate Element With Text Content    ${AUDIO_OF_DAY_HINDI}    "Audio of the Day"
+    Validate Element With Text Content    ${VIEW_ALL_HINDI}    "View All Button"
     
     # Validate bottom navigation Hindi content
-    @{nav_elements}=    Create List
-    ...    ${HOME_NAV_HINDI}
-    ...    ${NEWS_NAV_HINDI}
-    ...    ${EXPLORE_NAV_HINDI}
-    ...    ${EVENTS_NAV_HINDI}
-    ...    ${AUDIO_NAV_HINDI}
-    
-    FOR    ${element}    IN    @{nav_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Hindi navigation element: ${element}
-    END
+    Validate Element With Text Content    ${HOME_NAV_HINDI}    "Home Navigation"
+    Validate Element With Text Content    ${NEWS_NAV_HINDI}    "News Navigation"
+    Validate Element With Text Content    ${EXPLORE_NAV_HINDI}    "Explore Navigation"
+    Validate Element With Text Content    ${EVENTS_NAV_HINDI}    "Events Navigation"
+    Validate Element With Text Content    ${AUDIO_NAV_HINDI}    "Audio Navigation"
     
     # Scroll to find additional Hindi elements
     Log To Console    🔍 Scrolling to find additional Hindi elements...
-    Swipe Until Element Visible    xpath=//android.view.View[@content-desc="ध्यानस्थली अंतर्दृष्टि"]
-    Mobile.Wait Until Page Contains Element    xpath=//android.view.View[@content-desc="ध्यानस्थली अंतर्दृष्टि"]    10s
-    Log To Console    ✅ Found: ध्यानस्थली अंतर्दृष्टि
+    Swipe Until Element Visible    ${DHYANSTHALI_INSIGHT_HINDI}
+    Validate Element With Text Content    ${DHYANSTHALI_INSIGHT_HINDI}    "Dhyansthali Insight"
     
-    Swipe Until Element Visible    xpath=//android.view.View[@content-desc="आपके लिए अनुशंसित"]
-    Mobile.Wait Until Page Contains Element    xpath=//android.view.View[@content-desc="आपके लिए अनुशंसित"]    10s
-    Log To Console    ✅ Found: आपके लिए अनुशंसित
+    Swipe Until Element Visible    ${RECOMMENDED_FOR_YOU_HINDI}
+    Validate Element With Text Content    ${RECOMMENDED_FOR_YOU_HINDI}    "Recommended For You"
     
     Log To Console    ✅ All Hindi content validated successfully on Home page
 
@@ -259,20 +375,60 @@ Validate Hindi Content On Profile Page
     Sleep    3s
     
     # Validate Hindi content elements
-    @{hindi_elements}=    Create List
-    ...    ${PROFILE_TITLE_HINDI}
-    ...    ${GENERAL_SETTINGS_HINDI}
-    ...    ${LANGUAGE_HINDI}
-    ...    ${LANGUAGE_DESC_HINDI}
-    ...    ${THEME_HINDI}
-    ...    ${THEME_DESC_HINDI}
-    ...    ${EDIT_MEMBERSHIP_HINDI}
-    ...    ${EDIT_MEMBERSHIP_DESC_HINDI}
+    Validate Element With Text Content    ${PROFILE_TITLE_HINDI}    "Profile Title"
+    Validate Element With Text Content    ${GENERAL_SETTINGS_HINDI}    "General Settings"
+    Validate Element With Text Content    ${LANGUAGE_HINDI}    "Language Setting"
+    Validate Element With Text Content    ${LANGUAGE_DESC_HINDI}    "Language Description"
+    Validate Element With Text Content    ${THEME_HINDI}    "Theme Setting"
+    Validate Element With Text Content    ${THEME_DESC_HINDI}    "Theme Description"
+    Validate Element With Text Content    ${EDIT_MEMBERSHIP_HINDI}    "Edit Membership"
+    Validate Element With Text Content    ${EDIT_MEMBERSHIP_DESC_HINDI}    "Edit Membership Description"
     
-    FOR    ${element}    IN    @{hindi_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Hindi element: ${element}
-    END
+    # Scroll the page after validation of "Edit Membership Desc Hindi"
+    Log To Console    🔍 Scrolling to find additional profile elements...
+    Swipe Until Element Visible    ${DELETE_ACCOUNT_HINDI}
+    
+    # Validate additional profile elements
+    Validate Element With Text Content    ${PERMISSION_HINDI}    "Permission"
+    Validate Element With Text Content    ${PRIVACY_POLICY_HINDI}    "Privacy Policy"
+    Validate Element With Text Content    ${TERMS_CONDITION_HINDI}    "Terms & Condition"
+    Validate Element With Text Content    ${FAQ_HINDI}    "FAQ"
+    Validate Element With Text Content    ${APP_VERSION_HINDI}    "App Version"
+    Validate Element With Text Content    ${DELETE_LOGOUT_HEADING_HINDI}    "Delete And Logout Heading"
+    Validate Element With Text Content    ${DELETE_ACCOUNT_HINDI}    "Delete Account"
+    Validate Element With Text Content    ${LOGOUT_BUTTON_HINDI}    "Logout Button"
+    
+    # Click on the Edit Icon
+    Log To Console    🔍 Clicking on Edit Icon...
+    Mobile.Wait Until Page Contains Element    ${EDIT_ICON_HINDI}    10s
+    Mobile.Click Element    ${EDIT_ICON_HINDI}
+    Sleep    3s
+    
+    # Validate Edit Profile elements
+    Validate Element With Text Content    ${EDIT_PROFILE_HEADING_HINDI}    "Edit Profile Heading"
+    Validate Element With Text Content    ${FIRST_NAME_HINDI}    "First Name"
+    Validate Element With Text Content    ${MIDDLE_NAME_HINDI}    "Middle Name"
+    Validate Element With Text Content    ${LAST_NAME_HINDI}    "Last Name"
+    Validate Element With Text Content    ${EMAIL_HINDI}    "Email"
+    Validate Element With Text Content    ${MOBILE_NUMBER_HINDI}    "Mobile Number"
+    
+    # Scroll up to Save button
+    Log To Console    🔍 Scrolling to find Save button...
+    Swipe Until Element Visible    ${SAVE_BUTTON_HINDI}
+    
+    # Validate additional edit profile elements
+    Validate Element With Text Content    ${DOB_HINDI}    "DOB"
+    Validate Element With Text Content    ${COUNTRY_HINDI}    "Country"
+    Validate Element With Text Content    ${STATE_HINDI}    "State"
+    Validate Element With Text Content    ${DISTRICT_HINDI}    "District"
+    Validate Element With Text Content    ${CITY_HINDI}    "City"
+    Validate Element With Text Content    ${VILLAGE_HINDI}    "Village"
+    
+    # Click on the Back button
+    Log To Console    🔍 Clicking on Back button...
+    Mobile.Wait Until Page Contains Element    ${EDIT_PROFILE_BACK_BUTTON}    10s
+    Mobile.Click Element    ${EDIT_PROFILE_BACK_BUTTON}
+    Sleep    2s
     
     Log To Console    ✅ All Hindi content validated successfully on Profile page
 
@@ -286,19 +442,13 @@ Validate Hindi Content On Explore Page
     Sleep    3s
     
     # Validate Explore page elements
-    @{explore_elements}=    Create List
-    ...    ${EXPLORE_TITLE}
-    ...    ${EXPLORE_DHYANKENDRA_CARD}
-    ...    ${EXPLORE_DHYANSTHALI_CARD}
-    ...    ${EXPLORE_PRARTHNA_CARD}
-    ...    ${EXPLORE_NAAMKARAN_CARD}
-    ...    ${EXPLORE_AUDIO_CARD}
-    ...    ${EXPLORE_DAAN_CARD}
-    
-    FOR    ${element}    IN    @{explore_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Explore element: ${element}
-    END
+    Validate Element With Text Content    ${EXPLORE_TITLE}    "Explore Page Title"
+    Validate Element With Text Content    ${EXPLORE_DHYANKENDRA_CARD}    "Dhyankendra Card"
+    Validate Element With Text Content    ${EXPLORE_DHYANSTHALI_CARD}    "Dhyansthali Card"
+    Validate Element With Text Content    ${EXPLORE_PRARTHNA_CARD}    "Prarthna Card"
+    Validate Element With Text Content    ${EXPLORE_NAAMKARAN_CARD}    "Naamkaran Card"
+    Validate Element With Text Content    ${EXPLORE_AUDIO_CARD}    "Audio Card"
+    Validate Element With Text Content    ${EXPLORE_DAAN_CARD}    "Daan Card"
     
     Log To Console    ✅ All Hindi content validated successfully on Explore page
 
@@ -312,38 +462,26 @@ Validate Hindi Content On Dhyankendra Page
     Sleep    3s
     
     # Validate Dhyankendra page elements
-    @{dhyankendra_elements}=    Create List
-    ...    ${DHYANKENDRA_PAGE_TITLE}
-    ...    ${DHYANKENDRA_MESSAGE}
-    ...    ${DHYANKENDRA_REGISTRATION_BUTTON}
-    ...    ${DHYANKENDRA_LIST_BUTTON}
-    ...    ${DHYANKENDRA_MAP_BUTTON}
-    
-    FOR    ${element}    IN    @{dhyankendra_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Dhyankendra element: ${element}
-    END
+    Validate Element With Text Content    ${DHYANKENDRA_PAGE_TITLE}    "Dhyankendra Page Title"
+    Validate Element With Text Content    ${DHYANKENDRA_MESSAGE}    "Dhyankendra Message"
+    Validate Element With Text Content    ${DHYANKENDRA_REGISTRATION_BUTTON}    "Registration Button"
+    Validate Element With Text Content    ${DHYANKENDRA_LIST_BUTTON}    "List Button"
+    Validate Element With Text Content    ${DHYANKENDRA_MAP_BUTTON}    "Map Button"
     
     # Click on Registration button and validate form
     Mobile.Click Element    ${DHYANKENDRA_REGISTRATION_BUTTON}
     Sleep    3s
     
     # Validate form elements
-    @{form_elements}=    Create List
-    ...    ${FORM_HEADING}
-    ...    ${CENTER_NAME_LABEL}
-    ...    ${CENTER_NAME_PLACEHOLDER}
-    ...    ${CENTER_TYPE_LABEL}
-    ...    ${TYPE_DROPDOWN_PLACEHOLDER}
-    ...    ${OWNER_LABEL}
-    ...    ${OWNER_DROPDOWN}
-    ...    ${SEATING_CAPACITY_LABEL}
-    ...    ${SEATING_CAPACITY_INPUT}
-    
-    FOR    ${element}    IN    @{form_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found form element: ${element}
-    END
+    Validate Element With Text Content    ${FORM_HEADING}    "Form Heading"
+    Validate Element With Text Content    ${CENTER_NAME_LABEL}    "Center Name Label"
+    Validate Element With Text Content    ${CENTER_NAME_PLACEHOLDER}    "Center Name Placeholder"
+    Validate Element With Text Content    ${CENTER_TYPE_LABEL}    "Center Type Label"
+    Validate Element With Text Content    ${TYPE_DROPDOWN_PLACEHOLDER}    "Type Dropdown Placeholder"
+    Validate Element With Text Content    ${OWNER_LABEL}    "Owner Label"
+    Validate Element With Text Content    ${OWNER_DROPDOWN}    "Owner Dropdown"
+    Validate Element With Text Content    ${SEATING_CAPACITY_LABEL}    "Seating Capacity Label"
+    Validate Element With Text Content    ${SEATING_CAPACITY_INPUT}    "Seating Capacity Input"
     
     # Click back button
     Mobile.Click Element    ${BACK_BUTTON_GENERIC}
@@ -363,67 +501,40 @@ Validate Hindi Content On Prarthna Page
     Sleep    3s
     
     # Validate Prarthna page elements
-    @{prarthna_elements}=    Create List
-    ...    ${PRARTHNA_PAGE_TITLE}
-    ...    ${PRARTHNA_PAGE_HEADING}
-    ...    ${PRARTHNA_ID_LABEL}
-    ...    ${PRARTHNA_CATEGORY_LABEL}
-    
-    FOR    ${element}    IN    @{prarthna_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Prarthna element: ${element}
-    END
+    Validate Element With Text Content    ${PRARTHNA_PAGE_TITLE}    "Prarthna Page Title"
+    Validate Element With Text Content    ${PRARTHNA_PAGE_HEADING}    "Prarthna Page Heading"
+    Validate Element With Text Content    ${PRARTHNA_ID_LABEL}    "Prayer ID Label"
+    Validate Element With Text Content    ${PRARTHNA_CATEGORY_LABEL}    "Category Label"
     
     # Click on Add button
     Mobile.Click Element    ${PRARTHNA_ADD_BUTTON}
     Sleep    3s
     
     # Validate Add form elements
-    @{add_form_elements}=    Create List
-    ...    ${EMERGENCY_CALL_LABEL}
-    ...    ${PRAYER_FOR_WHOM_TITLE}
-    ...    ${PRAYER_FOR_WHOM_HEADING}
-    ...    ${PRAYER_NAME_LABEL}
-    ...    ${PRAYER_PLACE_LABEL}
-    ...    ${PRAYER_EMAIL_LABEL}
-    ...    ${PRAYER_TYPE_LABEL}
-    
-    FOR    ${element}    IN    @{add_form_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Add form element: ${element}
-    END
+    Validate Element With Text Content    ${EMERGENCY_CALL_LABEL}    "Emergency Call Label"
+    Validate Element With Text Content    ${PRAYER_FOR_WHOM_TITLE}    "Prayer For Whom Title"
+    Validate Element With Text Content    ${PRAYER_FOR_WHOM_HEADING}    "Prayer For Whom Heading"
+    Validate Element With Text Content    ${PRAYER_NAME_LABEL}    "Prayer Name Label"
+    Validate Element With Text Content    ${PRAYER_PLACE_LABEL}    "Prayer Place Label"
+    Validate Element With Text Content    ${PRAYER_EMAIL_LABEL}    "Prayer Email Label"
+    Validate Element With Text Content    ${PRAYER_TYPE_LABEL}    "Prayer Type Label"
     
     # Get and print tooltip message
-    ${tooltip_text}=    Mobile Get Element Attribute    ${TOOLTIP_MESSAGE}    content-desc
-    Log To Console    📝 Tooltip message: ${tooltip_text}
+    ${tooltip_text}=    Get Element Text Content    ${TOOLTIP_MESSAGE}    "Tooltip Message"
     
-    # Click tooltip close button
-    Mobile.Click Element    ${TOOLTIP_CLOSE_BUTTON}
-    Sleep    1s
+    # Click on the Select Category Fields just to Close the Tooltip
+    Mobile.Click Element    xpath=//android.view.View[@content-desc="श्रेणी चुनें"]
+    Sleep    2s
 
     Swipe Until Element Visible    ${PRAYER_DOB_LABEL}
     
-    # Scroll and validate additional elements
-    # ${height}=    Mobile Get Window Height
-    # ${width}=     Mobile Get Window Width
-    # ${start_x}=   Evaluate    int(${width} * 0.5)
-    # ${start_y}=   Evaluate    int(${height} * 0.8)
-    # ${end_y}=     Evaluate    int(${height} * 0.2)
-    # Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    1000ms
-    # Sleep    2s
-    
-    @{scroll_elements}=    Create List
-    ...    ${PRAYER_FOR_WHOM_LABEL}
-    ...    ${PRAYER_FOR_WHOM_NAME_LABEL}
-    ...    ${PRAYER_FOR_WHOM_PLACE_LABEL}
-    # ...    ${PRAYER_ADDRESS_LABEL}
-    # ...    ${PRAYER_DOB_LABEL}
-    # ...    ${PRAYER_DESCRIPTION_LABEL}
-    
-    FOR    ${element}    IN    @{scroll_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found scroll element: ${element}
-    END
+    # Validate scrolled elements
+    Validate Element With Text Content    ${PRAYER_FOR_WHOM_LABEL}    "Prayer For Whom Label"
+    Validate Element With Text Content    ${PRAYER_FOR_WHOM_NAME_LABEL}    "Prayer For Whom Name Label"
+    Validate Element With Text Content    ${PRAYER_FOR_WHOM_PLACE_LABEL}    "Prayer For Whom Place Label"
+    Validate Element With Text Content    ${PRAYER_ADDRESS_LABEL}    "Prayer Address Label"
+    Validate Element With Text Content    ${PRAYER_DOB_LABEL}    "Prayer DOB Label"
+    Validate Element With Text Content    ${PRAYER_DESCRIPTION_LABEL}    "Prayer Description Label"
     
     # Click back button twice
     Mobile.Click Element    ${BACK_BUTTON_GENERIC}
@@ -431,11 +542,7 @@ Validate Hindi Content On Prarthna Page
     Mobile.Click Element    ${BACK_BUTTON_GENERIC}
     Sleep    2s
 
-    Mobile.Click Element    ${BACK_BUTTON_GENERIC}
-    Sleep    2s
-
-    Mobile.Click Element    ${BACK_BUTTON_GENERIC}
-    Sleep    2s
+    
     Log To Console    ✅ All Hindi content validated successfully on Prarthna page
 
 Validate Hindi Content On Namkaran Page
@@ -448,38 +555,29 @@ Validate Hindi Content On Namkaran Page
     Sleep    3s
     
     # Validate Namkaran page elements
-    @{namkaran_elements}=    Create List
-    ...    ${NAMKARAN_PAGE_TITLE}
-    ...    ${NAMKARAN_PAGE_HEADING}
-    ...    ${NAMKARAN_ID_LABEL}
-    ...    ${NAMKARAN_CATEGORY_LABEL}
-    
-    FOR    ${element}    IN    @{namkaran_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Namkaran element: ${element}
-    END
+    Validate Element With Text Content    ${NAMKARAN_PAGE_TITLE}    "Namkaran Page Title"
+    Validate Element With Text Content    ${NAMKARAN_PAGE_HEADING}    "Namkaran Page Heading"
+    Validate Element With Text Content    ${NAMKARAN_ID_LABEL}    "Namkaran ID Label"
+    Validate Element With Text Content    ${NAMKARAN_CATEGORY_LABEL}    "Category Label"
     
     # Click on Add button
     Mobile.Click Element    ${NAMKARAN_ADD_BUTTON}
     Sleep    3s
     
     # Validate form elements
-    @{namkaran_form_elements}=    Create List
-    ...    ${NAMKARAN_FORM_TITLE}
-    ...    ${NAMKARAN_CONTENT_HEADING}
-    ...    ${NAMKARAN_SECOND_CONTENT}
-    ...    ${NAMKARAN_THIRD_CONTENT}
-    # ...    ${NAMKARAN_FOURTH_CONTENT}
-    #...    ${NAMKARAN_FIFTH_CONTENT}
+    Validate Element With Text Content    ${NAMKARAN_FORM_TITLE}    "Namkaran Form Title"
+    Validate Element With Text Content    ${NAMKARAN_CONTENT_HEADING}    "Content Heading"
+    Validate Element With Text Content    ${NAMKARAN_SECOND_CONTENT}    "Second Content"
+    Validate Element With Text Content    ${NAMKARAN_THIRD_CONTENT}    "Third Content"
+    Validate Element With Text Content    ${NAMKARAN_FOURTH_CONTENT}    "Fourth Content"
+    Validate Element With Text Content    ${NAMKARAN_FIFTH_CONTENT}    "Fifth Content"
     
-    FOR    ${element}    IN    @{namkaran_form_elements}
-        Mobile.Wait Until Page Contains Element    ${element}    10s
-        Log To Console    ✅ Found Namkaran form element: ${element}
-    END
-    
-    # Get and print first content text
-    ${first_content_text}=    Mobile Get Element Attribute    ${NAMKARAN_FIRST_CONTENT}    content-desc
-    Log To Console    📝 First content text: ${first_content_text}
+    # Get and print content text
+    ${first_content_text}=    Get Element Text Content    ${NAMKARAN_FIRST_CONTENT}    "First Content Text"
+    ${second_content_text}=    Get Element Text Content    ${NAMKARAN_SECOND_CONTENT}    "Second Content Text"
+    ${third_content_text}=    Get Element Text Content    ${NAMKARAN_THIRD_CONTENT}    "Third Content Text"
+    ${fourth_content_text}=    Get Element Text Content    ${NAMKARAN_FOURTH_CONTENT}    "Fourth Content Text"
+    ${fifth_content_text}=    Get Element Text Content    ${NAMKARAN_FIFTH_CONTENT}    "Fifth Content Text"
     
     # Scroll until submit button is visible
     Swipe Until Element Visible    ${NAMKARAN_SUBMIT_BUTTON}
@@ -495,14 +593,195 @@ Validate Hindi Content On Namkaran Page
     Log To Console    ✅ Agreement message found
     Mobile.Click Element    ${NAMKARAN_AGREE_BUTTON}
     Sleep    2s
+
+    # Validate Namkaran Form Data
+    Log To Console    🔍 Validating Namkaran form data...
     
+    # Validate form elements
+    Validate Element With Text Content    xpath=//android.view.View[@content-desc="नामकरण"]    "Namkaran Form Title"
+    Validate Element With Text Content    ${NAMKARAN_CATEGORIES_LABEL}    "Namkaran Categories Label"
+    Validate Element With Text Content    ${DULHAN_NAMING_BUTTON}    "Dulhan Naming Button"
+    Validate Element With Text Content    ${DULHAN_NAME_DESCRIPTION}    "Dulhan Name Description"
+    Validate Element With Text Content    ${FIRST_NAME_LABEL_1}    "First Name Label 1"
+    Validate Element With Text Content    ${MIDDLE_NAME_LABEL_1}    "Middle Name Label 1"
+    Validate Element With Text Content    ${DULHE_NAME_DESCRIPTION}    "Dulhe Name Description"
+    Validate Element With Text Content    ${FIRST_NAME_LABEL_2}    "First Name Label 2"
+    
+    # Scroll until Marriage Place element is found
+    Log To Console    🔍 Scrolling to find Marriage Place element...
+    Swipe Until Element Visible    ${MARRIAGE_PLACE_LABEL}
+    Validate Element With Text Content    ${MARRIAGE_PLACE_LABEL}    "Marriage Place Label"
+    
+    # Validate additional form elements after scrolling
+    Validate Element With Text Content    ${EMAIL_LABEL}    "Email Label"
+    Validate Element With Text Content    ${PHONE_NUMBER_LABEL}    "Phone Number Label"
+    Validate Element With Text Content    ${MARRIAGE_DATE_LABEL}    "Marriage Date Label"
+    Validate Element With Text Content    ${MARRIAGE_DATE_PICKER}    "Marriage Date Picker"
+    Validate Element With Text Content    ${MARRIAGE_PLACE_INPUT}    "Marriage Place Input"
+    
+    # Scroll until Submit Button element is found for the remaining elements
+    Log To Console    🔍 Scrolling to find Submit Button element for remaining form elements...
+    Swipe Until Element Visible    ${SUBMIT_BUTTON}
+    Validate Element With Text Content    ${SUBMIT_BUTTON}    "Submit Button"
+    
+    # Validate remaining form elements that require additional scrolling
+    Validate Element With Text Content    ${NAME_OPTION_QUESTION}    "Name Option Question"
+    Validate Element With Text Content    ${NO_OPTION}    "No Option"
+    Validate Element With Text Content    ${SUBMIT_BUTTON}    "Submit Button"
+    
+    Log To Console    ✅ All Namkaran form data validation completed
+
     # Click back button 3 times
-    FOR    ${i}    IN RANGE    0    3
+    FOR    ${i}    IN RANGE    0    2
         Mobile.Click Element    ${BACK_BUTTON_GENERIC}
         Sleep    2s
     END
     
     Log To Console    ✅ All Hindi content validated successfully on Namkaran page
+
+Validate Hindi Content On Audio Page
+    [Documentation]    Validates Hindi content on Audio page
+    Log To Console    🔍 Validating Hindi content on Audio page...
+    
+    # Click on Audio Card
+    Mobile.Wait Until Page Contains Element    ${EXPLORE_AUDIO_CARD}    10s
+    Mobile.Click Element    ${EXPLORE_AUDIO_CARD}
+    Sleep    3s
+    
+    # Validate Audio page tabs
+    Validate Element With Text Content    ${MUSIC_TAB_HINDI}    "Music Tab"
+    Validate Element With Text Content    ${PODCAST_TAB_HINDI}    "Podcast Tab"
+    Validate Element With Text Content    ${RADIO_TAB_HINDI}    "Radio Tab"
+    
+    # Validate Recent Music Heading
+    Validate Element With Text Content    ${RECENT_MUSIC_HEADING}    "Recent Music Heading"
+    
+    # Swipe until See More button is found
+    Log To Console    🔍 Scrolling to find See More button...
+    Swipe Until Element Visible    ${SEE_MORE_BUTTON}
+    Validate Element With Text Content    ${SEE_MORE_BUTTON}    "See More Button"
+    
+    # Validate scrolled elements
+    Validate Element With Text Content    ${WRITER_HEADING}    "Writer Heading"
+    Validate Element With Text Content    ${SEE_MORE_BUTTON}    "See More Button"
+    Validate Element With Text Content    ${RADIO_HEADING}    "Radio Heading"
+    
+    #Click on the Explore Menu
+    Mobile.Wait Until Page Contains Element    ${EXPLORE_MENU}    10s
+    Mobile.Click Element    ${EXPLORE_MENU}
+    Sleep    3s
+    
+    # Click on Audio Card again
+    Mobile.Wait Until Page Contains Element    ${EXPLORE_AUDIO_CARD}    10s
+    Mobile.Click Element    ${EXPLORE_AUDIO_CARD}
+    Sleep    3s
+    Log To Console    ✅ Clicked on Audio card again
+    
+    # Switch to Podcast tab
+    Mobile.Wait Until Page Contains Element    ${PODCAST_TAB_HINDI}    10s
+    Mobile.Click Element    ${PODCAST_TAB_HINDI}
+    Sleep    2s
+    Log To Console    ✅ Switched to Podcast tab
+    
+    # Validate Recently Added heading on Podcast tab
+    Validate Element With Text Content    ${RECENTLY_ADDED_HEADING}    "Recently Added Heading"
+    
+    # Click on Explore button again
+    Mobile.Wait Until Page Contains Element    ${EXPLORE_MENU}    10s
+    Mobile.Click Element    ${EXPLORE_MENU}
+    Sleep    3s
+
+    #Back to Home Page
+    Mobile.Wait Until Page Contains Element    ${HOME_NAV_HINDI}    5s
+    Mobile.Click Element    ${HOME_NAV_HINDI}
+    Sleep    3s
+    Log To Console    ✅ Clicked on Home page button
+
+    Log To Console    ✅ All Hindi content validated successfully on Audio page
+
+Validate Hindi Content On News Page
+    [Documentation]    Validates Hindi content on News page
+    Log To Console    🔍 Validating Hindi content on News page...
+    
+    # Click on News Page button
+    Mobile.Wait Until Page Contains Element    ${NEWS_PAGE_BUTTON}    10s
+    Mobile.Click Element    ${NEWS_PAGE_BUTTON}
+    Sleep    3s
+    Log To Console    ✅ Clicked on News page button
+    
+    # Validate News page elements
+    Validate Element With Text Content    ${NEWS_PAGE_TITLE}    "News Page Title"
+    Validate Element With Text Content    ${GLOBAL_NEWS_TAB}    "Global News Tab"
+    Validate Element With Text Content    ${LOCAL_NEWS_TAB}    "Local News Tab"
+    
+    # Click on Category Button
+    Mobile.Wait Until Page Contains Element    ${CATEGORY_BUTTON}    10s
+    Mobile.Click Element    ${CATEGORY_BUTTON}
+    Sleep    3s
+    Log To Console    ✅ Clicked on Category button
+    
+    # Validate Category Page Heading
+    Validate Element With Text Content    ${CATEGORY_PAGE_HEADING}    "Category Page Heading"
+    
+    Log To Console    ✅ All Hindi content validated successfully on News page
+
+Validate Hindi Content On Events Page
+    [Documentation]    Validates Hindi content on Events page
+    Log To Console    🔍 Validating Hindi content on Events page...
+    
+    # Click on Events Page Button
+    Mobile.Wait Until Page Contains Element    ${EVENTS_PAGE_BUTTON}    10s
+    Mobile.Click Element    ${EVENTS_PAGE_BUTTON}
+    Sleep    3s
+    Log To Console    ✅ Clicked on Events page button
+    
+    # Validate Events page elements
+    Validate Element With Text Content    ${EVENTS_PAGE_TITLE}    "Events Page Title"
+    Validate Element With Text Content    ${GLOBAL_EVENTS_TAB}    "Global Events Tab"
+    Validate Element With Text Content    ${LOCAL_EVENTS_TAB}    "Local Events Tab"
+    
+    # Click on Local Event Page
+    Mobile.Wait Until Page Contains Element    ${LOCAL_EVENTS_PAGE}    10s
+    Mobile.Click Element    ${LOCAL_EVENTS_PAGE}
+    Sleep    5s
+    Log To Console    ✅ Clicked on Local Event page
+    
+    # Click on Filter icon
+    Mobile.Wait Until Page Contains Element    ${FILTER_ICON}    10s
+    Mobile.Click Element    ${FILTER_ICON}
+    Sleep    3s
+    Log To Console    ✅ Clicked on Filter icon
+    
+    # Validate filter fields
+    Validate Element With Text Content    ${FILTER_HEADING}    "Filter Heading"
+    Validate Element With Text Content    ${COUNTRY_FIELD_HEADING}    "Country Field Heading"
+    Validate Element With Text Content    ${COUNTRY_DROPDOWN}    "Country Dropdown"
+    Validate Element With Text Content    ${STATE_FIELD_HEADING}    "State Field Heading"
+    Validate Element With Text Content    ${STATE_DROPDOWN}    "State Dropdown"
+    Validate Element With Text Content    ${DISTRICT_HEADING}    "District Heading"
+    Validate Element With Text Content    ${DISTRICT_DROPDOWN}    "District Dropdown"
+    Validate Element With Text Content    ${APPLY_BUTTON}    "Apply Button"
+    Validate Element With Text Content    ${CLEAR_BUTTON}    "Clear Button"
+    
+    # Click on close button
+    Mobile.Wait Until Page Contains Element    ${FILTER_CLOSE_BUTTON}    10s
+    Mobile.Click Element    ${FILTER_CLOSE_BUTTON}
+    Sleep    2s
+    Log To Console    ✅ Clicked on close button
+    
+    # Click on Category Button
+    Mobile.Wait Until Page Contains Element    ${EVENTS_CATEGORY_BUTTON}    10s
+    Mobile.Click Element    ${EVENTS_CATEGORY_BUTTON}
+    Sleep    3s
+    Log To Console    ✅ Clicked on Category button
+    
+    # Validate Events Category Page heading
+    Validate Element With Text Content    ${EVENTS_CATEGORY_HEADING}    "Events Category Page Heading"
+    
+    Log To Console    ✅ All Hindi content validated successfully on Events page
+
+    Mobile.Click Element    ${HOME_NAV_HINDI}
+    Log To Console    ✅ Back to Home page button
 
 Validate Complete Hindi Content
     [Documentation]    Validates Hindi content across all relevant pages
@@ -521,8 +800,17 @@ Validate Complete Hindi Content
     Validate Hindi Content On Prarthna Page
     
     # Validate Namkaran page Hindi content
-    #Validate Hindi Content On Namkaran Page
-    
+    Validate Hindi Content On Namkaran Page
+
+    #Validate News Page Hindi Content
+    Validate Hindi Content On News Page
+
+    #Validate Events Page Hindi Content
+    Validate Hindi Content On Events Page
+
+    #Validate Audio Page Hindi Content
+    Validate Hindi Content On Audio Page
+
     # Validate Profile page Hindi content
     Validate Hindi Content On Profile Page
     
