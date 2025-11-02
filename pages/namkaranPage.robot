@@ -46,7 +46,7 @@ ${Email_Title}                     xpath=//android.view.View[@content-desc="Emai
 ${message_mobile}                  xpath=//android.view.View[@content-desc="Please enter valid phone number"]   
 ${SelectNumberofChild}             xpath=//android.widget.ScrollView/android.widget.RadioButton[1]
 ${Select_DOB}                      xpath=//android.widget.ImageView[@content-desc="Select DOB"]
-${Select_Gender}                   xpath=//android.widget.ImageView[@content-desc="Select Gender"]
+${Select_Gender}                   xpath=//android.view.View[@content-desc="Select Gender"]
 ${Gender_Pick}                     xpath=//android.widget.Button[@content-desc="Male"]
 ${Select_Time}                     xpath=//android.widget.ImageView[@content-desc="00:00"]
 ${Select_AM}                       xpath=//android.widget.RadioButton[@content-desc="AM"]
@@ -705,6 +705,7 @@ Click on the Submit Button
     Scroll Until Element Visible    ${SubmitButton}
     Mobile Wait Until Element Is Visible   ${SubmitButton}    10s
     Mobile Click Element    ${SubmitButton} 
+    Sleep    5s
 
 Click on Add Namkaran Button
     Mobile Wait Until Element Is Visible   ${ADD_NAMKARAN_BUTTON}     10s

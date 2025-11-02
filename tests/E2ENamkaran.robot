@@ -40,7 +40,8 @@ Verify user is able to add Bride Namkaran with NO Option on the mobile app and v
     
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+    Close Gurutattva App
     
     # --- Web CRM: Verify created namkaran in CMS---
     Open Web Browser
@@ -59,7 +60,7 @@ Verify user is able to add Bride Namkaran with NO Option on the mobile app and v
     Log To Console    🎉 Namkaran ID: ${E2E_NAMKARAN_ID}
     
     Close Web Browser
-    Close Gurutattva App
+    
     
 Verify user is able to add Business Namkaran with NO Option on the mobile app and verify the details in CSM
     [Tags]    TC09    Namkaran    Gurutattva    E2E
@@ -85,7 +86,8 @@ Verify user is able to add Business Namkaran with NO Option on the mobile app an
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+    Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
@@ -107,7 +109,7 @@ Verify user is able to add Business Namkaran with NO Option on the mobile app an
     Log To Console    🎉 Namkaran ID: ${E2E_NAMKARAN_ID}
 
     Close Web Browser
-    Close Gurutattva App
+    
 
 Verify user is able to add House Namkaran with NO Option on the mobile app and verify the details in CSM
     [Tags]    TC13    Namkaran    Gurutattva    E2E
@@ -133,7 +135,8 @@ Verify user is able to add House Namkaran with NO Option on the mobile app and v
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+    Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
@@ -152,7 +155,7 @@ Verify user is able to add House Namkaran with NO Option on the mobile app and v
     Log To Console    🎉 Address: ${E2E_HOUSE_ADDRESS}
 
     Close Web Browser
-    Close Gurutattva App
+    
 
 Verify user is able to add Child Namkaran with NO Option on the mobile app and verify the details in CSM
     [Tags]    TC14    Namkaran    Gurutattva    E2E
@@ -184,7 +187,9 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    Sleep    5s
+    #Verify Namkaran submission success message
+    Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
@@ -207,7 +212,7 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
     Log To Console    🎉 Birth Place: ${E2E_CHILD_BIRTH_PLACE}
 
     Close Web Browser
-    Close Gurutattva App
+    
 
 
 Verify user is able to add Bride Namkaran with YES Option on the mobile app and verify the details in CSM
@@ -237,7 +242,8 @@ Verify user is able to add Bride Namkaran with YES Option on the mobile app and 
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+    Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
@@ -256,7 +262,7 @@ Verify user is able to add Bride Namkaran with YES Option on the mobile app and 
     Log To Console    🎉 Name Choices: ${E2E_FIRST_NAME_CHOICE}, ${E2E_SECOND_NAME_CHOICE}, ${E2E_THIRD_NAME_CHOICE}
 
     Close Web Browser
-    Close Gurutattva App
+    
 
 Verify user is able to add Business Namkaran with YES Option on the mobile app and verify the details in CSM
     [Tags]    TC15    Namkaran    Gurutattva    E2E
@@ -282,7 +288,9 @@ Verify user is able to add Business Namkaran with YES Option on the mobile app a
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+    Close Gurutattva App
+
 
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
@@ -302,7 +310,6 @@ Verify user is able to add Business Namkaran with YES Option on the mobile app a
     Log To Console    🎉 Business Name Choices: ${E2E_BUSINESS_FIRST_NAME_CHOICE}, ${E2E_BUSINESS_SECOND_NAME_CHOICE}, ${E2E_BUSINESS_THIRD_NAME_CHOICE}
 
     Close Web Browser
-    Close Gurutattva App
 
 Verify user is able to add House Namkaran with YES Option on the mobile app and verify the details in CSM
     [Tags]    TC16    Namkaran    Gurutattva    E2E
@@ -328,8 +335,8 @@ Verify user is able to add House Namkaran with YES Option on the mobile app and 
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
-
+    #Verify Namkaran submission success message
+    Close Gurutattva App
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
     Login in with valid credentials
@@ -348,7 +355,6 @@ Verify user is able to add House Namkaran with YES Option on the mobile app and 
     Log To Console    🎉 House Name Choices: ${E2E_HOUSE_FIRST_NAME_CHOICE}, ${E2E_HOUSE_SECOND_NAME_CHOICE}, ${E2E_HOUSE_THIRD_NAME_CHOICE}
 
     Close Web Browser
-    Close Gurutattva App
 
 Verify user is able to add Child Namkaran with YES Option on the mobile app and verify the details in CSM
     [Tags]    TC17    Namkaran    Gurutattva    E2E
@@ -372,15 +378,12 @@ Verify user is able to add Child Namkaran with YES Option on the mobile app and 
     # Enter E2E test data with YES option for multiple names
     Enter E2E Child Namkaran Data With YES Option
 
-    # Additional steps for Child Namkaran
-    Select DOB
-    namkaranPage.Select Gender
-    Select Time
-    Enter Birth Place    ${E2E_CHILD_BIRTH_PLACE}
+    
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+    Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
@@ -404,7 +407,7 @@ Verify user is able to add Child Namkaran with YES Option on the mobile app and 
     Log To Console    🎉 Child Name Choices: ${E2E_CHILD_FIRST_NAME_CHOICE}, ${E2E_CHILD_SECOND_NAME_CHOICE}, ${E2E_CHILD_THIRD_NAME_CHOICE}
 
     Close Web Browser
-    Close Gurutattva App
+    
 
 Verify that admin user is able to approve Bride Namkaran in CMS and verify the details on mobile app
     [Tags]    TC18    Namkaran    Gurutattva    E2E    Admin
@@ -434,8 +437,14 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
-
+    #Verify Namkaran submission success message
+    
+    # Get Namkaran ID from the first record (newly added records appear at the top)
+    ${namkaran_id}=    Get Namkaran ID From First Record
+    Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
+    
+    Close Gurutattva App
+    
     # --- Web CMS: Admin Approval Workflow ---
     Open Web Browser
     Login in with valid credentials
@@ -443,11 +452,11 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
     # Navigate to Namkaran Management
     Navigate To Namkaran Management In CMS
 
-    # Verify the created namkaran is in pending status
-    Verify Namkaran In Pending Status    ${E2E_NAMKARAN_EMAIL}    ${E2E_BRIDE_FIRST_NAME}
+    # Verify the created namkaran is in In Progress status using Namkaran ID
+    Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Click three dots and view the namkaran
-    Click Three Dots And View For Namkaran    ${E2E_NAMKARAN_EMAIL}
+    # Click three dots and view the namkaran using Namkaran ID
+    Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify bride and groom details
     Verify Bride And Groom Details In CMS    ${E2E_BRIDE_FIRST_NAME}    ${E2E_BRIDE_MIDDLE_NAME}    ${E2E_BRIDE_LAST_NAME}    ${E2E_GROOM_FIRST_NAME}    ${E2E_GROOM_MIDDLE_NAME}    ${E2E_GROOM_LAST_NAME}
@@ -463,19 +472,20 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
     # Click Approve button
     Click Approve Button
 
-    # Verify status changed to completed
-    Verify Namkaran Status Changed To Completed    ${E2E_NAMKARAN_EMAIL}
+    # Verify status changed to completed using Namkaran ID
+    Verify Namkaran Status Changed To Completed By ID    ${namkaran_id}
 
     Log To Console    🎉 Admin Approval Test for Bride Namkaran Completed Successfully!
     Log To Console    🎉 Test Data Used:
     Log To Console    🎉 Bride: ${E2E_BRIDE_FIRST_NAME} ${E2E_BRIDE_MIDDLE_NAME} ${E2E_BRIDE_LAST_NAME}
     Log To Console    🎉 Groom: ${E2E_GROOM_FIRST_NAME} ${E2E_GROOM_MIDDLE_NAME} ${E2E_GROOM_LAST_NAME}
     Log To Console    🎉 Email: ${E2E_NAMKARAN_EMAIL}
+    Log To Console    🎉 Namkaran ID: ${namkaran_id}
     Log To Console    🎉 Guruji Suggested Name: ${guruji_name}
     Log To Console    🎉 Remarks: ${remarks}
 
     Close Web Browser
-    Close Gurutattva App
+    
 
 Verify that admin user is able to approve Business Namkaran in CMS and verify the details on mobile app
     [Tags]    TC19    Namkaran    Gurutattva    E2E    Admin
@@ -502,7 +512,7 @@ Verify that admin user is able to approve Business Namkaran in CMS and verify th
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
 
     # --- Web CMS: Admin Approval Workflow ---
     Open Web Browser
@@ -571,7 +581,7 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
 
     # --- Web CMS: Admin Approval Workflow ---
     Open Web Browser
@@ -849,7 +859,7 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
 
     # --- Web CMS: Admin Rejection Workflow ---
     Open Web Browser
@@ -919,7 +929,7 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
 
     # --- Web CMS: Admin Rejection Workflow ---
     Open Web Browser

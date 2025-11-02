@@ -121,6 +121,10 @@ Web Wait Until Element Is Visible
     [Arguments]    ${locator}    ${timeout}=10s
     Web.Wait Until Element Is Visible    ${locator}    ${timeout}
 
+Web Wait Until Element Is Not Visible
+    [Arguments]    ${locator}    ${timeout}=10s
+    Web.Wait Until Element Is Not Visible    ${locator}    ${timeout}
+
 Web Input Text
     [Arguments]    ${locator}    ${text}
     Web.Input Text    ${locator}    ${text}

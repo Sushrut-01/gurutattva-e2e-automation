@@ -24,7 +24,7 @@ Test Teardown    Test Teardown
 
 *** Test Cases ***
 Verify when super admin is able to reject the dhyankendra request of sadhak and verify the status as Rejected on the mobile app
-    [Tags]  E2E    Dhyankendra    TC46  
+    [Tags]    Dhyankendra    TC46  
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
@@ -78,7 +78,7 @@ Verify when super admin is able to reject the dhyankendra request of sadhak and 
     Close Gurutattva App
 
 Verify Sadhak registration, Sanchalak approval, DhyanKendra activation/deactivation by Super Admin, update approval, and CMS login access
-    [Tags]  E2E    Dhyankendra      
+    [Tags]    Dhyankendra      
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup

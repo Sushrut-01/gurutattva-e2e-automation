@@ -34,6 +34,28 @@ ${AVAILABLE_TRACKS}    xpath=//android.view.View[contains(@content-desc, '${E2E_
 ${MOBILE_SEARCH_RESULT_PODCAST_TRACK}         xpath=//android.view.View[contains(@content-desc,'${E2E_AUDIO_TRACK_TITLE_PODCAST}')]
 ${MOBILE_TRACK_TITLE_PODCAST_VERIFICATION}    xpath=//android.view.View[contains(@content-desc,'${E2E_AUDIO_TRACK_TITLE_PODCAST}')]
 
+# English-Only Track Creation Locators
+${CATEGORY_OPTION_BHAJAN}                     xpath=//li[contains(text(),'Bhajan')]
+${SUBCATEGORY_FIRST_OPTION}                   xpath=(//li[@role='option'])[1]
+${ENGLISH_TITLE_FIELD}                        xpath=//input[@name="langTrackFields.0.title"]
+${ENGLISH_DESCRIPTION_FIELD}                  xpath=//input[@name="langTrackFields.0.description"]
+${ENGLISH_TAGS_FIELD}                         xpath=(//input[@placeholder="+ Tags"])[1]
+${ENGLISH_AUTHOR_DROPDOWN}                    xpath=(//div[@aria-haspopup="listbox"])[3]
+${ENGLISH_AUTHOR_FIRST_OPTION}                xpath=(//li[@role='option'])[1]
+${ENGLISH_THUMBNAIL_FILE}                     ${EXECDIR}/test_data/English_thumbnail.jpg
+${ENGLISH_AUDIO_FILE}                         ${EXECDIR}/test_data/English_sample-12s.mp3
+
+# Mobile Hindi Navigation Locators
+${HOME_NAV_HINDI}                             xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]
+${AUDIO_NAV_HINDI}                            xpath=//android.widget.ImageView[@content-desc="ऑडियो"]
+${SEARCH_ICON}                                xpath=//android.widget.ImageView[@content-desc="Search"]
+${SEARCH_INPUT_FIELD}                         xpath=//android.widget.EditText[@hint="Search"]
+${SEARCH_CLOSE_BUTTON}                        xpath=//android.widget.ImageView[@content-desc="Close"]
+
+# Publish Status and Date Locators
+${PUBLISH_STATUS_DROPDOWN}                    xpath=(//div[@aria-haspopup="listbox"])[5]
+${PUBLISH_DATE_FIELD}                         xpath=//input[@placeholder='DD/MM/YYYY']
+
 # Web Locators - SubCategory Elements
 ${MANAGE_AUDIO_SUBCATEGORIES_SUBMENU}       xpath=//span[contains(text(),'Manage Audio SubCategories')]
 ${ADD_SUBCATEGORY_BUTTON}                    xpath=//button[contains(@class,'MuiButton-contained') and contains(.,'Add SubCategory')]
@@ -599,6 +621,7 @@ Publish Music Track
     Click on the Upload button
     Sleep    10s
     Log To Console    ✅ Audio Track published during creation
+    Web Wait Until Page Contains Element    xpath=//input[@placeholder="Search…"]    25s
 
 Click on the Upload button
     Web Wait Until Page Contains Element    ${UPLOAD_BUTTON}    5s
@@ -670,7 +693,7 @@ Verify Track On Audio Page In Recently Added Section
 Verify Track within the newly created category and subcategory
     Swipe Until Element Visible    xpath=//android.widget.ImageView[contains(@content-desc,'${E2E_AUTHOR_NAME}')]
     Sleep    2s
-    Log To Console    ✅ Category ${E2E_AUTHOR_NAME} is visible in the Author Card
+    #Log To Console    ✅ Category ${E2E_AUTHOR_NAME} is visible in the Author Card
     Swipe Until Element Visible    xpath=//android.widget.ImageView[contains(@content-desc,'${E2E_SUBCATEGORY_NAME}')]
     Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[contains(@content-desc,'${E2E_SUBCATEGORY_NAME}')]
     Log To Console    ✅ Subcategory ${E2E_SUBCATEGORY_NAME} is visible in the newly created category
@@ -3694,3 +3717,142 @@ Navigate To Contributors With Retry
         Web Click Element    ${MANAGE_CONTRIBUTOR_SUBMENU}
         Log To Console    ✅ Successfully clicked Manage Contributor after Master Management
     END
+
+# ===== ENGLISH ONLY AUDIO TRACK KEYWORDS =====
+
+Create New English Only Audio Track
+    [Documentation]    Creates a new audio track with English language only (no Hindi version) using the existing working flow
+    Log To Console    🎵 Creating English-only audio track using existing working flow...
+    
+    # Use the existing working flow but with English-only form filling
+    Click on the Audio Menu
+    Click on the Music Submenu
+    Click on the Add Music button
+    Fill Music Form With English Only Data
+    Web Wait Until Page Contains Element    ${ADD_BUTTON}    5s
+    Web Click Element    ${ADD_BUTTON}
+    Log To Console    ✅ Created English-only Audio Track: ${E2E_AUDIO_TRACK_TITLE}
+
+Fill Music Form With English Only Data
+    [Documentation]    Fills the music form with English-only data (no Hindi details) using locators from CRM_AudioPage.robot
+    Sleep    2s
+    Web Wait Until Page Contains Element    ${CATEGORY_DROPDOWN}    2s
+    Web Click Element    ${CATEGORY_DROPDOWN}
+    Sleep    2s
+    Web Wait Until Page Contains Element    xpath=//li[contains(text(),'${E2E_CATEGORY_NAME}')]    5s
+    Web Click Element    xpath=//li[contains(text(),'${E2E_CATEGORY_NAME}')]
+    Web Click Element    ${SUB_CATEGORY_DROPDOWN}
+    Web Wait Until Page Contains Element    xpath=//li[contains(text(),'${E2E_SUBCATEGORY_NAME}')]    5s
+    Web Click Element    xpath=//li[contains(text(),'${E2E_SUBCATEGORY_NAME}')]
+    Web Input Text    ${ENGLISH_TITLE_FIELD}    ${E2E_AUDIO_TRACK_TITLE}
+    Web Input Text    ${ENGLISH_DESCRIPTION_FIELD}    E2E Test Audio Track Description
+    Web Input Text    ${ENGLISH_TAGS_FIELD}    E2E,Test,Integration
+    Web Click Element    ${ENGLISH_AUTHOR_DROPDOWN}
+    Web Wait Until Page Contains Element    xpath=//li[contains(text(),'${E2E_AUTHOR_NAME}')]    5s
+    # Scroll to make sure the author option is visible
+    Web.Scroll Element Into View    xpath=//li[contains(text(),'${E2E_AUTHOR_NAME}')]
+    Sleep    1s
+    Web Click Element    xpath=//li[contains(text(),'${E2E_AUTHOR_NAME}')]
+    Web Choose File    ${ENGLISH_THUMBNAIL_UPLOAD}    ${ENGLISH_THUMBNAIL_FILE}
+    Web Choose File    ${ENGLISH_AUDIO_FILE_UPLOAD}    ${ENGLISH_AUDIO_FILE}
+    # Skip Hindi details - only fill English
+    Web Click Element    ${PUBLISH_STATUS_DROPDOWN}
+    Web Wait Until Page Contains Element    xpath=//li[contains(text(),'${TEST_PUBLISH_STATUS}')]    5s
+    Web Click Element    xpath=//li[contains(text(),'${TEST_PUBLISH_STATUS}')]
+    Set Publish Date To Today
+    Log To Console    📝 Filled Music Form with English-only Data:
+    Log To Console    📝 Category: ${E2E_CATEGORY_NAME}
+    Log To Console    📝 SubCategory: ${E2E_SUBCATEGORY_NAME}
+    Log To Console    📝 Track Title: ${E2E_AUDIO_TRACK_TITLE}
+    Log To Console    📝 Author: ${E2E_AUTHOR_NAME}
+
+
+
+Verify English Only Track Is Not Visible In Audio Of The Day Section
+    [Documentation]    Verifies that English-only track is NOT visible in Audio of the Day section when app is in Hindi
+    [Arguments]    ${track_title}
+    Log To Console    🔍 Verifying English-only track is NOT visible in Audio of the Day section...
+    
+    # Navigate to home page
+    Mobile.Wait Until Page Contains Element    ${HOME_NAV_HINDI}    10s
+    Mobile.Click Element    ${HOME_NAV_HINDI}
+    Sleep    3s
+    
+    # Check if track is NOT visible
+    ${is_visible}=    Run Keyword And Return Status    Mobile.Page Should Contain Element    xpath=//android.view.View[contains(@content-desc,'${track_title}')]
+    IF    ${is_visible}
+        Fail    ❌ English-only track ${track_title} is visible in Audio of the Day section when app is in Hindi (should not be visible)
+    ELSE
+        Log To Console    ✅ English-only track ${track_title} is NOT visible in Audio of the Day section as expected
+    END
+
+Verify English Only Track Is Not Visible In Recently Added Section
+    [Documentation]    Verifies that English-only track is NOT visible in Recently Added section when app is in Hindi
+    [Arguments]    ${track_title}
+    Log To Console    🔍 Verifying English-only track is NOT visible in Recently Added section...
+    
+    # Navigate to Audio page
+    Mobile.Wait Until Page Contains Element    ${AUDIO_NAV_HINDI}    10s
+    Mobile.Click Element    ${AUDIO_NAV_HINDI}
+    Sleep    3s
+    
+    # Check if track is NOT visible
+    ${is_visible}=    Run Keyword And Return Status    Mobile.Page Should Contain Element    xpath=//android.view.View[contains(@content-desc,'${track_title}')]
+    IF    ${is_visible}
+        Fail    ❌ English-only track ${track_title} is visible in Recently Added section when app is in Hindi (should not be visible)
+    ELSE
+        Log To Console    ✅ English-only track ${track_title} is NOT visible in Recently Added section as expected
+    END
+
+Verify English Only Track Is Not Visible In Category Section
+    [Documentation]    Verifies that English-only track is NOT visible in category section when app is in Hindi
+    [Arguments]    ${track_title}    ${category_name}
+    Log To Console    🔍 Verifying English-only track is NOT visible in category section...
+    
+    # Navigate to category
+    Swipe Until Element Visible    xpath=//android.view.View[contains(@content-desc,'${category_name}')]
+    Mobile.Wait Until Page Contains Element    xpath=//android.view.View[contains(@content-desc,'${category_name}')]    10s
+    Mobile.Click Element    xpath=//android.view.View[contains(@content-desc,'${category_name}')]
+    Sleep    3s
+    
+    # Check if track is NOT visible
+    ${is_visible}=    Run Keyword And Return Status    Mobile.Page Should Contain Element    xpath=//android.view.View[contains(@content-desc,'${track_title}')]
+    IF    ${is_visible}
+        Fail    ❌ English-only track ${track_title} is visible in category section when app is in Hindi (should not be visible)
+    ELSE
+        Log To Console    ✅ English-only track ${track_title} is NOT visible in category section as expected
+    END
+
+Search English Only Track In Mobile App
+    [Documentation]    Searches for English-only track in mobile app when language is Hindi
+    [Arguments]    ${track_title}
+    Log To Console    🔍 Searching for English-only track in mobile app...
+    
+    # Click search icon
+    Mobile.Wait Until Page Contains Element    ${SEARCH_ICON}    10s
+    Mobile.Click Element    ${SEARCH_ICON}
+    Sleep    2s
+    
+    # Enter search term
+    Mobile.Wait Until Page Contains Element    ${SEARCH_INPUT_FIELD}    10s
+    Mobile.Input Text    ${SEARCH_INPUT_FIELD}    ${track_title}
+    Mobile.Press Keycode    66  # Enter key
+    Sleep    3s
+
+Verify English Only Track Not Found In Search Results
+    [Documentation]    Verifies that English-only track is not found in search results when app is in Hindi
+    [Arguments]    ${track_title}
+    Log To Console    🔍 Verifying English-only track is not found in search results...
+    
+    # Check if track is NOT found in search results
+    ${is_found}=    Run Keyword And Return Status    Mobile.Page Should Contain Element    xpath=//android.view.View[contains(@content-desc,'${track_title}')]
+    IF    ${is_found}
+        Fail    ❌ English-only track ${track_title} found in search results when app is in Hindi (should not be found)
+    ELSE
+        Log To Console    ✅ English-only track ${track_title} not found in search results as expected
+    END
+    
+    # Close search
+    Mobile.Wait Until Page Contains Element    ${SEARCH_CLOSE_BUTTON}    10s
+    Mobile.Click Element    ${SEARCH_CLOSE_BUTTON}
+    Sleep    2s

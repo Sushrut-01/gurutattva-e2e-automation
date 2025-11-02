@@ -5,6 +5,7 @@ Resource            ../resources/web_keywords.robot
 Resource            ../resources/test_setup_teardown.robot
 Resource            ../pages/E2EAudioPage.robot
 Resource            ../pages/CRM_AudioPage.robot
+Resource            ../pages/E2EHindiPage.robot
 
 Test Setup          Test Setup
 Test Teardown       Test Teardown
@@ -994,5 +995,71 @@ Test Multiple Music Tracks Same Category Same Subcategory
 #     Verify Multiple Podcast Tracks In Mobile App    ${track_titles}    ${E2E_CATEGORY_NAME_PODCAST}
 #     Close Gurutattva App
 
+Add Audio in English language only
+    [Documentation]    Add an audio track using English language option exclusively and verify visibility based on app language
+    [Tags]    e2e    audio    english-only    tc63    milestone2
 
+    # --- Generate Unique Test Data ---
+    Generate E2E Test Data
+
+    # --- Web CRM: Create and Publish English-Only Music Track ---
+    Open Web Browser
+    Login in with valid credentials
+    Click on the Master Management Menu
+    Click on the Manage Audio Categories Submenu
+    Create New Music Category
+    Create New Music SubCategory
+    Add a new Author for Music
+    Create New English Only Audio Track
+    Publish Music Track
+    Close Web Browser
+
+    # --- Mobile App: Verify Track Visibility in English Language ---
+    Open Gurutattva App
+    Handle First Time Setup
+    Launch Mobile App And Login
+    
+    # Verify track is visible when app is in English
+    Log To Console    🔍 Verifying track visibility in English language...
+    Verify Track & Category On Home Page In Audio Of The Day Section
+    Verify Track On Audio Page In Recently Added Section
+    Verify Track within the newly created category and subcategory
+    Search And Select Newly Created Track
+    Log To Console    ✅ Track is visible in English language as expected
+    
+    # --- Switch App Language to Hindi ---
+    Log To Console    🔄 Switching app language to Hindi...
+    Change Language To Hindi
+    Wait For Language Change    5s
+    
+    # --- Mobile App: Verify Track is NOT Visible in Hindi Language ---
+    Log To Console    🔍 Verifying track is NOT visible in Hindi language...
+    
+    # Verify track is NOT visible in Audio of the Day section
+    Verify English Only Track Is Not Visible In Audio Of The Day Section    ${E2E_AUDIO_TRACK_TITLE}
+    
+    # Verify track is NOT visible in Recently Added section
+    Verify English Only Track Is Not Visible In Recently Added Section    ${E2E_AUDIO_TRACK_TITLE}
+    
+    # Verify track is NOT visible in its category section
+    Verify English Only Track Is Not Visible In Category Section    ${E2E_AUDIO_TRACK_TITLE}    ${E2E_CATEGORY_NAME}
+    
+    # Search for the track and verify it's not found
+    Search English Only Track In Mobile App    ${E2E_AUDIO_TRACK_TITLE}
+    Verify English Only Track Not Found In Search Results    ${E2E_AUDIO_TRACK_TITLE}
+    
+    Log To Console    ✅ Track is NOT visible in Hindi language as expected
+    
+    # --- Revert App Language to English ---
+    Log To Console    🔄 Reverting app language to English...
+    Revert Language To English
+    Wait For Language Change    5s
+    
+    # --- Final Verification: Track Should Be Visible Again in English ---
+    Log To Console    🔍 Final verification: Track should be visible again in English...
+    Verify Track & Category On Home Page In Audio Of The Day Section
+    Verify Track On Audio Page In Recently Added Section
+    Log To Console    ✅ Track is visible again in English language after reversion
+    
+    Close Gurutattva App
     

@@ -19,7 +19,7 @@ ${DATA_GRID_ROWS}   xpath=//div[@role='row' and contains(@class,'MuiDataGrid-row
 *** Test Cases ***
 Clean Up All E2E Test Data
     [Documentation]    Comprehensive cleanup of all E2E test data in proper order
-    [Tags]    cleanup    e2e    data_cleanup
+    [Tags]    data_cleanup
 
     # --- Open Web Browser and Login ---
     Open Web Browser
