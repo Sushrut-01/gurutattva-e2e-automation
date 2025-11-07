@@ -100,10 +100,10 @@ Verify that the user is able to add a Hindi news, publish it in the CMS, and ver
     Enter Hindi News Description    ${E2E_NEWS_DESCRIPTION_HI}
     Enter Hindi News Content    ${E2E_NEWS_CONTENT_HI}
     Select Publish Status
-    Enter Publish Date    ${E2E_NEWS_PUBLISH_DATE}
+    Set Publish Date To Today
     Select Category
     Upload Thumbnail Image    ${EXECDIR}/test_data/Hindi_thumbnail.jpg
-    Upload Main Image    ${EXECDIR}/test_data/large_image.jpg
+    Upload Main Image    ${EXECDIR}/test_data/Hindi_thumbnail.jpg
     Click Submit Button From News
     Verify News Created Successfully
     Search News By Title    ${E2E_NEWS_TITLE_HI}

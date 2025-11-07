@@ -48,7 +48,7 @@ ${ENGLISH_AUDIO_FILE}                         ${EXECDIR}/test_data/English_sampl
 # Mobile Hindi Navigation Locators
 ${HOME_NAV_HINDI}                             xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]
 ${AUDIO_NAV_HINDI}                            xpath=//android.widget.ImageView[@content-desc="ऑडियो"]
-${SEARCH_ICON}                                xpath=//android.widget.ImageView[@content-desc="Search"]
+${SEARCH_ICON}                                xpath=//android.view.View[@content-desc="Audio"]/android.widget.ImageView[2]
 ${SEARCH_INPUT_FIELD}                         xpath=//android.widget.EditText[@hint="Search"]
 ${SEARCH_CLOSE_BUTTON}                        xpath=//android.widget.ImageView[@content-desc="Close"]
 

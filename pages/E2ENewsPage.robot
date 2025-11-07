@@ -55,8 +55,8 @@ ${NEWS_PUBLISH_STATUS_COLUMN}     xpath=//div[@data-field='publishStatus']
 ${NEWS_ACTIONS_COLUMN}            xpath=//button[@aria-label='more']
 
 # File Upload Locators
-${FILE_INPUT_THUMBNAIL}           xpath=//input[@type='file' and @accept='image/*']
-${FILE_INPUT_IMAGE}               xpath=//input[@type='file' and @accept='image/*']
+${FILE_INPUT_THUMBNAIL}           xpath=(//input[@type='file' and @accept='image/jpeg,image/png'])[1]
+${FILE_INPUT_IMAGE}               xpath=(//input[@type='file' and @accept='image/jpeg,image/png'])[2]
 
 ${TEST_PUBLISH_STATUS}            Publish
 ${ENGLISH_IMAGE_UPLOAD}         xpath=(//input[@type='file' and @accept='image/jpeg,image/png'])[2]
@@ -325,6 +325,8 @@ Verify Image Upload Validation Error
 Verify Mobile News Details
     [Documentation]    Verifies news details on mobile app
     Sleep    3s
+
+    Click on the News Tab With Retry
     
     # Click on Global News Tab
     Click on the Global News Tab
@@ -343,7 +345,7 @@ Verify Mobile News Details
 Verify Global E2ENews Card Structure
     [Documentation]    Verifies the structure of the Global E2ENews card
     # XPath to the first E2ENews card with content-desc
-    ${e2enews_card}=    Mobile Get Element Attribute    xpath=xpath=//android.view.View[contains(@content-desc,'${E2E_NEWS_TITLE_EN}')][1]   content-desc
+    ${e2enews_card}=    Mobile Get Element Attribute    xpath=//android.view.View[contains(@content-desc,'${E2E_NEWS_TITLE_EN}')][1]   content-desc
     Should Contain    ${e2enews_card}    ${E2E_NEWS_TITLE_EN}
     Log To Console    E2ENews Card Content: ${e2enews_card}
 
@@ -863,22 +865,48 @@ Verify News Rejected Successfully
 
 Verify Approved News In Mobile App With Scrolling
     [Documentation]    Verifies approved news in mobile app with scrolling functionality
+    ...    Since news always displays at the top of the list, first checks the initial screen before scrolling
     [Arguments]    ${news_title}
     Sleep    3s
     
     # Switch to Local News tab
     Switch to Local News Tab
     
+    # Convert to uppercase to match content-desc
+    ${news_title_upper}=    Convert To Uppercase    ${news_title}
+    
+    # First, check if news is visible on the initial screen (news always appears at top)
+    Log To Console    🔍 Checking initial screen for approved news: ${news_title}
+    ${is_visible}=    Run Keyword And Return Status
+    ...    Mobile.Wait Until Element Is Visible
+    ...    xpath=//android.view.View[contains(@content-desc,'${news_title_upper}')]
+    ...    3s
+    
+    IF    ${is_visible} == True
+        ${news_found}=    Set Variable    True
+        Log To Console    ✅ Found approved news on initial screen: ${news_title}
+        
+        # Get the news content for verification
+        ${news_content}=    Mobile Get Element Attribute
+        ...    xpath=//android.view.View[contains(@content-desc,'${news_title_upper}')]
+        ...    content-desc
+        Log To Console    📰 News Content: ${news_content}
+        Log To Console    ✅ Successfully validated approved news in Mobile App: ${news_title}
+        RETURN
+    END
+    
+    # If not found on initial screen, start scrolling (safety fallback)
     ${max_scrolls}=    Set Variable    5
     ${scroll_count}=    Set Variable    0
     ${news_found}=    Set Variable    False
+    
+    Log To Console    🔄 News not found on initial screen, starting scroll search...
     
     WHILE    ${scroll_count} < ${max_scrolls} and ${news_found} == False
         ${scroll_count}=    Evaluate    ${scroll_count} + 1
         Log To Console    🔍 Looking for approved news: ${news_title} (scroll ${scroll_count}/${max_scrolls})
         
-        # Check if news is visible (convert to uppercase to match content-desc)
-        ${news_title_upper}=    Convert To Uppercase    ${news_title}
+        # Check if news is visible after scroll
         ${is_visible}=    Run Keyword And Return Status
         ...    Mobile.Wait Until Element Is Visible
         ...    xpath=//android.view.View[contains(@content-desc,'${news_title_upper}')]
@@ -904,7 +932,7 @@ Verify Approved News In Mobile App With Scrolling
     
     IF    ${news_found} == False
         Log To Console    ❌ Approved news not found in Mobile App: ${news_title}
-        Fail    Approved news '${news_title}' not found in mobile app after ${max_scrolls} scrolls
+        Fail    Approved news '${news_title}' not found in mobile app after checking initial screen and ${max_scrolls} scrolls
     ELSE
         Log To Console    ✅ Successfully validated approved news in Mobile App: ${news_title}
     END
