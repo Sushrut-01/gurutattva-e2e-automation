@@ -270,33 +270,34 @@ Change Language To Hindi
     Log To Console    🔄 Starting language change to Hindi...
     
     # Step 1: Open the app (already done in test setup)
-    Log To Console    ✅ Step 1: App is already open
+    # Log To Console    ✅ Step 1: App is already open
     
     # Step 2: Click on Profile icon
-    Log To Console    🔍 Step 2: Clicking on Profile icon
+    Mobile.Click Element   xpath=//android.widget.ImageView[@content-desc="Home"]
+    
     Mobile.Wait Until Page Contains Element    ${PROFILE_ICON}    10s
     Mobile.Click Element    ${PROFILE_ICON}
     Sleep    3s
     
     # Verify we're on Profile page
     Mobile.Wait Until Page Contains Element    ${PROFILE_PAGE_TITLE}    10s
-    Log To Console    ✅ Step 2: Successfully navigated to Profile page
+    
     
     # Step 3: Click on Language setting
-    Log To Console    🔍 Step 3: Clicking on Language setting
+    
     Mobile.Wait Until Page Contains Element    ${LANGUAGE_SETTING}    10s
     Mobile.Click Element    ${LANGUAGE_SETTING}
     Sleep    2s
     
     # Step 4: Select Hindi option
-    Log To Console    🔍 Step 4: Selecting Hindi language
+    Log To Console    🔍 Selecting Hindi language
     Mobile.Wait Until Page Contains Element    ${LANGUAGE_MODAL_TITLE}    10s
     Mobile.Wait Until Page Contains Element    ${HINDI_OPTION}    10s
     Mobile.Click Element    ${HINDI_OPTION}
     Sleep    1s
     
     # Step 5: Click Save button
-    Log To Console    🔍 Step 5: Clicking Save button
+    Log To Console    🔍 Clicking Save button
     Mobile.Wait Until Page Contains Element    ${SAVE_BUTTON}    10s
     Mobile.Click Element    ${SAVE_BUTTON}
     Sleep    3s
@@ -306,6 +307,10 @@ Change Language To Hindi
 Revert Language To English
     [Documentation]    Reverts the app language from Hindi back to English
     Log To Console    🔄 Starting language reversion to English...
+
+    Mobile.Click Element   xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]
+    Sleep    3s
+    Mobile.click Element   ${PROFILE_ICON}  
     
     # Step 1: Click on Language setting (now in Hindi)
     Log To Console    🔍 Step 2: Clicking on Language setting (Hindi)

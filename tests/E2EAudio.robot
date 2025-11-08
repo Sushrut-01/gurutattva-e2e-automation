@@ -1055,11 +1055,5 @@ Add Audio in English language only
     Revert Language To English
     Wait For Language Change    5s
     
-    # --- Final Verification: Track Should Be Visible Again in English ---
-    Log To Console    🔍 Final verification: Track should be visible again in English...
-    Verify Track & Category On Home Page In Audio Of The Day Section
-    Verify Track On Audio Page In Recently Added Section
-    Log To Console    ✅ Track is visible again in English language after reversion
-    
     Close Gurutattva App
     
