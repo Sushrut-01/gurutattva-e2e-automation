@@ -21,7 +21,7 @@ Test Teardown    Test Teardown
 
 *** Test Cases ***
 Verify that quick registration on the mobile app reflects correctly in the CMS and user details are displayed properly in profile and flip card.
-    [Tags]  E2E   Registration   QuickRegistration
+    [Tags]  TC07   Registration   QuickRegistration
     Generate E2E Quick Registration Test Data
 
     Open Gurutattva App
@@ -62,7 +62,7 @@ Verify that quick registration on the mobile app reflects correctly in the CMS a
     Close Web Browser
 
 Verify user is not able to do quick registration on mobile app with already used email id and phone number
-     [Tags]  TC08    E2E   Registration   QuickRegistration
+     [Tags]  TC08   Registration   QuickRegistration
     # # --- Generate Unique Test Data ---
     # Generate E2E Registration Test Data
    
@@ -114,7 +114,7 @@ Verify user is not able to do quick registration on mobile app with already used
 
 
 Verify that the quick registration user is not able to access Events, Dhyan Kendra, and Podcasts , Home screen on the mobile app, and that a pop-up message is displayed
-    [Tags]  TC09   E2E   Registration   QuickRegistration
+    [Tags]  TC09  Registration   QuickRegistration
     Open Gurutattva App
 	Handle First Time Setup
 	Login As Non Community Member
@@ -132,7 +132,7 @@ Verify that the quick registration user is not able to access Events, Dhyan Kend
     Close Gurutattva App
 
 Verify that the quick registration user is able to become a member on the mobile app
-    [Tags]  TC10  E2E   Registration   QuickRegistration
+    [Tags]  TC10  Registration   QuickRegistration
     Open Gurutattva App
     Handle First Time Setup
     Click on the Events Tab
@@ -159,7 +159,7 @@ Verify that the quick registration user is able to become a member on the mobile
     Click on the Yes Button from Logout Alert
     Close Gurutattva App
 Verify that Community registration on the mobile app reflects correctly in the CMS and user details are displayed properly in profile and flip card.
-    [Tags]   E2E   Registration   CommunityRegistration
+    [Tags]  Registration   CommunityRegistration
     # Generate unique test data for E2E validation
     Generate E2E Community Registration Test Data
 
@@ -259,7 +259,7 @@ Verify that Community registration on the mobile app reflects correctly in the C
     # Close Gurutattva App
 
 Verify that the community registered user is able to access Events, Dhyan Kendra, and Podcasts on the mobile app, and ensure that no pop-up message is displayed    
-    [Tags]  TC14      E2E   Registration   CommunityRegistration
+    [Tags]  TC14  E2E   Registration   CommunityRegistration
     Open Gurutattva App
 	Handle First Time Setup
     Click on the Explore Button
