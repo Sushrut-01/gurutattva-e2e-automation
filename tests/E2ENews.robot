@@ -310,8 +310,6 @@ Test Sanchalak Adds Local News And Super Admin Approves It
     
     # Open mobile app
     Open Gurutattva App With Retry
-    Handle First Time Setup With Retry
-    Wait For App To Be Ready
     
     # Click on News tab
     Click on the News Tab With Retry

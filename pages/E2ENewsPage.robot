@@ -865,30 +865,26 @@ Verify News Rejected Successfully
 
 Verify Approved News In Mobile App With Scrolling
     [Documentation]    Verifies approved news in mobile app with scrolling functionality
-    ...    Since news always displays at the top of the list, first checks the initial screen before scrolling
+    ...    First checks the initial screen, then scrolls if needed
     [Arguments]    ${news_title}
     Sleep    3s
     
     # Switch to Local News tab
     Switch to Local News Tab
     
-    # Convert to uppercase to match content-desc
-    ${news_title_upper}=    Convert To Uppercase    ${news_title}
-    
-    # First, check if news is visible on the initial screen (news always appears at top)
+    # First, check if news is visible on the initial screen (news usually appears at top)
     Log To Console    🔍 Checking initial screen for approved news: ${news_title}
     ${is_visible}=    Run Keyword And Return Status
     ...    Mobile.Wait Until Element Is Visible
-    ...    xpath=//android.view.View[contains(@content-desc,'${news_title_upper}')]
-    ...    3s
+    ...    xpath=//android.view.View[contains(@content-desc,'${news_title}')]
+    ...    5s
     
     IF    ${is_visible} == True
-        ${news_found}=    Set Variable    True
         Log To Console    ✅ Found approved news on initial screen: ${news_title}
         
         # Get the news content for verification
         ${news_content}=    Mobile Get Element Attribute
-        ...    xpath=//android.view.View[contains(@content-desc,'${news_title_upper}')]
+        ...    xpath=//android.view.View[contains(@content-desc,'${news_title}')]
         ...    content-desc
         Log To Console    📰 News Content: ${news_content}
         Log To Console    ✅ Successfully validated approved news in Mobile App: ${news_title}
@@ -909,7 +905,7 @@ Verify Approved News In Mobile App With Scrolling
         # Check if news is visible after scroll
         ${is_visible}=    Run Keyword And Return Status
         ...    Mobile.Wait Until Element Is Visible
-        ...    xpath=//android.view.View[contains(@content-desc,'${news_title_upper}')]
+        ...    xpath=//android.view.View[contains(@content-desc,'${news_title}')]
         ...    3s
         
         IF    ${is_visible} == True
@@ -918,7 +914,7 @@ Verify Approved News In Mobile App With Scrolling
             
             # Get the news content for verification
             ${news_content}=    Mobile Get Element Attribute
-            ...    xpath=//android.view.View[contains(@content-desc,'${news_title_upper}')]
+            ...    xpath=//android.view.View[contains(@content-desc,'${news_title}')]
             ...    content-desc
             Log To Console    📰 News Content: ${news_content}
             
