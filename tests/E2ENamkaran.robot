@@ -514,6 +514,10 @@ Verify that admin user is able to approve Business Namkaran in CMS and verify th
     Click on the Submit Button
     #Verify Namkaran submission success message
 
+    # Get Namkaran ID from the first record (newly added records appear at the top)
+    ${namkaran_id}=    Get Namkaran ID From First Record
+    Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
+
     # --- Web CMS: Admin Approval Workflow ---
     Open Web Browser
     Login in with valid credentials
@@ -522,10 +526,10 @@ Verify that admin user is able to approve Business Namkaran in CMS and verify th
     Navigate To Namkaran Management In CMS
 
     # Verify the created namkaran is in pending status
-    Verify Namkaran In Pending Status    ${E2E_BUSINESS_EMAIL}    ${E2E_BUSINESS_OWNER_FIRST}
+    Verify Namkaran In In Progress Status    ${namkaran_id}
 
     # Click three dots and view the namkaran
-    Click Three Dots And View For Namkaran    ${E2E_BUSINESS_EMAIL}
+    Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify business owner details
     Verify Business Owner Details In CMS    ${E2E_BUSINESS_OWNER_FIRST}    ${E2E_BUSINESS_OWNER_MIDDLE}    ${E2E_BUSINESS_OWNER_LAST}
@@ -542,7 +546,7 @@ Verify that admin user is able to approve Business Namkaran in CMS and verify th
     Click Approve Button
 
     # Verify status changed to completed
-    Verify Namkaran Status Changed To Completed    ${E2E_BUSINESS_EMAIL}
+    Verify Namkaran Status Changed To Completed By ID    ${namkaran_id}
 
     Log To Console    🎉 Admin Approval Test for Business Namkaran Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -583,6 +587,12 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     Click on the Submit Button
     #Verify Namkaran submission success message
 
+    # Get Namkaran ID from the first record (newly added records appear at the top)
+    ${namkaran_id}=    Get Namkaran ID From First Record
+    Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
+    
+    Close Gurutattva App
+
     # --- Web CMS: Admin Approval Workflow ---
     Open Web Browser
     Login in with valid credentials
@@ -590,11 +600,11 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     # Navigate to Namkaran Management
     Navigate To Namkaran Management In CMS
 
-    # Verify the created namkaran is in pending status
-    Verify Namkaran In Pending Status    ${E2E_HOUSE_EMAIL}    ${E2E_HOUSE_OWNER_FIRST}
+    # Verify the created namkaran is in In Progress status using Namkaran ID
+    Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Click three dots and view the namkaran
-    Click Three Dots And View For Namkaran    ${E2E_HOUSE_EMAIL}
+    # Click three dots and view the namkaran using Namkaran ID
+    Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify house owner details
     Verify House Owner Details In CMS    ${E2E_HOUSE_OWNER_FIRST}    ${E2E_HOUSE_OWNER_MIDDLE}    ${E2E_HOUSE_OWNER_LAST}
@@ -610,8 +620,8 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     # Click Approve button
     Click Approve Button
 
-    # Verify status changed to completed
-    Verify Namkaran Status Changed To Completed    ${E2E_HOUSE_EMAIL}
+    # Verify status changed to completed using Namkaran ID
+    Verify Namkaran Status Changed To Completed By ID    ${namkaran_id}
 
     Log To Console    🎉 Admin Approval Test for House Namkaran Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -619,11 +629,11 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     Log To Console    🎉 Email: ${E2E_HOUSE_EMAIL}
     Log To Console    🎉 Description: ${E2E_HOUSE_DESC}
     Log To Console    🎉 Address: ${E2E_HOUSE_ADDRESS}
+    Log To Console    🎉 Namkaran ID: ${namkaran_id}
     Log To Console    🎉 Guruji Suggested Name: ${guruji_name}
     Log To Console    🎉 Remarks: ${remarks}
 
     Close Web Browser
-    Close Gurutattva App
 
 Verify that admin user is able to approve Child Namkaran in CMS and verify the details on mobile app
     [Tags]    TC21    Namkaran    Gurutattva    E2E    Admin
@@ -656,7 +666,13 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+
+    # Get Namkaran ID from the first record (newly added records appear at the top)
+    ${namkaran_id}=    Get Namkaran ID From First Record
+    Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
+    
+    Close Gurutattva App
 
     # --- Web CMS: Admin Approval Workflow ---
     Open Web Browser
@@ -665,11 +681,11 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     # Navigate to Namkaran Management
     Navigate To Namkaran Management In CMS
 
-    # Verify the created namkaran is in pending status
-    Verify Namkaran In Pending Status    ${E2E_CHILD_EMAIL}    ${E2E_CHILD_NAME}
+    # Verify the created namkaran is in In Progress status using Namkaran ID
+    Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Click three dots and view the namkaran
-    Click Three Dots And View For Namkaran    ${E2E_CHILD_EMAIL}
+    # Click three dots and view the namkaran using Namkaran ID
+    Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify child and parent details
     Verify Child And Parent Details In CMS    ${E2E_CHILD_NAME}    ${E2E_MOTHER_FIRST}    ${E2E_MOTHER_MIDDLE}    ${E2E_MOTHER_LAST}    ${E2E_FATHER_FIRST}    ${E2E_FATHER_MIDDLE}    ${E2E_FATHER_LAST}
@@ -685,8 +701,8 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     # Click Approve button
     Click Approve Button
 
-    # Verify status changed to completed
-    Verify Namkaran Status Changed To Completed    ${E2E_CHILD_EMAIL}
+    # Verify status changed to completed using Namkaran ID
+    Verify Namkaran Status Changed To Completed By ID    ${namkaran_id}
 
     Log To Console    🎉 Admin Approval Test for Child Namkaran Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -694,6 +710,7 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     Log To Console    🎉 Mother: ${E2E_MOTHER_FIRST} ${E2E_MOTHER_MIDDLE} ${E2E_MOTHER_LAST}
     Log To Console    🎉 Father: ${E2E_FATHER_FIRST} ${E2E_FATHER_MIDDLE} ${E2E_FATHER_LAST}
     Log To Console    🎉 Email: ${E2E_CHILD_EMAIL}
+    Log To Console    🎉 Namkaran ID: ${namkaran_id}
     Log To Console    🎉 DOB: ${E2E_CHILD_DOB}
     Log To Console    🎉 Gender: ${E2E_CHILD_GENDER}
     Log To Console    🎉 Birth Time: ${E2E_CHILD_BIRTH_TIME}
@@ -702,7 +719,6 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     Log To Console    🎉 Remarks: ${remarks}
 
     Close Web Browser
-    Close Gurutattva App
 
 Verify that admin user is able to reject Bride Namkaran in CMS and verify the details on mobile app
     [Tags]    TC22    Namkaran    Gurutattva    E2E    Admin    Reject
@@ -732,7 +748,13 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+
+    # Get Namkaran ID from the first record (newly added records appear at the top)
+    ${namkaran_id}=    Get Namkaran ID From First Record
+    Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
+    
+    Close Gurutattva App
 
     # --- Web CMS: Admin Rejection Workflow ---
     Open Web Browser
@@ -741,11 +763,11 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
     # Navigate to Namkaran Management
     Navigate To Namkaran Management In CMS
 
-    # Verify the created namkaran is in pending status
-    Verify Namkaran In Pending Status    ${E2E_NAMKARAN_EMAIL}    ${E2E_BRIDE_FIRST_NAME}
+    # Verify the created namkaran is in In Progress status using Namkaran ID
+    Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Click three dots and view the namkaran
-    Click Three Dots And View For Namkaran    ${E2E_NAMKARAN_EMAIL}
+    # Click three dots and view the namkaran using Namkaran ID
+    Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify bride and groom details
     Verify Bride And Groom Details In CMS    ${E2E_BRIDE_FIRST_NAME}    ${E2E_BRIDE_MIDDLE_NAME}    ${E2E_BRIDE_LAST_NAME}    ${E2E_GROOM_FIRST_NAME}    ${E2E_GROOM_MIDDLE_NAME}    ${E2E_GROOM_LAST_NAME}
@@ -757,18 +779,18 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
     # Click Reject button
     Click Reject Button
 
-    # Verify status changed to rejected
-    Verify Namkaran Status Changed To Rejected    ${E2E_NAMKARAN_EMAIL}
+    # Verify status changed to rejected using Namkaran ID
+    Verify Namkaran Status Changed To Rejected By ID    ${namkaran_id}
 
     Log To Console    🎉 Admin Rejection Test for Bride Namkaran Completed Successfully!
     Log To Console    🎉 Test Data Used:
     Log To Console    🎉 Bride: ${E2E_BRIDE_FIRST_NAME} ${E2E_BRIDE_MIDDLE_NAME} ${E2E_BRIDE_LAST_NAME}
     Log To Console    🎉 Groom: ${E2E_GROOM_FIRST_NAME} ${E2E_GROOM_MIDDLE_NAME} ${E2E_GROOM_LAST_NAME}
     Log To Console    🎉 Email: ${E2E_NAMKARAN_EMAIL}
+    Log To Console    🎉 Namkaran ID: ${namkaran_id}
     Log To Console    🎉 Rejection Remarks: ${rejection_remarks}
 
     Close Web Browser
-    Close Gurutattva App
 
 Verify that admin user is able to reject Business Namkaran in CMS and verify the details on mobile app
     [Tags]    TC23    Namkaran    Gurutattva    E2E    Admin    Reject
@@ -795,7 +817,13 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
 
     # Submit the namkaran
     Click on the Submit Button
-    Verify Namkaran submission success message
+    #Verify Namkaran submission success message
+
+    # Get Namkaran ID from the first record (newly added records appear at the top)
+    ${namkaran_id}=    Get Namkaran ID From First Record
+    Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
+    
+    Close Gurutattva App
 
     # --- Web CMS: Admin Rejection Workflow ---
     Open Web Browser
@@ -804,11 +832,11 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     # Navigate to Namkaran Management
     Navigate To Namkaran Management In CMS
 
-    # Verify the created namkaran is in pending status
-    Verify Namkaran In Pending Status    ${E2E_BUSINESS_EMAIL}    ${E2E_BUSINESS_OWNER_FIRST}
+    # Verify the created namkaran is in In Progress status using Namkaran ID
+    Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Click three dots and view the namkaran
-    Click Three Dots And View For Namkaran    ${E2E_BUSINESS_EMAIL}
+    # Click three dots and view the namkaran using Namkaran ID
+    Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify business owner details
     Verify Business Owner Details In CMS    ${E2E_BUSINESS_OWNER_FIRST}    ${E2E_BUSINESS_OWNER_MIDDLE}    ${E2E_BUSINESS_OWNER_LAST}
@@ -820,8 +848,8 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     # Click Reject button
     Click Reject Button
 
-    # Verify status changed to rejected
-    Verify Namkaran Status Changed To Rejected    ${E2E_BUSINESS_EMAIL}
+    # Verify status changed to rejected using Namkaran ID
+    Verify Namkaran Status Changed To Rejected By ID    ${namkaran_id}
 
     Log To Console    🎉 Admin Rejection Test for Business Namkaran Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -829,10 +857,10 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     Log To Console    🎉 Email: ${E2E_BUSINESS_EMAIL}
     Log To Console    🎉 Description: ${E2E_BUSINESS_DESC}
     Log To Console    🎉 Address: ${E2E_BUSINESS_ADDRESS}
+    Log To Console    🎉 Namkaran ID: ${namkaran_id}
     Log To Console    🎉 Rejection Remarks: ${rejection_remarks}
 
     Close Web Browser
-    Close Gurutattva App
 
 Verify that admin user is able to reject House Namkaran in CMS and verify the details on mobile app
     [Tags]    TC24    Namkaran    Gurutattva    E2E    Admin    Reject
@@ -861,6 +889,12 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     Click on the Submit Button
     #Verify Namkaran submission success message
 
+    # Get Namkaran ID from the first record (newly added records appear at the top)
+    ${namkaran_id}=    Get Namkaran ID From First Record
+    Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
+    
+    Close Gurutattva App
+
     # --- Web CMS: Admin Rejection Workflow ---
     Open Web Browser
     Login in with valid credentials
@@ -868,11 +902,11 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     # Navigate to Namkaran Management
     Navigate To Namkaran Management In CMS
 
-    # Verify the created namkaran is in pending status
-    Verify Namkaran In Pending Status    ${E2E_HOUSE_EMAIL}    ${E2E_HOUSE_OWNER_FIRST}
+    # Verify the created namkaran is in In Progress status using Namkaran ID
+    Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Click three dots and view the namkaran
-    Click Three Dots And View For Namkaran    ${E2E_HOUSE_EMAIL}
+    # Click three dots and view the namkaran using Namkaran ID
+    Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify house owner details
     Verify House Owner Details In CMS    ${E2E_HOUSE_OWNER_FIRST}    ${E2E_HOUSE_OWNER_MIDDLE}    ${E2E_HOUSE_OWNER_LAST}
@@ -884,8 +918,8 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     # Click Reject button
     Click Reject Button
 
-    # Verify status changed to rejected
-    Verify Namkaran Status Changed To Rejected    ${E2E_HOUSE_EMAIL}
+    # Verify status changed to rejected using Namkaran ID
+    Verify Namkaran Status Changed To Rejected By ID    ${namkaran_id}
 
     Log To Console    🎉 Admin Rejection Test for House Namkaran Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -893,10 +927,10 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     Log To Console    🎉 Email: ${E2E_HOUSE_EMAIL}
     Log To Console    🎉 Description: ${E2E_HOUSE_DESC}
     Log To Console    🎉 Address: ${E2E_HOUSE_ADDRESS}
+    Log To Console    🎉 Namkaran ID: ${namkaran_id}
     Log To Console    🎉 Rejection Remarks: ${rejection_remarks}
 
     Close Web Browser
-    Close Gurutattva App
 
 Verify that admin user is able to reject Child Namkaran in CMS and verify the details on mobile app
     [Tags]    TC25    Namkaran    Gurutattva    E2E    Admin    Reject
@@ -931,6 +965,12 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     Click on the Submit Button
     #Verify Namkaran submission success message
 
+    # Get Namkaran ID from the first record (newly added records appear at the top)
+    ${namkaran_id}=    Get Namkaran ID From First Record
+    Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
+    
+    Close Gurutattva App
+
     # --- Web CMS: Admin Rejection Workflow ---
     Open Web Browser
     Login in with valid credentials
@@ -938,11 +978,11 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     # Navigate to Namkaran Management
     Navigate To Namkaran Management In CMS
 
-    # Verify the created namkaran is in pending status
-    Verify Namkaran In Pending Status    ${E2E_CHILD_EMAIL}    ${E2E_CHILD_NAME}
+    # Verify the created namkaran is in In Progress status using Namkaran ID
+    Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Click three dots and view the namkaran
-    Click Three Dots And View For Namkaran    ${E2E_CHILD_EMAIL}
+    # Click three dots and view the namkaran using Namkaran ID
+    Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify child and parent details
     Verify Child And Parent Details In CMS    ${E2E_CHILD_NAME}    ${E2E_MOTHER_FIRST}    ${E2E_MOTHER_MIDDLE}    ${E2E_MOTHER_LAST}    ${E2E_FATHER_FIRST}    ${E2E_FATHER_MIDDLE}    ${E2E_FATHER_LAST}
@@ -954,8 +994,8 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     # Click Reject button
     Click Reject Button
 
-    # Verify status changed to rejected
-    Verify Namkaran Status Changed To Rejected    ${E2E_CHILD_EMAIL}
+    # Verify status changed to rejected using Namkaran ID
+    Verify Namkaran Status Changed To Rejected By ID    ${namkaran_id}
 
     Log To Console    🎉 Admin Rejection Test for Child Namkaran Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -963,6 +1003,7 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     Log To Console    🎉 Mother: ${E2E_MOTHER_FIRST} ${E2E_MOTHER_MIDDLE} ${E2E_MOTHER_LAST}
     Log To Console    🎉 Father: ${E2E_FATHER_FIRST} ${E2E_FATHER_MIDDLE} ${E2E_FATHER_LAST}
     Log To Console    🎉 Email: ${E2E_CHILD_EMAIL}
+    Log To Console    🎉 Namkaran ID: ${namkaran_id}
     Log To Console    🎉 DOB: ${E2E_CHILD_DOB}
     Log To Console    🎉 Gender: ${E2E_CHILD_GENDER}
     Log To Console    🎉 Birth Time: ${E2E_CHILD_BIRTH_TIME}
@@ -970,4 +1011,3 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     Log To Console    🎉 Rejection Remarks: ${rejection_remarks}
 
     Close Web Browser
-    Close Gurutattva App

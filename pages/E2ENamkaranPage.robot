@@ -69,10 +69,10 @@ ${NAMKARAN_TABLE}                 xpath=//div[@role='grid']
 ${NAMKARAN_SEARCH_FIELD}          xpath=//input[@placeholder="Search…"]
 ${VIEW_NAMKARAN_BUTTON}           xpath=//li[contains(text(),'View')]
 ${NAMKARAN_DETAIL_HEADER}         xpath=//h1[contains(text(),'Namkaran Request For')]
-${GURUJI_SUGGESTED_NAME_FIELD}    xpath=//input[@placeholder='Enter suggested name']
-${NAMKARAN_REMARKS_FIELD}         xpath=//textarea[@placeholder='Enter remarks']
-${APPROVE_NAMKARAN_BUTTON}        xpath=//button[contains(text(),'Approve')]
-${REJECT_NAMKARAN_BUTTON}          xpath=//button[contains(text(),'Reject')]
+${GURUJI_SUGGESTED_NAME_FIELD}    xpath=//input[@name="suggestedName"]
+${NAMKARAN_REMARKS_FIELD}         xpath=//textarea[@name="remark"]
+${APPROVE_NAMKARAN_BUTTON}        xpath=//button[@type="submit"][1]
+${REJECT_NAMKARAN_BUTTON}          xpath=//button[@type="submit"][2]
 
 *** Keywords ***
 Generate E2E Namkaran Test Data For Bride
@@ -359,7 +359,7 @@ Verify First Row Column Values
     ${first_row_groom_name}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='groomName']//div[@class='MuiDataGrid-cellContent']
     ${first_row_email}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='email']//div[@class='MuiDataGrid-cellContent']
     ${first_row_phone}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='phone']//div[@class='MuiDataGrid-cellContent']
-    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//div[@class='MuiDataGrid-cellContent']
+    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//span[contains(@class,'minimal__label__root')]
     
     # Wait for first row to be visible
     Web Wait Until Page Contains Element    ${first_row_bride_name}    10s
@@ -1016,7 +1016,23 @@ Get Namkaran ID From First Record
     ${content_desc}=    Mobile Get Element Attribute    ${first_record_locator}    content-desc
     
     # Extract Namkaran ID - simple approach: find digits after "Namkaran ID :"
-    ${namkaran_id}=    Evaluate    import re; match = re.search(r'Namkaran ID\s*:\s*(\d+)', '${content_desc}'); match.group(1) if match else ''
+    # Use String library to extract - split by "Namkaran ID :" and get the number part
+    ${lines}=    Split String    ${content_desc}    \n
+    ${namkaran_id}=    Set Variable    ${EMPTY}
+    
+    FOR    ${line}    IN    @{lines}
+        ${contains_id}=    Run Keyword And Return Status    Should Contain    ${line}    Namkaran ID
+        IF    ${contains_id}
+            # Extract number after "Namkaran ID :"
+            ${parts}=    Split String    ${line}    :
+            ${parts_length}=    Get Length    ${parts}
+            IF    ${parts_length} >= 2
+                ${id_part}=    Get From List    ${parts}    1
+                ${namkaran_id}=    Strip String    ${id_part}
+                BREAK
+            END
+        END
+    END
     
     # Set as test variable for later use
     Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
@@ -1036,7 +1052,7 @@ Verify Namkaran In Pending Status
     Sleep    2s
     
     # Verify the namkaran appears in the table with pending status
-    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//div[@class='MuiDataGrid-cellContent']
+    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//span[contains(@class,'minimal__label__root')]
     Web Wait Until Page Contains Element    ${first_row_status}    10s
     ${status}=    Web.Get Text    ${first_row_status}
     Should Be Equal As Strings    ${status}    Pending    Namkaran status should be Pending
@@ -1051,11 +1067,13 @@ Verify Namkaran In In Progress Status
     # Search for the namkaran by ID
     Web Wait Until Page Contains Element    ${NAMKARAN_SEARCH_FIELD}    10s
     Web Click Element    ${NAMKARAN_SEARCH_FIELD}
+    Web Clear Element Text    ${NAMKARAN_SEARCH_FIELD}
     Web Input Text    ${NAMKARAN_SEARCH_FIELD}    ${namkaran_id}
     Sleep    2s
     
     # Verify the namkaran appears in the table with In Progress status
-    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//div[@class='MuiDataGrid-cellContent']
+    # Status text is in a span with class 'minimal__label__root' inside the status cell
+    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//span[contains(@class,'minimal__label__root')]
     Web Wait Until Page Contains Element    ${first_row_status}    10s
     ${status}=    Web.Get Text    ${first_row_status}
     Should Be Equal As Strings    ${status}    In Progress    Namkaran status should be In Progress
@@ -1085,13 +1103,6 @@ Click Three Dots And View For Namkaran By ID
     [Documentation]    Clicks the three dots menu and view button for the namkaran using Namkaran ID
     Sleep    2s
     
-    # Search for the namkaran by ID first
-    Web Wait Until Page Contains Element    ${NAMKARAN_SEARCH_FIELD}    10s
-    Web Click Element    ${NAMKARAN_SEARCH_FIELD}
-    Web Clear Element Text    ${NAMKARAN_SEARCH_FIELD}
-    Web Input Text    ${NAMKARAN_SEARCH_FIELD}    ${namkaran_id}
-    Sleep    2s
-    
     # Click on the first record's 3-dot menu (Actions column)
     ${first_row_actions}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//button[@type='button']
     Web Wait Until Page Contains Element    ${first_row_actions}    10s
@@ -1099,8 +1110,8 @@ Click Three Dots And View For Namkaran By ID
     Sleep    2s
     
     # Click on View button from the dropdown menu
-    Web Wait Until Page Contains Element    ${VIEW_NAMKARAN_BUTTON}    10s
-    Web Click Element    ${VIEW_NAMKARAN_BUTTON}
+    Web Wait Until Page Contains Element    xpath=//a[contains(text(),'View')]    10s
+    Web Click Element    xpath=//a[contains(text(),'View')]
     Sleep    3s
     
     Log To Console    ✅ Clicked three dots and view for namkaran ID: ${namkaran_id}
@@ -1265,7 +1276,7 @@ Verify Namkaran Status Changed To Completed
     Sleep    2s
     
     # Verify the status is now completed
-    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//div[@class='MuiDataGrid-cellContent']
+    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//span[contains(@class,'minimal__label__root')]
     Web Wait Until Page Contains Element    ${first_row_status}    10s
     ${status}=    Web.Get Text    ${first_row_status}
     Should Be Equal As Strings    ${status}    Completed    Namkaran status should be Completed
@@ -1288,7 +1299,7 @@ Verify Namkaran Status Changed To Completed By ID
     Sleep    2s
     
     # Verify the status is now completed
-    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//div[@class='MuiDataGrid-cellContent']
+    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//span[contains(@class,'minimal__label__root')]
     Web Wait Until Page Contains Element    ${first_row_status}    10s
     ${status}=    Web.Get Text    ${first_row_status}
     Should Be Equal As Strings    ${status}    Completed    Namkaran status should be Completed
@@ -1310,9 +1321,32 @@ Verify Namkaran Status Changed To Rejected
     Sleep    2s
     
     # Verify the status is now rejected
-    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//div[@class='MuiDataGrid-cellContent']
+    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//span[contains(@class,'minimal__label__root')]
     Web Wait Until Page Contains Element    ${first_row_status}    10s
     ${status}=    Web.Get Text    ${first_row_status}
     Should Be Equal As Strings    ${status}    Rejected    Namkaran status should be Rejected
     
     Log To Console    ✅ Verified namkaran status changed to Rejected: ${email}
+
+Verify Namkaran Status Changed To Rejected By ID
+    [Arguments]    ${namkaran_id}
+    [Documentation]    Verifies that the namkaran status has changed to rejected using Namkaran ID
+    Sleep    3s
+    
+    # Navigate back to the list page
+    Navigate To Namkaran Management In CMS
+    
+    # Search for the namkaran by ID
+    Web Wait Until Page Contains Element    ${NAMKARAN_SEARCH_FIELD}    10s
+    Web Click Element    ${NAMKARAN_SEARCH_FIELD}
+    Web Clear Element Text    ${NAMKARAN_SEARCH_FIELD}
+    Web Input Text    ${NAMKARAN_SEARCH_FIELD}    ${namkaran_id}
+    Sleep    2s
+    
+    # Verify the status is now rejected
+    ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//span[contains(@class,'minimal__label__root')]
+    Web Wait Until Page Contains Element    ${first_row_status}    10s
+    ${status}=    Web.Get Text    ${first_row_status}
+    Should Be Equal As Strings    ${status}    Rejected    Namkaran status should be Rejected
+    
+    Log To Console    ✅ Verified namkaran status changed to Rejected: ${namkaran_id}
