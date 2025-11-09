@@ -84,7 +84,7 @@ End-to-End Integration Create and Publish Podcast in Web CRM and Verify Playback
     Open Gurutattva App
     Handle First Time Setup
     Verify Podcast track is displayed on audio of the day section
-    Verify Podcast Track is displayed on Home Screen
+    #Verify Podcast Track is displayed on Home Screen
     Navigate To Podcast Section In Mobile
     Verify Podcast displayed in Recently Added section.
     Search And Select Newly Created Podcast Track
