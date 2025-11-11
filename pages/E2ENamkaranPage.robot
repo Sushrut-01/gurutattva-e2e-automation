@@ -1106,7 +1106,15 @@ Click Three Dots And View For Namkaran By ID
     # Click on the first record's 3-dot menu (Actions column)
     ${first_row_actions}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//button[@type='button']
     Web Wait Until Page Contains Element    ${first_row_actions}    10s
-    Web Click Element    ${first_row_actions}
+    # Scroll element into view to avoid scrollbar overlap
+    Web Scroll Element Into View    ${first_row_actions}
+    Sleep    1s
+    # Try regular click first, fallback to JavaScript click if intercepted
+    ${clicked}=    Run Keyword And Return Status    Web Click Element    ${first_row_actions}
+    IF    not ${clicked}
+        ${el}=    Web.Get WebElement    ${first_row_actions}
+        Web.Execute Javascript    arguments[0].click();    ARGUMENTS    ${el}
+    END
     Sleep    2s
     
     # Click on View button from the dropdown menu

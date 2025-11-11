@@ -307,10 +307,17 @@ Change Language To Hindi
 Revert Language To English
     [Documentation]    Reverts the app language from Hindi back to English
     Log To Console    🔄 Starting language reversion to English...
-
-    Mobile.Click Element   xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]
-    Sleep    3s
-    Mobile.click Element   ${PROFILE_ICON}  
+    Sleep    5s
+    # Try to click Home -> Profile. If Home icon is not present, skip these clicks and
+    # proceed directly to clicking the Language setting (step 1 in Hindi flow).
+    ${home_present}=    Run Keyword And Return Status    Mobile.Wait Until Page Contains Element    xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]    3s
+    IF    ${home_present}
+        Mobile.Click Element   xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]
+        Sleep    3s
+        Mobile.Click Element   ${PROFILE_ICON}
+    ELSE
+        Log To Console    ⚠️ Home icon not found — skipping Home/Profile click and proceeding to Language setting
+    END
     
     # Step 1: Click on Language setting (now in Hindi)
     Log To Console    🔍 Step 2: Clicking on Language setting (Hindi)
