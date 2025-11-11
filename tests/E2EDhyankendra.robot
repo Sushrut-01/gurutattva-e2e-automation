@@ -212,7 +212,7 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    Select User for Dhyankendra    yatish
+    Select User for Dhyankendra    Adesh
     Enter Email for Dhyankendra
     Enter Mobile for Dhyankendra
     Click on the Submit Button for Dhyankendra
@@ -251,7 +251,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    Select User for Dhyankendra    yatish
+    Select User for Dhyankendra    Adesh
     Enter Email for Dhyankendra
     Enter Mobile for Dhyankendra
     Click on the Submit Button for Dhyankendra   
@@ -328,7 +328,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    Select User for Dhyankendra    yatish
+    Select User for Dhyankendra    Adesh
     Enter Email for Dhyankendra
     Enter Mobile for Dhyankendra
     Click on the Submit Button for Dhyankendra   

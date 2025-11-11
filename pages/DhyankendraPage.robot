@@ -37,7 +37,7 @@ ${MODERATE}                                            xpath=//android.widget.Bu
 ${AVERAGE}                                             xpath=//android.widget.Button[@content-desc="Average"]
 ${RCC}                                                 xpath=//android.widget.Button[@content-desc="RCC"]
 ${SEARCH_BY_UID_OR_NAME}                               xpath=//android.widget.EditText[@hint='Search by UID or name'][1]
-${SELECT_USER}                                         xpath=//android.widget.Button[@content-desc="yatish devlekar - 38"]
+${SELECT_USER}                                         xpath=//android.widget.Button[@content-desc="Adesh M Pawar - 24"]
 ${DHYANKENDRA_EMAIL_INPUT}                             xpath=//android.widget.EditText[@hint='Enter Email']
 ${DHYANKENDRA_MOBILE_INPUT}                            xpath=//android.widget.EditText[@hint='00 0000 0000']
 ${DHYANKENDRA_SUBMIT}                                  xpath=//android.view.View[@content-desc="Submit"]
