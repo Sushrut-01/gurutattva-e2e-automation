@@ -8,6 +8,7 @@ Library    AppiumLibrary    run_on_failure=No Operation
 Library    SeleniumLibrary    run_on_failure=No Operation
 Library    Collections
 Library    String
+Library    DateTime
 
 *** Keywords ***
 # Mobile-specific keywords
