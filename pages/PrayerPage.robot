@@ -137,15 +137,21 @@ Select DOB for Prayer
     # Calculate a past year dynamically (1 year ago to ensure it's in the past)
     ${current_year}=    Get Current Date    result_format=%Y
     ${past_year}=    Evaluate    int(${current_year}) - 1
+    ${year_header_xpath}=    Set Variable    xpath=//android.view.View[@content-desc="${current_year}"]
     ${past_year_xpath}=    Set Variable    xpath=//android.view.View[@content-desc="${past_year}"]
 
     # Open date picker
     Mobile Wait Until Element Is Visible    ${Select_DOB_Prayer}    10s
     Mobile Click Element    ${Select_DOB_Prayer}
+    Sleep    2s
+
+    # Click on the year header to switch to year selection mode
+    Mobile Wait Until Element Is Visible    ${year_header_xpath}    10s
+    Mobile Click Element    ${year_header_xpath}
+    Sleep    2s
 
     # Select past year to ensure DOB is in the past
     Mobile Wait Until Element Is Visible    ${past_year_xpath}    10s
-    Sleep    2s
     Mobile Click Element    ${past_year_xpath}
     Sleep    2s
 
