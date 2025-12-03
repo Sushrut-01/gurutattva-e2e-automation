@@ -90,7 +90,12 @@ Mobile Press Keycode
     Mobile.Press Keycode    ${keycode}
 
 Mobile Hide Keyboard
-    Mobile.Hide Keyboard
+    [Documentation]    Safely hides the mobile keyboard, ignoring errors if keyboard is already hidden
+    TRY
+        Mobile.Hide Keyboard
+    EXCEPT
+        Log To Console    ⚠️ Keyboard already hidden or cannot be hidden - continuing test
+    END
 
 Mobile Get Window Height
     ${result}=    Mobile.Get Window Height
