@@ -14,6 +14,7 @@ ${PERSON_CITY}                        xpath=//div[@data-field='personCity' and c
 ${OTHER_PERSON_NAME}                  xpath=//div[@data-field='personName' and contains(text(),'${E2E_PRAYER_OTHER_NAME}')]
 ${OTHER_PERSON_CITY}                  xpath=//div[@data-field='personCity' and contains(text(),'${E2E_PRAYER_OTHER_FULL_ADDRESS}')]
 ${PRAYER_MENU}                        xpath=//span[contains(text(),'Prayer')]
+${PRAYER_REQUESTS_SUBMENU}            xpath=//span[normalize-space()='Prayer Requests']
 ${SELECT_ROW}                         xpath=//input[@aria-label='Select row']
 ${EXPORT_BUTTON}                      xpath=//button[normalize-space()='Export']
 ${EXPORTED_STATUS}                    xpath=//span[contains(text(),'Exported')]
@@ -55,11 +56,16 @@ Generate E2E Test Data for selected other prayer
     Log To Console    🎯 Full Address: ${E2E_PRAYER_OTHER_FULL_ADDRESS}
  
 Click on the Prayer Menu
-    [Documentation]    Clicks on the Prayer menu in the web application
+    [Documentation]    Clicks on the Prayer menu and Prayer Requests submenu in the web application
     Web Wait Until Page Contains Element    ${PRAYER_MENU}    10s
     Web Click Element    ${PRAYER_MENU}
+    Sleep    2s
+    Log To Console    📋 Clicked on Prayer Menu - waiting for submenu
+
+    Web Wait Until Page Contains Element    ${PRAYER_REQUESTS_SUBMENU}    10s
+    Web Click Element    ${PRAYER_REQUESTS_SUBMENU}
     Sleep    5s
-    Log To Console    📋 Clicked on Prayer Menu - waiting for page to load
+    Log To Console    ✅ Clicked on Prayer Requests submenu - page should be loaded
 
 Search for the created prayer
     Log To Console    🔍 Waiting for search box to appear...
