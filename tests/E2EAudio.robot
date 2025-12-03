@@ -205,7 +205,7 @@ Validate Editing and Publishing of Music Track in Web CMS and Verify in Mobile A
     Click on the Audio Menu
     Click on the Music Submenu
     Search Category In List    ${E2E_CATEGORY_NAME}
-    Click Edit Icon For Created Track
+    Click Edit Icon For Created Track    ${E2E_CATEGORY_NAME}
     Scroll To Bottom Of Edit Music Page
     Edit Music Track Fields And Set Updated Variables
     ...    ${EDITED_TITLE}
@@ -257,7 +257,7 @@ Validate Editing and Publishing of Podcast Track in Web CMS and Verify in Mobile
     Click on the Audio Menu
     Click on the Podcast Submenu
     Search Category In List    ${E2E_CATEGORY_NAME_PODCAST}
-    Click Edit Icon For Created Track
+    Click Edit Icon For Created Track    ${E2E_CATEGORY_NAME_PODCAST}
     Scroll To Bottom Of Edit Music Page
     Update Podcast Track Fields
     ...    ${EDITED_PODCAST_TITLE}
