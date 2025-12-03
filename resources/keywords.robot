@@ -86,6 +86,7 @@ Open Gurutattva App
     ...    appActivity=${APP_ACTIVITY}
     ...    automationName=${AUTOMATION_NAME}
     ...    noReset=${NO_RESET}
+    ...    skipServerInstallation=${SKIP_SERVER_INSTALLATION}
     Sleep    5s
 
 Close Gurutattva App

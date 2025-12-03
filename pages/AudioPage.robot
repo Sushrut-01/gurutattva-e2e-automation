@@ -58,7 +58,16 @@ ${RADIO_SCREEN_BACK_BUTTON}           xpath=//android.widget.FrameLayout[@resour
 Click on the Audio Tab
     Sleep    2s
 
-    # Try to find Audio Tab first
+    # First, handle exit confirmation popup if present (in Hindi: "क्या आप वाकई बाहर निकलना चाहते हैं?")
+    ${exit_popup_no_button}=    Set Variable    xpath=//android.widget.Button[contains(@content-desc, 'नहीं') or @content-desc='No']
+    ${popup_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${exit_popup_no_button}    3s
+    IF    ${popup_visible} == True
+        Mobile Click Element    ${exit_popup_no_button}
+        Log To Console    ✅ Dismissed exit confirmation popup
+        Sleep    1s
+    END
+
+    # Try to find Audio Tab first (support both English and Hindi)
     ${audio_tab_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${AUDIO_TAB}    5s
 
     IF    ${audio_tab_visible} == False
@@ -71,31 +80,41 @@ Click on the Audio Tab
         ${audio_tab_visible_after_back}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${AUDIO_TAB}    10s
 
         IF    ${audio_tab_visible_after_back} == False
-            Log To Console    ⚠️ Audio Tab still not visible, trying alternative locator
-            # Try with View element instead of ImageView
-            ${audio_tab_view}=    Set Variable    xpath=//android.view.View[@content-desc="Audio"]
-            ${audio_tab_view_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${audio_tab_view}    5s
+            Log To Console    ⚠️ Audio Tab still not visible, trying alternative locators
 
-            IF    ${audio_tab_view_visible} == True
-                Mobile Click Element    ${audio_tab_view}
-                Log To Console    ✅ Clicked on Audio Tab using View locator
+            # Try Hindi locator first
+            ${audio_tab_hindi}=    Set Variable    xpath=//android.widget.ImageView[@content-desc="ऑडियो"]
+            ${audio_tab_hindi_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${audio_tab_hindi}    5s
+
+            IF    ${audio_tab_hindi_visible} == True
+                Mobile Click Element    ${audio_tab_hindi}
+                Log To Console    ✅ Clicked on Audio Tab using Hindi locator (ऑडियो)
             ELSE
-                # Last resort - try clicking home tab first
-                Log To Console    ⚠️ Trying to click Home tab first
-                ${home_tab}=    Set Variable    xpath=//android.widget.ImageView[@content-desc="Home"]
-                ${home_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${home_tab}    5s
-                IF    ${home_visible} == True
-                    Mobile Click Element    ${home_tab}
-                    Sleep    2s
-                    # Ensure app is in foreground
-                    Log To Console    🔄 Activating app to bring to foreground
-                    Mobile Activate Application    com.rysunhome.gurutattvamobile
-                    Sleep    3s
+                # Try with View element (support both languages)
+                ${audio_tab_view}=    Set Variable    xpath=//android.view.View[@content-desc="Audio" or @content-desc="ऑडियो"]
+                ${audio_tab_view_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${audio_tab_view}    5s
+
+                IF    ${audio_tab_view_visible} == True
+                    Mobile Click Element    ${audio_tab_view}
+                    Log To Console    ✅ Clicked on Audio Tab using View locator
+                ELSE
+                    # Last resort - try clicking home tab first
+                    Log To Console    ⚠️ Trying to click Home tab first
+                    ${home_tab}=    Set Variable    xpath=//android.widget.ImageView[@content-desc="Home"]
+                    ${home_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${home_tab}    5s
+                    IF    ${home_visible} == True
+                        Mobile Click Element    ${home_tab}
+                        Sleep    2s
+                        # Ensure app is in foreground
+                        Log To Console    🔄 Activating app to bring to foreground
+                        Mobile Activate Application    com.rysunhome.gurutattvamobile
+                        Sleep    3s
+                    END
+                    # Now try Audio Tab again
+                    Mobile Wait Until Element Is Visible    ${AUDIO_TAB}    15s
+                    Mobile Click Element    ${AUDIO_TAB}
+                    Log To Console    ✅ Clicked on Audio Tab after clicking Home first
                 END
-                # Now try Audio Tab again
-                Mobile Wait Until Element Is Visible    ${AUDIO_TAB}    15s
-                Mobile Click Element    ${AUDIO_TAB}
-                Log To Console    ✅ Clicked on Audio Tab after clicking Home first
             END
         ELSE
             Mobile Click Element    ${AUDIO_TAB}
