@@ -25,8 +25,8 @@ SMTP_PORT = 587
 SMTP_USERNAME = "smtp@rysun.com"
 SMTP_PASSWORD = "uA4VEvIpnN5tKVjT"
 EMAIL_FROM = "smtp@rysun.com"
-EMAIL_TO = "warish.kumar@rysun.com"
-EMAIL_CC = "rumana.mansuri@rysun.com, amit.manjesh@rysun.com"
+EMAIL_TO = "sushrut.nistane@rysun.com"
+EMAIL_CC = "vaishali.patil@rysun.com"
 PROJECT_NAME = "Gurutattva Automation"
 
 def wait_for_reports_generation(report_dir, max_wait_time=30):

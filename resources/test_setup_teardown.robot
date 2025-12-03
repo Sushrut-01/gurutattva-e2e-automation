@@ -15,6 +15,9 @@ Test Setup
     Log To Console    ===== Starting Test Setup =====
     Web.Register Keyword To Run On Failure    No Operation
     Mobile.Register Keyword To Run On Failure    No Operation
+    # Close any existing web browser instances to avoid session timeouts
+    Run Keyword And Ignore Error    Web Close All Browsers
+    Sleep    1s
     # Kill any existing app instances
     Run Keyword And Ignore Error    Mobile Close Application
     Sleep    2s
@@ -25,26 +28,30 @@ Test Teardown
     Log To Console    ===== Starting Test Teardown =====
     # Capture screenshot on failure using explicit library calls to avoid conflicts
     Run Keyword If Test Failed    Take Screenshot On Failure    ${TEST NAME}
-    
+
+    # Always try to close the web browser to prevent session timeouts
+    Run Keyword And Ignore Error    Web Close All Browsers
+    Sleep    1s
+
     # Always try to close the app, even if test failed
     Run Keyword And Ignore Error    Close Gurutattva App
-    
+
     # Additional cleanup to ensure app is completely closed
     Run Keyword And Ignore Error    Mobile Close Application
     Sleep    3s
-    
+
     # Force kill any remaining app processes
     Run Keyword And Ignore Error    Run    adb shell am force-stop ${APP_PACKAGE}
     Sleep    2s
-    
+
     # Clean up downloaded files
     Run Keyword And Ignore Error    Cleanup Downloaded Files
-    
+
     # Trigger delayed email notification for individual test execution
     Log To Console    📧 Triggering delayed email notification...
     Run Keyword And Ignore Error    Start Process    python    send_email.py    shell=True
     Log To Console    📧 Delayed email process started - will send after reports are fully generated
-    
+
     Log To Console    ===== Test Teardown Completed =====
 
 Suite Setup

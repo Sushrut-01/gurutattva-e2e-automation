@@ -40,6 +40,10 @@ Click Cancel If Update Popup Visible
     ${isVisible}=    Run Keyword And Return Status    Mobile Element Should Be Visible    ${UPDATE_POPUP}
     Run Keyword If    ${isVisible}    Mobile Click Element    ${UPDATE_POPUP}
     Run Keyword If    ${isVisible}    Log To Console    Update popup closed successfully!
+    Run Keyword If    ${isVisible}    Sleep    2s
+    Run Keyword If    ${isVisible}    Mobile Activate Application    com.rysunhome.gurutattvamobile
+    Run Keyword If    ${isVisible}    Sleep    2s
+    Run Keyword If    ${isVisible}    Log To Console    App brought to foreground after update popup
 
 Allow Notification
     ${isVisible}=    Run Keyword And Return Status    Mobile Element Should Be Visible    ${ALLOW_NOTIFICATION}
@@ -76,6 +80,9 @@ Click on the Login Button
     Log              Login button clicked!
 
 Enter the validate and exist mobile number
+    Mobile Wait Until Element Is Visible    ${LOGIN_EMAIL}    5s
+    Mobile Click Element    ${LOGIN_EMAIL}
+    Sleep    1s
     Mobile Input Text       ${LOGIN_EMAIL}      9999999999   
 
 Enter the Mobile Number of Quick Registration

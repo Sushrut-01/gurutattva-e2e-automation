@@ -4,7 +4,7 @@ Resource   ../pages/loginPage.robot
 
 *** Variables ***
 # Web Application Configuration
-${WEB_BASE_URL}              https://gurutattvacmsqa.rysun.in:9090/
+${WEB_BASE_URL}              https://gurutattvacmsnewdev.rysun.in:9090/
 ${WEB_BROWSER}               chrome
 ${WEB_IMPLICIT_WAIT}         10s 
 ${EMAIL_FIELD}                    name=email
@@ -18,6 +18,18 @@ Open Web Browser
     Web Open Browser    ${WEB_BASE_URL}    ${WEB_BROWSER}
     Web Maximize Browser Window
     Web Set Selenium Implicit Wait    ${WEB_IMPLICIT_WAIT}
+    
+    # Handle SSL Certificate Warning (if present)
+    ${ssl_warning_present}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    id=details-button    3s
+    IF    ${ssl_warning_present}
+        Log To Console    ⚠️ SSL Certificate warning detected, clicking Advanced...
+        Web Click Element    id=details-button
+        Sleep    1s
+        Web Click Element    id=proceed-link
+        Sleep    2s
+        Log To Console    ✅ Proceeded past SSL warning
+    END
+    
      # Clear cookies and cache
     # Delete All Cookies
     # Execute Javascript    window.localStorage.clear();
@@ -25,8 +37,8 @@ Open Web Browser
 Login in with valid credentials
     [Documentation]    Logs in to web application with valid credentials
     Web Wait Until Page Contains Element    ${EMAIL_FIELD}    10s
-    Web Input Text    ${EMAIL_FIELD}    warish.kumar@rysun.com
-    Web Input Password    ${PASSWORD_FIELD}    Admin@1234
+    Web Input Text    ${EMAIL_FIELD}    payment.gateway@rysun.com
+    Web Input Password    ${PASSWORD_FIELD}    Admin@123
     Web Click Button    ${LOGIN_BUTTON}
     Sleep    5s
     Web Wait Until Page Contains    ${DASHBOARD_TEXT}    20s

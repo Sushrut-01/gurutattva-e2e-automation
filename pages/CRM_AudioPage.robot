@@ -53,9 +53,9 @@ ${TEST_PUBLISH_DATE}              25/12/2024
 
 # Test File Paths
 ${ENGLISH_THUMBNAIL_FILE}         ${EXECDIR}/test_data/English_thumbnail.jpg
-${ENGLISH_AUDIO_FILE}             ${EXECDIR}/test_data/English_sample-12s.MP3
+${ENGLISH_AUDIO_FILE}             ${EXECDIR}/test_data/English_sample-12s.mp3
 ${HINDI_THUMBNAIL_FILE}           ${EXECDIR}/test_data/Hindi_thumbnail.jpg
-${HINDI_AUDIO_FILE}               ${EXECDIR}/test_data/Hindi_sample-15s.MP3
+${HINDI_AUDIO_FILE}               ${EXECDIR}/test_data/Hindi_sample-15s.mp3
 
 # Delete Music Elements
 ${THREE_DOT_MENU}                 xpath=//button[@aria-label='More']
@@ -93,9 +93,32 @@ Click on the Audio Menu
     Web Click Element    ${AUDIO_MENU}
 
 Click on the Music Submenu
-    [Documentation]    Clicks on the Music submenu under Audio
-    Web Wait Until Page Contains Element    ${MUSIC_SUBMENU}    10s
-    Web Click Element    ${MUSIC_SUBMENU}
+    [Documentation]    Clicks on the Music submenu under Audio with fallback locators
+    TRY
+        Web Wait Until Page Contains Element    ${MUSIC_SUBMENU}    15s
+        Web Click Element    ${MUSIC_SUBMENU}
+        Log To Console    ✅ Clicked Music submenu using primary locator
+    EXCEPT
+        Log To Console    ⚠️ Primary Music submenu locator failed, trying alternatives...
+        TRY
+            # Try alternative xpath with exact match
+            Web Wait Until Page Contains Element    xpath=//span[text()='Music']    10s
+            Web Click Element    xpath=//span[text()='Music']
+            Log To Console    ✅ Clicked Music submenu using exact text match
+        EXCEPT
+            # Try alternative with link/anchor element
+            TRY
+                Web Wait Until Page Contains Element    xpath=//a[contains(text(),'Music')]    10s
+                Web Click Element    xpath=//a[contains(text(),'Music')]
+                Log To Console    ✅ Clicked Music submenu using link locator
+            EXCEPT
+                # Final fallback - try by role
+                Web Wait Until Page Contains Element    xpath=//*[@role='menuitem' and contains(.,'Music')]    10s
+                Web Click Element    xpath=//*[@role='menuitem' and contains(.,'Music')]
+                Log To Console    ✅ Clicked Music submenu using role-based locator
+            END
+        END
+    END
 
 Click on the Add Music button
     [Documentation]    Clicks on the Add Music button to create new music

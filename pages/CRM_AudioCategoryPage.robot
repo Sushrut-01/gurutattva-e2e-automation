@@ -6,9 +6,11 @@ Resource   ../resources/web_keywords.robot
 # Random Number for Unique Test Data
 ${RANDOM_NUMBER}                  ${EMPTY}
 
-# Master Management Menu Elements
+# Audio Menu Elements (Updated based on new UI structure)
+${AUDIO_MENU}                     xpath=//span[contains(text(),'Audio')]
+${MANAGE_AUDIO_CATEGORIES_SUBMENU}    xpath=//span[contains(text(),'Manage Categories')]
+# Legacy Master Management Menu (kept for backward compatibility)
 ${MASTER_MANAGEMENT_MENU}         xpath=//span[contains(text(),'Master Management')]
-${MANAGE_AUDIO_CATEGORIES_SUBMENU}    xpath=//span[contains(text(),'Manage Audio Categories')]
 
 # Add Category Elements
 ${ADD_CATEGORY_BUTTON}            xpath=//button[normalize-space(text())='Add Category']
@@ -97,7 +99,7 @@ ${ORIGINAL_HINDI_CATEGORY_NAME}        ${EMPTY}
 ${ORIGINAL_CATEGORY_DESCRIPTION}       ${EMPTY}
 ${ORIGINAL_HINDI_CATEGORY_DESCRIPTION}    ${EMPTY}
 
-# Test File Paths
+# Test File Paths (Updated to use correct directory)
 ${ENGLISH_CATEGORY_THUMBNAIL_FILE}    ${EXECDIR}/test_data/English_thumbnail.jpg
 ${HINDI_CATEGORY_THUMBNAIL_FILE}      ${EXECDIR}/test_data/Hindi_thumbnail.jpg
 ${UNSUPPORTED_FORMAT_FILE}            ${EXECDIR}/test_data/unsupported_format.txt
@@ -119,19 +121,54 @@ Generate Random Number for Test Data
     Log To Console    Updated Hindi Category Name: ${UPDATED_HINDI_CATEGORY_NAME}
 
 Click on the Master Management Menu
-    [Documentation]    Clicks on the Master Management menu in the web application
-    Web Wait Until Page Contains Element    ${MASTER_MANAGEMENT_MENU}    10s
-    Web Click Element    ${MASTER_MANAGEMENT_MENU}
+    [Documentation]    Clicks on the Master Management menu in the web application (DEPRECATED - redirects to Audio menu)
+    Log To Console    ⚠️ WARNING: Master Management menu path is deprecated. Using Audio menu instead.
+    # Expand Audio menu if needed
+    Web Wait Until Page Contains Element    ${AUDIO_MENU}    10s
+    ${is_expanded}=    Run Keyword And Return Status    Web Element Should Be Visible    ${MANAGE_AUDIO_CATEGORIES_SUBMENU}
+    IF    not ${is_expanded}
+        Web Click Element    ${AUDIO_MENU}
+        Sleep    1s
+    END
 
 Click on the Manage Audio Categories Submenu
-    [Documentation]    Clicks on the Manage Audio Categories submenu under Master Management
+    [Documentation]    Clicks on the Manage Categories submenu under Audio menu (Updated for new UI)
+    # First ensure Audio menu is expanded
+    Run Keyword And Ignore Error    Click on the Master Management Menu
     Web Wait Until Page Contains Element    ${MANAGE_AUDIO_CATEGORIES_SUBMENU}    10s
     Web Click Element    ${MANAGE_AUDIO_CATEGORIES_SUBMENU}
+    Sleep    2s
 
 Click on the Add Category button
-    [Documentation]    Clicks on the Add Category button to create new category
-    Web Wait Until Page Contains Element    ${ADD_CATEGORY_BUTTON}    10s
-    Web Click Element    ${ADD_CATEGORY_BUTTON}
+    [Documentation]    Clicks on the Add Category button to create new category with fallback
+    # Wait for the data grid to be fully loaded first
+    Sleep    3s
+    # Wait for page to be ready (check if data grid or no data message is visible)
+    TRY
+        Web Wait Until Page Contains Element    xpath=//div[contains(@class,'MuiDataGrid-root')]    10s
+        Log To Console    📊 Data grid loaded
+    EXCEPT
+        Log To Console    ℹ️ Data grid not found, page might be empty - continuing...
+    END
+
+    TRY
+        Web Wait Until Page Contains Element    ${ADD_CATEGORY_BUTTON}    20s
+        Web Click Element    ${ADD_CATEGORY_BUTTON}
+        Log To Console    ✅ Clicked 'Add Category' button
+    EXCEPT
+        Log To Console    ⚠️ Primary 'Add Category' button not found, trying alternative locators...
+        TRY
+            # Try button with contains instead of exact match
+            Web Wait Until Page Contains Element    xpath=//button[contains(text(),'Add Category')]    10s
+            Web Click Element    xpath=//button[contains(text(),'Add Category')]
+            Log To Console    ✅ Clicked 'Add Category' button using alternative locator
+        EXCEPT
+            # Try MUI button class
+            Web Wait Until Page Contains Element    xpath=//button[contains(@class,'MuiButton') and contains(.,'Add')]    10s
+            Web Click Element    xpath=//button[contains(@class,'MuiButton') and contains(.,'Add')]
+            Log To Console    ✅ Clicked 'Add' button using MUI class locator
+        END
+    END
 
 Select Music Audio Type
     [Documentation]    Selects Music as the audio type from dropdown

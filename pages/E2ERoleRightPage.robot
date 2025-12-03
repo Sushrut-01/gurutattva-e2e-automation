@@ -10,7 +10,7 @@ ${LOGIN_EMAIL_FIELD}               xpath=//input[@type='email' or @name='email']
 ${LOGIN_PASSWORD_FIELD}            xpath=//input[@type='password' or @name='password']
 ${LOGIN_BUTTON}                    xpath=//button[@type='submit' or contains(text(),'Login')]
 ${DASHBOARD_TEXT}                  Dashboard
-${LOGIN_URL}                       https://gurutattvacmsqa.rysun.in:9090/           
+${LOGIN_URL}                       https://gurutattvacmsnewdev.rysun.in:9090/           
 
 # User Credentials Mapping
 ${PRAYER_COORDINATOR_EMAIL}        sankalp.kamdi@rysun.com

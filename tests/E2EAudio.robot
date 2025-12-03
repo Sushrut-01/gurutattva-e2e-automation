@@ -129,7 +129,9 @@ Validate mobile app does not show deleted Podcast tracks
     Publish Podcast Track
 
     # --- Web CRM: Delete Podcast ---
-    Delete Podcast Track
+    Click on the Audio Menu
+    Click on the Podcast Submenu
+    Delete Podcast Track From List    ${E2E_AUDIO_TRACK_TITLE_PODCAST}
     Close Web Browser
 
     # --- Mobile App: Verify Podcast is Deleted ---
@@ -160,7 +162,9 @@ Validate mobile app does not show deleted Music tracks
     Create New Audio Track
     Publish Music Track
     # --- Web CRM: Delete Music ---
-    Delete Music Track
+    Click on the Audio Menu
+    Click on the Music Submenu
+    Delete Music Track From List    ${E2E_AUDIO_TRACK_TITLE}
     Close Web Browser
 
     # --- Mobile App: Verify Track Playback ---
@@ -198,6 +202,8 @@ Validate Editing and Publishing of Music Track in Web CMS and Verify in Mobile A
     Publish Music Track
 
     # --- Web CRM: Edit Music Track ---
+    Click on the Audio Menu
+    Click on the Music Submenu
     Search Category In List    ${E2E_CATEGORY_NAME}
     Click Edit Icon For Created Track
     Scroll To Bottom Of Edit Music Page
@@ -248,6 +254,8 @@ Validate Editing and Publishing of Podcast Track in Web CMS and Verify in Mobile
     Publish Podcast Track
 
     # --- Web CRM: Edit Podcast Track ---
+    Click on the Audio Menu
+    Click on the Podcast Submenu
     Search Category In List    ${E2E_CATEGORY_NAME_PODCAST}
     Click Edit Icon For Created Track
     Scroll To Bottom Of Edit Music Page
@@ -294,7 +302,7 @@ Delete Music Track And Verify Removal From Mobile App
     # --- Web CRM: Delete Music Track ---
     Click on the Audio Menu
     Click on the Music Submenu
-    Delete Music Track From List    ${E2E_CATEGORY_NAME}
+    Delete Music Track From List    ${E2E_AUDIO_TRACK_TITLE}
     Close Web Browser
 
     # --- Mobile App: Verify Track is Deleted ---
@@ -312,8 +320,8 @@ Delete Music Track And Verify Removal From Mobile App
     Verify Deleted Music Track Is Not Visible In Category Section    ${E2E_AUDIO_TRACK_TITLE}    ${E2E_CATEGORY_NAME}
 
     # Search for the deleted track and verify it's not found
-    # Search Deleted Music Track In Mobile App    ${E2E_AUDIO_TRACK_TITLE}
-    # Verify Deleted Music Track Not Found In Search Results    ${E2E_AUDIO_TRACK_TITLE}
+    Search Deleted Music Track In Mobile App    ${E2E_AUDIO_TRACK_TITLE}
+    Verify Deleted Music Track Not Found In Search Results    ${E2E_AUDIO_TRACK_TITLE}
 
     Close Gurutattva App
 
@@ -338,7 +346,7 @@ Delete Podcast Track And Verify Removal From Mobile App
     # --- Web CRM: Delete Podcast Track ---
     Click on the Audio Menu
     Click on the Podcast Submenu
-    Delete Podcast Track From List    ${E2E_CATEGORY_NAME_PODCAST}
+    Delete Podcast Track From List    ${E2E_AUDIO_TRACK_TITLE_PODCAST}
     Close Web Browser
 
     # --- Mobile App: Verify Podcast Track is Deleted ---
@@ -358,8 +366,8 @@ Delete Podcast Track And Verify Removal From Mobile App
     ...    ${E2E_CATEGORY_NAME_PODCAST}
 
     # Search for the deleted podcast track and verify it's not found
-    # Search Deleted Podcast Track In Mobile App    ${E2E_AUDIO_TRACK_TITLE_PODCAST}
-    # Verify Deleted Podcast Track Not Found In Search Results    ${E2E_AUDIO_TRACK_TITLE_PODCAST}
+    Search Deleted Podcast Track In Mobile App    ${E2E_AUDIO_TRACK_TITLE_PODCAST}
+    Verify Deleted Podcast Track Not Found In Search Results    ${E2E_AUDIO_TRACK_TITLE_PODCAST}
 
     Close Gurutattva App
 

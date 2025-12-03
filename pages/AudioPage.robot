@@ -56,7 +56,55 @@ ${RADIO_SCREEN_BACK_BUTTON}           xpath=//android.widget.FrameLayout[@resour
 
 *** Keywords ***
 Click on the Audio Tab
-    Mobile Click Element     ${AUDIO_TAB}
+    Sleep    2s
+
+    # Try to find Audio Tab first
+    ${audio_tab_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${AUDIO_TAB}    5s
+
+    IF    ${audio_tab_visible} == False
+        # Audio Tab not visible - try pressing back to get to home screen
+        Log To Console    ⚠️ Audio Tab not visible, pressing back button to navigate to home
+        Run Keyword And Ignore Error    Mobile Press Keycode    4    # Back button
+        Sleep    2s
+
+        # Try again
+        ${audio_tab_visible_after_back}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${AUDIO_TAB}    10s
+
+        IF    ${audio_tab_visible_after_back} == False
+            Log To Console    ⚠️ Audio Tab still not visible, trying alternative locator
+            # Try with View element instead of ImageView
+            ${audio_tab_view}=    Set Variable    xpath=//android.view.View[@content-desc="Audio"]
+            ${audio_tab_view_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${audio_tab_view}    5s
+
+            IF    ${audio_tab_view_visible} == True
+                Mobile Click Element    ${audio_tab_view}
+                Log To Console    ✅ Clicked on Audio Tab using View locator
+            ELSE
+                # Last resort - try clicking home tab first
+                Log To Console    ⚠️ Trying to click Home tab first
+                ${home_tab}=    Set Variable    xpath=//android.widget.ImageView[@content-desc="Home"]
+                ${home_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${home_tab}    5s
+                IF    ${home_visible} == True
+                    Mobile Click Element    ${home_tab}
+                    Sleep    2s
+                    # Ensure app is in foreground
+                    Log To Console    🔄 Activating app to bring to foreground
+                    Mobile Activate Application    com.rysunhome.gurutattvamobile
+                    Sleep    3s
+                END
+                # Now try Audio Tab again
+                Mobile Wait Until Element Is Visible    ${AUDIO_TAB}    15s
+                Mobile Click Element    ${AUDIO_TAB}
+                Log To Console    ✅ Clicked on Audio Tab after clicking Home first
+            END
+        ELSE
+            Mobile Click Element    ${AUDIO_TAB}
+            Log To Console    ✅ Clicked on Audio Tab after pressing back
+        END
+    ELSE
+        Mobile Click Element    ${AUDIO_TAB}
+        Log To Console    ✅ Clicked on Audio Tab
+    END
 
 Click on the Radio Button
     Mobile Click Element     ${RADIO_BUTTON}
@@ -369,9 +417,45 @@ Click on the Search Icon
     Log To Console    Clicked on Search Icon.
 
 Click on the Search Icon From Podcast
-    Sleep    5s
-    Mobile Click Element    xpath=//android.widget.ImageView[2]
-    Log To Console    Clicked on Search Icon.  
+    [Documentation]    Clicks on search icon from Podcast details page with robust fallback locators
+    Sleep    3s
+    TRY
+        # Try content descriptor based locator
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Podcast"]/android.widget.ImageView[2]    10s
+        Mobile Click Element    xpath=//android.view.View[@content-desc="Podcast"]/android.widget.ImageView[2]
+        Log To Console    ✅ Clicked Search Icon using Podcast content-desc locator
+    EXCEPT
+        Log To Console    ⚠️ Podcast content-desc locator failed, trying alternatives...
+        TRY
+            # Try generic ImageView[2] with increased wait
+            Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[2]    8s
+            Mobile Click Element    xpath=//android.widget.ImageView[2]
+            Log To Console    ✅ Clicked Search Icon using ImageView[2] locator
+        EXCEPT
+            TRY
+                # Try searching by class in visible elements
+                Mobile Wait Until Element Is Visible    xpath=(//android.widget.ImageView)[2]    8s
+                Mobile Click Element    xpath=(//android.widget.ImageView)[2]
+                Log To Console    ✅ Clicked Search Icon using indexed ImageView locator
+            EXCEPT
+                # Final fallback - try accessibilityId or description
+                TRY
+                    Mobile Wait Until Element Is Visible    accessibility_id=search    5s
+                    Mobile Click Element    accessibility_id=search
+                    Log To Console    ✅ Clicked Search Icon using accessibility ID
+                EXCEPT
+                    Log To Console    ❌ All search icon locators failed, trying tap by coordinates
+                    # Get screen size and tap at typical search icon location (top right)
+                    ${width}    ${height}=    Mobile Get Window Size
+                    ${x}=    Evaluate    int(${width} * 0.9)
+                    ${y}=    Evaluate    int(${height} * 0.08)
+                    Mobile Tap    ${x}    ${y}
+                    Log To Console    ⚠️ Tapped at coordinates (${x}, ${y}) as final fallback
+                END
+            END
+        END
+    END
+    Sleep    2s  
 
 Click on the search bar and enter a track name.
     Sleep    5s
