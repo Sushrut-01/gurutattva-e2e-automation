@@ -15,10 +15,13 @@ ${DASHBOARD_TEXT}                 Dashboard
 *** Keywords ***
 Open Web Browser
     [Documentation]    Opens web browser and navigates to Gurutattva website
+    Log To Console    🌐 Opening web browser: ${WEB_BROWSER}
+    Log To Console    🔗 Navigating to: ${WEB_BASE_URL}
     Web Open Browser    ${WEB_BASE_URL}    ${WEB_BROWSER}
     Web Maximize Browser Window
     Web Set Selenium Implicit Wait    ${WEB_IMPLICIT_WAIT}
-    
+    Log To Console    ✅ Web browser opened successfully
+
     # Handle SSL Certificate Warning (if present)
     ${ssl_warning_present}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    id=details-button    3s
     IF    ${ssl_warning_present}

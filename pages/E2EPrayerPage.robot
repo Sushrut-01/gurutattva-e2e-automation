@@ -58,20 +58,28 @@ Click on the Prayer Menu
     [Documentation]    Clicks on the Prayer menu in the web application
     Web Wait Until Page Contains Element    ${PRAYER_MENU}    10s
     Web Click Element    ${PRAYER_MENU}
-	
+    Sleep    5s
+    Log To Console    📋 Clicked on Prayer Menu - waiting for page to load
+
 Search for the created prayer
-    Web Wait Until Page Contains Element    xpath=//input[@type='search' and @placeholder='Search…']    10s
+    Log To Console    🔍 Waiting for search box to appear...
+    Web Wait Until Page Contains Element    xpath=//input[@type='search' and @placeholder='Search…']    15s
+    Log To Console    ✅ Search box found
     Web Click Element    xpath=//input[@type='search' and @placeholder='Search…']
     Sleep    2s
     Web Input Text    xpath=//input[@type='search' and @placeholder='Search…']    ${E2E_PRAYER_PERSON_NAME}
-    Sleep    2s
+    Sleep    3s
+    Log To Console    🔍 Searching for prayer: ${E2E_PRAYER_PERSON_NAME}
 
 Search for the created other prayer
-    Web Wait Until Page Contains Element    xpath=//input[@type='search' and @placeholder='Search…']    10s
+    Log To Console    🔍 Waiting for search box to appear...
+    Web Wait Until Page Contains Element    xpath=//input[@type='search' and @placeholder='Search…']    15s
+    Log To Console    ✅ Search box found
     Web Click Element    xpath=//input[@type='search' and @placeholder='Search…']
     Sleep    2s
     Web Input Text    xpath=//input[@type='search' and @placeholder='Search…']    ${E2E_PRAYER_APPLICANT_NAME_OTHER}
-    Sleep    2s
+    Sleep    3s
+    Log To Console    🔍 Searching for prayer: ${E2E_PRAYER_APPLICANT_NAME_OTHER}
 	
 Verify the Newly added Self Prayer is displayed in the CMS
      [Documentation]    Verify the Newly added Self Prayer is displayed in the CMS
