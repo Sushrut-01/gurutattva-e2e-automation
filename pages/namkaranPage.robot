@@ -140,13 +140,27 @@ Click on the Cancel Button
 Click on the I agree Button
     Mobile Wait Until Element Is Visible   ${IAGREE_BUTTON}     10s
     Mobile Click Element     ${IAGREE_BUTTON}
+    Sleep    2s
 
 Verify Namkaran screen
-    Mobile Wait Until Element Is Visible    ${NAMKARAN_CATEGORIES}    10s
-    Mobile Element Should Be Visible        ${NAMKARAN_CATEGORIES}
-    ${Content}=    Mobile Get Element Attribute    ${NAMKARAN_CATEGORIES}    content-desc
-    Should Contain    ${Content}       Namkaran Categories
-    Log To Console    Namkaran screen content: ${Content}
+    [Documentation]    Verifies Namkaran screen is displayed with retry mechanism
+    FOR    ${retry}    IN RANGE    3
+        TRY
+            Mobile Wait Until Element Is Visible    ${NAMKARAN_CATEGORIES}    15s
+            Sleep    0.5s
+            Mobile Element Should Be Visible        ${NAMKARAN_CATEGORIES}
+            ${Content}=    Mobile Get Element Attribute    ${NAMKARAN_CATEGORIES}    content-desc
+            Should Contain    ${Content}       Namkaran Categories
+            Log To Console    Namkaran screen content: ${Content}
+            BREAK
+        EXCEPT
+            Log To Console    ⚠️ Attempt ${retry + 1} failed to verify Namkaran screen, retrying...
+            Sleep    2s
+            IF    ${retry} == 2
+                Fail    Failed to verify Namkaran screen after 3 attempts. Element '${NAMKARAN_CATEGORIES}' not found.
+            END
+        END
+    END
 
 
 Verify Namkaran submission success message
@@ -701,11 +715,26 @@ Enter Third name choice
 
 
 
+Select NO Radio Button
+    [Documentation]    Selects the NO radio button for multiple name choice question
+    Log To Console    🔘 Scrolling to find NO radio button...
+    Scroll Until Element Visible    xpath=//android.widget.RadioButton[1]
+    Log To Console    🔘 Selecting NO for multiple name choice...
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.RadioButton[1]    10s
+    Mobile Click Element    xpath=//android.widget.RadioButton[1]
+    Log To Console    ✅ Selected NO for multiple name choice
+    Sleep    2s
+
 Click on the Submit Button
+    Log To Console    🔄 Scrolling to find Submit button...
     Scroll Until Element Visible    ${SubmitButton}
+    Log To Console    ⏳ Waiting for Submit button to be visible...
     Mobile Wait Until Element Is Visible   ${SubmitButton}    10s
-    Mobile Click Element    ${SubmitButton} 
+    Log To Console    👆 Clicking Submit button...
+    Mobile Click Element    ${SubmitButton}
+    Log To Console    ✅ Clicked Submit button successfully
     Sleep    5s
+    Log To Console    ⏳ Waiting 5 seconds after submit...
 
 Click on Add Namkaran Button
     Mobile Wait Until Element Is Visible   ${ADD_NAMKARAN_BUTTON}     10s

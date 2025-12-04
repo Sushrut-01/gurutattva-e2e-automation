@@ -12,8 +12,23 @@ ${AUDIO_BACK_BUTTON}           xpath=//android.widget.FrameLayout[@resource-id="
 
 *** Keywords ***
 Click on the Explore Tab
-    Mobile Click Element    ${EXPLORER_TAB}
-    Sleep    2s
+    [Documentation]    Clicks on the Explore Tab with retry mechanism to handle StaleElementReferenceException
+    FOR    ${retry}    IN RANGE    3
+        TRY
+            Mobile Wait Until Element Is Visible    ${EXPLORER_TAB}    10s
+            Sleep    0.5s
+            Mobile Click Element    ${EXPLORER_TAB}
+            Sleep    2s
+            Log To Console    ✅ Successfully clicked on Explore Tab
+            BREAK
+        EXCEPT
+            Log To Console    ⚠️ Attempt ${retry + 1} failed, retrying click on Explore Tab...
+            Sleep    1s
+            IF    ${retry} == 2
+                Fail    Failed to click on Explore Tab after 3 attempts
+            END
+        END
+    END
 
 Print All Participate Names
     ${participate_elements}=    Mobile Get Webelements    ${participate_elements}
@@ -23,7 +38,22 @@ Print All Participate Names
     END
 
 Click on the Back Button from Explore Screen
-    Mobile Click Element     ${EXPLORE_BACK_BUTTON} 
+    [Documentation]    Clicks on the Back Button from Explore Screen with retry mechanism
+    FOR    ${retry}    IN RANGE    3
+        TRY
+            Mobile Wait Until Element Is Visible    ${EXPLORE_BACK_BUTTON}    10s
+            Sleep    0.5s
+            Mobile Click Element    ${EXPLORE_BACK_BUTTON}
+            Log To Console    ✅ Successfully clicked on Back Button from Explore Screen
+            BREAK
+        EXCEPT
+            Log To Console    ⚠️ Attempt ${retry + 1} failed, retrying click on Back Button...
+            Sleep    1s
+            IF    ${retry} == 2
+                Fail    Failed to click on Back Button from Explore Screen after 3 attempts
+            END
+        END
+    END 
   
 Click on the Audio Tab From Explore Screen
     Mobile Wait Until Element Is Visible    ${AUDIO_EXPLORER_TAB}    10s

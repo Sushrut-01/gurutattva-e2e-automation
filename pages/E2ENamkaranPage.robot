@@ -103,70 +103,24 @@ Enter E2E Bride Namkaran Data
     [Documentation]    Enters the generated E2E test data into Bride Namkaran form
     # Wait for form to be ready
     Sleep    3s
-    
-    # Enter Bride First Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_BRIDE_FIRST_NAME}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Bride First Name: ${E2E_BRIDE_FIRST_NAME}
-    
-    # Enter Bride Middle Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_BRIDE_MIDDLE_NAME}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Bride Middle Name: ${E2E_BRIDE_MIDDLE_NAME}
-    
-    # Enter Bride Last Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_BRIDE_LAST_NAME}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Bride Last Name: ${E2E_BRIDE_LAST_NAME}
-    
-    # Enter Groom First Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_GROOM_FIRST_NAME}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Groom First Name: ${E2E_GROOM_FIRST_NAME}
-    
-    # Enter Groom Middle Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_GROOM_MIDDLE_NAME}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Groom Middle Name: ${E2E_GROOM_MIDDLE_NAME}
-    
-    # Enter Groom Last Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_GROOM_LAST_NAME}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Groom Last Name: ${E2E_GROOM_LAST_NAME}
-    
-    # Enter Email Address
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_NAMKARAN_EMAIL}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Email: ${E2E_NAMKARAN_EMAIL}
-    
-    # Enter Phone Number
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]
-    Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_NAMKARAN_PHONE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Phone Number: ${E2E_NAMKARAN_PHONE}
-    
-    # Enter Marriage Place
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Marriage Place']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Marriage Place']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Marriage Place']    ${E2E_MARRIAGE_PLACE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Marriage Place: ${E2E_MARRIAGE_PLACE}
-    
+
+    # Enter Bride Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_BRIDE_FIRST_NAME}    Bride First Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_BRIDE_MIDDLE_NAME}    Bride Middle Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_BRIDE_LAST_NAME}    Bride Last Name
+
+    # Enter Groom Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_GROOM_FIRST_NAME}    Groom First Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_GROOM_MIDDLE_NAME}    Groom Middle Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_GROOM_LAST_NAME}    Groom Last Name
+
+    # Enter Email and Phone (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_NAMKARAN_EMAIL}    Email
+    Smart Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_NAMKARAN_PHONE}    Phone Number
+
+    # Enter Marriage Place (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Marriage Place']    ${E2E_MARRIAGE_PLACE}    Marriage Place
+
     Log To Console    ✅ Successfully entered E2E Bride Namkaran Data
 
 Click on the Namkaran Management Menu
@@ -200,6 +154,30 @@ Verify the created Namkaran
     
     # Now verify the data on the detail page
     Verify Namkaran Detail Page Data
+
+Verify the created Business Namkaran
+    [Documentation]    Verifies that the business namkaran data entered in mobile app matches the data in CMS by clicking first record and viewing details
+    Sleep    5s
+
+    # Wait for table to load
+    Web Wait Until Page Contains Element    ${Namkaran_Table_Row}    15s
+
+    # Click on the first record's 3-dot menu (Actions column)
+    ${first_row_actions}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//button[@type='button']
+    Web Wait Until Page Contains Element    ${first_row_actions}    10s
+    Web Click Element    ${first_row_actions}
+    Sleep    2s
+
+    # Click on View button from the dropdown menu
+    ${view_button}=    Set Variable    xpath=//li[@role='menuitem' and contains(.,'View')]
+    Web Wait Until Page Contains Element    ${view_button}    10s
+    Web Click Element    ${view_button}
+    Sleep    5s
+
+    Log To Console    👁️ Clicked on View button for first namkaran record
+
+    # Now verify the Business data on the detail page
+    Verify Business Namkaran Detail Page Data
 
 Verify Namkaran Detail Page Data
     [Documentation]    Verifies the namkaran data on the detail page matches the mobile app data
@@ -419,105 +397,30 @@ Generate E2E Namkaran Test Data For Business
     Log To Console    🎯 Address: ${E2E_BUSINESS_ADDRESS}
 
 Enter E2E Business Namkaran Data
-    [Documentation]    Enters the generated E2E test data into Business Namkaran form
+    [Documentation]    Enters the generated E2E test data into Business Namkaran form using smart auto-scroll
     Sleep    3s
-    
-    # Enter First Owner First Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_OWNER_FIRST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered First Owner First Name: ${E2E_BUSINESS_OWNER_FIRST}
-    
-    # Enter First Owner Middle Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_OWNER_MIDDLE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered First Owner Middle Name: ${E2E_BUSINESS_OWNER_MIDDLE}
-    
-    # Enter First Owner Last Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_OWNER_LAST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered First Owner Last Name: ${E2E_BUSINESS_OWNER_LAST}
-    Sleep    2s
-    
-    # Enter Second Owner First Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_SECOND_OWNER_FIRST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Second Owner First Name: ${E2E_BUSINESS_SECOND_OWNER_FIRST}
-    
-    # Enter Second Owner Middle Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_SECOND_OWNER_MIDDLE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Second Owner Middle Name: ${E2E_BUSINESS_SECOND_OWNER_MIDDLE}
-    
-    # Enter Second Owner Last Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_SECOND_OWNER_LAST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Second Owner Last Name: ${E2E_BUSINESS_SECOND_OWNER_LAST}
-    
-    # Enter Third Owner First Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_THIRD_OWNER_FIRST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Third Owner First Name: ${E2E_BUSINESS_THIRD_OWNER_FIRST}
-    
-    # Enter Third Owner Middle Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_THIRD_OWNER_MIDDLE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Third Owner Middle Name: ${E2E_BUSINESS_THIRD_OWNER_MIDDLE}
-    
-    # Enter Third Owner Last Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_THIRD_OWNER_LAST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Third Owner Last Name: ${E2E_BUSINESS_THIRD_OWNER_LAST}
 
-    # Scroll to other fields
-    Scroll Until Element Visible    xpath=//android.widget.EditText[@hint='Enter Email']
-    Sleep    2s
-    
-    # Enter Email Address
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_BUSINESS_EMAIL}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Email: ${E2E_BUSINESS_EMAIL}
-    
-    # Enter Phone Number
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]
-    Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_BUSINESS_PHONE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Phone Number: ${E2E_BUSINESS_PHONE}
-    
-    # Enter Business Description
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Text Here']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Text Here']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Text Here']    ${E2E_BUSINESS_DESC}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Business Description: ${E2E_BUSINESS_DESC}
-    
-    # Enter Business Address
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Full Address']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Full Address']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Full Address']    ${E2E_BUSINESS_ADDRESS}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Business Address: ${E2E_BUSINESS_ADDRESS}
-    
+    # Enter First Owner Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_OWNER_FIRST}    First Owner First Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_OWNER_MIDDLE}    First Owner Middle Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_OWNER_LAST}    First Owner Last Name
+
+    # Enter Second Owner Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_SECOND_OWNER_FIRST}    Second Owner First Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_SECOND_OWNER_MIDDLE}    Second Owner Middle Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_SECOND_OWNER_LAST}    Second Owner Last Name
+
+    # Enter Third Owner Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_THIRD_OWNER_FIRST}    Third Owner First Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_THIRD_OWNER_MIDDLE}    Third Owner Middle Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_THIRD_OWNER_LAST}    Third Owner Last Name
+
+    # Enter Contact and Business Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_BUSINESS_EMAIL}    Email
+    Smart Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_BUSINESS_PHONE}    Phone Number
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Text Here']    ${E2E_BUSINESS_DESC}    Business Description
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Full Address']    ${E2E_BUSINESS_ADDRESS}    Business Address
+
     Log To Console    ✅ Successfully entered E2E Business Namkaran Data
 
 # House Namkaran Keywords
@@ -545,51 +448,16 @@ Enter E2E House Namkaran Data
     [Documentation]    Enters the generated E2E test data into House Namkaran form
     Sleep    3s
     
-    # Enter House Owner First Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_HOUSE_OWNER_FIRST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered House Owner First Name: ${E2E_HOUSE_OWNER_FIRST}
-    
-    # Enter House Owner Middle Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_HOUSE_OWNER_MIDDLE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered House Owner Middle Name: ${E2E_HOUSE_OWNER_MIDDLE}
-    
-    # Enter House Owner Last Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_HOUSE_OWNER_LAST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered House Owner Last Name: ${E2E_HOUSE_OWNER_LAST}
-    
-    # Enter Email Address
-    Scroll Until Element Visible    xpath=//android.widget.EditText[@hint='Enter Email']
-    Sleep    2s
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_HOUSE_EMAIL}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Email: ${E2E_HOUSE_EMAIL}
-    
-    # Enter Phone Number
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]
-    Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_HOUSE_PHONE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Phone Number: ${E2E_HOUSE_PHONE}
-    
-    
-    # Enter House Address
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter House Full Address']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter House Full Address']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter House Full Address']    ${E2E_HOUSE_ADDRESS}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered House Address: ${E2E_HOUSE_ADDRESS}
-    
+    # Enter House Owner Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_HOUSE_OWNER_FIRST}    House Owner First Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_HOUSE_OWNER_MIDDLE}    House Owner Middle Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_HOUSE_OWNER_LAST}    House Owner Last Name
+
+    # Enter Contact and House Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_HOUSE_EMAIL}    Email
+    Smart Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_HOUSE_PHONE}    Phone Number
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter House Full Address']    ${E2E_HOUSE_ADDRESS}    House Address
+
     Log To Console    ✅ Successfully entered E2E House Namkaran Data
 
 # Child Namkaran Keywords
@@ -624,73 +492,28 @@ Generate E2E Namkaran Test Data For Child
     Log To Console    🎯 Birth Place: ${E2E_CHILD_BIRTH_PLACE}
 
 Enter E2E Child Namkaran Data
-    [Documentation]    Enters the generated E2E test data into Child Namkaran form
+    [Documentation]    Enters the generated E2E test data into Child Namkaran form using smart auto-scroll
     Sleep    3s
-    
-    # # Enter Child Name
-    # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Child Name']    10s
-    # Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Child Name']
-    # Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Child Name']    ${E2E_CHILD_NAME}
-    # Mobile Hide Keyboard
-    # Log To Console    ✅ Entered Child Name: ${E2E_CHILD_NAME}
-    
-    # Enter Mother First Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_MOTHER_FIRST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Mother First Name: ${E2E_MOTHER_FIRST}
-    
-    # Enter Mother Middle Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_MOTHER_MIDDLE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Mother Middle Name: ${E2E_MOTHER_MIDDLE}
-    
-    # Enter Mother Last Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_MOTHER_LAST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Mother Last Name: ${E2E_MOTHER_LAST}
-    
-    # Enter Father First Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_FATHER_FIRST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Father First Name: ${E2E_FATHER_FIRST}
-    
-    # Enter Father Middle Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_FATHER_MIDDLE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Father Middle Name: ${E2E_FATHER_MIDDLE}
-    
-    # Enter Father Last Name
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_FATHER_LAST}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Father Last Name: ${E2E_FATHER_LAST}
-    
-    # Enter Email Address
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_CHILD_EMAIL}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Email: ${E2E_CHILD_EMAIL}
-    
-    # Enter Phone Number
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    10s
-    Mobile Click Element    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]
-    Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_CHILD_PHONE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Phone Number: ${E2E_CHILD_PHONE}
-    
-    Log To Console    ✅ Successfully entered E2E Child Namkaran Data
+
+    # Enter Mother Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_MOTHER_FIRST}    Mother First Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_MOTHER_MIDDLE}    Mother Middle Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_MOTHER_LAST}    Mother Last Name
+
+    # Enter Father Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_FATHER_FIRST}    Father First Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_FATHER_MIDDLE}    Father Middle Name
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_FATHER_LAST}    Father Last Name
+
+    # Enter Contact Details (using smart input with auto-scroll)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_CHILD_EMAIL}    Email
+    Smart Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_CHILD_PHONE}    Phone Number
+
+    # Note: Child Namkaran requires additional fields (DOB, Gender, Birth Time, Birth Place)
+    # These should be filled before selecting NO option
+    # The NO selection will be added after those fields are entered
+
+    Log To Console    ✅ Successfully entered E2E Child Namkaran Data (partial - DOB, Gender, etc. needed)
 
 # YES Option Keywords for Bride Namkaran
 Generate E2E Namkaran Test Data For Bride With YES Option

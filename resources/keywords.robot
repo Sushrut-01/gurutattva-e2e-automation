@@ -99,20 +99,48 @@ Close Gurutattva App
     Mobile Close Application
 
 Scroll Until Element Visible
-    [Arguments]    ${locator}
+    [Arguments]    ${locator}    ${max_scrolls}=15
+    [Documentation]    Micro-scrolling with very small increments (15% of screen) to precisely find elements
     ${height}=      Mobile Get Window Height
     ${width}=       Mobile Get Window Width
     ${start_x}=     Evaluate    int(${width} * 0.5)
-    ${start_y}=     Evaluate    int(${height} * 0.6)
+    ${start_y}=     Evaluate    int(${height} * 0.55)
     ${offset_x}=    Set Variable    0
-    ${offset_y}=    Evaluate    int(-1 * ${height} * 0.4)
- 
 
-    FOR    ${i}    IN RANGE    0    5
+    # MICRO SCROLL: Only 15% of screen height per scroll (was 25%)
+    ${micro_scroll_distance}=    Evaluate    int(${height} * 0.15)
+
+    # Try scrolling down with micro-increments (10 attempts)
+    FOR    ${i}    IN RANGE    0    10
         ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    ${locator}
-        Exit For Loop If    ${visible}
-        Mobile Swipe    ${start_x}    ${start_y}    ${offset_x}    ${offset_y}    800ms
+        IF    ${visible}
+            Log To Console    ✅ Element found after ${i} scroll(s) down
+            BREAK
+        END
+        # Micro scroll down
+        ${end_y}=    Evaluate    int(${start_y} - ${micro_scroll_distance})
+        Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    400ms
+        Sleep    0.3s
     END
+
+    # If still not found, we may have overshot - scroll back up with micro-increments
+    ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    ${locator}
+    IF    not ${visible}
+        Log To Console    ⚠️ Element not found going down, micro-scrolling UP to recover...
+        FOR    ${j}    IN RANGE    0    8
+            ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    ${locator}
+            IF    ${visible}
+                Log To Console    ✅ Element found after ${j} scroll(s) up (recovery)
+                BREAK
+            END
+            # Micro scroll up (reverse direction)
+            ${end_y}=    Evaluate    int(${start_y} + ${micro_scroll_distance})
+            Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    400ms
+            Sleep    0.3s
+        END
+    END
+
+    Sleep    0.2s    # Final stabilization
 
 Scroll Up Until Element Visible
     [Arguments]    ${locator}
@@ -122,12 +150,43 @@ Scroll Up Until Element Visible
     ${start_y}=     Evaluate    int(${height} * 0.4)
     ${end_x}=       Set Variable    ${start_x}
     ${end_y}=       Evaluate    int(${height} * 0.8)    # Swipe from 40% to 80% (upwards)
- 
+
     FOR    ${i}    IN RANGE    0    5
         ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    ${locator}
         Exit For Loop If    ${visible}
         Mobile Swipe    ${start_x}    ${start_y}    ${end_x}    ${end_y}    800ms
     END
+
+Smart Mobile Input Text
+    [Arguments]    ${locator}    ${text}    ${field_name}=Field
+    [Documentation]    Universal keyword that scrolls to element if needed, then inputs text with proper waits
+    ...    ${locator} - Element locator (xpath, id, etc.)
+    ...    ${text} - Text to input
+    ...    ${field_name} - Name for logging (e.g., "Email", "Phone Number")
+
+    # Try to find element, scroll if not visible (with increased wait time)
+    ${visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${locator}    5s
+    IF    not ${visible}
+        Scroll Until Element Visible    ${locator}
+    END
+
+    # Wait for element to be fully visible and stable
+    Sleep    0.3s
+    Mobile Wait Until Element Is Visible    ${locator}    10s
+
+    # Click and wait for focus
+    Mobile Click Element    ${locator}
+    Sleep    0.3s
+
+    # Input text and wait for processing
+    Mobile Input Text    ${locator}    ${text}
+    Sleep    0.2s
+
+    # Hide keyboard and wait for UI to stabilize
+    Mobile Hide Keyboard
+    Sleep    0.3s
+
+    Log To Console    ✅ Entered ${field_name}: ${text}
 
 Swipe Until Element Visible
     [Arguments]    ${locator}

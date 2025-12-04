@@ -84,6 +84,9 @@ Verify user is able to add Business Namkaran with NO Option on the mobile app an
     # Enter E2E test data for Business Namkaran
     Enter E2E Business Namkaran Data
 
+    # Select NO for multiple name choice (for NO Option test)
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
     #Verify Namkaran submission success message
@@ -95,8 +98,7 @@ Verify user is able to add Business Namkaran with NO Option on the mobile app an
 
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Namkaran
-    Verify Business Namkaran Detail Page Data
+    Verify the created Business Namkaran
 
     Log To Console    🎉 E2E Business Namkaran Test Completed Successfully!
     Log To Console    🎉 Test Data Used:

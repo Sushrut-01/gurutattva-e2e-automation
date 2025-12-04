@@ -5,6 +5,9 @@ Resource            ../resources/web_keywords.robot
 Resource            ../resources/test_setup_teardown.robot
 Resource            ../pages/E2EAudioPage.robot
 Resource            ../pages/CRM_AudioPage.robot
+Resource            ../pages/E2EPrayerPage.robot
+Resource            ../pages/E2ENewsPage.robot
+Resource            ../pages/E2EEventsPage.robot
 
 Test Setup          Cleanup Test Setup
 Test Teardown       Cleanup Test Teardown
@@ -24,27 +27,59 @@ Clean Up All E2E Test Data
     # --- Open Web Browser and Login ---
     Open Web Browser
     Login in with valid credentials
-    
+
+    # --- Audio Module Cleanup ---
+    Log To Console    🧹 AUDIO MODULE CLEANUP
+
     # --- Step 1: Delete All E2E Audio Tracks ---
     Log To Console    🧹 Step 1: Cleaning up E2E Audio Tracks...
     Clean Up E2E Audio Tracks
-    
+
     # --- Step 2: Delete All E2E Podcast Tracks ---
     Log To Console    🧹 Step 2: Cleaning up E2E Podcast Tracks...
     Clean Up E2E Podcast Tracks
-    
+
     # --- Step 3: Delete All E2E Contributors (Authors & Speakers) ---
     Log To Console    🧹 Step 3: Cleaning up E2E Contributors...
     Clean Up E2E Contributors
-    
+
     # --- Step 4: Delete All E2E SubCategories ---
     Log To Console    🧹 Step 4: Cleaning up E2E SubCategories...
     Clean Up E2E SubCategories
-    
+
     # --- Step 5: Delete All E2E Categories ---
     Log To Console    🧹 Step 5: Cleaning up E2E Categories...
     Clean Up E2E Categories
-    
+
+    # --- Prayer Module Cleanup ---
+    Log To Console    🧹 PRAYER MODULE CLEANUP
+
+    # --- Step 6: Delete All E2E Prayer Requests ---
+    Log To Console    🧹 Step 6: Cleaning up E2E Prayer Requests...
+    Clean Up E2E Prayer Requests
+
+    # --- News Module Cleanup ---
+    Log To Console    🧹 NEWS MODULE CLEANUP
+
+    # --- Step 7: Delete All E2E Global News ---
+    Log To Console    🧹 Step 7: Cleaning up E2E Global News...
+    Clean Up E2E Global News
+
+    # --- Step 8: Delete All E2E News Categories ---
+    Log To Console    🧹 Step 8: Cleaning up E2E News Categories...
+    Clean Up E2E News Categories
+
+    # --- Events Module Cleanup ---
+    Log To Console    🧹 EVENTS MODULE CLEANUP
+
+    # --- Step 9: Delete All E2E Global Events ---
+    Log To Console    🧹 Step 9: Cleaning up E2E Global Events...
+    Clean Up E2E Global Events
+
+    # --- Step 10: Delete All E2E Event Categories ---
+    Log To Console    🧹 Step 10: Cleaning up E2E Event Categories...
+    Clean Up E2E Event Categories
+
     Log To Console    ✅ All E2E test data cleanup completed successfully!
     Close Web Browser
 
@@ -473,4 +508,397 @@ Cleanup Test Teardown
     Log To Console    ===== Starting Cleanup Test Teardown =====
     Run Keyword And Ignore Error    Web.Close All Browsers
     Log To Console    ===== Cleanup Test Teardown Completed =====
+
+# ===== PRAYER MODULE CLEANUP KEYWORDS =====
+
+Clean Up E2E Prayer Requests
+    [Documentation]    Deletes all E2E prayer requests
+    Click on the Prayer Menu
+    Enter Search Text For Cleanup    E2E
+    Sleep    3s
+
+    ${prayer_count}=    Get E2E Prayer Count
+    Log To Console    📊 Found ${prayer_count} E2E prayer requests to delete
+
+    WHILE    ${prayer_count} > 0
+        Delete First E2E Prayer Request
+        Sleep    2s
+        ${prayer_count}=    Get E2E Prayer Count
+        Log To Console    📊 Remaining E2E prayer requests: ${prayer_count}
+    END
+
+    Log To Console    ✅ E2E prayer requests cleanup completed
+
+Get E2E Prayer Count
+    [Documentation]    Returns count of E2E prayer requests found in the current page
+    TRY
+        ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+        ${e2e_count}=    Set Variable    0
+
+        FOR    ${i}    IN RANGE    1    ${row_count + 1}
+            ${name_text}=    Get Text From Prayer Row    ${i}
+            IF    'E2E' in '${name_text}'
+                ${e2e_count}=    Evaluate    ${e2e_count} + 1
+            END
+        END
+
+        ${result}=    Set Variable    ${e2e_count}
+    EXCEPT    AS    ${error}
+        Log To Console    ⚠️ Error getting prayer count: ${error}
+        ${result}=    Set Variable    0
+    END
+    [Return]    ${result}
+
+Get Text From Prayer Row
+    [Arguments]    ${row_index}
+    [Documentation]    Gets text from prayer row in the specified row
+    ${name_cell}=    Set Variable    (${DATA_GRID_ROWS})[${row_index}]//div[@data-field='personName']
+    ${name_text}=    Web.Get Text    ${name_cell}
+    [Return]    ${name_text}
+
+Delete First E2E Prayer Request
+    [Documentation]    Deletes the first E2E prayer request found
+    ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+
+    FOR    ${i}    IN RANGE    1    ${row_count + 1}
+        ${name_text}=    Get Text From Prayer Row    ${i}
+        IF    'E2E' in '${name_text}'
+            Log To Console    🗑️ Deleting prayer request: ${name_text}
+
+            # Click on the three-dot menu for this row
+            Web.Wait Until Page Contains Element    xpath=//button[@role="menuitem"]    10s
+            Web.Click Element    xpath=//button[@role="menuitem"]
+            Sleep    2s
+
+            # Click on Delete option
+            Web.Wait Until Page Contains Element    ${DELETE_OPTION}    5s
+            Web.Click Element    ${DELETE_OPTION}
+            Sleep    2s
+
+            # Verify delete confirmation dialog appears
+            Web.Wait Until Page Contains Element    ${DELETE_CONFIRMATION_TITLE}    5s
+
+            # Click Delete button to confirm deletion
+            Web.Wait Until Page Contains Element    ${DELETE_BUTTON}    5s
+            Web.Click Element    ${DELETE_BUTTON}
+            Sleep    3s
+
+            Log To Console    ✅ Successfully deleted prayer request: ${name_text}
+            BREAK
+        END
+    END
+
+# ===== NEWS MODULE CLEANUP KEYWORDS =====
+
+Clean Up E2E Global News
+    [Documentation]    Deletes all E2E global news
+    Navigate To Global News In CMS
+    Enter Search Text For Cleanup    E2E
+    Sleep    3s
+
+    ${news_count}=    Get E2E News Count
+    Log To Console    📊 Found ${news_count} E2E global news to delete
+
+    WHILE    ${news_count} > 0
+        Delete First E2E News
+        Sleep    2s
+        ${news_count}=    Get E2E News Count
+        Log To Console    📊 Remaining E2E global news: ${news_count}
+    END
+
+    Log To Console    ✅ E2E global news cleanup completed
+
+Clean Up E2E News Categories
+    [Documentation]    Deletes all E2E news categories
+    Click on the Master Management Menu
+    Click on the Manage News Categories Submenu
+    Enter Search Text For Cleanup    News_Category_
+    Sleep    3s
+
+    ${category_count}=    Get E2E News Category Count
+    Log To Console    📊 Found ${category_count} E2E news categories to delete
+
+    WHILE    ${category_count} > 0
+        Delete First E2E News Category
+        Sleep    2s
+        ${category_count}=    Get E2E News Category Count
+        Log To Console    📊 Remaining E2E news categories: ${category_count}
+    END
+
+    Log To Console    ✅ E2E news categories cleanup completed
+
+Get E2E News Count
+    [Documentation]    Returns count of E2E news found in the current page
+    TRY
+        ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+        ${e2e_count}=    Set Variable    0
+
+        FOR    ${i}    IN RANGE    1    ${row_count + 1}
+            ${title_text}=    Get Text From News Row    ${i}
+            IF    'E2E' in '${title_text}'
+                ${e2e_count}=    Evaluate    ${e2e_count} + 1
+            END
+        END
+
+        ${result}=    Set Variable    ${e2e_count}
+    EXCEPT    AS    ${error}
+        Log To Console    ⚠️ Error getting news count: ${error}
+        ${result}=    Set Variable    0
+    END
+    [Return]    ${result}
+
+Get E2E News Category Count
+    [Documentation]    Returns count of E2E news categories found in the current page
+    TRY
+        ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+        ${e2e_count}=    Set Variable    0
+
+        FOR    ${i}    IN RANGE    1    ${row_count + 1}
+            ${name_text}=    Get Text From News Category Row    ${i}
+            IF    'News_Category_' in '${name_text}'
+                ${e2e_count}=    Evaluate    ${e2e_count} + 1
+            END
+        END
+
+        ${result}=    Set Variable    ${e2e_count}
+    EXCEPT    AS    ${error}
+        Log To Console    ⚠️ Error getting news category count: ${error}
+        ${result}=    Set Variable    0
+    END
+    [Return]    ${result}
+
+Get Text From News Row
+    [Arguments]    ${row_index}
+    [Documentation]    Gets text from news title cell in the specified row
+    ${title_cell}=    Set Variable    (${DATA_GRID_ROWS})[${row_index}]//div[@data-field='newsTranslations']
+    ${title_text}=    Web.Get Text    ${title_cell}
+    [Return]    ${title_text}
+
+Get Text From News Category Row
+    [Arguments]    ${row_index}
+    [Documentation]    Gets text from news category name cell in the specified row
+    ${name_cell}=    Set Variable    (${DATA_GRID_ROWS})[${row_index}]//div[@data-field='categoryName']
+    ${name_text}=    Web.Get Text    ${name_cell}
+    [Return]    ${name_text}
+
+Delete First E2E News
+    [Documentation]    Deletes the first E2E news found
+    ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+
+    FOR    ${i}    IN RANGE    1    ${row_count + 1}
+        ${title_text}=    Get Text From News Row    ${i}
+        IF    'E2E' in '${title_text}'
+            Log To Console    🗑️ Deleting news: ${title_text}
+
+            # Click on the three-dot menu for this row
+            Web.Wait Until Page Contains Element    xpath=//button[@role="menuitem"]    10s
+            Web.Click Element    xpath=//button[@role="menuitem"]
+            Sleep    2s
+
+            # Click on Delete option
+            Web.Wait Until Page Contains Element    ${DELETE_OPTION}    5s
+            Web.Click Element    ${DELETE_OPTION}
+            Sleep    2s
+
+            # Verify delete confirmation dialog appears
+            Web.Wait Until Page Contains Element    ${DELETE_CONFIRMATION_TITLE}    5s
+
+            # Click Delete button to confirm deletion
+            Web.Wait Until Page Contains Element    ${DELETE_BUTTON}    5s
+            Web.Click Element    ${DELETE_BUTTON}
+            Sleep    3s
+
+            Log To Console    ✅ Successfully deleted news: ${title_text}
+            BREAK
+        END
+    END
+
+Delete First E2E News Category
+    [Documentation]    Deletes the first E2E news category found
+    ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+
+    FOR    ${i}    IN RANGE    1    ${row_count + 1}
+        ${name_text}=    Get Text From News Category Row    ${i}
+        IF    'News_Category_' in '${name_text}'
+            Log To Console    🗑️ Deleting news category: ${name_text}
+
+            # Click on the three-dot menu for this row
+            Web.Wait Until Page Contains Element    xpath=//button[@role="menuitem"]    10s
+            Web.Click Element    xpath=//button[@role="menuitem"]
+            Sleep    2s
+
+            # Click on Delete option
+            Web.Wait Until Page Contains Element    ${DELETE_OPTION}    5s
+            Web.Click Element    ${DELETE_OPTION}
+            Sleep    2s
+
+            # Verify delete confirmation dialog appears
+            Web.Wait Until Page Contains Element    ${DELETE_CONFIRMATION_TITLE}    5s
+
+            # Click Delete button to confirm deletion
+            Web.Wait Until Page Contains Element    ${DELETE_BUTTON}    5s
+            Web.Click Element    ${DELETE_BUTTON}
+            Sleep    3s
+
+            Log To Console    ✅ Successfully deleted news category: ${name_text}
+            BREAK
+        END
+    END
+
+# ===== EVENTS MODULE CLEANUP KEYWORDS =====
+
+Clean Up E2E Global Events
+    [Documentation]    Deletes all E2E global events
+    Navigate To Global Events In CMS
+    Enter Search Text For Cleanup    E2E
+    Sleep    3s
+
+    ${events_count}=    Get E2E Events Count
+    Log To Console    📊 Found ${events_count} E2E global events to delete
+
+    WHILE    ${events_count} > 0
+        Delete First E2E Event
+        Sleep    2s
+        ${events_count}=    Get E2E Events Count
+        Log To Console    📊 Remaining E2E global events: ${events_count}
+    END
+
+    Log To Console    ✅ E2E global events cleanup completed
+
+Clean Up E2E Event Categories
+    [Documentation]    Deletes all E2E event categories
+    Navigate To Master Management Menu
+    Click On Manage Event Categories Submenu
+    Enter Search Text For Cleanup    E2E Event Category
+    Sleep    3s
+
+    ${category_count}=    Get E2E Event Category Count
+    Log To Console    📊 Found ${category_count} E2E event categories to delete
+
+    WHILE    ${category_count} > 0
+        Delete First E2E Event Category
+        Sleep    2s
+        ${category_count}=    Get E2E Event Category Count
+        Log To Console    📊 Remaining E2E event categories: ${category_count}
+    END
+
+    Log To Console    ✅ E2E event categories cleanup completed
+
+Get E2E Events Count
+    [Documentation]    Returns count of E2E events found in the current page
+    TRY
+        ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+        ${e2e_count}=    Set Variable    0
+
+        FOR    ${i}    IN RANGE    1    ${row_count + 1}
+            ${title_text}=    Get Text From Events Row    ${i}
+            IF    'E2E' in '${title_text}'
+                ${e2e_count}=    Evaluate    ${e2e_count} + 1
+            END
+        END
+
+        ${result}=    Set Variable    ${e2e_count}
+    EXCEPT    AS    ${error}
+        Log To Console    ⚠️ Error getting events count: ${error}
+        ${result}=    Set Variable    0
+    END
+    [Return]    ${result}
+
+Get E2E Event Category Count
+    [Documentation]    Returns count of E2E event categories found in the current page
+    TRY
+        ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+        ${e2e_count}=    Set Variable    0
+
+        FOR    ${i}    IN RANGE    1    ${row_count + 1}
+            ${name_text}=    Get Text From Event Category Row    ${i}
+            IF    'E2E Event Category' in '${name_text}'
+                ${e2e_count}=    Evaluate    ${e2e_count} + 1
+            END
+        END
+
+        ${result}=    Set Variable    ${e2e_count}
+    EXCEPT    AS    ${error}
+        Log To Console    ⚠️ Error getting event category count: ${error}
+        ${result}=    Set Variable    0
+    END
+    [Return]    ${result}
+
+Get Text From Events Row
+    [Arguments]    ${row_index}
+    [Documentation]    Gets text from events title cell in the specified row
+    ${title_cell}=    Set Variable    (${DATA_GRID_ROWS})[${row_index}]//div[@data-field='eventTranslations']
+    ${title_text}=    Web.Get Text    ${title_cell}
+    [Return]    ${title_text}
+
+Get Text From Event Category Row
+    [Arguments]    ${row_index}
+    [Documentation]    Gets text from event category name cell in the specified row
+    ${name_cell}=    Set Variable    (${DATA_GRID_ROWS})[${row_index}]//div[@data-field='categoryName']
+    ${name_text}=    Web.Get Text    ${name_cell}
+    [Return]    ${name_text}
+
+Delete First E2E Event
+    [Documentation]    Deletes the first E2E event found
+    ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+
+    FOR    ${i}    IN RANGE    1    ${row_count + 1}
+        ${title_text}=    Get Text From Events Row    ${i}
+        IF    'E2E' in '${title_text}'
+            Log To Console    🗑️ Deleting event: ${title_text}
+
+            # Click on the three-dot menu for this row
+            Web.Wait Until Page Contains Element    xpath=//button[@role="menuitem"]    10s
+            Web.Click Element    xpath=//button[@role="menuitem"]
+            Sleep    2s
+
+            # Click on Delete option
+            Web.Wait Until Page Contains Element    ${DELETE_OPTION}    5s
+            Web.Click Element    ${DELETE_OPTION}
+            Sleep    2s
+
+            # Verify delete confirmation dialog appears
+            Web.Wait Until Page Contains Element    ${DELETE_CONFIRMATION_TITLE}    5s
+
+            # Click Delete button to confirm deletion
+            Web.Wait Until Page Contains Element    ${DELETE_BUTTON}    5s
+            Web.Click Element    ${DELETE_BUTTON}
+            Sleep    3s
+
+            Log To Console    ✅ Successfully deleted event: ${title_text}
+            BREAK
+        END
+    END
+
+Delete First E2E Event Category
+    [Documentation]    Deletes the first E2E event category found
+    ${row_count}=    SeleniumLibrary.Get Element Count    ${DATA_GRID_ROWS}
+
+    FOR    ${i}    IN RANGE    1    ${row_count + 1}
+        ${name_text}=    Get Text From Event Category Row    ${i}
+        IF    'E2E Event Category' in '${name_text}'
+            Log To Console    🗑️ Deleting event category: ${name_text}
+
+            # Click on the three-dot menu for this row
+            Web.Wait Until Page Contains Element    xpath=//button[@role="menuitem"]    10s
+            Web.Click Element    xpath=//button[@role="menuitem"]
+            Sleep    2s
+
+            # Click on Delete option
+            Web.Wait Until Page Contains Element    ${DELETE_OPTION}    5s
+            Web.Click Element    ${DELETE_OPTION}
+            Sleep    2s
+
+            # Verify delete confirmation dialog appears
+            Web.Wait Until Page Contains Element    ${DELETE_CONFIRMATION_TITLE}    5s
+
+            # Click Delete button to confirm deletion
+            Web.Wait Until Page Contains Element    ${DELETE_BUTTON}    5s
+            Web.Click Element    ${DELETE_BUTTON}
+            Sleep    3s
+
+            Log To Console    ✅ Successfully deleted event category: ${name_text}
+            BREAK
+        END
+    END
 
