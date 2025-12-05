@@ -756,7 +756,7 @@ Click on the Submit Button
     # Scroll to top to see any error messages
     Log To Console    ⬆️ Scrolling to top to check for messages...
     FOR    ${i}    IN RANGE    5
-        Swipe    500    300    500    800    500
+        Mobile.Swipe    500    300    500    800    500
         Sleep    0.5s
     END
     Sleep    2s
