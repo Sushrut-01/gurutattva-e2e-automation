@@ -40,8 +40,8 @@ Open Web Browser
 Login in with valid credentials
     [Documentation]    Logs in to web application with valid credentials
     Web Wait Until Page Contains Element    ${EMAIL_FIELD}    10s
-    Web Input Text    ${EMAIL_FIELD}    payment.gateway@rysun.com
-    Web Input Password    ${PASSWORD_FIELD}    Admin@123
+    Web Input Text    ${EMAIL_FIELD}    sushrut.nistane@rysun.com
+    Web Input Password    ${PASSWORD_FIELD}    Sharu@051220
     Web Click Button    ${LOGIN_BUTTON}
     Sleep    5s
     Web Wait Until Page Contains    ${DASHBOARD_TEXT}    20s

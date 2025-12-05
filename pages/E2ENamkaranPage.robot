@@ -132,37 +132,63 @@ Click on the Namkaran Management Menu
     Log To Console    📋 Navigated to Namkaran Management page
 
 Verify the created Namkaran
-    [Documentation]    Verifies that the namkaran data entered in mobile app matches the data in CMS by clicking first record and viewing details
+    [Arguments]    ${email}    ${namkaran_id}=${EMPTY}
+    [Documentation]    Searches for namkaran by Namkaran ID (if available) or email and verifies the data in CMS detail page
     Sleep    5s
-    
+
     # Wait for table to load
     Web Wait Until Page Contains Element    ${Namkaran_Table_Row}    15s
-    
-    # Click on the first record's 3-dot menu (Actions column)
+
+    # Determine search criteria - prefer Namkaran ID over email
+    ${search_value}=    Set Variable If    '${namkaran_id}' != '${EMPTY}'    ${namkaran_id}    ${email}
+    ${search_type}=    Set Variable If    '${namkaran_id}' != '${EMPTY}'    Namkaran ID    Email
+
+    # Search for the namkaran
+    Log To Console    🔍 Searching for namkaran by ${search_type}: ${search_value}
+    Web Wait Until Page Contains Element    ${NAMKARAN_SEARCH_FIELD}    10s
+    Web Click Element    ${NAMKARAN_SEARCH_FIELD}
+    Web Clear Element Text    ${NAMKARAN_SEARCH_FIELD}
+    Web Input Text    ${NAMKARAN_SEARCH_FIELD}    ${search_value}
+    Sleep    3s
+
+    # Click on the first record's 3-dot menu (Actions column) - after search, this will be our record
     ${first_row_actions}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//button[@type='button']
     Web Wait Until Page Contains Element    ${first_row_actions}    10s
     Web Click Element    ${first_row_actions}
     Sleep    2s
-    
+
     # Click on View button from the dropdown menu
     ${view_button}=    Set Variable    xpath=//li[@role='menuitem' and contains(.,'View')]
     Web Wait Until Page Contains Element    ${view_button}    10s
     Web Click Element    ${view_button}
     Sleep    5s
-    
-    Log To Console    👁️ Clicked on View button for first namkaran record
-    
+
+    Log To Console    👁️ Clicked on View button for namkaran record with email: ${email}
+
     # Now verify the data on the detail page
     Verify Namkaran Detail Page Data
 
 Verify the created Business Namkaran
-    [Documentation]    Verifies that the business namkaran data entered in mobile app matches the data in CMS by clicking first record and viewing details
+    [Arguments]    ${email}    ${namkaran_id}=${EMPTY}
+    [Documentation]    Searches for business namkaran by Namkaran ID (if available) or email and verifies the data in CMS detail page
     Sleep    5s
 
     # Wait for table to load
     Web Wait Until Page Contains Element    ${Namkaran_Table_Row}    15s
 
-    # Click on the first record's 3-dot menu (Actions column)
+    # Determine search criteria - prefer Namkaran ID over email
+    ${search_value}=    Set Variable If    '${namkaran_id}' != '${EMPTY}'    ${namkaran_id}    ${email}
+    ${search_type}=    Set Variable If    '${namkaran_id}' != '${EMPTY}'    Namkaran ID    Email
+
+    # Search for the namkaran
+    Log To Console    🔍 Searching for Business namkaran by ${search_type}: ${search_value}
+    Web Wait Until Page Contains Element    ${NAMKARAN_SEARCH_FIELD}    10s
+    Web Click Element    ${NAMKARAN_SEARCH_FIELD}
+    Web Clear Element Text    ${NAMKARAN_SEARCH_FIELD}
+    Web Input Text    ${NAMKARAN_SEARCH_FIELD}    ${search_value}
+    Sleep    3s
+
+    # Click on the first record's 3-dot menu (Actions column) - after search, this will be our record
     ${first_row_actions}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//button[@type='button']
     Web Wait Until Page Contains Element    ${first_row_actions}    10s
     Web Click Element    ${first_row_actions}
@@ -174,10 +200,47 @@ Verify the created Business Namkaran
     Web Click Element    ${view_button}
     Sleep    5s
 
-    Log To Console    👁️ Clicked on View button for first namkaran record
+    Log To Console    👁️ Clicked on View button for Business namkaran record with email: ${email}
 
     # Now verify the Business data on the detail page
     Verify Business Namkaran Detail Page Data
+
+Verify the created Child Namkaran
+    [Arguments]    ${email}    ${namkaran_id}=${EMPTY}
+    [Documentation]    Searches for child namkaran by Namkaran ID (if available) or email and verifies the data in CMS detail page
+    Sleep    5s
+
+    # Wait for table to load
+    Web Wait Until Page Contains Element    ${Namkaran_Table_Row}    15s
+
+    # Determine search criteria - prefer Namkaran ID over email
+    ${search_value}=    Set Variable If    '${namkaran_id}' != '${EMPTY}'    ${namkaran_id}    ${email}
+    ${search_type}=    Set Variable If    '${namkaran_id}' != '${EMPTY}'    Namkaran ID    Email
+
+    # Search for the namkaran
+    Log To Console    🔍 Searching for Child namkaran by ${search_type}: ${search_value}
+    Web Wait Until Page Contains Element    ${NAMKARAN_SEARCH_FIELD}    10s
+    Web Click Element    ${NAMKARAN_SEARCH_FIELD}
+    Web Clear Element Text    ${NAMKARAN_SEARCH_FIELD}
+    Web Input Text    ${NAMKARAN_SEARCH_FIELD}    ${search_value}
+    Sleep    3s
+
+    # Click on the first record's 3-dot menu (Actions column) - after search, this will be our record
+    ${first_row_actions}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//button[@type='button']
+    Web Wait Until Page Contains Element    ${first_row_actions}    10s
+    Web Click Element    ${first_row_actions}
+    Sleep    2s
+
+    # Click on View button from the dropdown menu
+    ${view_button}=    Set Variable    xpath=//li[@role='menuitem' and contains(.,'View')]
+    Web Wait Until Page Contains Element    ${view_button}    10s
+    Web Click Element    ${view_button}
+    Sleep    5s
+
+    Log To Console    👁️ Clicked on View button for Child namkaran record with email: ${email}
+
+    # Now verify the Child data on the detail page
+    Verify Child And Parent Details In CMS    ${E2E_CHILD_NAME}    ${E2E_MOTHER_FIRST_NAME}    ${E2E_MOTHER_MIDDLE_NAME}    ${E2E_MOTHER_LAST_NAME}    ${E2E_FATHER_FIRST_NAME}    ${E2E_FATHER_MIDDLE_NAME}    ${E2E_FATHER_LAST_NAME}
 
 Verify Namkaran Detail Page Data
     [Documentation]    Verifies the namkaran data on the detail page matches the mobile app data

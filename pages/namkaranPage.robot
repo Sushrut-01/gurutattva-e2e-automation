@@ -491,7 +491,10 @@ Select Single Number of child
     Mobile Click Element        ${SelectNumberofChild}
 
 Select DOB
-    Mobile Wait Until Element Is Visible     ${Select_DOB}    10s        
+    Log To Console    🔄 Scrolling to find DOB field...
+    Scroll Until Element Visible    ${Select_DOB}
+    Log To Console    📅 Selecting DOB...
+    Mobile Wait Until Element Is Visible     ${Select_DOB}    10s
     Mobile Click Element     ${Select_DOB}
     # Mobile Click Element     ${SelectYrs}
     # Mobile Wait Until Element Is Visible   ${Select2019}    10s
@@ -502,14 +505,20 @@ Select DOB
     Mobile Hide Keyboard
 
 Select Gender
+    Log To Console    🔄 Scrolling to find Gender field...
     Scroll Until Element Visible      ${SubmitButton}
-    Mobile Wait Until Element Is Visible     ${Select_Gender}    10s        
+    Log To Console    ⚧ Selecting Gender...
+    Mobile Wait Until Element Is Visible     ${Select_Gender}    10s
     Mobile Click Element     ${Select_Gender}
     Mobile Click Element     ${Gender_Pick}
+    Log To Console    ✅ Selected Gender
     
 
 Select Time
-    Mobile Wait Until Element Is Visible     ${Select_Time}    10s        
+    Log To Console    🔄 Scrolling to find Time field...
+    Scroll Until Element Visible    ${Select_Time}
+    Log To Console    ⏰ Selecting Birth Time...
+    Mobile Wait Until Element Is Visible     ${Select_Time}    10s
     Mobile Click Element                     ${Select_Time}
     Mobile Wait Until Element Is Visible     ${Select_AM}    5s
     Mobile Click Element                     ${Select_AM}
@@ -517,10 +526,14 @@ Select Time
 
 Enter Birth Place
     [Arguments]    ${BIRTH_PLACE}
+    Log To Console    🔄 Scrolling to find Birth Place field...
+    Scroll Until Element Visible    ${Enter_Birth_Place}
+    Log To Console    📍 Entering Birth Place: ${BIRTH_PLACE}
     Mobile Wait Until Element Is Visible    ${Enter_Birth_Place}    10s
     Mobile Click Element                    ${Enter_Birth_Place}
     Mobile Input Text                       ${Enter_Birth_Place}    ${BIRTH_PLACE}
     Mobile Hide Keyboard
+    Log To Console    ✅ Entered Birth Place
 
 Select Twins Number of child
     Mobile Wait Until Element Is Visible   ${SelectTwins}    10s
@@ -730,11 +743,151 @@ Click on the Submit Button
     Scroll Until Element Visible    ${SubmitButton}
     Log To Console    ⏳ Waiting for Submit button to be visible...
     Mobile Wait Until Element Is Visible   ${SubmitButton}    10s
+
+    # Check if submit button is enabled before clicking
+    ${is_enabled}=    Mobile Get Element Attribute    ${SubmitButton}    enabled
+    Log To Console    🔍 Submit button enabled status: ${is_enabled}
+
     Log To Console    👆 Clicking Submit button...
     Mobile Click Element    ${SubmitButton}
     Log To Console    ✅ Clicked Submit button successfully
-    Sleep    5s
-    Log To Console    ⏳ Waiting 5 seconds after submit...
+    Sleep    3s
+
+    # Scroll to top to see any error messages
+    Log To Console    ⬆️ Scrolling to top to check for messages...
+    FOR    ${i}    IN RANGE    5
+        Swipe    500    300    500    800    500
+        Sleep    0.5s
+    END
+    Sleep    2s
+    Log To Console    ⏳ Waiting for submission to process...
+
+Verify Namkaran Submission Response
+    [Documentation]    Verifies if namkaran submission was successful and extracts the Namkaran ID from the Submitted Namkaran list
+    Log To Console    🔍 Checking for submission response...
+    Sleep    3s
+
+    # After successful submission, app navigates to "Submitted Namkaran" page
+    # Method 1: Check if we can see "Submitted Namkaran" heading
+    Log To Console    🔍 Looking for 'Submitted Namkaran' page...
+    ${on_submitted_page}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@text='Submitted Namkaran' or contains(@content-desc, 'Submitted Namkaran')]    15s
+
+    IF    ${on_submitted_page}
+        Log To Console    ✅ Successfully navigated to Submitted Namkaran page!
+        Sleep    2s
+
+        # Extract Namkaran ID from the first (topmost) record in the list
+        # The newest submission appears at the top
+        Log To Console    🔍 Extracting Namkaran ID from the first record...
+
+        # Try to find the first Namkaran ID element
+        ${id_element_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//*[contains(@text, 'Namkaran ID') or contains(@content-desc, 'Namkaran ID')])[1]    10s
+
+        IF    ${id_element_found}
+            ${id_text}=    Mobile Get Element Attribute    xpath=(//*[contains(@text, 'Namkaran ID') or contains(@content-desc, 'Namkaran ID')])[1]    text
+            Log To Console    📝 First record text: ${id_text}
+
+            # Extract the number from "Namkaran ID : 290" or "Namkaran ID: 290"
+            ${has_number}=    Run Keyword And Return Status    Should Match Regexp    ${id_text}    \\d+
+            IF    ${has_number}
+                ${namkaran_id}=    Evaluate    re.search(r'\\d+', '''${id_text}''').group()    re
+                Log To Console    ✅ Successfully extracted Namkaran ID: ${namkaran_id}
+                Set Test Variable    ${NAMKARAN_ID_FROM_MOBILE}    ${namkaran_id}
+                RETURN    ${namkaran_id}
+            ELSE
+                Log To Console    ⚠️ Could not extract number from: ${id_text}
+                RETURN    ${EMPTY}
+            END
+        ELSE
+            Log To Console    ⚠️ Could not find Namkaran ID element in the list
+            RETURN    ${EMPTY}
+        END
+    END
+
+    # Method 2: Check for success popup (fallback - might not exist)
+    Log To Console    🔍 Not on Submitted page, checking for success popup...
+    ${success_present}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[contains(@content-desc, 'successfully') or contains(@content-desc, 'Success') or contains(@content-desc, 'submitted')]    10s
+
+    IF    ${success_present}
+        # Try to get the success message element
+        ${success_msg}=    Mobile Get Element Attribute    xpath=//*[contains(@content-desc, 'successfully') or contains(@content-desc, 'Success') or contains(@content-desc, 'submitted')]    content-desc
+        Log To Console    ✅ SUCCESS MESSAGE FOUND!
+        Log To Console    📝 Full success message: ${success_msg}
+
+        # Try to extract Namkaran ID from success message
+        # Patterns to look for: "Namkaran ID : 245", "Namkaran ID: 245", "ID : 245", etc.
+        ${namkaran_id}=    Set Variable    ${EMPTY}
+
+        # Method 1: Look for "Namkaran ID" (case insensitive)
+        ${has_namkaran_id}=    Run Keyword And Return Status    Should Match Regexp    ${success_msg}    (?i)namkaran.*id
+        IF    ${has_namkaran_id}
+            Log To Console    🔍 Found 'Namkaran ID' pattern in message
+            # Split by newlines and find the line with ID
+            ${lines}=    Split String    ${success_msg}    \n
+            FOR    ${line}    IN    @{lines}
+                ${line_upper}=    Convert To Upper Case    ${line}
+                ${contains_id}=    Run Keyword And Return Status    Should Contain    ${line_upper}    ID
+                IF    ${contains_id}
+                    Log To Console    🔍 Checking line: ${line}
+                    # Extract number from this line using regex
+                    ${match_found}=    Run Keyword And Return Status    Should Match Regexp    ${line}    \\d+
+                    IF    ${match_found}
+                        ${namkaran_id}=    Evaluate    re.search(r'\\d+', '''${line}''').group()    re
+                        Log To Console    ✅ Extracted Namkaran ID: ${namkaran_id}
+                        BREAK
+                    END
+                END
+            END
+        END
+
+        # Method 2: If Method 1 failed, try extracting any number from the message
+        IF    '${namkaran_id}' == '${EMPTY}'
+            Log To Console    🔍 Method 1 failed, trying to extract any number from message...
+            ${has_number}=    Run Keyword And Return Status    Should Match Regexp    ${success_msg}    \\d+
+            IF    ${has_number}
+                ${namkaran_id}=    Evaluate    re.search(r'\\d+', '''${success_msg}''').group()    re
+                Log To Console    ✅ Extracted ID (any number found): ${namkaran_id}
+            END
+        END
+
+        # Return the extracted ID or EMPTY
+        IF    '${namkaran_id}' != '${EMPTY}'
+            Log To Console    📋 Successfully captured Namkaran ID: ${namkaran_id}
+            Set Test Variable    ${NAMKARAN_ID_FROM_MOBILE}    ${namkaran_id}
+            RETURN    ${namkaran_id}
+        ELSE
+            Log To Console    ⚠️ Could not extract Namkaran ID from success message
+            Log To Console    ⚠️ Message was: ${success_msg}
+            RETURN    ${EMPTY}
+        END
+    ELSE
+        # Check for error/validation message
+        ${error_present}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[contains(@content-desc, 'error') or contains(@content-desc, 'Error') or contains(@content-desc, 'required') or contains(@content-desc, 'invalid') or contains(@content-desc, 'failed') or contains(@content-desc, 'Failed')]    10s
+
+        IF    ${error_present}
+            ${error_msg}=    Mobile Get Element Attribute    xpath=//*[contains(@content-desc, 'error') or contains(@content-desc, 'Error') or contains(@content-desc, 'required') or contains(@content-desc, 'invalid') or contains(@content-desc, 'failed') or contains(@content-desc, 'Failed')]    content-desc
+            Log To Console    ❌ ERROR/VALIDATION: ${error_msg}
+            Fail    Namkaran submission failed with error: ${error_msg}
+        ELSE
+            # No success or error message found - check page source for clues
+            Log To Console    ⚠️ No explicit success or error message found!
+            Log To Console    📸 Capturing page source for debugging...
+            ${page_source}=    Mobile Get Source
+            ${source_snippet}=    Get Substring    ${page_source}    0    500
+            Log To Console    📄 Page source (first 500 chars): ${source_snippet}
+
+            # Check if we're still on the form page (submit might not have worked)
+            ${submit_still_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SubmitButton}    3s
+            IF    ${submit_still_visible}
+                Log To Console    ⚠️ WARNING: Submit button still visible - form may not have been submitted!
+                Log To Console    💡 This usually means there's a validation error or the submit didn't register
+                Fail    Namkaran submission did not complete - Submit button still visible. Please check form validation.
+            ELSE
+                Log To Console    ℹ️ Submit button not visible - submission may have completed silently
+                RETURN    ${EMPTY}
+            END
+        END
+    END
 
 Click on Add Namkaran Button
     Mobile Wait Until Element Is Visible   ${ADD_NAMKARAN_BUTTON}     10s

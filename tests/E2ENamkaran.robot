@@ -34,23 +34,29 @@ Verify user is able to add Bride Namkaran with NO Option on the mobile app and v
     
     # Enter E2E test data (different from existing test)
     Enter E2E Bride Namkaran Data
-    
+
     # Select Marriage Date
     Select Marriage Date
-    
+
+    # Select NO for multiple name choice (for NO Option test)
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error) and capture Namkaran ID if available
+    ${namkaran_id}=    Verify Namkaran Submission Response
+
     Close Gurutattva App
-    
+
     # --- Web CRM: Verify created namkaran in CMS---
     Open Web Browser
     Login in with valid credentials
-    
+
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Namkaran
-    
+    Verify the created Namkaran    ${E2E_NAMKARAN_EMAIL}    ${namkaran_id}
+
     Log To Console    🎉 E2E Namkaran Test Completed Successfully!
     Log To Console    🎉 Test Data Used:
     Log To Console    🎉 Bride: ${E2E_BRIDE_FIRST_NAME} ${E2E_BRIDE_MIDDLE_NAME} ${E2E_BRIDE_LAST_NAME}
@@ -89,7 +95,10 @@ Verify user is able to add Business Namkaran with NO Option on the mobile app an
 
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error) and capture Namkaran ID if available
+    ${namkaran_id}=    Verify Namkaran Submission Response
+
     Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
@@ -98,7 +107,7 @@ Verify user is able to add Business Namkaran with NO Option on the mobile app an
 
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Business Namkaran
+    Verify the created Business Namkaran    ${E2E_BUSINESS_EMAIL}    ${namkaran_id}
 
     Log To Console    🎉 E2E Business Namkaran Test Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -135,9 +144,15 @@ Verify user is able to add House Namkaran with NO Option on the mobile app and v
     # Enter E2E test data for House Namkaran
     Enter E2E House Namkaran Data
 
+    # Select NO for multiple name choice (for NO Option test)
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error) and capture Namkaran ID if available
+    ${namkaran_id}=    Verify Namkaran Submission Response
+
     Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
@@ -146,7 +161,7 @@ Verify user is able to add House Namkaran with NO Option on the mobile app and v
 
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Namkaran
+    Verify the created Namkaran    ${E2E_HOUSE_EMAIL}    ${namkaran_id}
 
     Log To Console    🎉 E2E House Namkaran Test Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -187,10 +202,15 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
     Select Time
     Enter Birth Place    ${E2E_CHILD_BIRTH_PLACE}
 
+    # Select NO for multiple name choice (for NO Option test)
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    Sleep    5s
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error) and capture Namkaran ID if available
+    ${namkaran_id}=    Verify Namkaran Submission Response
+
     Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
@@ -199,7 +219,7 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
 
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Namkaran
+    Verify the created Child Namkaran    ${E2E_CHILD_EMAIL}    ${namkaran_id}
 
     Log To Console    🎉 E2E Child Namkaran Test Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -244,7 +264,10 @@ Verify user is able to add Bride Namkaran with YES Option on the mobile app and 
 
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error) and capture Namkaran ID if available
+    ${namkaran_id}=    Verify Namkaran Submission Response
+
     Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
@@ -253,7 +276,7 @@ Verify user is able to add Bride Namkaran with YES Option on the mobile app and 
 
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Namkaran
+    Verify the created Namkaran    ${E2E_NAMKARAN_EMAIL}    ${namkaran_id}
 
     Log To Console    🎉 E2E Bride Namkaran Test (YES Option) Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -290,9 +313,11 @@ Verify user is able to add Business Namkaran with YES Option on the mobile app a
 
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
-    Close Gurutattva App
 
+    # Verify submission result (success or error) and capture Namkaran ID if available
+    ${namkaran_id}=    Verify Namkaran Submission Response
+
+    Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
@@ -300,7 +325,7 @@ Verify user is able to add Business Namkaran with YES Option on the mobile app a
 
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Namkaran
+    Verify the created Business Namkaran    ${E2E_BUSINESS_EMAIL}    ${namkaran_id}
 
     Log To Console    🎉 E2E Business Namkaran Test (YES Option) Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -337,7 +362,10 @@ Verify user is able to add House Namkaran with YES Option on the mobile app and 
 
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error) and capture Namkaran ID if available
+    ${namkaran_id}=    Verify Namkaran Submission Response
+
     Close Gurutattva App
     # --- Web CRM: Verify created namkaran in CMS ---
     Open Web Browser
@@ -345,7 +373,7 @@ Verify user is able to add House Namkaran with YES Option on the mobile app and 
 
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Namkaran
+    Verify the created Namkaran    ${E2E_HOUSE_EMAIL}    ${namkaran_id}
 
     Log To Console    🎉 E2E House Namkaran Test (YES Option) Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -380,11 +408,14 @@ Verify user is able to add Child Namkaran with YES Option on the mobile app and 
     # Enter E2E test data with YES option for multiple names
     Enter E2E Child Namkaran Data With YES Option
 
-    
+
 
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error) and capture Namkaran ID if available
+    ${namkaran_id}=    Verify Namkaran Submission Response
+
     Close Gurutattva App
 
     # --- Web CRM: Verify created namkaran in CMS ---
@@ -393,7 +424,7 @@ Verify user is able to add Child Namkaran with YES Option on the mobile app and 
 
     # Navigate to Namkaran Management and verify the created namkaran
     Click on the Namkaran Management Menu
-    Verify the created Namkaran
+    Verify the created Child Namkaran    ${E2E_CHILD_EMAIL}    ${namkaran_id}
 
     Log To Console    🎉 E2E Child Namkaran Test (YES Option) Completed Successfully!
     Log To Console    🎉 Test Data Used:
@@ -437,10 +468,15 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
     # Select Marriage Date
     Select Marriage Date
 
+    # Select NO for multiple name choice
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
-    
+
+    # Verify submission result (success or error)
+    Verify Namkaran Submission Response
+
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
     Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
@@ -512,9 +548,14 @@ Verify that admin user is able to approve Business Namkaran in CMS and verify th
     # Enter E2E test data
     Enter E2E Business Namkaran Data
 
+    # Select NO for multiple name choice
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error)
+    Verify Namkaran Submission Response
 
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
@@ -585,9 +626,14 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     # Enter E2E test data
     Enter E2E House Namkaran Data
 
+    # Select NO for multiple name choice
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error)
+    Verify Namkaran Submission Response
 
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
@@ -666,9 +712,14 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     Select Time
     Enter Birth Place    ${E2E_CHILD_BIRTH_PLACE}
 
+    # Select NO for multiple name choice
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error)
+    Verify Namkaran Submission Response
 
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
@@ -817,9 +868,14 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     # Enter E2E test data
     Enter E2E Business Namkaran Data
 
+    # Select NO for multiple name choice
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error)
+    Verify Namkaran Submission Response
 
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
@@ -887,9 +943,14 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     # Enter E2E test data
     Enter E2E House Namkaran Data
 
+    # Select NO for multiple name choice
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error)
+    Verify Namkaran Submission Response
 
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
@@ -963,9 +1024,14 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     Select Time
     Enter Birth Place    ${E2E_CHILD_BIRTH_PLACE}
 
+    # Select NO for multiple name choice
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error)
+    Verify Namkaran Submission Response
 
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
