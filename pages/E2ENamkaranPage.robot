@@ -558,9 +558,6 @@ Enter E2E Child Namkaran Data
     [Documentation]    Enters the generated E2E test data into Child Namkaran form using smart auto-scroll
     Sleep    3s
 
-    # Enter Child Name (IMPORTANT: This was missing!)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Child Name']    ${E2E_CHILD_NAME}    Child Name
-
     # Enter Mother Details (using smart input with auto-scroll)
     Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_MOTHER_FIRST}    Mother First Name
     Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_MOTHER_MIDDLE}    Mother Middle Name
