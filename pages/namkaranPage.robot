@@ -782,24 +782,30 @@ Verify Namkaran Submission Response
 
     Sleep    3s
 
-    # After successful submission, app navigates to "Submitted Namkaran" page or shows success popup
-    # Method 1: Check if we can see "Submitted Namkaran" heading (list page)
-    Log To Console    🔍 Looking for 'Submitted Namkaran' page...
-    ${on_submitted_page}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@text='Submitted Namkaran' or contains(@content-desc, 'Submitted Namkaran')]    15s
+    # After successful submission, app navigates to list page showing submitted namkarans
+    # Method 1: Check if we can see Namkaran ID elements in the list (indicates we're on the list page)
+    Log To Console    🔍 Looking for Namkaran list page with submitted records...
 
-    IF    ${on_submitted_page}
-        Log To Console    ✅ Successfully navigated to Submitted Namkaran page!
+    # Look for Namkaran ID elements instead of page heading (more reliable)
+    ${id_element_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text, 'Namkaran ID') or contains(@content-desc, 'Namkaran ID')]    20s
+
+    IF    ${id_element_found}
+        Log To Console    ✅ Successfully navigated to Namkaran list page!
         Sleep    2s
 
         # Extract Namkaran ID from the first (topmost) record in the list
         # The newest submission appears at the top
         Log To Console    🔍 Extracting Namkaran ID from the first record...
 
-        # Try to find the first Namkaran ID element
-        ${id_element_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//*[contains(@text, 'Namkaran ID') or contains(@content-desc, 'Namkaran ID')])[1]    10s
+        # Get the first Namkaran ID element (already found above)
+        ${id_element_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//*[contains(@text, 'Namkaran ID') or contains(@content-desc, 'Namkaran ID')])[1]    5s
 
         IF    ${id_element_found}
-            ${id_text}=    Mobile Get Element Attribute    xpath=(//*[contains(@text, 'Namkaran ID') or contains(@content-desc, 'Namkaran ID')])[1]    text
+            # Try getting text first, then fallback to content-desc
+            ${status}    ${id_text}=    Run Keyword And Ignore Error    Mobile Get Element Attribute    xpath=(//*[contains(@text, 'Namkaran ID') or contains(@content-desc, 'Namkaran ID')])[1]    text
+            IF    '${status}' == 'FAIL' or '${id_text}' == '${EMPTY}'
+                ${id_text}=    Mobile Get Element Attribute    xpath=(//*[contains(@text, 'Namkaran ID') or contains(@content-desc, 'Namkaran ID')])[1]    content-desc
+            END
             Log To Console    📝 First record text: ${id_text}
 
             # Extract the number from "Namkaran ID : 290" or "Namkaran ID: 290"
