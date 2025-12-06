@@ -765,10 +765,25 @@ Click on the Submit Button
 Verify Namkaran Submission Response
     [Documentation]    Verifies if namkaran submission was successful and extracts the Namkaran ID from the Submitted Namkaran list
     Log To Console    🔍 Checking for submission response...
+
+    # Wait for form submission to process (backend may take time)
+    Log To Console    ⏳ Waiting for submission to complete (up to 30 seconds)...
+    Sleep    5s
+
+    # Self-healing: Wait for the submit button to disappear (indicates form submitted)
+    Log To Console    🔍 Waiting for submit button to disappear...
+    ${submit_disappeared}=    Run Keyword And Return Status    Wait Until Keyword Succeeds    20s    2s    Mobile Element Should Not Be Visible    ${SubmitButton}
+
+    IF    ${submit_disappeared}
+        Log To Console    ✅ Submit button disappeared - form submitted successfully!
+    ELSE
+        Log To Console    ⚠️ Submit button still visible after 20 seconds - checking for errors
+    END
+
     Sleep    3s
 
-    # After successful submission, app navigates to "Submitted Namkaran" page
-    # Method 1: Check if we can see "Submitted Namkaran" heading
+    # After successful submission, app navigates to "Submitted Namkaran" page or shows success popup
+    # Method 1: Check if we can see "Submitted Namkaran" heading (list page)
     Log To Console    🔍 Looking for 'Submitted Namkaran' page...
     ${on_submitted_page}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@text='Submitted Namkaran' or contains(@content-desc, 'Submitted Namkaran')]    15s
 
@@ -869,12 +884,8 @@ Verify Namkaran Submission Response
             Log To Console    ❌ ERROR/VALIDATION: ${error_msg}
             Fail    Namkaran submission failed with error: ${error_msg}
         ELSE
-            # No success or error message found - check page source for clues
+            # No success or error message found - check if still on form page
             Log To Console    ⚠️ No explicit success or error message found!
-            Log To Console    📸 Capturing page source for debugging...
-            ${page_source}=    Mobile Get Source
-            ${source_snippet}=    Get Substring    ${page_source}    0    500
-            Log To Console    📄 Page source (first 500 chars): ${source_snippet}
 
             # Check if we're still on the form page (submit might not have worked)
             ${submit_still_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SubmitButton}    3s
@@ -884,6 +895,7 @@ Verify Namkaran Submission Response
                 Fail    Namkaran submission did not complete - Submit button still visible. Please check form validation.
             ELSE
                 Log To Console    ℹ️ Submit button not visible - submission may have completed silently
+                Log To Console    ℹ️ Returning empty Namkaran ID - will need to search by email in CMS
                 RETURN    ${EMPTY}
             END
         END
