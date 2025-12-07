@@ -143,6 +143,36 @@ Swipe Until Element Visible
         Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    800ms
     END
 
+Smart Mobile Input Text
+    [Arguments]    ${locator}    ${text}    ${field_name}=Field
+    [Documentation]    Universal keyword that scrolls to element if needed, then inputs text with proper waits
+    ...    ${locator} - Element locator (xpath, id, etc.)
+    ...    ${text} - Text to input
+    ...    ${field_name} - Name for logging (e.g., "Email", "Phone Number")
+
+    # Try to find element, scroll if not visible (with increased wait time)
+    ${visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${locator}    5s
+    IF    not ${visible}
+        Scroll Until Element Visible    ${locator}
+    END
+
+    # Wait for element to be fully visible and stable
+    Sleep    0.3s
+    Mobile Wait Until Element Is Visible    ${locator}    10s
+
+    # Click and wait for focus
+    Mobile Click Element    ${locator}
+    Sleep    0.3s
+
+    # Input text and wait for processing
+    Mobile Input Text    ${locator}    ${text}
+    Sleep    0.2s
+
+    # Hide keyboard and wait for UI to stabilize
+    Mobile Hide Keyboard
+    Sleep    0.3s
+
+    Log To Console    ✅ Entered ${field_name}: ${text}
 
 Clear Name Field
     [Arguments]    ${field_locator}
