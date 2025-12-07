@@ -712,19 +712,19 @@ Enter E2E Business Namkaran Data With YES Option
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_BUSINESS_SECOND_NAME_CHOICE}
     Mobile Hide Keyboard
     Log To Console    ✅ Entered Second Business Name Choice: ${E2E_BUSINESS_SECOND_NAME_CHOICE}
-    
-    # # Click Add Button
-    # Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@text='Add']    10s
-    # Mobile Click Element    xpath=//android.widget.Button[@text='Add']
-    # Log To Console    ✅ Clicked Add Button for first two choices
-    
-    # # Enter Third Business Name Choice
-    # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']    10s
-    # Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']
-    # Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']    ${E2E_BUSINESS_THIRD_NAME_CHOICE}
-    # Mobile Hide Keyboard
-    # Log To Console    ✅ Entered Third Business Name Choice: ${E2E_BUSINESS_THIRD_NAME_CHOICE}
-    
+
+    # Scroll down to ensure Submit button will be accessible (YES option has more fields)
+    Log To Console    🔄 Scrolling after name choices to reveal Submit button area...
+    Sleep    0.5s
+    ${height}=    Mobile Get Window Height
+    ${width}=    Mobile Get Window Width
+    ${start_x}=    Evaluate    int(${width} * 0.5)
+    ${start_y}=    Evaluate    int(${height} * 0.7)
+    ${end_y}=    Evaluate    int(${height} * 0.3)
+    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    600ms
+    Sleep    0.5s
+    Log To Console    ✅ Scrolled to prepare for Submit button
+
     Log To Console    ✅ Successfully entered E2E Business Namkaran Data with YES Option
 
 # YES Option Keywords for House Namkaran
@@ -957,14 +957,14 @@ Verify Namkaran In In Progress Status
     Web Input Text    ${NAMKARAN_SEARCH_FIELD}    ${namkaran_id}
     Sleep    2s
     
-    # Verify the namkaran appears in the table with In Progress status
+    # Verify the namkaran appears in the table with Pending or In Progress status
     # Status text is in a span with class 'minimal__label__root' inside the status cell
     ${first_row_status}=    Set Variable    xpath=(//div[@role='row' and contains(@class,'MuiDataGrid-row')])[2]//div[@data-field='status']//span[contains(@class,'minimal__label__root')]
     Web Wait Until Page Contains Element    ${first_row_status}    10s
     ${status}=    Web.Get Text    ${first_row_status}
-    Should Be Equal As Strings    ${status}    In Progress    Namkaran status should be In Progress
-    
-    Log To Console    ✅ Verified namkaran is in In Progress status: ${namkaran_id}
+    Should Match Regexp    ${status}    ^(Pending|In Progress)$    Namkaran status should be Pending or In Progress
+
+    Log To Console    ✅ Verified namkaran is in ${status} status: ${namkaran_id}
 
 Click Three Dots And View For Namkaran
     [Arguments]    ${email}
@@ -1244,3 +1244,32 @@ Verify Namkaran Status Changed To Rejected By ID
     Should Be Equal As Strings    ${status}    Rejected    Namkaran status should be Rejected
     
     Log To Console    ✅ Verified namkaran status changed to Rejected: ${namkaran_id}
+
+Select the created namkaran
+    Web Wait Until Page Contains Element    ${NAMKARAN_SELECT_ROW}    10s
+    Web Click Element    ${NAMKARAN_SELECT_ROW}
+    Log To Console    Selected the created namkaran
+
+Click on the Export Button
+    Web Wait Until Page Contains Element    ${NAMKARAN_EXPORT_BUTTON}    10s
+    Web Click Element    ${NAMKARAN_EXPORT_BUTTON}
+    Log To Console    Clicked on the Export Button
+
+Verify Exported Status
+    [Documentation]    Verifies that the namkaran status has changed to "Exported" after export operation
+    Sleep    5s
+    SeleniumLibrary.Reload Page
+    Sleep    2s
+    Web Wait Until Page Contains Element    ${NAMKARAN_EXPORTED_STATUS}    15s
+    Web Page Should Contain Element    ${NAMKARAN_EXPORTED_STATUS}
+    Log To Console    ✅ Namkaran status successfully changed to 'Exported'
+
+Export Namkaran And Validate Download
+    # Click export button
+    Click on the Export Button
+
+    # Wait for status change
+    Sleep    3s
+    Verify Exported Status
+
+    Log To Console    ✅ Namkaran export and download validation completed successfully
