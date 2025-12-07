@@ -690,40 +690,38 @@ Generate E2E Namkaran Test Data For Business With YES Option
 Enter E2E Business Namkaran Data With YES Option
     [Documentation]    Enters the generated E2E test data into Business Namkaran form with YES option for multiple names
     Sleep    3s
-    
+
     # Enter basic business data (same as NO option)
     Enter E2E Business Namkaran Data
-    
+
+    # Scroll up to make YES/NO radio buttons visible (they are above the address field)
+    Log To Console    🔄 Scrolling up to find YES/NO radio buttons...
+    ${height}=    Mobile Get Window Height
+    ${width}=    Mobile Get Window Width
+    ${start_x}=    Evaluate    int(${width} * 0.5)
+    ${start_y}=    Evaluate    int(${height} * 0.3)
+    ${end_y}=    Evaluate    int(${height} * 0.7)
+
+    # Scroll up multiple times to find the radio button
+    FOR    ${i}    IN RANGE    10
+        ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=//android.widget.RadioButton[2]
+        IF    ${visible}
+            Log To Console    ✅ YES/NO radio buttons found after ${i} scroll(s) up
+            BREAK
+        END
+        Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    600ms
+        Sleep    0.3s
+    END
+
     # Select YES for multiple name choice
     Mobile Wait Until Element Is Visible    xpath=//android.widget.RadioButton[2]    10s
     Mobile Click Element    xpath=//android.widget.RadioButton[2]
     Log To Console    ✅ Selected YES for multiple name choice
-    
-    # Enter First Business Name Choice
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_BUSINESS_FIRST_NAME_CHOICE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered First Business Name Choice: ${E2E_BUSINESS_FIRST_NAME_CHOICE}
-    
-    # Enter Second Business Name Choice
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_BUSINESS_SECOND_NAME_CHOICE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Second Business Name Choice: ${E2E_BUSINESS_SECOND_NAME_CHOICE}
+    Sleep    1s
 
-    # Scroll down to ensure Submit button will be accessible (YES option has more fields)
-    Log To Console    🔄 Scrolling after name choices to reveal Submit button area...
-    Sleep    0.5s
-    ${height}=    Mobile Get Window Height
-    ${width}=    Mobile Get Window Width
-    ${start_x}=    Evaluate    int(${width} * 0.5)
-    ${start_y}=    Evaluate    int(${height} * 0.7)
-    ${end_y}=    Evaluate    int(${height} * 0.3)
-    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    600ms
-    Sleep    0.5s
-    Log To Console    ✅ Scrolled to prepare for Submit button
+    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_BUSINESS_FIRST_NAME_CHOICE}    First Business Name Choice
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_BUSINESS_SECOND_NAME_CHOICE}    Second Business Name Choice
 
     Log To Console    ✅ Successfully entered E2E Business Namkaran Data with YES Option
 
