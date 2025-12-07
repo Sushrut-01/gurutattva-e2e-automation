@@ -608,44 +608,33 @@ Generate E2E Namkaran Test Data For Bride With YES Option
     Log To Console    🎯 Name Choices: ${E2E_FIRST_NAME_CHOICE}, ${E2E_SECOND_NAME_CHOICE}, ${E2E_THIRD_NAME_CHOICE}
 
 Enter E2E Bride Namkaran Data With YES Option
-    [Documentation]    Enters the generated E2E test data into Bride Namkaran form with YES option for multiple names
+    [Documentation]    Enters the generated E2E test data into Bride Namkaran form (basic data only, YES selection comes after Marriage Date)
     Sleep    3s
-    
+
     # Enter basic bride and groom data (same as NO option)
+    # Note: For Bride category, Marriage Date is selected AFTER this keyword
+    # And YES/NO radio button selection happens AFTER Marriage Date
     Enter E2E Bride Namkaran Data
-    
+
+Select YES Radio Button And Enter Name Choices For Bride
+    [Documentation]    Selects YES radio button and enters name choices for Bride Namkaran (called AFTER Marriage Date selection)
+
+    # Scroll to find YES radio button (should be visible after Marriage Date selection)
+    Log To Console    🔘 Scrolling to find YES radio button...
+    Scroll Until Element Visible    xpath=//android.widget.RadioButton[2]
+
     # Select YES for multiple name choice
+    Log To Console    🔘 Selecting YES for multiple name choice...
     Mobile Wait Until Element Is Visible    xpath=//android.widget.RadioButton[2]    10s
     Mobile Click Element    xpath=//android.widget.RadioButton[2]
     Log To Console    ✅ Selected YES for multiple name choice
-    
-    # Enter First Name Choice
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_FIRST_NAME_CHOICE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered First Name Choice: ${E2E_FIRST_NAME_CHOICE}
-    
-    # Enter Second Name Choice
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_SECOND_NAME_CHOICE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Second Name Choice: ${E2E_SECOND_NAME_CHOICE}
-    
-    # # Click Add Button
-    # Mobile Wait Until Element Is Visible    xpath=//android.widget.ScrollView/android.view.View/android.view.View/android.widget.ImageView[2]    10s
-    # Mobile Click Element    xpath=//android.widget.ScrollView/android.view.View/android.view.View/android.widget.ImageView[2]
-    # Log To Console    ✅ Clicked Add Button for first two choices
-    
-    # # Enter Third Name Choice
-    # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']    10s
-    # Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']
-    # Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']    ${E2E_THIRD_NAME_CHOICE}
-    # Mobile Hide Keyboard
-    # Log To Console    ✅ Entered Third Name Choice: ${E2E_THIRD_NAME_CHOICE}
-    
-    Log To Console    ✅ Successfully entered E2E Bride Namkaran Data with YES Option
+    Sleep    2s
+
+    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_FIRST_NAME_CHOICE}    First Name Choice
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_SECOND_NAME_CHOICE}    Second Name Choice
+
+    Log To Console    ✅ Successfully entered Bride name choices
 
 # YES Option Keywords for Business Namkaran
 Generate E2E Namkaran Test Data For Business With YES Option
@@ -694,30 +683,16 @@ Enter E2E Business Namkaran Data With YES Option
     # Enter basic business data (same as NO option)
     Enter E2E Business Namkaran Data
 
-    # Scroll up to make YES/NO radio buttons visible (they are above the address field)
-    Log To Console    🔄 Scrolling up to find YES/NO radio buttons...
-    ${height}=    Mobile Get Window Height
-    ${width}=    Mobile Get Window Width
-    ${start_x}=    Evaluate    int(${width} * 0.5)
-    ${start_y}=    Evaluate    int(${height} * 0.3)
-    ${end_y}=    Evaluate    int(${height} * 0.7)
-
-    # Scroll up multiple times to find the radio button
-    FOR    ${i}    IN RANGE    10
-        ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=//android.widget.RadioButton[2]
-        IF    ${visible}
-            Log To Console    ✅ YES/NO radio buttons found after ${i} scroll(s) up
-            BREAK
-        END
-        Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    600ms
-        Sleep    0.3s
-    END
+    # Scroll to find YES radio button (using standard scroll method like NO option)
+    Log To Console    🔘 Scrolling to find YES radio button...
+    Scroll Until Element Visible    xpath=//android.widget.RadioButton[2]
 
     # Select YES for multiple name choice
+    Log To Console    🔘 Selecting YES for multiple name choice...
     Mobile Wait Until Element Is Visible    xpath=//android.widget.RadioButton[2]    10s
     Mobile Click Element    xpath=//android.widget.RadioButton[2]
     Log To Console    ✅ Selected YES for multiple name choice
-    Sleep    1s
+    Sleep    2s
 
     # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
     Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_BUSINESS_FIRST_NAME_CHOICE}    First Business Name Choice
@@ -752,28 +727,24 @@ Generate E2E Namkaran Test Data For House With YES Option
 Enter E2E House Namkaran Data With YES Option
     [Documentation]    Enters the generated E2E test data into House Namkaran form with YES option for multiple names
     Sleep    3s
-    
+
     # Enter basic house data (same as NO option)
     Enter E2E House Namkaran Data
-    
+
+    # Scroll to find YES radio button (using standard scroll method like NO option)
+    Log To Console    🔘 Scrolling to find YES radio button...
+    Scroll Until Element Visible    xpath=//android.widget.RadioButton[2]
+
     # Select YES for multiple name choice
+    Log To Console    🔘 Selecting YES for multiple name choice...
     Mobile Wait Until Element Is Visible    xpath=//android.widget.RadioButton[2]    10s
     Mobile Click Element    xpath=//android.widget.RadioButton[2]
     Log To Console    ✅ Selected YES for multiple name choice
-    
-    # Enter First House Name Choice
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_HOUSE_FIRST_NAME_CHOICE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered First House Name Choice: ${E2E_HOUSE_FIRST_NAME_CHOICE}
-    
-    # Enter Second House Name Choice
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_HOUSE_SECOND_NAME_CHOICE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Second House Name Choice: ${E2E_HOUSE_SECOND_NAME_CHOICE}
+    Sleep    2s
+
+    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_HOUSE_FIRST_NAME_CHOICE}    First House Name Choice
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_HOUSE_SECOND_NAME_CHOICE}    Second House Name Choice
     
     # # Click Add Button
     # Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@text='Add']    10s
@@ -832,25 +803,21 @@ Enter E2E Child Namkaran Data With YES Option
     namkaranPage.Select Gender
     Select Time
     Enter Birth Place    ${E2E_CHILD_BIRTH_PLACE}
-    
+
+    # Scroll to find YES radio button (same approach as Business/House)
+    Log To Console    🔘 Scrolling to find YES radio button...
+    Scroll Until Element Visible    xpath=//android.widget.RadioButton[2]
+
     # Select YES for multiple name choice
+    Log To Console    🔘 Selecting YES for multiple name choice...
     Mobile Wait Until Element Is Visible    xpath=//android.widget.RadioButton[2]    10s
     Mobile Click Element    xpath=//android.widget.RadioButton[2]
     Log To Console    ✅ Selected YES for multiple name choice
-    
-    # Enter First Child Name Choice
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_CHILD_FIRST_NAME_CHOICE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered First Child Name Choice: ${E2E_CHILD_FIRST_NAME_CHOICE}
-    
-    # Enter Second Child Name Choice
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_CHILD_SECOND_NAME_CHOICE}
-    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Second Child Name Choice: ${E2E_CHILD_SECOND_NAME_CHOICE}
+    Sleep    2s
+
+    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_CHILD_FIRST_NAME_CHOICE}    First Child Name Choice
+    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_CHILD_SECOND_NAME_CHOICE}    Second Child Name Choice
     
     # # Click Add Button
     # Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@text='Add']    10s

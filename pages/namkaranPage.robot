@@ -9,7 +9,10 @@ ${EXPLORE_MENU}                    xpath=//android.widget.ImageView[3]
 ${NAMKARAN_HEADER}                 xpath=//android.view.View[@content-desc="Namkaran"]
 ${NAMKARAN_MENU}                   xpath=//android.widget.ImageView[@content-desc="Namkaran"]
 ${NAMKARAN_CONTENT}                xpath=//android.widget.ScrollView/android.view.View[1]
-${APPLY_NOW_BUTTON}                xpath=//android.view.View[@content-desc="Apply Now"]	
+${APPLY_NOW_BUTTON}                xpath=//android.view.View[@content-desc="Apply Now"]
+${APPLY_NOW_BUTTON_ALT1}           xpath=//android.widget.Button[@content-desc="Apply Now"]
+${APPLY_NOW_BUTTON_ALT2}           xpath=//*[contains(@content-desc, "Apply")]
+${APPLY_NOW_BUTTON_ALT3}           xpath=//android.view.View[contains(@content-desc, "Apply Now")]	
 ${IAGREE_BUTTON}                   xpath=//android.view.View[@content-desc="I Agree"]
 ${CANCEL_BUTTON}                   xpath=//android.view.View[@content-desc="Cancel"]
 ${CONFIRMATION_MESSAGE}            xpath=//android.view.View[@content-desc="Do you agree to all the terms ?"]
@@ -114,6 +117,11 @@ ${NAMKARAN_CATEGORIES}             xpath=//android.view.View[contains(@content-d
 ${NAMKARAN_ADD_CONTENT}            xpath=//android.widget.ImageView[contains(@content-desc,'Namkaran')][1]
 ${ADD_NAMKARAN_TEXT}               xpath=//android.view.View[contains(@content-desc,'NO NAMKARAN FOUND.')]
 
+# Web CMS - Export functionality locators
+${NAMKARAN_SELECT_ROW}            xpath=//input[@aria-label='Select row']
+${NAMKARAN_EXPORT_BUTTON}         xpath=//button[normalize-space()='Export']
+${NAMKARAN_EXPORTED_STATUS}       xpath=//span[contains(text(),'Exported')]
+
 *** Keywords ***
 Click on the Explore Menu
     Mobile Wait Until Element Is Visible    ${EXPLORE_MENU}    15s
@@ -129,8 +137,9 @@ verify Namkaran header and content
     
 
 Click on the Apply Now Button
+    Sleep    3s
     Scroll Until Element Visible      ${APPLY_NOW_BUTTON}
-    Mobile Wait Until Element Is Visible   ${APPLY_NOW_BUTTON}     10s
+    Mobile Wait Until Element Is Visible   ${APPLY_NOW_BUTTON}     15s
     Mobile Click Element        ${APPLY_NOW_BUTTON}
 
 Click on the Cancel Button
@@ -496,11 +505,21 @@ Select DOB
     Log To Console    📅 Selecting DOB...
     Mobile Wait Until Element Is Visible     ${Select_DOB}    10s
     Mobile Click Element     ${Select_DOB}
-    # Mobile Click Element     ${SelectYrs}
-    # Mobile Wait Until Element Is Visible   ${Select2019}    10s
-    # Mobile Click Element     ${Select2019}
-    # Mobile Wait Until Element Is Visible   ${SelectDay}    10s
-    # Mobile Click Element     ${SelectDay}
+    Sleep    2s
+    # Select August 15, 2025 (4 months ago, within 5 month limit, not current date)
+    # Navigate backward to August
+    Mobile Click Element     xpath=//android.widget.Button[@content-desc="Previous month"]
+    Sleep    1s
+    Mobile Click Element     xpath=//android.widget.Button[@content-desc="Previous month"]
+    Sleep    1s
+    Mobile Click Element     xpath=//android.widget.Button[@content-desc="Previous month"]
+    Sleep    1s
+    Mobile Click Element     xpath=//android.widget.Button[@content-desc="Previous month"]
+    Sleep    1s
+    # Now at August 2025, select 15th
+    Mobile Wait Until Element Is Visible   xpath=//android.view.View[@content-desc="15 August 2025"]    10s
+    Mobile Click Element     xpath=//android.view.View[@content-desc="15 August 2025"]
+    Sleep    1s
     Mobile Click Element     ${SelectOK}
     Mobile Hide Keyboard
 

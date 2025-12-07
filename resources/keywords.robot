@@ -100,18 +100,20 @@ Close Gurutattva App
 
 Scroll Until Element Visible
     [Arguments]    ${locator}
+    [Documentation]    Scrolls with smaller increments (20% of screen) to avoid skipping fields
     ${height}=      Mobile Get Window Height
     ${width}=       Mobile Get Window Width
     ${start_x}=     Evaluate    int(${width} * 0.5)
     ${start_y}=     Evaluate    int(${height} * 0.6)
-    ${offset_x}=    Set Variable    0
-    ${offset_y}=    Evaluate    int(-1 * ${height} * 0.4)
- 
+    ${end_x}=       Set Variable    ${start_x}
+    # Reduced scroll distance to 20% to avoid skipping fields
+    ${end_y}=       Evaluate    int(${height} * 0.4)
 
-    FOR    ${i}    IN RANGE    0    5
+    FOR    ${i}    IN RANGE    0    10
         ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    ${locator}
         Exit For Loop If    ${visible}
-        Mobile Swipe    ${start_x}    ${start_y}    ${offset_x}    ${offset_y}    800ms
+        Mobile Swipe    ${start_x}    ${start_y}    ${end_x}    ${end_y}    600ms
+        Sleep    0.2s
     END
 
 Scroll Up Until Element Visible

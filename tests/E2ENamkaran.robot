@@ -256,11 +256,14 @@ Verify user is able to add Bride Namkaran with YES Option on the mobile app and 
     # Select Bride Namkaran category
     Select Bride Namkaran from category dropdown
 
-    # Enter E2E test data with YES option for multiple names
+    # Enter E2E test data (basic Bride data only)
     Enter E2E Bride Namkaran Data With YES Option
 
-    # Select Marriage Date
+    # Select Marriage Date (comes AFTER basic data for Bride category)
     Select Marriage Date
+
+    # Select YES radio button and enter name choices (comes AFTER Marriage Date for Bride)
+    Select YES Radio Button And Enter Name Choices For Bride
 
     # Submit the namkaran
     Click on the Submit Button
@@ -493,6 +496,10 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
+    # Export the namkaran (business requirement)
+    Select the created namkaran
+    Export Namkaran And Validate Download
+
     # Click three dots and view the namkaran using Namkaran ID
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
@@ -651,6 +658,10 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
+    # Export the namkaran (business requirement)
+    Select the created namkaran
+    Export Namkaran And Validate Download
+
     # Click three dots and view the namkaran using Namkaran ID
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
@@ -737,6 +748,10 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
+    # Export the namkaran (business requirement)
+    Select the created namkaran
+    Export Namkaran And Validate Download
+
     # Click three dots and view the namkaran using Namkaran ID
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
@@ -799,6 +814,9 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
     # Select Marriage Date
     Select Marriage Date
 
+    # Select NO for multiple name choice
+    namkaranPage.Select NO Radio Button
+
     # Submit the namkaran
     Click on the Submit Button
     #Verify Namkaran submission success message
@@ -818,6 +836,10 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
 
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
+
+    # Export the namkaran (business requirement)
+    Select the created namkaran
+    Export Namkaran And Validate Download
 
     # Click three dots and view the namkaran using Namkaran ID
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
@@ -893,6 +915,10 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
+    # Export the namkaran (business requirement)
+    Select the created namkaran
+    Export Namkaran And Validate Download
+
     # Click three dots and view the namkaran using Namkaran ID
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
@@ -967,6 +993,10 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
 
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
+
+    # Export the namkaran (business requirement)
+    Select the created namkaran
+    Export Namkaran And Validate Download
 
     # Click three dots and view the namkaran using Namkaran ID
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
@@ -1048,6 +1078,10 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
 
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
+
+    # Export the namkaran (business requirement)
+    Select the created namkaran
+    Export Namkaran And Validate Download
 
     # Click three dots and view the namkaran using Namkaran ID
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
