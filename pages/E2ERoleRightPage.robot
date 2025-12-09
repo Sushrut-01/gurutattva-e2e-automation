@@ -378,14 +378,17 @@ Handle Expandable Main Menu Item
 Handle Main Menu Item
     [Documentation]    Handles clicking on simple main menu items (using href attributes)
     [Arguments]    ${menu_item}
-    
+
     ${menu_locator}=    Get Menu Locator By Name    ${menu_item}
-    
-    # Check if menu is visible
-    ${is_visible}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    ${menu_locator}    5s
-    
+
+    # Check if menu is visible with longer wait time
+    ${is_visible}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    ${menu_locator}    10s
+
     IF    ${is_visible} == True
         Log To Console    ✅ Simple main menu item is visible: ${menu_item}
+        # Scroll to element to ensure it's clickable
+        Run Keyword And Ignore Error    Scroll Element Into View    ${menu_locator}
+        Sleep    1s
         Web Click Element    ${menu_locator}
         Sleep    2s
         Log To Console    ✅ Clicked on simple main menu item: ${menu_item}
