@@ -247,13 +247,37 @@ Verify Notification Alert
     Log To Console    Notification Alert: ${notification_alert}       
 
 Click on the Language Tab
-    Mobile Click Element                        xpath=//android.view.View[contains(@content-desc,'Language')]
+    # Handle both English "Language" and Hindi "भाषा"
+    ${language_found_en}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'Language')]    5s
+    IF    ${language_found_en}
+        Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'Language')]
+    ELSE
+        # Try Hindi version
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'भाषा')]    5s
+        Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'भाषा')]
+    END
 
 Select Hindi from the Language Selection
-    Mobile Click Element                        xpath=//android.view.View[@content-desc="Hindi"]
+    # Handle both English "Hindi" and Hindi "हिंदी"
+    ${hindi_found_en}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Hindi"]    5s
+    IF    ${hindi_found_en}
+        Mobile Click Element    xpath=//android.view.View[@content-desc="Hindi"]
+    ELSE
+        # Try Hindi version "हिंदी"
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="हिंदी"]    5s
+        Mobile Click Element    xpath=//android.view.View[@content-desc="हिंदी"]
+    END
 
 Click on the Save Button from Language Selection
-    Mobile Click Element                        xpath=//android.view.View[@content-desc="Save"]
+    # Handle both English "Save" and Hindi "सहेजें"
+    ${save_found_en}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Save"]    5s
+    IF    ${save_found_en}
+        Mobile Click Element    xpath=//android.view.View[@content-desc="Save"]
+    ELSE
+        # Try Hindi version "सहेजें"
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="सहेजें"]    5s
+        Mobile Click Element    xpath=//android.view.View[@content-desc="सहेजें"]
+    END
 
 Verify Profile Screen in Hindi Language
     Mobile Wait Until Element Is Visible   xpath=//android.view.View[@content-desc="सामान्य सेटिंग"]    10s
@@ -304,13 +328,68 @@ Click on the Hindi Language Tab
     Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'भाषा')]
 
 Select English from the Language Selection
-    Mobile Click Element    xpath=//android.view.View[@content-desc="अंग्रेज़ी"]
+    # Handle both English "English" and Hindi "अंग्रेज़ी"
+    ${english_found_en}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="English"]    5s
+    IF    ${english_found_en}
+        Mobile Click Element    xpath=//android.view.View[@content-desc="English"]
+    ELSE
+        # Try Hindi version "अंग्रेज़ी"
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="अंग्रेज़ी"]    5s
+        Mobile Click Element    xpath=//android.view.View[@content-desc="अंग्रेज़ी"]
+    END
 
 Click on the Save Button from Hindi Language Selection
     Mobile Click Element    xpath=//android.view.View[@content-desc="सहेजें"]      
 
 Click on the Close Button from Language Selection
     Mobile Click Element    xpath=//android.widget.Button
+
+Reset Language To English
+    [Documentation]    Ensures app language is reset to English - call this in teardown for Hindi tests
+    Log To Console    🔄 Attempting to reset app language to English...
+
+    # Try to find Profile tab - this checks if app is open and on home screen
+    ${profile_exists}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile"]    3s
+
+    # If not found, try Hindi version "प्रोफ़ाइल"
+    IF    ${profile_exists} == False
+        ${profile_exists_hi}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="प्रोफ़ाइल"]    3s
+        IF    ${profile_exists_hi}
+            Log To Console    📱 App is in Hindi - resetting to English...
+            Mobile Click Element    xpath=//android.widget.ImageView[@content-desc="प्रोफ़ाइल"]
+            Sleep    2s
+            # Click on Language Tab (handles both English and Hindi UI)
+            Click on the Language Tab
+            Sleep    2s
+            # Select English (handles both English and Hindi UI)
+            Select English from the Language Selection
+            Sleep    2s
+            # Click Save (handles both English and Hindi UI)
+            Click on the Save Button from Language Selection
+            Sleep    3s
+            Log To Console    ✅ Language reset to English successfully
+            RETURN
+        END
+    END
+
+    IF    ${profile_exists}
+        # App is open in English, navigate to language settings
+        Log To Console    📱 App is in English already - but verifying language setting...
+        Mobile Click Element    xpath=//android.widget.ImageView[@content-desc="Profile"]
+        Sleep    2s
+        # Click on Language Tab (handles both English and Hindi UI)
+        Click on the Language Tab
+        Sleep    2s
+        # Select English (handles both English and Hindi UI)
+        Select English from the Language Selection
+        Sleep    2s
+        # Click Save (handles both English and Hindi UI)
+        Click on the Save Button from Language Selection
+        Sleep    3s
+        Log To Console    ✅ Language confirmed as English
+    ELSE
+        Log To Console    ⚠️ App not in a state to reset language (Profile tab not found) - skipping
+    END
 
 Click on the Privacy Policy Tab
     Swipe Until Element Visible    ${DELETE & LOGOUT}

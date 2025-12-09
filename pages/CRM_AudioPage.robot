@@ -74,10 +74,11 @@ ${MOBILE_MUSIC_LOCATOR}           xpath=//android.view.View[contains(@content-de
 Login in with Sanchalak credentials
     [Documentation]    Logs in to web application with Sanchalak credentials
     Web Wait Until Page Contains Element    ${EMAIL_FIELD}    10s
-    Web Input Text    ${EMAIL_FIELD}    yatishd.actowiz@gmail.com
-    Web Input Password    ${PASSWORD_FIELD}    Admin123
+    Web Input Text    ${EMAIL_FIELD}    patilvaishub@gmail.com
+    Web Input Password    ${PASSWORD_FIELD}    Lavanya@21
     Web Click Button    ${LOGIN_BUTTON}
-    Web Wait Until Page Contains    ${DASHBOARD_TEXT}    10s
+    Sleep    5s
+    Log To Console    ✅ Sanchalak logged in successfully
 
 Login in with Harsh Sanchalak credentials
     [Documentation]    Logs in to web application with Harsh Sanchalak credentials

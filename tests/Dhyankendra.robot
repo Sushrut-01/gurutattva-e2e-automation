@@ -24,11 +24,10 @@ Test Teardown    Test Teardown
 
 *** Test Cases ***
 Verify when super admin is able to reject the dhyankendra request of sadhak and verify the status as Rejected on the mobile app
-    [Tags]    Dhyankendra    TC46  
+    [Tags]    Dhyankendra    TC46
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
-    Launch Mobile App And Login
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location
     Click on the Register Now for Dhyankendra
