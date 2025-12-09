@@ -40,11 +40,11 @@ ${MASTER_MANAGEMENT_MENU}          xpath=//a[@href='/master-management']
 ${AUDIO_MENU}                      xpath=//a[@href='/audio']
 ${EVENTS_MENU}                     xpath=//a[@href='/events']
 ${NEWS_MENU}                       xpath=//a[@href='/news']
-${PRAYER_MENU}                     xpath=//a[@href='/prayer']
-${NAMKARAN_MENU}                   xpath=//a[@href='/namkaran']
-${USER_MANAGEMENT_MENU}            xpath=//a[@href='/user-management']
+${PRAYER_MENU}                     xpath=//span[contains(text(),'Prayer')]
+${NAMKARAN_MENU}                   xpath=//span[contains(text(),'Namkaran')] | xpath=//a[@href='/namkaran']
+${USER_MANAGEMENT_MENU}            xpath=//span[contains(text(),'User Management')] | xpath=//a[@href='/user']
 ${DHYANSTHALI_MENU}                xpath=//a[@href='/dhyansthali']
-${DHYANKENDRA_MENU}                xpath=//a[@href='/dhyankendra']
+${DHYANKENDRA_MENU}                xpath=//span[contains(text(),'Dhyankendra')] | xpath=//a[@href='/dhyankendra']
 
 *** Keywords ***
 Login With User Role
@@ -274,24 +274,24 @@ Get Menu Locator For Validation
 Get Simple Menu Locator
     [Documentation]    Returns locator for simple menu items
     [Arguments]    ${menu_name}
-    
+
     IF    '${menu_name}' == 'Dashboard'
         ${locator}=    Set Variable    xpath=//a[@href='/dashboard']
     ELSE IF    '${menu_name}' == 'Banners'
         ${locator}=    Set Variable    xpath=//a[@href='/banners']
     ELSE IF    '${menu_name}' == 'Dhyankendra'
-        ${locator}=    Set Variable    xpath=//a[@href='/dhyankendra']
+        ${locator}=    Set Variable    xpath=//span[contains(text(),'Dhyankendra')] | xpath=//a[@href='/dhyankendra']
     ELSE IF    '${menu_name}' == 'Namkaran'
-        ${locator}=    Set Variable    xpath=//a[@href='/namkaran']
+        ${locator}=    Set Variable    xpath=//span[contains(text(),'Namkaran')] | xpath=//a[@href='/namkaran']
     ELSE IF    '${menu_name}' == 'Prayer'
-        ${locator}=    Set Variable    xpath=//a[@href='/prayer']
+        ${locator}=    Set Variable    xpath=//span[contains(text(),'Prayer')]
     ELSE IF    '${menu_name}' == 'Feedback'
         ${locator}=    Set Variable    xpath=//a[@href='/feedback']
     ELSE IF    '${menu_name}' == 'User Management'
-        ${locator}=    Set Variable    xpath=//a[@href='/user']
+        ${locator}=    Set Variable    xpath=//span[contains(text(),'User Management')] | xpath=//a[@href='/user']
     ELSE
         # Fallback to text-based locator
-        ${locator}=    Set Variable    xpath=//a[contains(text(),'${menu_name}')]
+        ${locator}=    Set Variable    xpath=//span[contains(text(),'${menu_name}')] | xpath=//a[contains(text(),'${menu_name}')]
     END
     [Return]    ${locator}
 
@@ -551,8 +551,8 @@ Get Menu Locator By Name
         # First click on News main menu, then find Local submenu
         ${locator}=    Set Variable    xpath=//a[contains(text(),'News')]/following-sibling::ul//a[contains(text(),'Local')]
     ELSE IF    '${menu_name}' == 'User Management'
-        # Simple menu item (not expandable)
-        ${locator}=    Set Variable    xpath=//a[@href='/user']
+        # Simple menu item (not expandable) - use span or href
+        ${locator}=    Set Variable    ${USER_MANAGEMENT_MENU}
     ELSE IF    '${menu_name}' == 'Namkaran'
         ${locator}=    Set Variable    ${NAMKARAN_MENU}
     ELSE
