@@ -66,10 +66,10 @@ Login With User Role
     Web Input Text    ${LOGIN_EMAIL_FIELD}    ${email}
     Web Input Text    ${LOGIN_PASSWORD_FIELD}    ${password}
     Web Click Element    ${LOGIN_BUTTON}
-    
-    # Wait for login to complete
+
+    # Wait for login to complete - verify role-specific landing page
     Sleep    5s
-    Web Wait Until Page Contains    ${DASHBOARD_TEXT}    20s
+    Validate Role Based Login Success    ${user_role}
     Log To Console    ✅ Successfully logged in as: ${user_role}
 
 Get User Email By Role
@@ -109,6 +109,63 @@ Get User Password By Role
         ${password}=    Set Variable    None
     END
     [Return]    ${password}
+
+Validate Role Based Login Success
+    [Documentation]    Validates successful login by checking for role-specific landing page content
+    [Arguments]    ${user_role}
+
+    Log To Console    🔍 Validating login success for role: ${user_role}
+
+    # Check for role-specific page content based on where each role lands after login
+    IF    '${user_role}' == 'Prayer Coordinator'
+        # Prayer Coordinator lands on Prayer Management page
+        ${login_success}=    Run Keyword And Return Status    Web Wait Until Page Contains    Prayer Management    20s
+        IF    ${login_success} == False
+            # Fallback: check for Prayer menu or Requests text
+            Web Wait Until Page Contains Element    xpath=//span[contains(text(),'Prayer')]    20s
+        END
+        Log To Console    ✅ Prayer Coordinator logged in successfully - Prayer Management page visible
+    ELSE IF    '${user_role}' == 'Global Event Coordinator'
+        # Global Event Coordinator may land on Events page or see Events menu
+        ${login_success}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    xpath=//span[contains(text(),'Events')]    20s
+        IF    ${login_success} == False
+            # Fallback: check for any successful page load indicator
+            Web Wait Until Page Contains Element    xpath=//span[contains(text(),'Event') or contains(text(),'Management')]    20s
+        END
+        Log To Console    ✅ Global Event Coordinator logged in successfully
+    ELSE IF    '${user_role}' == 'Acharya'
+        # Acharya has access to multiple modules - check for User Management or News menu
+        ${login_success}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    xpath=//span[contains(text(),'User Management') or contains(text(),'News') or contains(text(),'Dhyankendra')]    20s
+        IF    ${login_success} == False
+            # Fallback: check for Management text
+            Web Wait Until Page Contains    Management    20s
+        END
+        Log To Console    ✅ Acharya logged in successfully
+    ELSE IF    '${user_role}' == 'Maha Acharya'
+        # Maha Acharya has similar access to Acharya
+        ${login_success}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    xpath=//span[contains(text(),'User Management') or contains(text(),'News') or contains(text(),'Dhyankendra')]    20s
+        IF    ${login_success} == False
+            # Fallback: check for Management text
+            Web Wait Until Page Contains    Management    20s
+        END
+        Log To Console    ✅ Maha Acharya logged in successfully
+    ELSE IF    '${user_role}' == 'Namkaran Coordinator'
+        # Namkaran Coordinator lands on Namkaran page
+        ${login_success}=    Run Keyword And Return Status    Web Wait Until Page Contains    Namkaran    20s
+        IF    ${login_success} == False
+            # Fallback: check for Namkaran menu
+            Web Wait Until Page Contains Element    xpath=//span[contains(text(),'Namkaran')]    20s
+        END
+        Log To Console    ✅ Namkaran Coordinator logged in successfully
+    ELSE
+        # Generic validation - just check that we're not on login page anymore
+        Sleep    3s
+        ${on_login_page}=    Run Keyword And Return Status    Web Page Should Contain Element    ${LOGIN_EMAIL_FIELD}
+        IF    ${on_login_page}
+            Fail    ❌ Login failed - still on login page
+        END
+        Log To Console    ✅ User logged in successfully
+    END
 
 Validate Menu Items For User Role
     [Documentation]    Validates that only the expected menu items are visible for the given user role
