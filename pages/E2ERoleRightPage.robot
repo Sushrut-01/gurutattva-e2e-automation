@@ -25,7 +25,7 @@ ${ACHARYA_PASSWORD}                Admin@123
 ${MAHA_ACHARYA_EMAIL}              payment.gateway@rysun.com
 ${MAHA_ACHARYA_PASSWORD}           Admin@123
 
-${NAMKARAN_COORDINATOR_EMAIL}      parthmpandya@gmail.com
+${NAMKARAN_COORDINATOR_EMAIL}      adesh.pawar@rysun.com
 ${NAMKARAN_COORDINATOR_PASSWORD}   Admin@123
 
 # Menu Items by Role
