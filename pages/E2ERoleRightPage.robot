@@ -41,10 +41,10 @@ ${AUDIO_MENU}                      xpath=//a[@href='/audio']
 ${EVENTS_MENU}                     xpath=//a[@href='/events']
 ${NEWS_MENU}                       xpath=//a[@href='/news']
 ${PRAYER_MENU}                     xpath=//span[contains(text(),'Prayer')]
-${NAMKARAN_MENU}                   xpath=//span[contains(text(),'Namkaran')] | xpath=//a[@href='/namkaran']
+${NAMKARAN_MENU}                   xpath=//span[contains(text(),'Namkaran')]
 ${USER_MANAGEMENT_MENU}            xpath=//span[contains(text(),'User Management')] | xpath=//a[@href='/user']
 ${DHYANSTHALI_MENU}                xpath=//a[@href='/dhyansthali']
-${DHYANKENDRA_MENU}                xpath=//span[contains(text(),'Dhyankendra')] | xpath=//a[@href='/dhyankendra'] | xpath=//a[contains(text(),'Dhyankendra')]
+${DHYANKENDRA_MENU}                xpath=//span[contains(text(),'Dhyankendra')]
 
 *** Keywords ***
 Login With User Role
@@ -381,8 +381,8 @@ Handle Main Menu Item
 
     ${menu_locator}=    Get Menu Locator By Name    ${menu_item}
 
-    # Check if menu is visible with longer wait time
-    ${is_visible}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    ${menu_locator}    10s
+    # Use Wait Until Element Is Visible instead of Page Contains Element
+    ${is_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${menu_locator}    10s
 
     IF    ${is_visible} == True
         Log To Console    ✅ Simple main menu item is visible: ${menu_item}
