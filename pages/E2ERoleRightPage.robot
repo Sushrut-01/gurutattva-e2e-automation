@@ -33,7 +33,7 @@ ${PRAYER_COORDINATOR_MENUS}        Prayer
 ${GLOBAL_EVENT_COORDINATOR_MENUS}  Events - Global,Events - Local,Dhyansthali Management - Dhyansthali
 ${ACHARYA_MENUS}                   Dhyansthali Management - Dhyansthali,Dhyankendra,News - Local,Events - Local,User Management
 ${MAHA_ACHARYA_MENUS}              Dhyansthali Management - Dhyansthali,Dhyankendra,News - Local,Events - Local,User Management
-${NAMKARAN_COORDINATOR_MENUS}      Dhyansthali Management - Dhyansthali,Namkaran
+${NAMKARAN_COORDINATOR_MENUS}      Namkaran
 
 # Common Menu Locators (using href attributes for better reliability)
 ${MASTER_MANAGEMENT_MENU}          xpath=//a[@href='/master-management']
@@ -44,7 +44,7 @@ ${PRAYER_MENU}                     xpath=//span[contains(text(),'Prayer')]
 ${NAMKARAN_MENU}                   xpath=//span[contains(text(),'Namkaran')] | xpath=//a[@href='/namkaran']
 ${USER_MANAGEMENT_MENU}            xpath=//span[contains(text(),'User Management')] | xpath=//a[@href='/user']
 ${DHYANSTHALI_MENU}                xpath=//a[@href='/dhyansthali']
-${DHYANKENDRA_MENU}                xpath=//span[contains(text(),'Dhyankendra')] | xpath=//a[@href='/dhyankendra']
+${DHYANKENDRA_MENU}                xpath=//span[contains(text(),'Dhyankendra')] | xpath=//a[@href='/dhyankendra'] | xpath=//a[contains(text(),'Dhyankendra')]
 
 *** Keywords ***
 Login With User Role
