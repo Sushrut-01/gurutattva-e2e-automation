@@ -181,14 +181,16 @@ Test News Category Tab In Mobile App
     # Step 3: Fetch all the Categories name
     ${category_list}=    Fetch All Category Names
     Log To Console    ✅ Step 3: Fetched all category names: ${category_list}
-    
-    # Step 4: Click on a specific category (e.g., Meditation NOTE : Always take a  category which appear in the bottom of the list)
-    Click on Specific Category    Meditation
-    Log To Console    ✅ Step 4: Clicked on Meditation category
-    
+
+    # Step 4: Click on a specific category (NOTE: Always take a category which appear in the bottom of the list)
+    ${last_category}=    Get From List    ${category_list}    -1
+    Log To Console    📋 Using last category from list: ${last_category}
+    Click on Specific Category    ${last_category}
+    Log To Console    ✅ Step 4: Clicked on ${last_category} category
+
     # Step 5: Validate all news items in that category (Local + Global)
-    Verify All News In Category    Meditation
-    Log To Console    ✅ Step 5: Validated all news items in Meditation category
+    Verify All News In Category    ${last_category}
+    Log To Console    ✅ Step 5: Validated all news items in ${last_category} category
     
     Close Gurutattva App
     Log To Console    🎉 News Category Tab Test Completed Successfully!
@@ -260,7 +262,8 @@ Test Sanchalak Adds Local News And Super Admin Approves It
     Select Publish Status
     Set Publish Date To Today
     Select Category
-    
+    Select News Dhyankendra
+
     # Upload images
     Web Choose File    ${ENGLISH_THUMBNAIL_UPLOAD}    ${ENGLISH_THUMBNAIL_FILE}
     Web Choose File    ${ENGLISH_IMAGE_UPLOAD}    ${ENGLISH_IMAGE_FILE}
@@ -353,7 +356,8 @@ Test Sanchalak Adds Local News And Super Admin Rejects It
     Select Publish Status
     Set Publish Date To Today
     Select Category
-    
+    Select News Dhyankendra
+
     # Upload images
     Web Choose File    ${ENGLISH_THUMBNAIL_UPLOAD}    ${ENGLISH_THUMBNAIL_FILE}
     Web Choose File    ${ENGLISH_IMAGE_UPLOAD}    ${ENGLISH_IMAGE_FILE}

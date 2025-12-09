@@ -95,13 +95,15 @@ Verify that the user is able to add a English event, publish it in the CMS, and 
     # --- Mobile App: Verify English Events Details ---
     Open Gurutattva App
     Handle First Time Setup
+    Clear App Cache And Reopen
+    Handle First Time Setup
     Click on the Events Tab
     Verify Mobile Events Details    ${E2E_EVENTS_TITLE_EN}
     Close Gurutattva App
     
 Verify that the user is able to add a Hindi event, publish it in the CMS, and verify the hindi event details on the mobile app
     [Tags]    TC40    E2EEvents    Hindi
-    
+
     # Generate unique test data for this test run
     Generate E2E Events Test Data For Hindi
 
@@ -119,7 +121,7 @@ Verify that the user is able to add a Hindi event, publish it in the CMS, and ve
     Enter Events Hindi Venue
     Select Event Publish from Date
     Select Event Publish to Date
-    Select Event Publish Status  
+    Select Event Publish Status
     Select Event Category
     Upload Event Hindi Thumbnail Image
     Upload Event Hindi Image
@@ -140,6 +142,8 @@ Verify that the user is able to add a Hindi event, publish it in the CMS, and ve
     # --- Mobile App: Verify Hindi Events Details ---
     Open Gurutattva App
     Handle First Time Setup
+    Clear App Cache And Reopen
+    Handle First Time Setup
     Click on the Profile Tab
     Click on the Language Tab
     Select Hindi from the Language Selection
@@ -147,11 +151,16 @@ Verify that the user is able to add a Hindi event, publish it in the CMS, and ve
     Click on the Back Button from Profile Screen
     Click on the Hindi Events Tab
     Verify Mobile Events Hindi Details    ${E2E_EVENTS_TITLE_HI}
+    Log To Console    🎉 Hindi Events Verified Successfully!
+
+    # --- Reset Language to English ---
+    Log To Console    🔄 Resetting app language to English...
     Click on the Profile Tab
-    Click on the Hindi Language Tab
+    Click on the Language Tab
     Select English from the Language Selection
-    Click on the Save Button from Hindi Language Selection
-    Close Gurutattva App
+    Click on the Save Button from Language Selection
+    Click on the Back Button from Profile Screen
+    Log To Console    ✅ Language reset to English successfully!
     Log To Console    🎉 E2E Hindi Events Test Completed Successfully!
 
 Test Add Event Category from CMS and Add Events under that Category
@@ -351,9 +360,10 @@ Sanchalak adds local Event, once Acharya/Super Admin Approves it then only that 
     Enter Events Venue
     Select Event Publish from Date
     Select Event Publish to Date
-    Select Event Publish Status  
-    Select Event Category 
-    Upload Event English Thumbnail Image  
+    Select Event Publish Status
+    Select Event Category
+    Select Event Dhyankendra
+    Upload Event English Thumbnail Image
     Upload Event English Image
     Click Submit Button
     Verify Events Created Successfully
