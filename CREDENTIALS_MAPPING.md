@@ -63,12 +63,12 @@ All role-based credentials are defined in `pages/E2ERoleRightPage.robot` (lines 
 - **Access**: Events - Global, Events - Local, Dhyansthali Management
 
 #### Acharya (TC03)
-- **Email**: suraj.punetha@rysun.com
+- **Email**: payment.gateway@rysun.com
 - **Password**: Admin@123
 - **Access**: Dhyansthali, Dhyankendra, News - Local, Events - Local, User Management
 
 #### Maha Acharya (TC04)
-- **Email**: sankalp.kamdi@rysun.com
+- **Email**: payment.gateway@rysun.com
 - **Password**: Admin@123
 - **Access**: Dhyansthali, Dhyankendra, News - Local, Events - Local, User Management
 

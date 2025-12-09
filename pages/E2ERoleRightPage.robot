@@ -19,10 +19,10 @@ ${PRAYER_COORDINATOR_PASSWORD}     Suraj@123
 ${GLOBAL_EVENT_COORDINATOR_EMAIL}  amit.jadhav@rysun.com
 ${GLOBAL_EVENT_COORDINATOR_PASSWORD}   Admin@123
 
-${ACHARYA_EMAIL}                   suraj.punetha@rysun.com
+${ACHARYA_EMAIL}                   payment.gateway@rysun.com
 ${ACHARYA_PASSWORD}                Admin@123
 
-${MAHA_ACHARYA_EMAIL}              sankalp.kamdi@rysun.com
+${MAHA_ACHARYA_EMAIL}              payment.gateway@rysun.com
 ${MAHA_ACHARYA_PASSWORD}           Admin@123
 
 ${NAMKARAN_COORDINATOR_EMAIL}      parthmpandya@gmail.com
