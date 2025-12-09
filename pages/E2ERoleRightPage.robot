@@ -12,20 +12,20 @@ ${LOGIN_BUTTON}                    xpath=//button[@type='submit' or contains(tex
 ${DASHBOARD_TEXT}                  Dashboard
 ${LOGIN_URL}                       https://gurutattvacmsnewdev.rysun.in:9090/           
 
-# User Credentials Mapping
-${PRAYER_COORDINATOR_EMAIL}        sankalp.kamdi@rysun.com
-${PRAYER_COORDINATOR_PASSWORD}     Admin@123
+# User Credentials Mapping - Updated 2025-12-09
+${PRAYER_COORDINATOR_EMAIL}        surajsaini520@gmail.com
+${PRAYER_COORDINATOR_PASSWORD}     Suraj@123
 
 ${GLOBAL_EVENT_COORDINATOR_EMAIL}  amit.jadhav@rysun.com
 ${GLOBAL_EVENT_COORDINATOR_PASSWORD}   Admin@123
 
-${ACHARYA_EMAIL}                   uttamshlok.sharma@rysun.com
+${ACHARYA_EMAIL}                   suraj.punetha@rysun.com
 ${ACHARYA_PASSWORD}                Admin@123
 
-${MAHA_ACHARYA_EMAIL}              Bhavya.gajjar@rysun.com
+${MAHA_ACHARYA_EMAIL}              sankalp.kamdi@rysun.com
 ${MAHA_ACHARYA_PASSWORD}           Admin@123
 
-${NAMKARAN_COORDINATOR_EMAIL}      ayush.chauhan@rysun.com
+${NAMKARAN_COORDINATOR_EMAIL}      parth.pandya@rysun.com
 ${NAMKARAN_COORDINATOR_PASSWORD}   Admin@123
 
 # Menu Items by Role

@@ -52,28 +52,28 @@ This document maps which credentials are used for each test module in the Guruta
 
 All role-based credentials are defined in `pages/E2ERoleRightPage.robot` (lines 16-29):
 
-#### Prayer Coordinator
-- **Email**: sankalp.kamdi@rysun.com
-- **Password**: Admin@123
+#### Prayer Coordinator (TC01)
+- **Email**: surajsaini520@gmail.com
+- **Password**: Suraj@123
 - **Access**: Prayer module only
 
-#### Global Event Coordinator
+#### Global Event Coordinator (TC02)
 - **Email**: amit.jadhav@rysun.com
 - **Password**: Admin@123
 - **Access**: Events - Global, Events - Local, Dhyansthali Management
 
-#### Acharya
-- **Email**: uttamshlok.sharma@rysun.com
+#### Acharya (TC03)
+- **Email**: suraj.punetha@rysun.com
 - **Password**: Admin@123
 - **Access**: Dhyansthali, Dhyankendra, News - Local, Events - Local, User Management
 
-#### Maha Acharya
-- **Email**: Bhavya.gajjar@rysun.com
+#### Maha Acharya (TC04)
+- **Email**: sankalp.kamdi@rysun.com
 - **Password**: Admin@123
 - **Access**: Dhyansthali, Dhyankendra, News - Local, Events - Local, User Management
 
-#### Namkaran Coordinator
-- **Email**: ayush.chauhan@rysun.com
+#### Namkaran Coordinator (TC05)
+- **Email**: parth.pandya@rysun.com
 - **Password**: Admin@123
 - **Access**: Dhyansthali Management, Namkaran
 
