@@ -605,18 +605,18 @@ Validate Submenu Access Via Button
     [Documentation]    Validates submenu access by checking for functional Add button
     [Arguments]    ${main_menu}    ${submenu}
 
-    Log To Console    ?? Validating  access via Add button for 
+    Log To Console    ?? Validating ${submenu} access via Add button for ${main_menu}
 
     # Check for Add button based on submenu type
     IF    '${main_menu}' == 'Events'
         # Check for Add Event button
         ${has_button}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    xpath=//a[contains(., 'Add Event')]    3s
-        [Return]    ${has_button}
+        RETURN    ${has_button}
     ELSE IF    '${main_menu}' == 'News'
         # Check for Add News button
         ${has_button}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    xpath=//a[contains(text(),'Add News')]    3s
-        [Return]    ${has_button}
+        RETURN    ${has_button}
     ELSE
         # No button validation available for this module
-        [Return]    False
+        RETURN    False
     END
