@@ -25,7 +25,7 @@ ${ACHARYA_PASSWORD}                Admin@123
 ${MAHA_ACHARYA_EMAIL}              sankalp.kamdi@rysun.com
 ${MAHA_ACHARYA_PASSWORD}           Admin@123
 
-${NAMKARAN_COORDINATOR_EMAIL}      parth.pandya@rysun.com
+${NAMKARAN_COORDINATOR_EMAIL}      parthmpandya@gmail.com
 ${NAMKARAN_COORDINATOR_PASSWORD}   Admin@123
 
 # Menu Items by Role

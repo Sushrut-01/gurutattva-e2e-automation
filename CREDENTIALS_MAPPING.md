@@ -73,7 +73,7 @@ All role-based credentials are defined in `pages/E2ERoleRightPage.robot` (lines 
 - **Access**: Dhyansthali, Dhyankendra, News - Local, Events - Local, User Management
 
 #### Namkaran Coordinator (TC05)
-- **Email**: parth.pandya@rysun.com
+- **Email**: parthmpandya@gmail.com
 - **Password**: Admin@123
 - **Access**: Dhyansthali Management, Namkaran
 
