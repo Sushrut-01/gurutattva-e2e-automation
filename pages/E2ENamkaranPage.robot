@@ -104,22 +104,22 @@ Enter E2E Bride Namkaran Data
     # Wait for form to be ready
     Sleep    3s
 
-    # Enter Bride Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_BRIDE_FIRST_NAME}    Bride First Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_BRIDE_MIDDLE_NAME}    Bride Middle Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_BRIDE_LAST_NAME}    Bride Last Name
+    # Enter Bride Details - Fields 1-3 in form order
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_BRIDE_FIRST_NAME}    Bride First Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_BRIDE_MIDDLE_NAME}    Bride Middle Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_BRIDE_LAST_NAME}    Bride Last Name
 
-    # Enter Groom Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_GROOM_FIRST_NAME}    Groom First Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_GROOM_MIDDLE_NAME}    Groom Middle Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_GROOM_LAST_NAME}    Groom Last Name
+    # Enter Groom Details - Fields 4-6 in form order (after Bride fields)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[4]    ${E2E_GROOM_FIRST_NAME}    Groom First Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[5]    ${E2E_GROOM_MIDDLE_NAME}    Groom Middle Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[6]    ${E2E_GROOM_LAST_NAME}    Groom Last Name
 
-    # Enter Email and Phone (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_NAMKARAN_EMAIL}    Email
-    Smart Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_NAMKARAN_PHONE}    Phone Number
+    # Enter Email and Phone - Fields 7-8 in form order
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[7]    ${E2E_NAMKARAN_EMAIL}    Email
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[8]    ${E2E_NAMKARAN_PHONE}    Phone Number
 
-    # Enter Marriage Place (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Marriage Place']    ${E2E_MARRIAGE_PLACE}    Marriage Place
+    # Enter Marriage Place - Field 9 in form order
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[9]    ${E2E_MARRIAGE_PLACE}    Marriage Place
 
     Log To Console    ✅ Successfully entered E2E Bride Namkaran Data
 
@@ -463,26 +463,26 @@ Enter E2E Business Namkaran Data
     [Documentation]    Enters the generated E2E test data into Business Namkaran form using smart auto-scroll
     Sleep    3s
 
-    # Enter First Owner Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_OWNER_FIRST}    First Owner First Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_OWNER_MIDDLE}    First Owner Middle Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_OWNER_LAST}    First Owner Last Name
+    # Enter First Owner Details (using smart input with auto-scroll - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_BUSINESS_OWNER_FIRST}    First Owner First Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_BUSINESS_OWNER_MIDDLE}    First Owner Middle Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_BUSINESS_OWNER_LAST}    First Owner Last Name
 
-    # Enter Second Owner Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_SECOND_OWNER_FIRST}    Second Owner First Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_SECOND_OWNER_MIDDLE}    Second Owner Middle Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_SECOND_OWNER_LAST}    Second Owner Last Name
+    # Enter Second Owner Details (using smart input with auto-scroll - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_BUSINESS_SECOND_OWNER_FIRST}    Second Owner First Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_BUSINESS_SECOND_OWNER_MIDDLE}    Second Owner Middle Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_BUSINESS_SECOND_OWNER_LAST}    Second Owner Last Name
 
-    # Enter Third Owner Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_BUSINESS_THIRD_OWNER_FIRST}    Third Owner First Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_BUSINESS_THIRD_OWNER_MIDDLE}    Third Owner Middle Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_BUSINESS_THIRD_OWNER_LAST}    Third Owner Last Name
+    # Enter Third Owner Details (using smart input with auto-scroll - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_BUSINESS_THIRD_OWNER_FIRST}    Third Owner First Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_BUSINESS_THIRD_OWNER_MIDDLE}    Third Owner Middle Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_BUSINESS_THIRD_OWNER_LAST}    Third Owner Last Name
 
-    # Enter Contact and Business Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_BUSINESS_EMAIL}    Email
-    Smart Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_BUSINESS_PHONE}    Phone Number
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Text Here']    ${E2E_BUSINESS_DESC}    Business Description
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Full Address']    ${E2E_BUSINESS_ADDRESS}    Business Address
+    # Enter Contact and Business Details (using smart input with auto-scroll - STABLE XPATH)
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_BUSINESS_EMAIL}    Email
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_BUSINESS_PHONE}    Phone Number
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_BUSINESS_DESC}    Business Description
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_BUSINESS_ADDRESS}    Business Address
 
     Log To Console    ✅ Successfully entered E2E Business Namkaran Data
 
@@ -511,15 +511,15 @@ Enter E2E House Namkaran Data
     [Documentation]    Enters the generated E2E test data into House Namkaran form
     Sleep    3s
     
-    # Enter House Owner Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_HOUSE_OWNER_FIRST}    House Owner First Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_HOUSE_OWNER_MIDDLE}    House Owner Middle Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_HOUSE_OWNER_LAST}    House Owner Last Name
+    # Enter House Owner Details (using smart input with auto-scroll - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_HOUSE_OWNER_FIRST}    House Owner First Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_HOUSE_OWNER_MIDDLE}    House Owner Middle Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_HOUSE_OWNER_LAST}    House Owner Last Name
 
-    # Enter Contact and House Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_HOUSE_EMAIL}    Email
-    Smart Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_HOUSE_PHONE}    Phone Number
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter House Full Address']    ${E2E_HOUSE_ADDRESS}    House Address
+    # Enter Contact and House Details (using smart input with auto-scroll - STABLE XPATH)
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_HOUSE_EMAIL}    Email
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_HOUSE_PHONE}    Phone Number
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_HOUSE_ADDRESS}    House Address
 
     Log To Console    ✅ Successfully entered E2E House Namkaran Data
 
@@ -558,19 +558,19 @@ Enter E2E Child Namkaran Data
     [Documentation]    Enters the generated E2E test data into Child Namkaran form using smart auto-scroll
     Sleep    3s
 
-    # Enter Mother Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name'][1]    ${E2E_MOTHER_FIRST}    Mother First Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name'][1]    ${E2E_MOTHER_MIDDLE}    Mother Middle Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name'][1]    ${E2E_MOTHER_LAST}    Mother Last Name
+    # Enter Mother Details (using smart input with auto-scroll - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_MOTHER_FIRST}    Mother First Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_MOTHER_MIDDLE}    Mother Middle Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_MOTHER_LAST}    Mother Last Name
 
-    # Enter Father Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_FATHER_FIRST}    Father First Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    ${E2E_FATHER_MIDDLE}    Father Middle Name
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_FATHER_LAST}    Father Last Name
+    # Enter Father Details (using smart input with auto-scroll - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_FATHER_FIRST}    Father First Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_FATHER_MIDDLE}    Father Middle Name
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_FATHER_LAST}    Father Last Name
 
-    # Enter Contact Details (using smart input with auto-scroll)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_CHILD_EMAIL}    Email
-    Smart Mobile Input Text    xpath=//android.widget.EditText[contains(@hint, '00 0000 0000')]    ${E2E_CHILD_PHONE}    Phone Number
+    # Enter Contact Details (using smart input with auto-scroll - STABLE XPATH)
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_CHILD_EMAIL}    Email
+    Smart Mobile Input Text    xpath=//android.widget.EditText    ${E2E_CHILD_PHONE}    Phone Number
 
     # Note: Child Namkaran requires additional fields (DOB, Gender, Birth Time, Birth Place)
     # These should be filled before selecting NO option
@@ -630,9 +630,9 @@ Select YES Radio Button And Enter Name Choices For Bride
     Log To Console    ✅ Selected YES for multiple name choice
     Sleep    2s
 
-    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_FIRST_NAME_CHOICE}    First Name Choice
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_SECOND_NAME_CHOICE}    Second Name Choice
+    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_FIRST_NAME_CHOICE}    First Name Choice
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_SECOND_NAME_CHOICE}    Second Name Choice
 
     Log To Console    ✅ Successfully entered Bride name choices
 
@@ -694,9 +694,9 @@ Enter E2E Business Namkaran Data With YES Option
     Log To Console    ✅ Selected YES for multiple name choice
     Sleep    2s
 
-    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_BUSINESS_FIRST_NAME_CHOICE}    First Business Name Choice
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_BUSINESS_SECOND_NAME_CHOICE}    Second Business Name Choice
+    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_BUSINESS_FIRST_NAME_CHOICE}    First Business Name Choice
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_BUSINESS_SECOND_NAME_CHOICE}    Second Business Name Choice
 
     Log To Console    ✅ Successfully entered E2E Business Namkaran Data with YES Option
 
@@ -742,19 +742,19 @@ Enter E2E House Namkaran Data With YES Option
     Log To Console    ✅ Selected YES for multiple name choice
     Sleep    2s
 
-    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_HOUSE_FIRST_NAME_CHOICE}    First House Name Choice
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_HOUSE_SECOND_NAME_CHOICE}    Second House Name Choice
-    
+    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_HOUSE_FIRST_NAME_CHOICE}    First House Name Choice
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_HOUSE_SECOND_NAME_CHOICE}    Second House Name Choice
+
     # # Click Add Button
     # Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@text='Add']    10s
     # Mobile Click Element    xpath=//android.widget.Button[@text='Add']
     # Log To Console    ✅ Clicked Add Button for first two choices
-    
-    # # Enter Third House Name Choice
-    # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']    10s
-    # Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']
-    # Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']    ${E2E_HOUSE_THIRD_NAME_CHOICE}
+
+    # # Enter Third House Name Choice (STABLE INDEXED XPATH)
+    # Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[3]    10s
+    # Mobile Click Element    xpath=(//android.widget.EditText)[3]
+    # Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_HOUSE_THIRD_NAME_CHOICE}
     # Mobile Hide Keyboard
     # Log To Console    ✅ Entered Third House Name Choice: ${E2E_HOUSE_THIRD_NAME_CHOICE}
     
@@ -815,19 +815,19 @@ Enter E2E Child Namkaran Data With YES Option
     Log To Console    ✅ Selected YES for multiple name choice
     Sleep    2s
 
-    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically)
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 1']    ${E2E_CHILD_FIRST_NAME_CHOICE}    First Child Name Choice
-    Smart Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 2']    ${E2E_CHILD_SECOND_NAME_CHOICE}    Second Child Name Choice
-    
+    # Enter name choices using Smart Mobile Input Text (handles scrolling automatically - STABLE INDEXED XPATH)
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${E2E_CHILD_FIRST_NAME_CHOICE}    First Child Name Choice
+    Smart Mobile Input Text    xpath=(//android.widget.EditText)[2]    ${E2E_CHILD_SECOND_NAME_CHOICE}    Second Child Name Choice
+
     # # Click Add Button
     # Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@text='Add']    10s
     # Mobile Click Element    xpath=//android.widget.Button[@text='Add']
     # Log To Console    ✅ Clicked Add Button for first two choices
-    
-    # # Enter Third Child Name Choice
-    # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']    10s
-    # Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']
-    # Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Name Choice 3']    ${E2E_CHILD_THIRD_NAME_CHOICE}
+
+    # # Enter Third Child Name Choice (STABLE INDEXED XPATH)
+    # Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[3]    10s
+    # Mobile Click Element    xpath=(//android.widget.EditText)[3]
+    # Mobile Input Text    xpath=(//android.widget.EditText)[3]    ${E2E_CHILD_THIRD_NAME_CHOICE}
     # Mobile Hide Keyboard
     # Log To Console    ✅ Entered Third Child Name Choice: ${E2E_CHILD_THIRD_NAME_CHOICE}
     

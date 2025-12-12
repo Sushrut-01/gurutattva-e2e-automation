@@ -14,7 +14,19 @@ Library    DateTime
 # Mobile-specific keywords
 Mobile Click Element
     [Arguments]    ${locator}
-    Mobile.Click Element    ${locator}
+    [Documentation]    Clicks element with retry logic for stale elements in Flutter apps
+    FOR    ${i}    IN RANGE    3
+        TRY
+            Mobile.Click Element    ${locator}
+            RETURN
+        EXCEPT    *StaleElementReferenceException*    AS    ${error}
+            Log To Console    ⚠️ Stale element detected, retrying click... (attempt ${i+1}/3)
+            Sleep    0.5s
+            IF    ${i} == 2
+                Fail    ${error}
+            END
+        END
+    END
 
 Mobile Wait Until Element Is Visible
     [Arguments]    ${locator}    ${timeout}=10s

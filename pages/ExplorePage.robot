@@ -3,15 +3,20 @@ Resource    ../resources/libraries.robot
 Resource    ../resources/keywords.robot
 
 *** Variables ***
-${EXPLORER_TAB}                xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[1]
-${participate_elements}        xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.ImageView
-${EXPLORE_BACK_BUTTON}         xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[1]
+# STABLE RELATIVE XPATH - Explore tab label visible in screenshot, try using text
+${EXPLORER_TAB}                xpath=//*[contains(@content-desc,"Explore") or @text="Explore"]
+${participate_elements}        xpath=//android.view.View[3]/android.view.View/android.widget.ImageView
+${EXPLORE_BACK_BUTTON}         xpath=(//android.widget.ImageView)[1]
 ${AUDIO_EXPLORER_TAB}          xpath=(//android.widget.ImageView[@content-desc="Audio"])[1]
 ${AUDIO_CONTENT}               xpath=//android.widget.ImageView[contains(@content-desc,'Recently Added')]
-${AUDIO_BACK_BUTTON}           xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.ImageView[2]
+${AUDIO_BACK_BUTTON}           xpath=(//android.widget.ImageView)[2]
 
 *** Keywords ***
 Click on the Explore Tab
+    # Ensure app is active before trying to find Explore Tab
+    Mobile.Activate Application    com.org.gurutattva.app
+    Sleep    2s
+    Mobile Wait Until Element Is Visible    ${EXPLORER_TAB}    15s
     Mobile Click Element    ${EXPLORER_TAB}
     Sleep    2s
 

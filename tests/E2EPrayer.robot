@@ -25,13 +25,13 @@ End-to-End Integration: Verify that user is able to add Prayer with Self Option 
     Click on the Prayer Card
     Click on Add Prayer Button
     Close the tooltip info from prayer screen
-    Enter Place/Area for Prayer          
-    Select Prayer Category        
-    Enter Generated Second Name for Prayer    
-    Enter Second Place/Area for Prayer    
-    Enter Generated Address for Prayer         
+    Enter Place/Area for Prayer
+    Select Prayer Category
+    Enter Generated Second Name for Prayer
+    Enter Second Place/Area for Prayer
+    Enter Generated Address for Prayer
     Select DOB for Prayer
-    Enter Description for Prayer     
+    Enter Generated Description for Prayer
     Click on Submit Prayer Button
     Verify Prayer Submission Success
     Close the success message
@@ -66,11 +66,11 @@ End-to-End Integration:Verify that user is able to add Prayer with Other Option 
     Enter Place/Area for Prayer
     Enter Email for Prayer
     Select Prayer Category        
-    Enter Second Name for Other Prayer    
-    Enter Second Place/Area for Prayer    
-    Enter Full Address for Other Prayer         
+    Enter Second Name for Other Prayer
+    Enter Second Place/Area for Prayer
+    Enter Full Address for Other Prayer
     Select DOB for Prayer
-    Enter Description for Prayer     
+    Enter Generated Description for Prayer
     Click on Submit Prayer Button
     Verify Prayer Submission Success
     Close the success message
@@ -101,12 +101,12 @@ Verify that user is able to export the Prayer in CMS
     Click on Add Prayer Button
     Close the tooltip info from prayer screen
     Enter Place/Area for Prayer
-    Select Prayer Category        
-    Enter Generated Second Name for Prayer    
-    Enter Second Place/Area for Prayer    
-    Enter Generated Address for Prayer         
+    Select Prayer Category
+    Enter Generated Second Name for Prayer
+    Enter Second Place/Area for Prayer
+    Enter Generated Address for Prayer
     Select DOB for Prayer
-    Enter Description for Prayer     
+    Enter Generated Description for Prayer
     Click on Submit Prayer Button
     Verify Prayer Submission Success
     Close the success message

@@ -26,11 +26,22 @@ ${OTP_INPUT_FIELD}                xpath=//android.view.View[contains(@content-de
 ${VERIFY_BUTTON}                  xpath=//android.view.View[@content-desc="Verify"]
 ${HOME_SCREEN_VERIFICATION}       xpath=//android.widget.ImageView[@content-desc="Home"]
 ${UPDATE_POPUP}                   xpath=//android.widget.Button[@content-desc="Cancel"]
+${GUEST_USER_BUTTON}              xpath=//android.view.View[@content-desc="Guest User"]
+${ACCESS_DENIED_CANCEL}           xpath=//android.view.View[@content-desc="Cancel"]
 
-        
+
 *** Keywords ***
 
 Handle First Time Setup
+    # Check if already logged in (home screen visible)
+    ${already_logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${HOME_SCREEN_VERIFICATION}    3s
+
+    IF    ${already_logged_in}
+        Log To Console    ✅ Already logged in - skipping first time setup
+        RETURN
+    END
+
+    # If not logged in, handle first time setup screens
     Run Keyword And Ignore Error    Click Cancel If Update Popup Visible
     Run Keyword And Ignore Error    Allow Notification
     Run Keyword And Ignore Error    Select English Language
@@ -67,6 +78,19 @@ Save Settings
     IF    not ${isVisible}
         Fail    Save Settings button was not visible and could not be clicked!
     END
+
+Click Guest User If Login Screen Visible
+    ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${GUEST_USER_BUTTON}    3s
+    Run Keyword If    ${isVisible}    Mobile Click Element    ${GUEST_USER_BUTTON}
+    Run Keyword If    ${isVisible}    Log To Console    Clicked Guest User to continue without login
+    Run Keyword If    ${isVisible}    Sleep    2s
+
+Dismiss Access Denied Popup If Visible
+    [Documentation]    Clicks Cancel on "You do not have access" popup if it appears
+    ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${ACCESS_DENIED_CANCEL}    2s
+    Run Keyword If    ${isVisible}    Mobile Click Element    ${ACCESS_DENIED_CANCEL}
+    Run Keyword If    ${isVisible}    Log To Console    ⚠️ Access denied popup dismissed - feature requires login
+    Run Keyword If    ${isVisible}    Sleep    1s
 
 Click on the input field
     Mobile Wait Until Element Is Visible    ${LOGIN_EMAIL}    5s

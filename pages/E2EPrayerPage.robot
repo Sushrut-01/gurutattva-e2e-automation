@@ -38,22 +38,26 @@ Generate E2E Test Data for Prayer
     Set Test Variable    ${E2E_PRAYER_APPLICANT_NAME}    E2E_Applicant_Name_${random_num}
     Set Test Variable    ${E2E_PRAYER_PERSON_NAME}       E2E_Person_Name_${random_num}
     Set Test Variable    ${E2E_PRAYER_FULL_ADDRESS}      E2E_Full_Address_${random_num}
+    Set Test Variable    ${E2E_PRAYER_DESCRIPTION}       E2E_Prayer_Description_${random_num}
     Log To Console    🎯 Generated Test Data for Prayer:
     # Log To Console    🎯 Applicant: ${E2E_PRAYER_APPLICANT_NAME}
     Log To Console    🎯 Person: ${E2E_PRAYER_PERSON_NAME}
     Log To Console    🎯 Full Address: ${E2E_PRAYER_FULL_ADDRESS}
+    Log To Console    🎯 Description: ${E2E_PRAYER_DESCRIPTION}
 
-Generate E2E Test Data for selected other prayer    
+Generate E2E Test Data for selected other prayer
     [Documentation]    Generates unique test data for end-to-end validation
     ${random_num}=    Evaluate    random.randint(1000, 9999)    random
     Set Test Variable    ${E2E_PRAYER_RANDOM_NUMBER}     ${random_num}
     Set Test Variable    ${E2E_PRAYER_APPLICANT_NAME_OTHER}          E2E_Applicant_Name_Other_${random_num}
     Set Test Variable    ${E2E_PRAYER_OTHER_NAME}                    E2E_Other_Name_${random_num}
     Set Test Variable    ${E2E_PRAYER_OTHER_FULL_ADDRESS}            E2E_Other_Full_Address_${random_num}
+    Set Test Variable    ${E2E_PRAYER_DESCRIPTION}                   E2E_Prayer_Description_Other_${random_num}
     Log To Console    🎯 Generated Test Data for Prayer:
     Log To Console    🎯 Applicant: ${E2E_PRAYER_APPLICANT_NAME_OTHER}
     Log To Console    🎯 Person: ${E2E_PRAYER_OTHER_NAME}
     Log To Console    🎯 Full Address: ${E2E_PRAYER_OTHER_FULL_ADDRESS}
+    Log To Console    🎯 Description: ${E2E_PRAYER_DESCRIPTION}
  
 Click on the Prayer Menu
     [Documentation]    Clicks on the Prayer menu and Prayer Requests submenu in the web application
@@ -141,17 +145,42 @@ Enter Generated Name for Prayer
     Mobile.Hide Keyboard    
 
 Enter Generated Second Name for Prayer
+    [Documentation]    Enter person's name after scrolling with generated test data
+    Log To Console    >>> Scrolling and entering Person Name...
     Scroll Until Element Visible    ${Submit_Prayer_Button}
-    Mobile.Wait Until Element Is Visible    ${Enter_Name}    10s
-    Mobile.Click Element    ${Enter_Name}
-    Mobile.Input Text    ${Enter_Name}   ${E2E_PRAYER_PERSON_NAME}
-    Mobile.Hide Keyboard
+    # After scrolling, find the FIRST VISIBLE EditText (person's name field)
+    ${name_field}=    Set Variable    xpath=//android.widget.EditText
+    Mobile.Wait Until Element Is Visible    ${name_field}    10s
+    Mobile.Click Element    ${name_field}
+    Mobile.Input Text    ${name_field}   ${E2E_PRAYER_PERSON_NAME}
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
+    Log To Console    ✅ Person Name entered: ${E2E_PRAYER_PERSON_NAME}
 
 Enter Generated Address for Prayer
-    Mobile.Wait Until Element Is Visible    ${Enter_Address}    10s
-    Mobile.Click Element    ${Enter_Address}
-    Mobile.Input Text    ${Enter_Address}    ${E2E_PRAYER_FULL_ADDRESS}
-    Mobile.Hide Keyboard        
+    [Documentation]    Enter address in the third EditText field after scrolling
+    Log To Console    >>> Entering Address...
+    # After previous fields, find the 3rd EditText (address field)
+    ${address_field}=    Set Variable    xpath=(//android.widget.EditText)[3]
+    Mobile.Wait Until Element Is Visible    ${address_field}    10s
+    Mobile.Click Element    ${address_field}
+    Mobile.Input Text    ${address_field}    ${E2E_PRAYER_FULL_ADDRESS}
+    Mobile.Hide Keyboard
+    Log To Console    ✅ Address entered: ${E2E_PRAYER_FULL_ADDRESS}
+
+Enter Generated Description for Prayer
+    [Documentation]    Enter prayer description with generated test data
+    Log To Console    >>> Entering Generated Description...
+    # Scroll to make description field visible
+    Scroll Until Element Visible    ${Submit_Prayer_Button}
+    Sleep    1s
+    # Find the LAST visible EditText (description field) using XPath last()
+    ${description_field}=    Set Variable    xpath=(//android.widget.EditText)[last()]
+    Log To Console    >>> Using last EditText field for description
+    Mobile.Wait Until Element Is Visible    ${description_field}    10s
+    Mobile.Click Element    ${description_field}
+    Mobile.Input Text    ${description_field}    ${E2E_PRAYER_DESCRIPTION}
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
+    Log To Console    ✅ Description entered: ${E2E_PRAYER_DESCRIPTION}
 
 Click on Other Prayer Option
     Mobile.Wait Until Element Is Visible    ${other_Prayer}    10s

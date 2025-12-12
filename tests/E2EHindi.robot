@@ -4,7 +4,16 @@ Resource    ../resources/test_setup_teardown.robot
 Resource    ../pages/E2EHindiPage.robot
 
 Test Setup    Test Setup
-Test Teardown    Test Teardown
+Test Teardown    Hindi Test Teardown
+
+*** Keywords ***
+Hindi Test Teardown
+    [Documentation]    Custom teardown that reverts language to English before standard teardown
+    # Revert language to English (handles both pass and fail scenarios)
+    Run Keyword And Ignore Error    Revert Language To English
+    Run Keyword And Ignore Error    Wait For Language Change    5s
+    # Run standard teardown
+    Test Teardown
 
 *** Test Cases ***
 

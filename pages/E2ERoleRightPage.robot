@@ -42,7 +42,7 @@ ${EVENTS_MENU}                     xpath=//a[@href='/events']
 ${NEWS_MENU}                       xpath=//a[@href='/news']
 ${PRAYER_MENU}                     xpath=//span[contains(text(),'Prayer')]
 ${NAMKARAN_MENU}                   xpath=//span[contains(text(),'Namkaran')]
-${USER_MANAGEMENT_MENU}            xpath=//span[contains(text(),'User Management')] | xpath=//a[@href='/user']
+${USER_MANAGEMENT_MENU}            xpath=//span[contains(text(),'User Management')]
 ${DHYANSTHALI_MENU}                xpath=//a[@href='/dhyansthali']
 ${DHYANKENDRA_MENU}                xpath=//span[contains(text(),'Dhyankendra')]
 
@@ -381,14 +381,15 @@ Handle Main Menu Item
 
     ${menu_locator}=    Get Menu Locator By Name    ${menu_item}
 
-    # Use Wait Until Element Is Visible instead of Page Contains Element
+    # First try to scroll element into view if it exists in DOM
+    Run Keyword And Ignore Error    Execute JavaScript    document.evaluate("${menu_locator.replace('xpath=', '')}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue?.scrollIntoView({block: 'center'})
+    Sleep    1s
+
+    # Now check visibility after scroll
     ${is_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${menu_locator}    10s
 
     IF    ${is_visible} == True
         Log To Console    ✅ Simple main menu item is visible: ${menu_item}
-        # Scroll to element to ensure it's clickable
-        Run Keyword And Ignore Error    Scroll Element Into View    ${menu_locator}
-        Sleep    1s
         Web Click Element    ${menu_locator}
         Sleep    2s
         Log To Console    ✅ Clicked on simple main menu item: ${menu_item}
@@ -476,7 +477,7 @@ Handle Submenu Item
         
         # Now find and click the submenu
         ${submenu_locator}=    Get Submenu Locator    ${main_menu}    ${submenu}
-        ${submenu_visible}=    Run Keyword And Return Status    Web Wait Until Page Contains Element    ${submenu_locator}    5s
+        ${submenu_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${submenu_locator}    10s
         
         IF    ${submenu_visible} == True
             Log To Console    ✅ Submenu is visible: ${submenu}
@@ -514,19 +515,17 @@ Get Submenu Locator
 
     IF    '${main_menu}' == 'Events'
         IF    '${submenu}' == 'Global'
-            # Check for Global Events submenu link or page heading
-            ${locator}=    Set Variable    xpath=//a[@href='/events/global'] | xpath=//span[contains(text(),'Global')]
+            ${locator}=    Set Variable    xpath=//a[@href='/events/global']
         ELSE IF    '${submenu}' == 'Local'
-            ${locator}=    Set Variable    xpath=//a[@href='/events/local'] | xpath=//span[contains(text(),'Local')]
+            ${locator}=    Set Variable    xpath=//a[@href='/events/local']
         ELSE
             ${locator}=    Set Variable    xpath=//a[@href='/events/${submenu.lower()}']
         END
     ELSE IF    '${main_menu}' == 'News'
         IF    '${submenu}' == 'Local'
-            # Check for Local News submenu link or page heading
-            ${locator}=    Set Variable    xpath=//a[@href='/news/local'] | xpath=//span[contains(text(),'Local')]
+            ${locator}=    Set Variable    xpath=//a[@href='/news/local']
         ELSE IF    '${submenu}' == 'Global'
-            ${locator}=    Set Variable    xpath=//a[@href='/news/global'] | xpath=//span[contains(text(),'Global')]
+            ${locator}=    Set Variable    xpath=//a[@href='/news/global']
         ELSE
             ${locator}=    Set Variable    xpath=//a[@href='/news/${submenu.lower()}']
         END
