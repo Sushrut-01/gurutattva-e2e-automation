@@ -1285,7 +1285,7 @@ Select Event Country in Filter
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
     Mobile.Click Element    xpath=//android.widget.EditText
     Mobile.Input Text    xpath=//android.widget.EditText    ${country_name}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${country_name}"]    5s
     Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${country_name}"]
     Sleep    2s
@@ -1301,7 +1301,7 @@ Select Event State in Filter
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
     Mobile.Click Element    xpath=//android.widget.EditText
     Mobile.Input Text    xpath=//android.widget.EditText    ${state_name}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    5s
     Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${state_name}"]
     Sleep    2s
@@ -1317,7 +1317,7 @@ Select Event District in Filter
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
     Mobile.Click Element    xpath=//android.widget.EditText
     Mobile.Input Text    xpath=//android.widget.EditText    ${district_name}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    5s
     Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${district_name}"]
     Sleep    2s

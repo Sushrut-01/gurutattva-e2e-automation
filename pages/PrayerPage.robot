@@ -362,7 +362,7 @@ Enter InValidEmail for Prayer
     Mobile Wait Until Element Is Visible    ${Enter_Email}    10s
     Mobile Click Element    ${Enter_Email}
     Mobile Input Text    ${Enter_Email}    yatish
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
        
 
 Verify validation message for invalid email in prayer form

@@ -223,7 +223,7 @@ Click on the skip button
 
 Enter Invalid Email
     Mobile Input Text                      ${REGISTER_EMAIL}    yatish
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Invalid Email    
     Mobile Wait Until Element Is Visible   ${EMAIL_VALIDATION_LOCATOR}    10s
@@ -233,7 +233,7 @@ Verify Validation Message for Invalid Email
       
 Enter Invalid Mobile Number
     Mobile Input Text                      ${REGISTER_MOBILE}    966
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Invalid Mobile Number
     Mobile Wait Until Element Is Visible   ${MOBILE_VALIDATION_LOCATOR}    5s
@@ -264,34 +264,34 @@ Click on the Name Field
     
 Enter the Name    
     Mobile Input Text                      ${REGISTER_NAME}    yatish
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter First Name for Register Screen
     [Arguments]    ${FIRST_NAME}
     Mobile Wait Until Element Is Visible   ${REGISTER_FNAME}    10s
     Mobile Click Element                  ${REGISTER_FNAME}
     Mobile Input Text                     ${REGISTER_FNAME}    ${FIRST_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Last Name for Register Screen
     [Arguments]    ${LAST_NAME}
     Mobile Wait Until Element Is Visible   ${REGISTER_LNAME}    10s
     Mobile Click Element    ${REGISTER_LNAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${REGISTER_LNAME}    ${LAST_NAME}
     
 Enter Email for Register Screen
     [Arguments]    ${EMAIL}
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    10s
     Mobile Click Element                   ${REGISTER_EMAIL}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_EMAIL}    ${EMAIL}
 
 Enter Mobile Number for Register Screen
     [Arguments]    ${MOBILE}
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    10s
     Mobile Click Element                   ${REGISTER_MOBILE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_MOBILE}    ${MOBILE}
 
 
@@ -299,28 +299,28 @@ Click on the Email Field
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]        
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    10s
     Mobile Click Element                   ${REGISTER_EMAIL}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Valid Email
     [Arguments]    ${EMAIL}
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    10s
     Mobile Click Element                   ${REGISTER_EMAIL}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_EMAIL}    ${EMAIL}
 
 Click on the Mobile Field
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]     
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    10s
     Mobile Click Element                   ${REGISTER_MOBILE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Valid Mobile Number  
     [Arguments]    ${MOBILE}
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    10s
     Mobile Click Element                   ${REGISTER_MOBILE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_MOBILE}    ${MOBILE} 
 
 Select Gender
@@ -360,7 +360,7 @@ Select Country from dropdown in Register screen
     Mobile Click Element                    ${REGISTER_COUNTRY}
     Mobile Click Element                    ${SEARCH}
     Mobile Input Text                       ${SEARCH}              India
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Wait Until Element Is Visible    ${INDIA}               5s
     Mobile Click Element                    ${INDIA}    
 
@@ -410,7 +410,7 @@ Click on the Quick Registration Tab
 
 Enter Registered Email Address
     Mobile Input Text                      ${REGISTER_EMAIL}     yatish.devlekar@rysun.com
-    Mobile Hide Keyboard       
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Registered Email Address and Mobile Number
     # Mobile Wait Until Element Is Visible    ${ALREADY_EMAIL_REGISTER}    10s
@@ -426,7 +426,7 @@ Verify Validation Message for Registered Email Address and Mobile Number
 
 Enter Registered Mobile Number
     Mobile Input Text                      ${REGISTER_MOBILE}     9662595340
-    Mobile Hide Keyboard   
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Community Registration is Selected by default
     Mobile Wait Until Element Is Visible    ${COMMUNITY_REGISTRATION_NEXT_LABEL}    10s
@@ -475,7 +475,7 @@ Enter Community Email
     # Mobile Wait Until Element Is Visible    ${COMMUNITY_EMAIL_HINT}    10s
     Mobile Click Element                    ${COMMUNITY_EMAIL_HINT}
     Mobile Input Text                       ${COMMUNITY_EMAIL_HINT}     payment.gateway@rysun.com
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Click on the Community Mobile Field
     # Scroll Up Until Element Visible  xpath=//android.view.View[@content-desc="Select how you want to register."]
@@ -494,53 +494,53 @@ Enter the Community WhatsApp Number
     Mobile Wait Until Element Is Visible    ${COMMUNITY_MOBILE_HINT}    10s
     Mobile Click Element                    ${COMMUNITY_MOBILE_HINT}
     Mobile Click Element                    ${COMMUNITY_MOBILE_HINT}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                       ${COMMUNITY_MOBILE_HINT}     9163550639    
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community First Name
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
     Mobile Wait Until Element Is Visible    ${COMMUNITY_FIRST_NAME}    10s
     Mobile Click Element                    ${COMMUNITY_FIRST_NAME}
     Mobile Click Element                    ${COMMUNITY_FIRST_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_FIRST_NAME}     First Name
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community Middle Name
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
     Mobile Wait Until Element Is Visible    ${COMMUNITY_MIDDLE_NAME}    10s
     Mobile Click Element                    ${COMMUNITY_MIDDLE_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_MIDDLE_NAME}     Middle Name
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Middle Name for Community Registration
     Swipe Until Element Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']
     Mobile Wait Until Element Is Visible    ${COMMUNITY_MIDDLE_NAME}    10s
     Mobile Click Element                    ${COMMUNITY_MIDDLE_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_MIDDLE_NAME}     Middle Name
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Last Name for Community Registration
     Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    10s
     Mobile Click Element                    ${COMMUNITY_LAST_NAME}
     Mobile Input Text                      ${COMMUNITY_LAST_NAME}     Last Name
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community Last Name
     Swipe Until Element Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']
     Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    10s
     Mobile Click Element                    ${COMMUNITY_LAST_NAME}
     Mobile Input Text                      ${COMMUNITY_LAST_NAME}     Last Name
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community Full Address
     # Swipe Until Element Visible    ${COMMUNITY_ADDRESS_LINE1}
     # Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE1}    10s
     Mobile Click Element                    ${COMMUNITY_ADDRESS_LINE1}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_ADDRESS_LINE1}     Address Line 1
     
 
@@ -548,28 +548,28 @@ Enter Community Address Line 2
     Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE2}    10s    
     Mobile Click Element                    ${COMMUNITY_ADDRESS_LINE2}
     Mobile Input Text                      ${COMMUNITY_ADDRESS_LINE2}     Address Line 2
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community Landmark
     Mobile Wait Until Element Is Visible    ${COMMUNITY_LANDMARK}    10s
     Mobile Click Element                    ${COMMUNITY_LANDMARK}
     Mobile Input Text                      ${COMMUNITY_LANDMARK}     Landmark
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     
 Enter Community Pincode
     Scroll until element found    ${COMMUNITY_PINCODE}
     # Mobile Wait Until Element Is Visible    ${COMMUNITY_PINCODE}    10s
     Mobile Click Element                    ${COMMUNITY_PINCODE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_PINCODE}     380015
 
 Enter Community Valid Pincode
     Scroll Up Until Element Visible      ${COMMUNITY_PINCODE}
     Mobile Wait Until Element Is Visible    ${COMMUNITY_PINCODE}    10s
     Mobile Click Element                    ${COMMUNITY_PINCODE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_PINCODE}     380015
-    Mobile Hide Keyboard    
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community Mobile By Keypad
     # Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
@@ -579,7 +579,7 @@ Enter Community Mobile By Keypad
         ${keycode}=    Evaluate    {'0':7, '1':8, '2':9, '3':10, '4':11, '5':12, '6':13, '7':14, '8':15, '9':16}[str(${digit})]
         Mobile Press Keycode    ${keycode}
     END
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Fill the Personal,Select Unmarried and Education Information
     Select DOB For Personal Information
@@ -704,7 +704,7 @@ Enter Invalid Community Email
     Mobile Wait Until Element Is Visible    ${COMMUNITY_EMAIL_HINT}    10s
     Mobile Click Element                    ${COMMUNITY_EMAIL_HINT}
     Mobile Input Text                       ${COMMUNITY_EMAIL_HINT}     yatish
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Invalid Community Email
     Mobile Wait Until Element Is Visible    ${INVALID_EMAIL_VALIDATION_LOCATOR}    10s
@@ -715,9 +715,9 @@ Verify Validation Message for Invalid Community Email
 Enter Invalid Community Pincode
     Mobile Wait Until Element Is Visible    ${COMMUNITY_PINCODE}    10s
     Mobile Click Element                    ${COMMUNITY_PINCODE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_PINCODE}     000
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Invalid Community Pincode
     Mobile Wait Until Element Is Visible    ${INVALID_PINCODE_VALIDATION_LOCATOR}    10s
@@ -775,7 +775,7 @@ Select and Search Dhyankendra and click on the Next Button
     Mobile Wait Until Element Is Visible    ${COMMUNITY_SEARCH_DHYANKEDRA}      10s
     Mobile Click Element                    ${COMMUNITY_SEARCH_DHYANKEDRA}
     Mobile Input Text                       ${COMMUNITY_SEARCH_DHYANKEDRA}     Pune
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Wait Until Element Is Visible    ${COMMUNITY_SELECT_DHYANKEDRA_INPUT}    10s
     Mobile Click Element                    ${COMMUNITY_SELECT_DHYANKEDRA_INPUT}
     Mobile Wait Until Element Is Visible    ${COMMUNITY_CONFIRM_DHYANKEDRA}    10s
@@ -821,7 +821,7 @@ Select Married From Marital Status
   Mobile Wait Until Element Is Visible    ${COMMUNITY_STATUS}    10s
   Mobile Click Element                   ${COMMUNITY_STATUS}
   Mobile Click Element                   ${SEARCH}
-  Mobile Hide Keyboard
+  Run Keyword And Ignore Error    Mobile Hide Keyboard
   Mobile Input Text                      ${SEARCH}     Married
   Mobile Wait Until Element Is Visible    ${COMMUNITY_MARITAL_STATUS_MARRIED}    10s
   Mobile Click Element                   ${COMMUNITY_MARITAL_STATUS_MARRIED}
@@ -1061,7 +1061,7 @@ Scroll up to Community Last Name
     Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    10s
     Mobile Click Element                    ${COMMUNITY_LAST_NAME}
     Mobile Input Text                      ${COMMUNITY_LAST_NAME}     Last Name
-    Mobile Hide Keyboard   
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 
 Scroll up to Community Address Line 1
@@ -1069,14 +1069,14 @@ Scroll up to Community Address Line 1
     Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE1}    10s
     Mobile Click Element                    ${COMMUNITY_ADDRESS_LINE1}
     Mobile Input Text                      ${COMMUNITY_ADDRESS_LINE1}     Address Line 1
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Scroll up to Community Address Line 2
     Scroll Up Until Element Visible    ${COMMUNITY_ADDRESS_LINE2}
     Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE2}    10s
     Mobile Click Element                    ${COMMUNITY_ADDRESS_LINE2}
     Mobile Input Text                      ${COMMUNITY_ADDRESS_LINE2}     Address Line 2
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Fourth page
     Click on the register Button from Personal Information
@@ -1130,7 +1130,7 @@ Click on the Occupation Field for Personal Information
     Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION}    10s
     Mobile Click Element                   ${COMMUNITY_OCCUPATION}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}    IT Software Engineering   
     Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    10s
     Mobile Click Element                   ${COMMUNITY_IT_SOFTWARE_ENGINEERING} 
@@ -1153,7 +1153,7 @@ Click on the Selected Country
     Mobile Wait Until Element Is Visible    ${COUNTRY_SELECTED}    10s
     Mobile Click Element                   ${COUNTRY_SELECTED}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}    United States  
     # Scroll Until Element Visible     ${COUNTRY_SELECTED_US}
     Mobile Wait Until Element Is Visible    ${COUNTRY_SELECTED_US}    10s
@@ -1227,7 +1227,7 @@ Verify that the selected country values are displayed in the state dropdown
     Mobile Wait Until Element Is Visible    ${SELECT_STATE}    10s
     Mobile Click Element                   ${SELECT_STATE}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Bihar
     Mobile Wait Until Element Is Visible    ${STATE_SELECTED_BIHAR}    10s
     Mobile Element Should Be Visible        ${STATE_SELECTED_BIHAR}
@@ -1241,7 +1241,7 @@ Verify that the selected state values are displayed in the district dropdown
     Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
     Mobile Click Element                   ${SELECT_DISTRICT}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Aurangabad
     # Scroll Until Element Visible    ${DISTRICT_SELECTED_AURANGABAD}
     Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_AURANGABAD}    10s
@@ -1256,7 +1256,7 @@ Verify that the selected district values are displayed in the taluka/city dropdo
     Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
     Mobile Click Element                   ${SELECT_CITY}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Daudnagar
     Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_DAUDNAGAR}    10s
     Mobile Element Should Be Visible        ${TALUKA_SELECTED_DAUDNAGAR}
@@ -1270,7 +1270,7 @@ Verify that the selected taluka/city values are displayed in the area/village dr
     Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
     Mobile Click Element                   ${SELECT_AREA}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Daulatpur
     Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_DAULATPUR}    10s
     Mobile Element Should Be Visible        ${VILLAGE_SELECTED_DAULATPUR}
@@ -1283,7 +1283,7 @@ Select Other State
     Mobile Wait Until Element Is Visible    ${SELECT_STATE}    10s
     Mobile Click Element                   ${SELECT_STATE}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Maharashtra
     Scroll Until Element Visible    ${STATE_SELECTED_MAHARASHTRA}
     Mobile Wait Until Element Is Visible    ${STATE_SELECTED_MAHARASHTRA}    10s
@@ -1293,7 +1293,7 @@ Verify that the other state values are displayed in the district dropdown
     Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
     Mobile Click Element                   ${SELECT_DISTRICT}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Pune
     Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_PUNE}    10s
     Mobile Element Should Be Visible        ${DISTRICT_SELECTED_PUNE}
@@ -1306,7 +1306,7 @@ Verify that the other district values are displayed in the taluka/city dropdown
     Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
     Mobile Click Element                   ${SELECT_CITY}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Pune City
     Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_PUNE_CITY}    10s
     Mobile Element Should Be Visible        ${TALUKA_SELECTED_PUNE_CITY}
@@ -1319,7 +1319,7 @@ Verify that the other taluka/city values are displayed in the area/village dropd
     Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
     Mobile Click Element                   ${SELECT_AREA}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Viman nagar
     Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_VIMAN_NAGAR}    10s
     Mobile Element Should Be Visible        ${VILLAGE_SELECTED_VIMAN_NAGAR}
@@ -1333,7 +1333,7 @@ Select Another State
     Mobile Wait Until Element Is Visible    ${SELECT_STATE}    10s
     Mobile Click Element                   ${SELECT_STATE}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Rajasthan
     # Scroll Until Element Visible    ${STATE_SELECTED_RAJASTHAN}
     Mobile Wait Until Element Is Visible    ${STATE_SELECTED_RAJASTHAN}    10s
@@ -1344,7 +1344,7 @@ Select Other District
     Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
     Mobile Click Element                   ${SELECT_DISTRICT}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Jodhpur
     # Scroll Until Element Visible    ${DISTRICT_SELECTED_JODHPUR}
     Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_JODHPUR}    10s
@@ -1355,7 +1355,7 @@ Select Another District
     Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
     Mobile Click Element                   ${SELECT_DISTRICT}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Surat
     # Scroll Until Element Visible    ${DISTRICT_SELECTED_SURAT}
     Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_SURAT}    10s
@@ -1365,7 +1365,7 @@ Verify that the other Selected district values are displayed in the taluka/city 
     Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
     Mobile Click Element                   ${SELECT_CITY}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Balesar
     Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_BALESAR}    10s
     Mobile Element Should Be Visible        ${TALUKA_SELECTED_BALESAR}
@@ -1378,7 +1378,7 @@ Verify that the other Selected taluka/city values are displayed in the area/vill
     Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
     Mobile Click Element                   ${SELECT_AREA}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Agolai
     Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_AGOLAI}    10s
     Mobile Element Should Be Visible        ${VILLAGE_SELECTED_AGOLAI}
@@ -1391,7 +1391,7 @@ Select Another Taluka/City
     Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
     Mobile Click Element                   ${SELECT_CITY}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Adajan
     # Scroll Until Element Visible    ${TALUKA_SELECTED_ADAJAN}
     Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_ADAJAN}    10s
@@ -1401,7 +1401,7 @@ Verify that the selected another taluka/city values are displayed in the area/vi
     Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
     Mobile Click Element                   ${SELECT_AREA}
     Mobile Click Element                   ${SEARCH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Mota Varachha
     Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_MOTA_VARCHA}    10s
     Mobile Element Should Be Visible        ${VILLAGE_SELECTED_MOTA_VARCHA}
@@ -1416,14 +1416,14 @@ Enter Mandatory FN for Register Screen
     Mobile Wait Until Element Is Visible   ${REGISTER_FNAME}    10s
     Mobile Click Element                  ${REGISTER_FNAME}
     Mobile Input Text                     ${REGISTER_FNAME}    ${FIRST_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Mandatory LN for Register Screen
     [Arguments]    ${LAST_NAME}
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_LNAME}    10s
     Mobile Click Element    ${REGISTER_LNAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${REGISTER_LNAME}    ${LAST_NAME}
 
 Enter Mandatory Email for Register Screen
@@ -1431,7 +1431,7 @@ Enter Mandatory Email for Register Screen
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    10s
     Mobile Click Element                   ${REGISTER_EMAIL}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_EMAIL}    ${EMAIL}
 
 Enter Mandatory Number for Register Screen
@@ -1439,7 +1439,7 @@ Enter Mandatory Number for Register Screen
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    10s
     Mobile Click Element                   ${REGISTER_MOBILE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_MOBILE}    ${MOBILE}    
 
 Select Mandatory Gender for register screen
@@ -1448,7 +1448,7 @@ Select Mandatory Gender for register screen
     Mobile Click Element                   ${REGISTER_GENDER}
     Mobile Click Element                   ${SEARCH}
     Mobile Input Text                      ${SEARCH}     Male
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Wait Until Element Is Visible   ${SELECT_MALE}    10s
     Mobile Click Element                   ${SELECT_MALE} 
 
@@ -1469,7 +1469,7 @@ Enter Registered Email for Register Screen
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    10s
     Mobile Click Element                   ${REGISTER_EMAIL}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_EMAIL}    ${EMAIL}
 
 Enter Registered Mobile Number for Register Screen 
@@ -1477,7 +1477,7 @@ Enter Registered Mobile Number for Register Screen
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    10s
     Mobile Click Element                   ${REGISTER_MOBILE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_MOBILE}    ${MOBILE}
 
 Select Country for Community Registration

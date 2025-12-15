@@ -70,25 +70,25 @@ Enter First Name
     Mobile Wait Until Element Is Visible   ${FN_input}    10s
     Mobile Click Element    ${FN_input}
     Mobile Input Text    ${FN_input}    ${FIRST_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Middle Name
     [Arguments]    ${MIDDLE_NAME}
     Scroll Up Until Element Visible    ${FN_TITLE}
     Mobile Wait Until Element Is Visible   ${MN_input}    10s
     Mobile Click Element    ${MN_input}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${MN_input}    ${MIDDLE_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Last Name
     [Arguments]    ${LAST_NAME}
     Scroll Up Until Element Visible      ${FN_TITLE}
     Mobile Wait Until Element Is Visible   ${LN_input}    10s
     Mobile Click Element    ${LN_input}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${LN_input}    ${LAST_NAME}
-    Mobile Hide Keyboard    
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 # Clear first name
 #     Wait Until Element Is Visible   ${FN_TEXT}    10s
@@ -105,11 +105,11 @@ Enter Last Name
 
 Clear All Name Fields
     Clear Name Field    ${FN_TEXT}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Clear Name Field    ${MN_TEXT}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Clear Name Field    ${LN_TEXT}
-    Mobile Hide Keyboard   
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Select District
     Scroll Until Element Visible    ${SAVE_TAB}  

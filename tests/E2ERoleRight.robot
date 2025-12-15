@@ -11,31 +11,31 @@ Test Teardown       Test Teardown
 *** Test Cases ***
 Test Prayer Coordinator Role Access
     [Documentation]    Login as Prayer Coordinator and validate menu access as per role and rights
-    [Tags]    role_rights    prayer_coordinator    tc01    milestone2
+    [Tags]    e2e    role_rights    prayer_coordinator    tc01    milestone2
     
     Test User Role Access    Prayer Coordinator
 
 Test Global Event Coordinator Role Access
     [Documentation]    Login as Global Event Coordinator and validate menu access as per role and rights
-    [Tags]    role_rights    global_event_coordinator    tc02    milestone2
+    [Tags]    e2e    role_rights    global_event_coordinator    tc02    milestone2
     
     Test User Role Access    Global Event Coordinator
 
 Test Acharya Role Access
     [Documentation]    Login as Acharya and validate menu access as per role and rights
-    [Tags]    role_rights    acharya    tc03    milestone2
+    [Tags]    e2e    role_rights    acharya    tc03    milestone2
     
     Test User Role Access    Acharya
 
 Test Maha Acharya Role Access
     [Documentation]    Login as Maha Acharya and validate menu access as per role and rights
-    [Tags]    role_rights    maha_acharya    tc04    milestone2
+    [Tags]    e2e    role_rights    maha_acharya    tc04    milestone2
     
     Test User Role Access    Maha Acharya
 
 Test Namkaran Coordinator Role Access
     [Documentation]    Login as Namkaran Coordinator and validate menu access as per role and rights
-    [Tags]    role_rights    namkaran_coordinator    tc05    milestone2
+    [Tags]    e2e    role_rights    namkaran_coordinator    tc05    milestone2
     
     Test User Role Access    Namkaran Coordinator
 

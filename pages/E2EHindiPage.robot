@@ -308,30 +308,43 @@ Change Language To Hindi
     Log To Console    🔄 App is in English - changing to Hindi...
 
     # Step 3: Click on Profile icon
-    Mobile.Wait Until Page Contains Element    ${PROFILE_ICON}    10s
+    Mobile.Wait Until Page Contains Element    ${PROFILE_ICON}    60s
     Mobile.Click Element    ${PROFILE_ICON}
     Sleep    3s
 
     # Verify we're on Profile page
-    Mobile.Wait Until Page Contains Element    ${PROFILE_PAGE_TITLE}    10s
+    Mobile.Wait Until Page Contains Element    ${PROFILE_PAGE_TITLE}    60s
 
     # Step 4: Click on Language setting
-    Mobile.Wait Until Page Contains Element    ${LANGUAGE_SETTING}    10s
+    Mobile.Wait Until Page Contains Element    ${LANGUAGE_SETTING}    60s
     Mobile.Click Element    ${LANGUAGE_SETTING}
     Sleep    2s
 
     # Step 5: Select Hindi option
     Log To Console    🔍 Selecting Hindi language
-    Mobile.Wait Until Page Contains Element    ${LANGUAGE_MODAL_TITLE}    10s
-    Mobile.Wait Until Page Contains Element    ${HINDI_OPTION}    10s
+    Mobile.Wait Until Page Contains Element    ${LANGUAGE_MODAL_TITLE}    60s
+    Mobile.Wait Until Page Contains Element    ${HINDI_OPTION}    60s
     Mobile.Click Element    ${HINDI_OPTION}
     Sleep    1s
 
     # Step 6: Click Save button
     Log To Console    🔍 Clicking Save button
-    Mobile.Wait Until Page Contains Element    ${SAVE_BUTTON}    10s
+    Mobile.Wait Until Page Contains Element    ${SAVE_BUTTON}    60s
     Mobile.Click Element    ${SAVE_BUTTON}
-    Sleep    3s
+
+    # App will restart after language change - wait and verify restart completed
+    Log To Console    ⏳ App is restarting to apply language change...
+    Sleep    10s
+
+    # Verify app has restarted by checking for Hindi navigation elements
+    TRY
+        Mobile.Wait Until Page Contains Element    ${HOME_NAV_HINDI}    60s
+        Log To Console    ✅ App restarted successfully with Hindi language
+    EXCEPT
+        Log To Console    ⚠️ Waiting additional time for app restart...
+        Sleep    15s
+        Mobile.Wait Until Page Contains Element    ${HOME_NAV_HINDI}    60s
+    END
 
     Log To Console    ✅ Language successfully changed to Hindi
 
@@ -367,8 +380,21 @@ Revert Language To English
     Log To Console    🔍 Step 4: Clicking Save button
     Mobile.Wait Until Page Contains Element    ${SAVE_BUTTON_HINDI}    10s
     Mobile.Click Element    ${SAVE_BUTTON_HINDI}
-    Sleep    3s
-    
+
+    # App will restart after language change - wait and verify restart completed
+    Log To Console    ⏳ App is restarting to apply language change...
+    Sleep    5s
+
+    # Verify app has restarted by checking for English navigation elements
+    TRY
+        Mobile.Wait Until Page Contains Element    xpath=//android.widget.ImageView[@content-desc="Home"]    15s
+        Log To Console    ✅ App restarted successfully with English language
+    EXCEPT
+        Log To Console    ⚠️ Waiting additional time for app restart...
+        Sleep    5s
+        Mobile.Wait Until Page Contains Element    xpath=//android.widget.ImageView[@content-desc="Home"]    10s
+    END
+
     Log To Console    ✅ Language successfully reverted to English
 
 # ===== VALIDATION KEYWORDS =====

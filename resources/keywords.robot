@@ -78,25 +78,64 @@ Swipe Audio Of The Day Section To Find Track
         END
     END
 
+Ensure Device Ready
+    [Documentation]    Validates device is ready for Appium session creation
+    Log To Console    ===== Verifying Device Ready =====
+
+    # Kill any existing instances of the app to prevent port conflicts
+    Run Keyword And Ignore Error    Run Process    adb    shell    am    force-stop    ${APP_PACKAGE}    shell=True
+    Sleep    2s
+
+    Log To Console    ===== Device Ready Check Completed =====
+
 Open Gurutattva App
+    [Documentation]    Opens Gurutattva app with proper session creation and retry logic
+
+    Log To Console    ===== Opening Gurutattva App =====
+
+    # Open application with minimal capabilities for testing
     Mobile Open Application    ${REMOTE_URL}
     ...    platformName=${PLATFORM_NAME}
     ...    deviceName=${DEVICE_NAME}
     ...    appPackage=${APP_PACKAGE}
     ...    appActivity=${APP_ACTIVITY}
     ...    automationName=${AUTOMATION_NAME}
-    ...    noReset=${NO_RESET}
-    ...    skipServerInstallation=${SKIP_SERVER_INSTALLATION}
-    Sleep    5s
+    ...    noReset=true
+    ...    newCommandTimeout=60000
+    ...    autoGrantPermissions=true
+
+    Log To Console    ===== Gurutattva App Opened Successfully =====
 
 Close Gurutattva App
-    Mobile Terminate Application    ${APP_PACKAGE}     
-    Sleep    2s
-    Mobile Press Keycode    187    # Opens recent apps
-    Sleep    2s
-    # Example: Swipe to remove (coordinates depend on device)
-    Mobile Swipe    500    1200    500    200    500
-    Mobile Close Application
+    [Documentation]    Safely closes app with proper cleanup sequence
+    Log To Console    ===== Closing Gurutattva App =====
+
+    # Graceful termination
+    ${status}=    Run Keyword And Return Status    Mobile Terminate Application    ${APP_PACKAGE}
+
+    IF    ${status}
+        Log To Console    ✅ App terminated gracefully
+        Sleep    2s
+    ELSE
+        Log To Console    ⚠️ Graceful termination failed, using force stop
+        Run Keyword And Ignore Error    Run Process    adb    shell    am    force-stop    ${APP_PACKAGE}    shell=True
+        Sleep    2s
+    END
+
+    # Close the mobile session properly
+    ${close_status}=    Run Keyword And Return Status    Mobile Close Application
+
+    IF    ${close_status}
+        Log To Console    ✅ Mobile session closed
+    ELSE
+        Log To Console    ⚠️ Mobile session close had issues
+    END
+
+    # Final cleanup - kill any residual processes
+    Run Keyword And Ignore Error    Run Process    adb    shell    pkill    -f    ${APP_PACKAGE}    shell=True
+    Sleep    1s
+
+    Log To Console    ===== Gurutattva App Closed =====
 
 Scroll Until Element Visible
     [Arguments]    ${locator}
@@ -171,7 +210,7 @@ Smart Mobile Input Text
     Sleep    0.2s
 
     # Hide keyboard and wait for UI to stabilize
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    0.3s
 
     Log To Console    ✅ Entered ${field_name}: ${text}

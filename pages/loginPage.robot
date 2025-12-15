@@ -95,7 +95,7 @@ Dismiss Access Denied Popup If Visible
 Click on the input field
     Mobile Wait Until Element Is Visible    ${LOGIN_EMAIL}    5s
     Mobile Click Element    ${LOGIN_EMAIL}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Click on the Login Button
     Mobile Wait Until Element Is Visible    ${SUBMIT_LOGIN}    5s

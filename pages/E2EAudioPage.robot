@@ -723,7 +723,7 @@ Search And Select Newly Created Track
     Sleep    1s
     # Input text directly into search bar
     Mobile Input Text    ${SEARCH_BAR}    ${E2E_AUDIO_TRACK_TITLE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Entered ${E2E_AUDIO_TRACK_TITLE} in Search Bar.
     Sleep    5s
     Verify Track Details Are Displayed for Music
@@ -1000,7 +1000,7 @@ Unpublish Music Track From Edit Page And Validate In Mobile App
     Sleep    1s
     # Input text directly into search bar (using ${SEARCH_BAR} variable from PASSING tests)
     Mobile Input Text    ${SEARCH_BAR}    ${TRACK_TITLE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    🔍 Searched for unpublished music track: ${TRACK_TITLE}
     Verify Music Track is not Appears In Mobile Search Results
     Close Gurutattva App
@@ -1572,7 +1572,7 @@ Search And Select Newly Created Podcast Track
     Sleep    1s
     # Input text directly into search bar
     Mobile Input Text    ${SEARCH_BAR}    ${E2E_AUDIO_TRACK_TITLE_PODCAST}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Entered ${E2E_AUDIO_TRACK_TITLE_PODCAST} in Search Bar.
     Sleep    5s
     Verify Track Details Are Displayed for Podcast
@@ -1885,7 +1885,7 @@ Unpublish Podcast Track From Edit Page And Validate In Mobile App
     Sleep    1s
     # Input text directly into search bar (using ${SEARCH_BAR} variable from PASSING tests)
     Mobile Input Text    ${SEARCH_BAR}    ${TRACK_TITLE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    🔍 Searched for unpublished podcast track: ${TRACK_TITLE}
     Verify Podcast Track is not Appears In Mobile Search Results
     Close Gurutattva App
@@ -1935,7 +1935,7 @@ Search the Deleted Podcast Track
     Sleep    1s
     # Input text directly into search bar (using ${SEARCH_BAR} variable from PASSING tests)
     Mobile Input Text    ${SEARCH_BAR}    ${E2E_AUDIO_TRACK_TITLE_PODCAST}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    🔍 Searched for deleted podcast track: ${E2E_AUDIO_TRACK_TITLE_PODCAST}
     Sleep    3s
 
@@ -1951,7 +1951,7 @@ Search the Deleted Music Track
     Sleep    1s
     # Input text directly into search bar (using ${SEARCH_BAR} variable from PASSING tests)
     Mobile Input Text    ${SEARCH_BAR}    ${E2E_AUDIO_TRACK_TITLE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    🔍 Searched for deleted music track: ${E2E_AUDIO_TRACK_TITLE}
     Sleep    3s
 
@@ -2227,7 +2227,7 @@ Search And Select Edited Track
     Mobile.Click Element    ${SEARCH_BAR}
     Sleep    5s
     Mobile.Input Text    ${SEARCH_INPUT_FIELD_E2E}    ${edited_title}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     Log To Console    Entered ${edited_title} in Search Bar.
     Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'${edited_title}')]    10s
@@ -2363,7 +2363,7 @@ Search Deleted Music Track In Mobile App
     Sleep    1s
     # Input text directly into search bar
     Mobile.Input Text    ${SEARCH_BAR}    ${deleted_title}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     Log To Console    🔍 Searched for deleted music track: ${deleted_title}
     Sleep    3s
 
@@ -2420,7 +2420,7 @@ Search And Select Edited Podcast Track
     Mobile.Click Element    ${SEARCH_BAR}
     Sleep    5s
     Mobile.Input Text    ${SEARCH_INPUT_FIELD_E2E}    ${edited_title}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     Log To Console    Entered ${edited_title} in Search Bar.
     Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'${edited_title}')]    10s
@@ -2644,7 +2644,7 @@ Search Deleted Podcast Track In Mobile App
     Sleep    1s
     # Input text directly into search bar
     Mobile.Input Text    ${SEARCH_BAR}    ${deleted_title}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     Log To Console    🔍 Searched for deleted podcast track: ${deleted_title}
     Sleep    3s
 

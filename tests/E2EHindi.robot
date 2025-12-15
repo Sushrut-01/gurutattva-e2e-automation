@@ -19,7 +19,7 @@ Hindi Test Teardown
 
 Test Mobile Language Change To Hindi
     [Documentation]    Test case to change mobile app language to Hindi, validate content, and revert back to English
-    [Tags]    mobile    hindi    language    tc62
+    [Tags]    e2e    mobile    hindi    language    tc62
 
     Open Gurutattva App
 

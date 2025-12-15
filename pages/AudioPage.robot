@@ -481,7 +481,7 @@ Click on the search bar and enter a track name.
     Mobile Click Element    ${SEARCH_BAR}
     Log To Console    Clicked on Search Bar.
     Mobile Input Text        ${SEARCH_INPUT_FIELD}    Dhun
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Entered Dhun in Search Bar.
 
 Verify Track details are displayed

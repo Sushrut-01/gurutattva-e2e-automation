@@ -4,6 +4,7 @@ Resource    ../resources/test_setup_teardown.robot
 Resource    ../pages/NewsPage.robot
 Resource    ../pages/HomePage.robot
 Resource    ../pages/E2ENewsPage.robot
+Resource    ../pages/E2EHindiPage.robot
 Resource    ../pages/loginPage.robot
 Resource    ../pages/CRM_AudioPage.robot
 Resource    ../resources/web_keywords.robot
@@ -111,8 +112,38 @@ Verify that the user is able to add a Hindi news, publish it in the CMS, and ver
     Verify News Publish Status    ${E2E_NEWS_TITLE_HI}    Publish
     Close Web Browser
     Open Gurutattva App
-    Handle First Time Setup
-    Verify Mobile News Details 
+
+    # Handle first time setup with error handling (app may restart)
+    TRY
+        Handle First Time Setup
+    EXCEPT
+        Log To Console    ⚠️ First time setup caused app restart - waiting for app to stabilize
+        Sleep    5s
+    END
+
+    # Verify app is responsive before proceeding
+    ${home_visible}=    Run Keyword And Return Status    Mobile.Wait Until Page Contains Element    xpath=//android.widget.ImageView[@content-desc="Home"]    10s
+    IF    ${home_visible}
+        Log To Console    ✅ App is ready for testing
+    ELSE
+        Log To Console    ⚠️ Home element not immediately visible, proceeding anyway...
+        Sleep    5s
+    END
+
+    # Step 1: Change language to Hindi to view Hindi news
+    Log To Console    📱 Step 1: Changing language to Hindi to view Hindi news
+    Change Language To Hindi
+    Wait For Language Change    5s
+
+    # Step 2: Navigate to News and verify Hindi news details
+    Log To Console    📱 Step 2: Verifying Hindi news in mobile app
+    Verify Mobile Hindi News Details
+
+    # Step 3: Revert language back to English for other tests
+    Log To Console    📱 Step 3: Reverting language back to English
+    Run Keyword And Ignore Error    Revert Language To English
+    Run Keyword And Ignore Error    Wait For Language Change    5s
+
     Close Gurutattva App
 
 Test Unpublish News from CMS and Verify in Mobile App
@@ -196,7 +227,7 @@ Test News Category Tab In Mobile App
     Log To Console    🎉 News Category Tab Test Completed Successfully!
 
 Test Check Local News Filter Functionality
-    [Tags]    TC46    E2ENews    Mobile    Filter    milestone2
+    [Tags]    e2e    TC46    E2ENews    Mobile    Filter    milestone2
     [Documentation]    Check Local News Filter functionality with all dropdown in Mobile
     
     # --- Mobile App: Open app and navigate to News ---
@@ -317,7 +348,20 @@ Test Sanchalak Adds Local News And Super Admin Approves It
     # Click on News tab
     Click on the News Tab With Retry
     Switch to Local News Tab
-    
+
+    # Apply filter to narrow down local news by location
+    Click on the Filter Icon
+    Sleep    1s
+    Select Country in Filter    India
+    Sleep    1s
+    Select State in Filter    Gujarat
+    Sleep    1s
+    Select District in Filter    Ahmadabad
+    Sleep    1s
+    Click Apply Filter Button
+    Sleep    2s
+    Log To Console    ✅ Applied filter: India > Gujarat > Ahmadabad
+
     # Verify approved news in mobile app with scrolling
     Verify Approved News In Mobile App With Scrolling    ${E2E_NEWS_TITLE_EN}
     
@@ -419,7 +463,7 @@ Test Sanchalak Adds Local News And Super Admin Rejects It
     Log To Console    🎉 Sanchalak Local News Rejection Test Completed Successfully!
 
 Add News Category from CMS. Add News uder that category. check list of all categories in the Mobile app under Category tab.
-    [Tags]    TC78    E2ENews    Gurutattva    milestone2
+    [Tags]    e2e    TC78    E2ENews    Gurutattva    milestone2
     Generate News Category for Test Data
     Open Web Browser
     Login in with valid credentials

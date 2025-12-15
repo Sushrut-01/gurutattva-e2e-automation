@@ -158,32 +158,32 @@ Enter E2E Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_USER_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered First Name: ${E2E_USER_NAME}
     
     # Enter Last Name
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    Test
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Last Name: Test
     
     # Enter Email
     #Swipe Until Element Visible   xpath=//android.widget.Button[@content-desc="Select Gender"]
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_USER_EMAIL}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Email: ${E2E_USER_EMAIL}
     
     # Enter Mobile Number
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='00 0000 0000']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='00 0000 0000']
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    xpath=//android.widget.EditText[@hint='00 0000 0000']    ${E2E_USER_MOBILE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Mobile Number: ${E2E_USER_MOBILE}
     
     Log To Console    ✅ Successfully entered E2E Registration Data:
@@ -201,30 +201,30 @@ Enter E2E Registration Data with already used email id and phone number
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    Warish
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered First Name: Warish
     
     # Enter Last Name
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    Kumar
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Last Name: Kumar
     
     # Enter Email
     #Swipe Until Element Visible   xpath=//android.widget.Button[@content-desc="Select Gender"]
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    qa.user@gurutattva.com
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Email: qa.user@gurutattva.com
     
     # Enter Mobile Number
     # Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='00 0000 0000']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='00 0000 0000']
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    xpath=//android.widget.EditText[@hint='00 0000 0000']    8888888888
     Swipe Until Element Visible    ${REGISTER_BUTTON}
     Mobile Click Element    ${REGISTER_BUTTON}
@@ -242,7 +242,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_USER_EMAIL}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Email: ${E2E_USER_EMAIL}
     
     # Enter Mobile
@@ -250,7 +250,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='00 0000 0000']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='00 0000 0000']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='00 0000 0000']    ${E2E_USER_MOBILE}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Mobile: ${E2E_USER_MOBILE}
     
     # Enter First Name
@@ -258,7 +258,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_USER_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered First Name: ${E2E_USER_NAME}
     
     # Enter Middle Name
@@ -266,7 +266,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Middle Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Middle Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Middle Name']    Middle
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Middle Name: Middle
     
     # Enter Last Name
@@ -274,7 +274,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    Test
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Last Name: Test
     
     # Enter Address Line 1
@@ -282,7 +282,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Address Line 1']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Address Line 1']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Address Line 1']    E2E Test Address Line 1
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Address Line 1: E2E Test Address Line 1
     
     # Enter Address Line 2
@@ -290,7 +290,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Address Line 2']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Address Line 2']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Address Line 2']    E2E Test Address Line 2
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Address Line 2: E2E Test Address Line 2
     
     # Enter Landmark
@@ -298,7 +298,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Landmark']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Landmark']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Landmark']    E2E Test Landmark
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Landmark: E2E Test Landmark
     
     # Enter Pincode
@@ -306,7 +306,7 @@ Enter E2E Community Registration Data
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Pin Code']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Pin Code']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Pin Code']    380015
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Pincode: 380015
     
     Log To Console    ✅ Successfully entered E2E Community Registration Data:
@@ -456,7 +456,7 @@ Enter Email Safely
         END
         
         Sleep    1s
-        Mobile Hide Keyboard
+        Run Keyword And Ignore Error    Mobile Hide Keyboard
         Sleep    1s
         
         # Verify email was entered correctly
@@ -511,7 +511,7 @@ Enter Email Alternative Method
         Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${domain_part}
         Sleep    2s
         
-        Mobile Hide Keyboard
+        Run Keyword And Ignore Error    Mobile Hide Keyboard
         Sleep    2s
         
         # Verify email was entered
@@ -562,21 +562,21 @@ Enter Email With Keyboard Management
         Log To Console    🔧 Method 1: Direct input with keyboard management
         
         # Start with clean state - hide keyboard multiple times
-        Mobile Hide Keyboard
+        Run Keyword And Ignore Error    Mobile Hide Keyboard
         Sleep    1s
-        Mobile Hide Keyboard
+        Run Keyword And Ignore Error    Mobile Hide Keyboard
         Sleep    1s
         
         # Click field and immediately hide keyboard
         Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
         Sleep    0.5s
-        Mobile Hide Keyboard
+        Run Keyword And Ignore Error    Mobile Hide Keyboard
         Sleep    1s
         
         # Clear field
         Mobile Clear Text    xpath=//android.widget.EditText[@hint='Enter Email']
         Sleep    1s
-        Mobile Hide Keyboard
+        Run Keyword And Ignore Error    Mobile Hide Keyboard
         Sleep    1s
         
         # Enter text character by character with keyboard hiding
@@ -589,12 +589,12 @@ Enter Email With Keyboard Management
             Sleep    0.2s
             Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${char}
             Sleep    0.2s
-            Mobile Hide Keyboard
+            Run Keyword And Ignore Error    Mobile Hide Keyboard
             Sleep    0.3s
         END
         
         # Final keyboard hide
-        Mobile Hide Keyboard
+        Run Keyword And Ignore Error    Mobile Hide Keyboard
         Sleep    2s
         
         # Verify entry
@@ -642,7 +642,7 @@ Enter Email Using Clipboard
         IF    ${paste_option_found}
             Mobile Click Element    xpath=//android.widget.TextView[@text='Paste']
             Sleep    2s
-            Mobile Hide Keyboard
+            Run Keyword And Ignore Error    Mobile Hide Keyboard
             Sleep    1s
             
             # Verify entry
@@ -661,7 +661,7 @@ Enter Email Using Clipboard
             # Try alternative paste method using keyboard shortcuts
             Log To Console    ⚠️  Alternative paste method not available, using manual entry
             Sleep    2s
-            Mobile Hide Keyboard
+            Run Keyword And Ignore Error    Mobile Hide Keyboard
             Sleep    1s
             
             # Verify entry
@@ -1038,7 +1038,7 @@ Enter Community Registration First Name
     # Mobile.Wait Until Element Is Visible    ${COMMUNITY_FIRST_NAME}    10s
     Mobile.Click Element                    ${COMMUNITY_FIRST_NAME}
     Mobile.Click Element                    ${COMMUNITY_FIRST_NAME}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     Mobile.Input Text                      ${COMMUNITY_FIRST_NAME}     ${COMMUNITY_USER_FIRST_NAME}
     # Mobile.Hide Keyboard            
 
@@ -1046,7 +1046,7 @@ Enter Community Registration First Name
     Scroll Until Element Found           xpath=//android.view.View[@content-desc="Pin Code"]
     # Mobile.Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    10s
     Mobile.Click Element                    ${COMMUNITY_LAST_NAME}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     Mobile.Input Text                      ${COMMUNITY_LAST_NAME}     ${COMMUNITY_USER_LAST_NAME}
        
 
@@ -1054,9 +1054,9 @@ Enter Community Registration Middle Name
     Swipe Until Element Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']
     Mobile.Wait Until Element Is Visible    ${COMMUNITY_MIDDLE_NAME}    10s
     Mobile.Click Element                    ${COMMUNITY_MIDDLE_NAME}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     Mobile.Input Text                      ${COMMUNITY_MIDDLE_NAME}     ${COMMUNITY_USER_MIDDLE_NAME}
-    Mobile.Hide Keyboard   
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
 
 Enter E2E Registration Data for Quick Registration
     [Documentation]    Enters the generated E2E test data into registration form using simple scroll and click approach
@@ -1065,32 +1065,32 @@ Enter E2E Registration Data for Quick Registration
     # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter First Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter First Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter First Name']    ${E2E_USER_FIRST_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered First Name: ${E2E_USER_FIRST_NAME}
     
     # Enter Last Name
     # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Last Name']
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Last Name']    ${E2E_USER_LAST_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Last Name: ${E2E_USER_LAST_NAME}
     
     # Enter Email
     #Swipe Until Element Visible   xpath=//android.widget.Button[@content-desc="Select Gender"]
     # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    yatishdevlekar307@gmail.com
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Email: yatishdevlekar307@gmail.com
     
     # Enter Mobile Number
     # Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]
     # Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='00 0000 0000']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='00 0000 0000']
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    xpath=//android.widget.EditText[@hint='00 0000 0000']    9979339236
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Mobile Number: 9979339236
     
     Log To Console    ✅ Successfully entered E2E Registration Data:

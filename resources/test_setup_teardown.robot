@@ -10,17 +10,39 @@ Library   Process
 ${SCREENSHOT_DIR}    ${EXECDIR}/results/Screenshot
 
 *** Keywords ***
+Reset ADB Server
+    [Documentation]    Resets ADB server to prevent socket hang issues
+    Log To Console    🔄 Resetting ADB server...
+
+    # Kill the ADB server
+    Run Keyword And Ignore Error    Run Process    adb    kill-server    shell=True
+    Sleep    2s
+
+    # Start fresh ADB server
+    Run Keyword And Ignore Error    Run Process    adb    start-server    shell=True
+    Sleep    3s
+
+    # Verify device is visible
+    Run Keyword And Ignore Error    Run Process    adb    devices    shell=True
+
+    Log To Console    ✅ ADB Server reset completed
+
 Test Setup
     [Documentation]    Setup for each test case - ensures clean state
     Log To Console    ===== Starting Test Setup =====
+
+    # Configure libraries to not auto-run on failure keywords
     Web.Register Keyword To Run On Failure    No Operation
     Mobile.Register Keyword To Run On Failure    No Operation
-    # Close any existing web browser instances to avoid session timeouts
+
+    # Close any existing web browser instances
     Run Keyword And Ignore Error    Web Close All Browsers
     Sleep    1s
+
     # Kill any existing app instances
     Run Keyword And Ignore Error    Mobile Close Application
     Sleep    2s
+
     Log To Console    ===== Test Setup Completed =====
 
 Test Teardown

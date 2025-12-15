@@ -105,7 +105,7 @@ Click on the Register Now for Dhyankendra
 
 Enter Center Name
     Mobile Click Element    ${CENTER_NAME}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    2s
     Mobile Input Text    ${CENTER_NAME_INPUT}    ${E2E_CENTER_NAME}
     Log To Console    Entered Center Name
@@ -115,7 +115,7 @@ Select Premise Type
     Mobile Click Element    xpath=//android.widget.EditText
     Mobile Input Text    xpath=//android.widget.EditText    Temple
     Mobile Click Element    ${TEMPLE_BUTTON}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Selected Premise Type
 
 Select Ownership
@@ -123,12 +123,12 @@ Select Ownership
     Mobile Click Element    xpath=//android.widget.EditText
     Mobile Input Text    xpath=//android.widget.EditText     Sadhak Owned
     Mobile Click Element    ${SAHKA_OWNED_BUTTON}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Selected Ownership
 
 Enter Sitting Capacity
     Mobile Click Element    ${SITTING}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${SITTING}    100
     Log To Console    Entered Sitting Capacity
     Mobile Click Element    ${DHYANKENDRA_NEXT}
@@ -136,31 +136,31 @@ Enter Sitting Capacity
 
 Enter Full Address For Dhyankendra
     Mobile Click Element    ${FULL_ADDRESS_INPUT}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${FULL_ADDRESS_INPUT}    ${E2E_FULL_ADDRESS}
     Log To Console    Entered Full Address
 
 Enter Pincode For Dhyankendra
     Mobile Click Element    ${PINCODE_INPUT}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${PINCODE_INPUT}    380015
     Log To Console    Entered Pincode
 
 Enter Hall Length
     Mobile Click Element    ${INPUT_HALL_LENGTH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${INPUT_HALL_LENGTH}    10
     Log To Console    Entered Hall Length
 
 Enter Hall Width
     Mobile Click Element    ${INPUT_HALL_WIDTH}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${INPUT_HALL_WIDTH}    10
     Log To Console    Entered Hall Width
 
 Enter Hall Height
     Mobile Click Element    ${INPUT_HALL_HEIGHT}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${INPUT_HALL_HEIGHT}    10
     Log To Console    Entered Hall Height
 
@@ -250,7 +250,7 @@ Select User for Dhyankendra
     Mobile Click Element    ${SEARCH_BY_UID_OR_NAME}
     Type Text Using Keyboard    ${name}
     Mobile Click Element    ${SELECT_USER}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Selected User for Dhyankendra
 
 Type Text Using Keyboard
@@ -266,13 +266,13 @@ Type Text Using Keyboard
 
 Enter Email for Dhyankendra
     Mobile Click Element    ${DHYANKENDRA_EMAIL_INPUT}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${DHYANKENDRA_EMAIL_INPUT}    ${E2E_EMAIL}
     Log To Console    Entered Email for Dhyankendra
 
 Enter Mobile for Dhyankendra
     Mobile Click Element    ${DHYANKENDRA_MOBILE_INPUT}
-    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${DHYANKENDRA_MOBILE_INPUT}    ${E2E_MOBILE}
     Log To Console    Entered Mobile for Dhyankendra
 

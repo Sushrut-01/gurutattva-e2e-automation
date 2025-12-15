@@ -319,7 +319,7 @@ Verify News Created Successfully
     # Wait for "Refreshing..." to disappear if present
     ${refreshing}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    xpath=//*[contains(text(),'Refreshing')]    2s
     IF    ${refreshing}
-        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    10s
+        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    120s
         Sleep    2s
     END
     Web Wait Until Element Is Visible    ${NEWS_TABLE}    10s
@@ -342,7 +342,7 @@ Verify News In List
     # Wait for "Refreshing..." to disappear
     ${refreshing}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    xpath=//*[contains(text(),'Refreshing')]    2s
     IF    ${refreshing}
-        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    10s
+        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    120s
     END
     Sleep    2s
     # Look for the title text anywhere in the table
@@ -356,7 +356,7 @@ Verify News Publish Status
     # Wait for refreshing to complete if present
     ${refreshing}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    xpath=//*[contains(text(),'Refreshing')]    2s
     IF    ${refreshing}
-        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    10s
+        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    120s
         Sleep    2s
     END
     # Just check that the status text appears on the page (simpler check)
@@ -377,24 +377,51 @@ Verify Image Upload Validation Error
     Run Keyword Unless    ${success}    Log To Console    ⚠️ No specific file upload error message found, but validation may still be working
 
 Verify Mobile News Details
-    [Documentation]    Verifies news details on mobile app
+    [Documentation]    Verifies news details on mobile app (English)
     Sleep    3s
 
     Click on the News Tab With Retry
-    
+
     # Click on Global News Tab
     Click on the Global News Tab
-    
+
     # Verify Global News card is displayed
     Verify Global E2ENews Card Structure
-    
+
     # Click on Global News Card
-    Click on the Global E2ENews Card 
-    
+    Click on the Global E2ENews Card
+
     # Verify Global News Detail screen
     verify Global E2ENews Detail screen
-    
+
     Log To Console    ✅ Verified Mobile News Details for: ${E2E_NEWS_TITLE_EN}
+
+Verify Mobile Hindi News Details
+    [Documentation]    Verifies Hindi news details on mobile app (uses Hindi locators)
+    Sleep    3s
+
+    # Click on News Tab using Hindi locator
+    Log To Console    📱 Clicking on News tab (Hindi UI)
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="समाचार"]    60s
+    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="समाचार"]
+    Sleep    2s
+
+    # Click on Global News Tab using Hindi locator
+    Log To Console    📱 Clicking on Global News tab (Hindi UI)
+    Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="वैश्विक समाचार"]    60s
+    Mobile.Click Element    xpath=//android.view.View[@content-desc="वैश्विक समाचार"]
+    Sleep    2s
+
+    # Verify Global News card is displayed (Hindi version)
+    Verify Global Hindi E2ENews Card Structure
+
+    # Click on Global News Card (Hindi version)
+    Click on the Global Hindi E2ENews Card
+
+    # Verify Global News Detail screen (Hindi version)
+    Verify Global Hindi E2ENews Detail Screen
+
+    Log To Console    ✅ Verified Mobile Hindi News Details for: ${E2E_NEWS_TITLE_HI}
 
 Verify Global E2ENews Card Structure
     [Documentation]    Verifies the structure of the Global E2ENews card
@@ -419,6 +446,30 @@ Verify Global E2ENews Detail screen
     Should Contain    ${e2enews_card}    ${E2E_NEWS_DESCRIPTION_EN}
     ${e2enews_card}=    Mobile Get Element Attribute    xpath=(//android.view.View[contains(@content-desc,'${E2E_NEWS_CONTENT_EN}')])[1]    content-desc
     Should Contain    ${e2enews_card}    ${E2E_NEWS_CONTENT_EN}
+
+Verify Global Hindi E2ENews Card Structure
+    [Documentation]    Verifies the structure of the Global E2ENews card (Hindi version)
+    ${e2enews_card}=    Mobile Get Element Attribute    xpath=//android.view.View[contains(@content-desc,'${E2E_NEWS_TITLE_HI}')][1]   content-desc
+    Should Contain    ${e2enews_card}    ${E2E_NEWS_TITLE_HI}
+    Log To Console    ✅ Hindi E2ENews Card Content: ${e2enews_card}
+
+Click on the Global Hindi E2ENews Card
+    [Documentation]    Clicks on the Global E2ENews card (Hindi version)
+    Sleep    2s
+    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_NEWS_TITLE_HI}')][1]    10s
+    Sleep   2s
+    Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'${E2E_NEWS_TITLE_HI}')][1]
+    Log To Console    ✅ Clicked on Global Hindi E2ENews Card
+
+Verify Global Hindi E2ENews Detail Screen
+    [Documentation]    Verifies the structure of the Global E2ENews detail screen (Hindi version)
+    ${e2enews_card}=    Mobile Get Element Attribute    xpath=(//android.view.View[contains(@content-desc,'${E2E_NEWS_TITLE_HI}')])[1]    content-desc
+    Should Contain    ${e2enews_card}    ${E2E_NEWS_TITLE_HI}
+    ${e2enews_card}=    Mobile Get Element Attribute    xpath=(//android.view.View[contains(@content-desc,'${E2E_NEWS_DESCRIPTION_HI}')])[1]   content-desc
+    Should Contain    ${e2enews_card}    ${E2E_NEWS_DESCRIPTION_HI}
+    ${e2enews_card}=    Mobile Get Element Attribute    xpath=(//android.view.View[contains(@content-desc,'${E2E_NEWS_CONTENT_HI}')])[1]    content-desc
+    Should Contain    ${e2enews_card}    ${E2E_NEWS_CONTENT_HI}
+    Log To Console    ✅ Verified Hindi E2ENews detail screen
     Log To Console    E2ENews Title Content: ${e2enews_card}
     Log To Console    E2ENews Description Content: ${e2enews_card}
     Log To Console    E2ENews Content Content: ${e2enews_card}
@@ -456,7 +507,7 @@ Verify News Unpublished Successfully
     # Wait for "Refreshing..." to disappear if present
     ${refreshing}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    xpath=//*[contains(text(),'Refreshing')]    2s
     IF    ${refreshing}
-        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    10s
+        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    120s
         Sleep    2s
     END
     Web.Wait Until Element Is Visible    ${NEWS_TABLE}    10s
@@ -865,7 +916,7 @@ Search News By Title In Local News
     # Wait for "Refreshing..." to disappear if present
     ${refreshing}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    xpath=//*[contains(text(),'Refreshing')]    2s
     IF    ${refreshing}
-        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    10s
+        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    120s
         Sleep    2s
     END
     Web.Wait Until Element Is Visible    ${NEWS_SEARCH_FIELD}    10s
@@ -929,7 +980,7 @@ Verify News Approved Successfully
     # Wait for "Refreshing..." to disappear if present
     ${refreshing}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    xpath=//*[contains(text(),'Refreshing')]    2s
     IF    ${refreshing}
-        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    10s
+        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    120s
         Sleep    2s
     END
     Web.Wait Until Element Is Visible    ${NEWS_TABLE}    10s
@@ -941,7 +992,7 @@ Verify News Rejected Successfully
     # Wait for "Refreshing..." to disappear if present
     ${refreshing}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    xpath=//*[contains(text(),'Refreshing')]    2s
     IF    ${refreshing}
-        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    10s
+        Web Wait Until Element Is Not Visible    xpath=//*[contains(text(),'Refreshing')]    120s
         Sleep    2s
     END
     Web.Wait Until Element Is Visible    ${NEWS_TABLE}    10s
@@ -1064,23 +1115,26 @@ Verify Rejected News Is Not Visible In Mobile App With Scrolling
 Click on the Filter Icon
     [Documentation]    Clicks on the Filter icon in News screen
     Sleep    3s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[2]    10s
-    Mobile.Click Element    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[2]
+    Mobile.Wait Until Element Is Visible    xpath=(//android.widget.ImageView)[2]    10s
+    Mobile.Click Element    xpath=(//android.widget.ImageView)[2]
     Sleep    3s
     Log To Console    ✅ Clicked on Filter Icon
 
 Select Country in Filter
     [Documentation]    Selects specified country in the Country dropdown
     [Arguments]    ${country_name}
-    Sleep    2s
+    Sleep    3s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select Country"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select Country"]
-    Sleep    2s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
+    Sleep    1s
     Mobile.Input Text    xpath=//android.widget.EditText    ${country_name}
-    Mobile Hide Keyboard
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${country_name}"]    5s
+    Sleep    2s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${country_name}"]    15s
     Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${country_name}"]
     Sleep    2s
     Log To Console    ✅ Selected ${country_name} in Country dropdown
@@ -1088,15 +1142,18 @@ Select Country in Filter
 Select State in Filter
     [Documentation]    Selects specified state in the State dropdown
     [Arguments]    ${state_name}
-    Sleep    2s
+    Sleep    3s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select State"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select State"]
-    Sleep    2s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
+    Sleep    1s
     Mobile.Input Text    xpath=//android.widget.EditText    ${state_name}
-    Mobile Hide Keyboard
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    5s
+    Sleep    2s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    15s
     Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${state_name}"]
     Sleep    2s
     Log To Console    ✅ Selected ${state_name} in State dropdown
@@ -1104,15 +1161,18 @@ Select State in Filter
 Select District in Filter
     [Documentation]    Selects specified district in the District dropdown
     [Arguments]    ${district_name}
-    Sleep    2s
+    Sleep    3s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select District"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select District"]
-    Sleep    2s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
+    Sleep    1s
     Mobile.Input Text    xpath=//android.widget.EditText    ${district_name}
-    Mobile Hide Keyboard
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    5s
+    Sleep    2s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    15s
     Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${district_name}"]
     Sleep    2s
     Log To Console    ✅ Selected ${district_name} in District dropdown

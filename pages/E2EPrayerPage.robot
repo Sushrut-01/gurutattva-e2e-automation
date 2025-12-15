@@ -130,19 +130,19 @@ Enter Second Name for Other Prayer
     Mobile.Wait Until Element Is Visible    ${Enter_Name}    10s
     Mobile.Click Element    ${Enter_Name}
     Mobile.Input Text    ${Enter_Name}   ${E2E_PRAYER_OTHER_NAME}
-    Mobile.Hide Keyboard      
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     
 Enter Full Address for Other Prayer
     Mobile.Wait Until Element Is Visible    ${Enter_Address}    10s
     Mobile.Click Element    ${Enter_Address}
     Mobile.Input Text    ${Enter_Address}    ${E2E_PRAYER_OTHER_FULL_ADDRESS}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
 
 Enter Generated Name for Prayer
     Mobile.Wait Until Element Is Visible    ${Enter_Name}    10s
     Mobile.Click Element    ${Enter_Name}
     Mobile.Input Text    ${Enter_Name}      ${E2E_PRAYER_APPLICANT_NAME_OTHER}
-    Mobile.Hide Keyboard    
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
 
 Enter Generated Second Name for Prayer
     [Documentation]    Enter person's name after scrolling with generated test data
@@ -164,7 +164,7 @@ Enter Generated Address for Prayer
     Mobile.Wait Until Element Is Visible    ${address_field}    10s
     Mobile.Click Element    ${address_field}
     Mobile.Input Text    ${address_field}    ${E2E_PRAYER_FULL_ADDRESS}
-    Mobile.Hide Keyboard
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
     Log To Console    ✅ Address entered: ${E2E_PRAYER_FULL_ADDRESS}
 
 Enter Generated Description for Prayer
