@@ -422,19 +422,33 @@ Revert App Language To English And Close
     [Documentation]    Teardown keyword for TC02 - Reverts language to English even if test fails
     Log To Console    🔄 TC02 Teardown: Reverting language to English...
 
-    # Check if app is still open by looking for any bottom tab
-    ${app_open}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile" or @content-desc="प्रोफ़ाइल"]    3s
+    # Always attempt to revert language - don't check if app is open first
+    # The app might be on a different screen, so Profile tab might not be visible
 
-    IF    ${app_open}
-        Log To Console    📱 App is open - reverting language to English
+    Sleep    2s
+    Log To Console    📱 Attempting to navigate to Profile and revert language...
 
-        # Click on Profile tab (works for both English and Hindi)
-        Run Keyword And Ignore Error    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="Profile"]
-        Run Keyword And Ignore Error    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="प्रोफ़ाइल"]
-        Sleep    2s
+    # Try clicking Profile tab (handles both English and Hindi)
+    ${profile_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="Profile"]
 
-        # Click on Language tab (works for both English and Hindi)
-        Run Keyword And Ignore Error    Click on the Language Tab
+    IF    not ${profile_clicked}
+        # Try Hindi Profile tab
+        ${profile_hindi_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="प्रोफ़ाइल"]
+
+        IF    not ${profile_hindi_clicked}
+            Log To Console    ⚠️ Could not find Profile tab - app may be closed or crashed
+            Log To Console    🔄 TC02 Teardown completed - Normal teardown will close app
+            RETURN
+        END
+    END
+
+    Sleep    3s
+    Log To Console    ✅ Profile tab clicked
+
+    # Click on Language tab (works for both English and Hindi)
+    ${lang_tab_clicked}=    Run Keyword And Return Status    Click on the Language Tab
+
+    IF    ${lang_tab_clicked}
         Sleep    2s
 
         # Select English
@@ -459,7 +473,7 @@ Revert App Language To English And Close
             Log To Console    ⚠️ Could not verify English - but attempted language revert
         END
     ELSE
-        Log To Console    ⚠️ App not open - skipping language revert
+        Log To Console    ⚠️ Could not access Language tab
     END
 
     Log To Console    🔄 TC02 Teardown completed - Normal teardown will close app    
