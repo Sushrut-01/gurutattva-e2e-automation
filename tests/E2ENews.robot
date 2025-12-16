@@ -245,9 +245,9 @@ Test Check Local News Filter Functionality
     Select Country in Filter    India
     Log To Console    ✅ Step 3: Selected India in Country dropdown
 
-    # --- Mobile App: Select State (Tamil Nadu) ---
-    Select State in Filter    Tamil Nadu
-    Log To Console    ✅ Step 4: Selected Tamil Nadu in State dropdown
+    # --- Mobile App: Select State (Tamilnadu) ---
+    Select State in Filter    Tamilnadu
+    Log To Console    ✅ Step 4: Selected Tamilnadu in State dropdown
 
     # --- Mobile App: Select District (Chennai) ---
     Select District in Filter    Chennai
