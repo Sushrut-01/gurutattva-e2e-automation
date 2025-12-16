@@ -416,7 +416,53 @@ Verify App Language Is English
         ELSE
             Log To Console    ⚠️ Could not verify language - Profile tab not found
         END
-    END    
+    END
+
+Revert App Language To English And Close
+    [Documentation]    Teardown keyword for TC02 - Reverts language to English even if test fails
+    Log To Console    🔄 TC02 Teardown: Reverting language to English...
+
+    # Check if app is still open by looking for any bottom tab
+    ${app_open}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile" or @content-desc="प्रोफ़ाइल"]    3s
+
+    IF    ${app_open}
+        Log To Console    📱 App is open - reverting language to English
+
+        # Click on Profile tab (works for both English and Hindi)
+        Run Keyword And Ignore Error    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="Profile"]
+        Run Keyword And Ignore Error    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="प्रोफ़ाइल"]
+        Sleep    2s
+
+        # Click on Language tab (works for both English and Hindi)
+        Run Keyword And Ignore Error    Click on the Language Tab
+        Sleep    2s
+
+        # Select English
+        Run Keyword And Ignore Error    Select English from the Language Selection
+        Sleep    5s
+
+        # Click Save
+        Run Keyword And Ignore Error    Click on the Save Button from Language Selection
+        Sleep    5s
+        Log To Console    ⏳ Waiting for language change to be saved...
+
+        # Click Back
+        Run Keyword And Ignore Error    Click on the Back Button from Profile Screen
+        Sleep    5s
+
+        # Verify language is English
+        ${english_verified}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile"]    5s
+
+        IF    ${english_verified}
+            Log To Console    ✅ Language successfully reverted to English
+        ELSE
+            Log To Console    ⚠️ Could not verify English - but attempted language revert
+        END
+    ELSE
+        Log To Console    ⚠️ App not open - skipping language revert
+    END
+
+    Log To Console    🔄 TC02 Teardown completed - Normal teardown will close app    
 
 
 Verify Privacy Policy Screen details is Displayed

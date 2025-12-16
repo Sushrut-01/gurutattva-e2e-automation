@@ -96,6 +96,7 @@ Verify that the user is able to add a English news, publish it in the CMS, and v
 
 Verify that the user is able to add a Hindi news, publish it in the CMS, and verify the hindi news details on the mobile app
     [Tags]    TC02    E2ENews    Gurutattva    E2E    Hindi
+    [Teardown]    Revert App Language To English And Close
     Generate E2E News Test Data For Hindi
     Open Web Browser
     Login in with valid credentials
@@ -135,22 +136,8 @@ Verify that the user is able to add a Hindi news, publish it in the CMS, and ver
     Log To Console    📱 Step 2: Verifying Hindi news in mobile app
     Verify Mobile Hindi News Details
 
-    # --- Reset Language to English ---
-    Log To Console    🔄 Resetting app language to English...
-    Click on the Profile Tab
-    Click on the Language Tab
-    Select English from the Language Selection
-    Click on the Save Button from Language Selection
-    Sleep    5s
-    Log To Console    ⏳ Waiting for language change to be saved...
-    Click on the Back Button from Profile Screen
-    Sleep    5s
-
-    # Verify language changed to English by checking for English UI
-    Log To Console    🔍 Verifying language is English...
-    Verify App Language Is English
-    Log To Console    ✅ Language reset to English successfully!
     Log To Console    🎉 E2E Hindi News Test Completed Successfully!
+    # Note: Language revert handled by [Teardown] - will run even if test fails
 
 Test Unpublish News from CMS and Verify in Mobile App
     [Tags]    TC04    E2ENews    Unpublish    E2E    milestone2
