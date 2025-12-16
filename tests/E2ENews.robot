@@ -318,33 +318,25 @@ Test Sanchalak Adds Local News And Super Admin Approves It
     
     Log To Console    ✅ Step 1 Completed: Sanchalak created local news: ${E2E_NEWS_TITLE_EN}
     Logout from the CMS
+
     # --- Step 2: Login as Super Admin/Acharya & approve that news ---
     Log To Console    🎯 Step 2: Login as Super Admin/Acharya & approve that news
-    
     Login in with valid credentials
-
+    Navigate To Local News In CMS
     Search News By Title In Local News    ${E2E_NEWS_TITLE_EN}
-    # Click on the news actions menu
+    Verify News In List    ${E2E_NEWS_TITLE_EN}
+    Verify the Review Status as Pending for Local News
     Click On News Actions Menu In Local News
-    
-    # Click on Edit option
     Click On Edit News Option In Local News
-    
-    # Click on Change Request button
     Click On Change Request Button
-    
-    # Enter remark for approval
     Enter Remark For Approval    good news
-    
-    # Click on Approve button
     Click On Approve Button
-    
-    # Verify news was approved successfully
     Verify News Approved Successfully
-    
+    Click on the News Menu
+    Navigate To Local News In CMS
+    Search News By Title In Local News    ${E2E_NEWS_TITLE_EN}
+    Verify the Review Status as Approved for Local News
     Log To Console    ✅ Step 2 Completed: Super Admin approved local news: ${E2E_NEWS_TITLE_EN}
-    
-    # Close web browser
     Close Web Browser
     
     # --- Step 3: Validate the approved news in the mobile app under local news section ---
