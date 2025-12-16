@@ -1123,59 +1123,59 @@ Click on the Filter Icon
 Select Country in Filter
     [Documentation]    Selects specified country in the Country dropdown
     [Arguments]    ${country_name}
-    Sleep    3s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select Country"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select Country"]
-    Sleep    3s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
-    Sleep    1s
     Mobile.Input Text    xpath=//android.widget.EditText    ${country_name}
-    Sleep    2s
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    3s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${country_name}"]    15s
-    Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${country_name}"]
-    Sleep    2s
-    Log To Console    ✅ Selected ${country_name} in Country dropdown
+
+    # Don't hide keyboard - try tapping the option while keyboard is visible
+    Log To Console    🔍 Trying to tap country option: ${country_name}
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${country_name}"]    10s
+    Mobile.Tap    xpath=//android.widget.Button[@content-desc="${country_name}"]
+    Sleep    3s
+    Log To Console    ✅ Tapped country option: ${country_name}
 
 Select State in Filter
     [Documentation]    Selects specified state in the State dropdown
     [Arguments]    ${state_name}
-    Sleep    3s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select State"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select State"]
-    Sleep    3s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
-    Sleep    1s
     Mobile.Input Text    xpath=//android.widget.EditText    ${state_name}
-    Sleep    2s
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    3s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    15s
-    Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${state_name}"]
-    Sleep    2s
-    Log To Console    ✅ Selected ${state_name} in State dropdown
+
+    # Don't hide keyboard - try tapping the option while keyboard is visible
+    Log To Console    🔍 Trying to tap state option: ${state_name}
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    10s
+    Mobile.Tap    xpath=//android.widget.Button[@content-desc="${state_name}"]
+    Sleep    3s
+    Log To Console    ✅ Tapped state option: ${state_name}
 
 Select District in Filter
     [Documentation]    Selects specified district in the District dropdown
     [Arguments]    ${district_name}
-    Sleep    3s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select District"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select District"]
-    Sleep    3s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
-    Sleep    1s
     Mobile.Input Text    xpath=//android.widget.EditText    ${district_name}
-    Sleep    2s
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    3s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    15s
-    Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${district_name}"]
-    Sleep    2s
-    Log To Console    ✅ Selected ${district_name} in District dropdown
+
+    # Don't hide keyboard - try tapping the option while keyboard is visible
+    Log To Console    🔍 Trying to tap district option: ${district_name}
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    10s
+    Mobile.Tap    xpath=//android.widget.Button[@content-desc="${district_name}"]
+    Sleep    3s
+    Log To Console    ✅ Tapped district option: ${district_name}
 
 Click Apply Filter Button
     [Documentation]    Clicks on the Apply button in the filter dialog
