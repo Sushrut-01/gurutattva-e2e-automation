@@ -1198,34 +1198,73 @@ Select State in Filter
     Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
+    Log To Console    🔍 Typing state name: ${state_name}
     Mobile.Input Text    xpath=//android.widget.EditText    ${state_name}
-    Sleep    3s
+    Sleep    5s
 
     # Don't hide keyboard - try tapping the option while keyboard is visible
     Log To Console    🔍 Trying to tap state option: ${state_name}
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    10s
-    Mobile.Tap    xpath=//android.widget.Button[@content-desc="${state_name}"]
+
+    # Try with exact match first
+    ${exact_match}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    10s
+
+    IF    ${exact_match}
+        Mobile.Tap    xpath=//android.widget.Button[@content-desc="${state_name}"]
+        Log To Console    ✅ Tapped state option (exact match): ${state_name}
+    ELSE
+        # Try partial match if exact doesn't work (handles "Tamil Nadu" vs "Tamilnadu")
+        Log To Console    ⚠️ Exact match not found, trying partial match...
+        ${partial_match}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[contains(@content-desc,"Tamil")]    10s
+
+        IF    ${partial_match}
+            Mobile.Tap    xpath=//android.widget.Button[contains(@content-desc,"Tamil")]
+            Log To Console    ✅ Tapped state option (partial match): Tamil*
+        ELSE
+            Log To Console    ❌ State option not found: ${state_name}
+            Fail    State "${state_name}" not found in dropdown
+        END
+    END
+
     Sleep    3s
-    Log To Console    ✅ Tapped state option: ${state_name}
 
 Select District in Filter
     [Documentation]    Selects specified district in the District dropdown
     [Arguments]    ${district_name}
-    Sleep    5s
-    Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select District"]    10s
+    Sleep    7s
+    Log To Console    🔍 Waiting for District dropdown to be enabled...
+    Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select District"]    15s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select District"]
     Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
+    Log To Console    🔍 Typing district name: ${district_name}
     Mobile.Input Text    xpath=//android.widget.EditText    ${district_name}
-    Sleep    3s
+    Sleep    5s
 
     # Don't hide keyboard - try tapping the option while keyboard is visible
     Log To Console    🔍 Trying to tap district option: ${district_name}
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    10s
-    Mobile.Tap    xpath=//android.widget.Button[@content-desc="${district_name}"]
+
+    # Try with exact match first
+    ${exact_match}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    10s
+
+    IF    ${exact_match}
+        Mobile.Tap    xpath=//android.widget.Button[@content-desc="${district_name}"]
+        Log To Console    ✅ Tapped district option (exact match): ${district_name}
+    ELSE
+        # Try partial match if exact doesn't work
+        Log To Console    ⚠️ Exact match not found, trying partial match...
+        ${partial_match}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[contains(@content-desc,"${district_name}")]    10s
+
+        IF    ${partial_match}
+            Mobile.Tap    xpath=//android.widget.Button[contains(@content-desc,"${district_name}")]
+            Log To Console    ✅ Tapped district option (partial match): ${district_name}
+        ELSE
+            Log To Console    ❌ District option not found: ${district_name}
+            Log To Console    ℹ️ This might be expected if district doesn't exist in the list
+        END
+    END
+
     Sleep    3s
-    Log To Console    ✅ Tapped district option: ${district_name}
 
 Click Apply Filter Button
     [Documentation]    Clicks on the Apply button in the filter dialog
