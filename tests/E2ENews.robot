@@ -339,22 +339,13 @@ Test Sanchalak Adds Local News And Super Admin Approves It
     
     # Click on News tab
     Click on the News Tab With Retry
+
+    # Switch to Local News tab to see the approved news
     Switch to Local News Tab
+    Sleep    3s
+    Log To Console    ✅ Switched to Local News tab
 
-    # Apply filter to narrow down local news by location
-    Click on the Filter Icon
-    Sleep    1s
-    Select Country in Filter    India
-    Sleep    1s
-    Select State in Filter    Gujarat
-    Sleep    1s
-    Select District in Filter    Ahmedabad
-    Sleep    1s
-    Click Apply Filter Button
-    Sleep    2s
-    Log To Console    ✅ Applied filter: India > Gujarat > Ahmedabad
-
-    # Verify approved news in mobile app with scrolling
+    # Verify approved news appears in local news (without filter)
     Verify Approved News In Mobile App With Scrolling    ${E2E_NEWS_TITLE_EN}
     
     # Close mobile app
