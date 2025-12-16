@@ -5,6 +5,7 @@ Resource    ../pages/NewsPage.robot
 Resource    ../pages/HomePage.robot
 Resource    ../pages/E2ENewsPage.robot
 Resource    ../pages/E2EHindiPage.robot
+Resource    ../pages/ProfilePage.robot
 Resource    ../pages/loginPage.robot
 Resource    ../pages/CRM_AudioPage.robot
 Resource    ../resources/web_keywords.robot
@@ -130,19 +131,26 @@ Verify that the user is able to add a Hindi news, publish it in the CMS, and ver
         Sleep    5s
     END
 
-    # Step 1: Change language to Hindi to view Hindi news
+    # --- Mobile App: Change Language to Hindi and Verify Hindi News Details ---
     Log To Console    📱 Step 1: Changing language to Hindi to view Hindi news
-    Change Language To Hindi
-    Wait For Language Change    5s
+    Click on the Profile Tab
+    Click on the Language Tab
+    Select Hindi from the Language Selection
+    Click on the Save Button from Language Selection
+    Click on the Back Button from Profile Screen
 
     # Step 2: Navigate to News and verify Hindi news details
     Log To Console    📱 Step 2: Verifying Hindi news in mobile app
     Verify Mobile Hindi News Details
 
-    # Step 3: Revert language back to English for other tests
-    Log To Console    📱 Step 3: Reverting language back to English
-    Run Keyword And Ignore Error    Revert Language To English
-    Run Keyword And Ignore Error    Wait For Language Change    5s
+    # --- Reset Language to English ---
+    Log To Console    🔄 Resetting app language to English...
+    Click on the Profile Tab
+    Click on the Language Tab
+    Select English from the Language Selection
+    Click on the Save Button from Language Selection
+    Click on the Back Button from Profile Screen
+    Log To Console    ✅ Language reset to English successfully!
 
     Close Gurutattva App
 
