@@ -16,7 +16,7 @@ Test Teardown    Test Teardown
 
 *** Test Cases ***
 Verify the image upload validation in CMS for Events
-    [Tags]    TC41    E2EEvents    Validation
+    [Tags]    TC41    E2EEvents    Validation    E2E
 
     # --- Web CMS: Test Image Upload Validation ---
     Open Web Browser
@@ -31,7 +31,7 @@ Verify the image upload validation in CMS for Events
     Close Web Browser
 
 Verify that user is not able to publish event when publish date is selected after the event dates
-    [Tags]    TC42    E2EEvents    PublishValidation
+    [Tags]    TC42    E2EEvents    PublishValidation    E2E
 
     # Generate unique test data for this test run
     Generate E2E Events Test Data For English
@@ -57,7 +57,7 @@ Verify that user is not able to publish event when publish date is selected afte
     Click Submit Button
     Verify Validation Message of Publish From Date      
 Verify that the user is able to add a English event, publish it in the CMS, and verify the english event details on the mobile app
-    [Tags]    TC39    E2EEvents   English
+    [Tags]    TC39    E2EEvents   English    E2E
     
     # Generate unique test data for this test run
     Generate E2E Events Test Data For English
@@ -102,7 +102,7 @@ Verify that the user is able to add a English event, publish it in the CMS, and 
     Close Gurutattva App
     
 Verify that the user is able to add a Hindi event, publish it in the CMS, and verify the hindi event details on the mobile app
-    [Tags]    TC40    E2EEvents    Hindi
+    [Tags]    TC40    E2EEvents    Hindi    E2E
 
     # Generate unique test data for this test run
     Generate E2E Events Test Data For Hindi
@@ -263,13 +263,25 @@ Test Unpublish Event from CMS and Verify in Mobile App
     Verify Events Publish Status    ${E2E_EVENTS_TITLE_EN}    Publish
     Log To Console    🎉 Events Created Successfully under Category: ${E2E_EVENT_CATEGORY_NAME}
     
-    # --- Web CMS: Unpublish the Event ---
+    # --- Web CMS: Unpublish the Event and Approve ---
     Click On Event Actions Menu
     Click On Edit Event Option
     Change Event Publish Status To Unpublish
     Click Submit Button
     Verify Event Unpublished Successfully
-    Log To Console    🎉 Event Unpublished Successfully: ${E2E_EVENTS_TITLE_EN}
+    Search Events By Title    ${E2E_EVENTS_TITLE_EN}
+    Verify Events In List    ${E2E_EVENTS_TITLE_EN}
+    Verify the Review Status as Pending for Global Events
+    Click on the Edit Button from Global Events
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Approve Button from Edit Request
+    Verify the Edit Event Request Approved Success Message
+    Click on the Events Menu
+    Navigate To Global Events In CMS
+    Search Events By Title    ${E2E_EVENTS_TITLE_EN}
+    Verify Events Publish Status    ${E2E_EVENTS_TITLE_EN}    Unpublish
+    Log To Console    🎉 Event Unpublish Request Approved - Status: Unpublish
     Close Web Browser
 
     # --- Mobile App: Verify Event is NOT visible ---
@@ -282,7 +294,7 @@ Test Unpublish Event from CMS and Verify in Mobile App
     Log To Console    🎉 E2E Event Unpublish Test Completed Successfully!
 
 Test Event Category Tab In Mobile App
-    [Tags]    TC45    E2EEvents    Mobile    Category    milestone2
+    [Tags]    TC45    E2EEvents    Mobile    Category    E2E    milestone2
     [Documentation]    In Mobile app, check for Category tab, it should list all the Event (Local+ global) of that category
     
     # --- Mobile App: Open app and navigate to Events ---
@@ -313,40 +325,97 @@ Test Event Category Tab In Mobile App
     Log To Console    🎉 E2E Event Category Tab Test Completed Successfully!
 
 Test Check Local Event Filter Functionality
-    [Tags]    TC46    E2EEvents    Mobile    Filter    milestone2
-    [Documentation]    Check Local Event Filter functionality with all dropdown in Mobile
-    
-    # --- Mobile App: Open app and navigate to Events ---
+    [Tags]    TC46    E2EEvents    Mobile    Filter    E2E    milestone2
+    [Documentation]    E2E test: Create Local Event in CMS with location (India/Gujarat/Ahmadabad), approve it, then verify Location filter in Mobile app
+
+    # Generate unique test data for this test run
+    Generate E2E Events Test Data For English
+
+    # --- Web CMS: Sanchalak Creates Local Event with Location ---
+    Open Web Browser
+    Login in with Sanchalak credentials
+    Navigate To Local Events In CMS
+    Click Add Events Button
+    Select English Language Tab
+    Select Location Radio Button for Event
+    Enter English Events Title    ${E2E_EVENTS_TITLE_EN}
+    Enter English Events Description    ${E2E_EVENTS_DESCRIPTION_EN}
+    Enter English Events Content    ${E2E_EVENTS_CONTENT_EN}
+    Select Event from Date
+    Select Event to Date
+    Enter Events Venue
+    Select Event Publish from Date
+    Select Event Publish to Date
+    Select Event Publish Status
+    Select Event Category
+    Select Event Country in CMS    India
+    Select Event State in CMS    Gujarat
+    Select Event District in CMS    Ahmedabad
+    Select Event Taluka in CMS    Ahmedabad City
+    Select Event Village in CMS    CG Road
+    Upload Event English Thumbnail Image
+    Upload Event English Image
+    Click Submit Button
+    Verify Events Created Successfully
+    Search Events By Title    ${E2E_EVENTS_TITLE_EN}
+    Verify Events In List    ${E2E_EVENTS_TITLE_EN}
+    Verify Events Publish Status    ${E2E_EVENTS_TITLE_EN}    Pending
+    Log To Console    🎉 Local Event Created - Status: Pending for Approval
+    Close Web Browser
+
+    # --- Web CMS: Admin Approves Local Event ---
+    Open Web Browser
+    Login in with valid credentials
+    Navigate To Local Events In CMS
+    Verify Events In List    ${E2E_EVENTS_TITLE_EN}
+    Verify the Review Status as Pending for Local Events
+    Click on the Edit Button from Local Events
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Approve Button from Edit Request
+    Verify the Edit Event Request Approved Success Message
+    Click on the Events Menu
+    Navigate To Local Events In CMS
+    Verify the Review Status as Approved for Local Events
+    Log To Console    🎉 Local Event Approved Successfully
+    Close Web Browser
+
+    # --- Mobile App: Test Location Filter ---
     Open Gurutattva App With Retry
     Handle First Time Setup With Retry
     Click on the Events Tab With Retry
-    
-    # --- Mobile App: Click on Local Events Tab ---
+
+    # Click on Local Events Tab
     Click on Local Events Tab
-    
-    # --- Mobile App: Click on Filter Icon ---
+
+    # Click on Filter Icon
     Click on the Event Filter Icon
-    
-    # --- Mobile App: Select Country (India) ---
+
+    # Select Location Radio Button (instead of default Dhyankendra)
+    Select Location Radio Button for Event Filter
+
+    # Select Location Filters
     Select Event Country in Filter    India
-    
-    # --- Mobile App: Select State (Gujarat) ---
     Select Event State in Filter    Gujarat
-    
-    # --- Mobile App: Select District (Ahmedabad) ---
-    Select Event District in Filter    Ahmadabad
-    
-    # --- Mobile App: Click Apply Filter Button ---
+    Select Event District in Filter    Ahmedabad
+
+    # Apply Filter
     Click Apply Event Filter Button
-    
-    # --- Mobile App: Verify Filter Results ---
+
+    # Verify Filter Results
     Verify Local Event Filter Results
-    
+
     Close Gurutattva App
+    Log To Console    🎉 E2E Local Event Filter Test Completed Successfully!
 
 Sanchalak adds local Event, once Acharya/Super Admin Approves it then only that Event is reflected in Mobile app uncer Local Event section.
-    [Tags]    TC76   E2EEvents    LocalEvent     milestone2
+    [Tags]    TC76   E2EEvents    LocalEvent    E2E    milestone2
+    [Documentation]    E2E test: Sanchalak creates Local Event with specific Dhyankendra location, Admin approves it, verify in Mobile with location details
+
+    # Generate test data
     Generate E2E Events Test Data For English
+
+    # --- Web CMS: Sanchalak Creates Local Event ---
     Open Web Browser
     Login in with Sanchalak credentials
     Navigate To Local Events In CMS
@@ -362,7 +431,9 @@ Sanchalak adds local Event, once Acharya/Super Admin Approves it then only that 
     Select Event Publish to Date
     Select Event Publish Status
     Select Event Category
-    Select Event Dhyankendra
+    # Select any Dhyankendra from dropdown (first option) and capture its name
+    ${dhyankendra_name}=    Select Event Dhyankendra
+    Set Test Variable    ${dhyankendra_name}
     Upload Event English Thumbnail Image
     Upload Event English Image
     Click Submit Button
@@ -370,10 +441,14 @@ Sanchalak adds local Event, once Acharya/Super Admin Approves it then only that 
     Search Events By Title    ${E2E_EVENTS_TITLE_EN}
     Verify Events In List    ${E2E_EVENTS_TITLE_EN}
     Verify Events Publish Status    ${E2E_EVENTS_TITLE_EN}    Pending
+    Log To Console    🎉 Local Event Created with Dhyankendra: ${dhyankendra_name}
     Close Web Browser
+
+    # --- Web CMS: Admin Approves Local Event ---
     Open Web Browser
     Login in with valid credentials
     Navigate To Local Events In CMS
+    Search Events By Title    ${E2E_EVENTS_TITLE_EN}
     Verify Events In List    ${E2E_EVENTS_TITLE_EN}
     Verify the Review Status as Pending for Local Events
     Click on the Edit Button from Local Events
@@ -381,18 +456,48 @@ Sanchalak adds local Event, once Acharya/Super Admin Approves it then only that 
     Enter Remark for Edit Request
     Click on the Approve Button from Edit Request
     Verify the Edit Event Request Approved Success Message
-    Click on the Prayer Menu
+    Click on the Events Menu
     Navigate To Local Events In CMS
+    Search Events By Title    ${E2E_EVENTS_TITLE_EN}
     Verify the Review Status as Approved for Local Events
+    Log To Console    🎉 Local Event Approved Successfully
+
+    # --- Web CMS: Get Dhyankendra Location Details ---
+    Navigate To Dhyankendra Management
+    Search Dhyankendra By Name    ${dhyankendra_name}
+    ${country}    ${state}    ${district}=    Get Dhyankendra Location Details From Table    ${dhyankendra_name}
+    Set Test Variable    ${country}
+    Set Test Variable    ${state}
+    Set Test Variable    ${district}
+    Log To Console    🎉 Dhyankendra Location Details Retrieved
     Close Web Browser
+
+    # --- Mobile App: Verify Approved Event in Local Events ---
     Open Gurutattva App
     Handle First Time Setup
     Click on the Events Tab
-    Validate the approved event in the mobile app under local Events section    ${E2E_EVENTS_TITLE_EN}
+    # Click on Local Events Tab
+    Click on Local Events Tab
+    Sleep    5s
+
+    # Apply location filter with dhyankendra location details
+    Log To Console    🔍 Applying location filter: ${country}/${state}/${district}
+    Click on the Event Filter Icon
+    Select Event Country in Filter    ${country}
+    Select Event State in Filter    ${state}
+    Select Event District in Filter    ${district}
+    Click Apply Event Filter Button
+
+    # Verify the event is visible after filter
+    Log To Console    🔍 Verifying event: ${E2E_EVENTS_TITLE_EN}
+    # Verify event card exists
+    Mobile.Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_EVENTS_TITLE_EN}')]    10s
+    Log To Console    ✅ Event found in Local Events section: ${E2E_EVENTS_TITLE_EN}
     Close Gurutattva App
+    Log To Console    🎉 TC76 Completed Successfully!
 
 Sanchalak adds local event and Acharya/Super Admin Rejects that event.
-    [Tags]    TC77   E2EEvents    LocalEvent    milestone2
+    [Tags]    TC77   E2EEvents    LocalEvent    E2E    milestone2
     Generate E2E Events Test Data For English
     Open Web Browser
     Login in with Sanchalak credentials
@@ -420,6 +525,7 @@ Sanchalak adds local event and Acharya/Super Admin Rejects that event.
     Open Web Browser
     Login in with valid credentials
     Navigate To Local Events In CMS
+    Search Events By Title    ${E2E_EVENTS_TITLE_EN}
     Verify Events In List    ${E2E_EVENTS_TITLE_EN}
     Verify the Review Status as Pending for Local Events
     Click on the Edit Button from Local Events
@@ -427,8 +533,9 @@ Sanchalak adds local event and Acharya/Super Admin Rejects that event.
     Enter Remark for Edit Request
     Click on the Reject Button from Edit Request
     # Verify the Edit Event Request Approved Success Message
-    Click on the Prayer Menu
+    Click on the Events Menu
     Navigate To Local Events In CMS
+    Search Events By Title    ${E2E_EVENTS_TITLE_EN}
     Verify the Review Status as Rejected for Local Events
     Close Web Browser
     Open Gurutattva App

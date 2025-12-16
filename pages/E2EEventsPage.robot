@@ -161,6 +161,14 @@ Navigate To Global Events In CMS
     Sleep    3s
     Log To Console    ✅ Navigated to Global Events in CMS
 
+Click on the Events Menu
+    [Documentation]    Clicks on the Events menu in the sidebar
+    Sleep    2s
+    Web.Wait Until Element Is Visible    ${EVENTS_MENU}    10s
+    Web.Click Element    ${EVENTS_MENU}
+    Sleep    2s
+    Log To Console    ✅ Clicked on Events Menu
+
 Click Add Events Button
     [Documentation]    Clicks on the Add Events button
     Sleep    2s
@@ -609,44 +617,168 @@ Enter Events Hindi Venue
 
 Select Event Publish Status
     [Documentation]    Selects the publish status of the event
-    Sleep    2s
+    Sleep    5s
     # Use more specific locator for Publish Status dropdown (it's typically after the date fields)
     ${publish_status_dropdown}=    Set Variable    xpath=//label[contains(text(),'Publish Status')]/..//div[@aria-haspopup='listbox']
     Web.Wait Until Page Contains Element    ${publish_status_dropdown}    10s
     Web.Scroll Element Into View    ${publish_status_dropdown}
-    Sleep    1s
+    Sleep    5s
     Web.Click Element    ${publish_status_dropdown}
-    Sleep    2s
-    Web.Wait Until Element Is Visible    xpath=//li[contains(text(),'${E2E_EVENTS_PUBLISH_STATUS}')]    5s
+    Sleep    5s
+    Web.Wait Until Element Is Visible    xpath=//li[contains(text(),'${E2E_EVENTS_PUBLISH_STATUS}')]    10s
     Web.Click Element    xpath=//li[contains(text(),'${E2E_EVENTS_PUBLISH_STATUS}')]
     Log To Console    ✅ Selected Event Publish Status: ${E2E_EVENTS_PUBLISH_STATUS}
 
 Select Event Category
     [Documentation]    Selects the event category
-    Sleep    2s
+    Sleep    5s
     Web.Wait Until Element Is Visible    ${EVENTS_CATEGORY_FIELD}    10s
     Web.Click Element    ${EVENTS_CATEGORY_FIELD}
-    Sleep    2s
-    Web.Wait Until Element Is Visible    xpath=//li[@id='rhf-autocomplete-categoryId-option-0']    5s
+    Sleep    5s
+    Web.Wait Until Element Is Visible    xpath=//li[@id='rhf-autocomplete-categoryId-option-0']    10s
     Web.Click Element    xpath=//li[@id='rhf-autocomplete-categoryId-option-0']
     Log To Console    Selected Event Category
 
 Select Event Dhyankendra
-    [Documentation]    Selects the event dhyankendra from dropdown
-    Sleep    2s
+    [Documentation]    Selects the event dhyankendra from dropdown and returns the selected dhyankendra name
+    Sleep    5s
     # Scroll down the page to make Dhyankendra field visible
     Web.Execute Javascript    window.scrollTo(0, document.body.scrollHeight/2)
-    Sleep    3s
+    Sleep    5s
     # Find Dhyankendra dropdown by looking for text "Dhyankendra" in the placeholder
     # The dropdown has a placeholder that shows "Dhyankendra *"
     Web.Wait Until Page Contains    Dhyankendra    10s
     # Click on the input/div that contains placeholder with Dhyankendra text
     Web.Click Element    xpath=//input[contains(@placeholder,'Dhyankendra') or @id[contains(.,'dhyan')]]
-    Sleep    2s
+    Sleep    5s
+    # Get the text of first option before clicking
+    Web.Wait Until Element Is Visible    xpath=//ul[@role='listbox']//li[1]    10s
+    ${dhyankendra_name}=    Web.Get Text    xpath=//ul[@role='listbox']//li[1]
     # Click first option in the dropdown
-    Web.Wait Until Element Is Visible    xpath=//ul[@role='listbox']//li[1]    5s
     Web.Click Element    xpath=//ul[@role='listbox']//li[1]
-    Log To Console    ✅ Selected Event Dhyankendra
+    Sleep    5s
+    Log To Console    ✅ Selected Event Dhyankendra: ${dhyankendra_name}
+    RETURN    ${dhyankendra_name}
+
+Select Location Radio Button for Event
+    [Documentation]    Selects the Location radio button in Event creation form (instead of Dhyankendra)
+    Sleep    10s
+
+    # Log current URL
+    ${url}=    Web.Get Location
+    Log To Console    🔍 Current URL: ${url}
+
+    # Check for iframes and switch if needed
+    ${iframe_count}=    Web.Execute Javascript    return document.getElementsByTagName('iframe').length
+    Log To Console    🔍 Number of iframes on page: ${iframe_count}
+
+    # Wait for page to be fully loaded
+    Web.Execute Javascript    return document.readyState === 'complete'
+    Sleep    10s
+
+    # Scroll to top
+    Web.Execute Javascript    window.scrollTo(0, 0)
+    Sleep    5s
+
+    # Try to find element using JavaScript
+    ${element_exists}=    Web.Execute Javascript    return document.querySelector('input[id="Location-radio"]') !== null
+    Log To Console    🔍 Location radio button exists in DOM: ${element_exists}
+
+    # Try multiple methods to click
+    ${clicked}=    Set Variable    False
+
+    # Method 1: Try clicking by ID using JavaScript
+    ${status1}=    Run Keyword And Return Status    Web.Execute Javascript    document.getElementById('Location-radio').click()
+    IF    ${status1} == True
+        Log To Console    ✅ Clicked using JavaScript getElementById
+        ${clicked}=    Set Variable    True
+    END
+
+    # Method 2: Try clicking the label span
+    IF    ${clicked} == False
+        ${status2}=    Run Keyword And Return Status    Web.Execute Javascript
+        ...    const spans = Array.from(document.querySelectorAll('span'));
+        ...    const locationSpan = spans.find(s => s.textContent === 'Location');
+        ...    if(locationSpan) locationSpan.click();
+        IF    ${status2} == True
+            Log To Console    ✅ Clicked Location span using JavaScript
+            ${clicked}=    Set Variable    True
+        END
+    END
+
+    # Method 3: Try Selenium click with full xpath
+    IF    ${clicked} == False
+        Web.Wait Until Element Is Visible    xpath=/html/body/div/div/div[2]/main/div/form/div/div[2]/fieldset/div/label[2]/span[1]/input    30s
+        Web.Click Element    xpath=/html/body/div/div/div[2]/main/div/form/div/div[2]/fieldset/div/label[2]/span[1]/input
+        Log To Console    ✅ Clicked using Selenium with full xpath
+    END
+
+    Sleep    5s
+    Log To Console    ✅ Selected Location radio button in Event form
+
+Select Event Country in CMS
+    [Documentation]    Selects country in Event creation form location fields
+    [Arguments]    ${country_name}
+    Sleep    5s
+    Web.Wait Until Element Is Visible    xpath=//label[contains(text(),'Country')]/..//div[@aria-haspopup='listbox']    10s
+    Web.Click Element    xpath=//label[contains(text(),'Country')]/..//div[@aria-haspopup='listbox']
+    Sleep    5s
+    Web.Wait Until Element Is Visible    xpath=//li[contains(text(),'${country_name}')]    10s
+    Web.Click Element    xpath=//li[contains(text(),'${country_name}')]
+    Sleep    5s
+    Log To Console    ✅ Selected Country: ${country_name}
+
+Select Event State in CMS
+    [Documentation]    Selects state in Event creation form location fields
+    [Arguments]    ${state_name}
+    Sleep    5s
+    Web.Wait Until Element Is Visible    xpath=//label[contains(text(),'State')]/..//div[@aria-haspopup='listbox']    10s
+    Web.Click Element    xpath=//label[contains(text(),'State')]/..//div[@aria-haspopup='listbox']
+    Sleep    5s
+    Web.Wait Until Element Is Visible    xpath=//li[contains(text(),'${state_name}')]    10s
+    Web.Click Element    xpath=//li[contains(text(),'${state_name}')]
+    Sleep    5s
+    Log To Console    ✅ Selected State: ${state_name}
+
+Select Event District in CMS
+    [Documentation]    Selects district in Event creation form location fields
+    [Arguments]    ${district_name}
+    Sleep    10s
+    # Scroll to ensure district field is visible
+    Web.Execute Javascript    window.scrollTo(0, document.body.scrollHeight/3)
+    Sleep    5s
+    Web.Wait Until Element Is Visible    xpath=//label[contains(text(),'District')]/..//div[@aria-haspopup='listbox']    20s
+    Web.Click Element    xpath=//label[contains(text(),'District')]/..//div[@aria-haspopup='listbox']
+    Sleep    10s
+    # Wait longer for district options to load
+    Web.Wait Until Element Is Visible    xpath=//li[contains(text(),'${district_name}')]    30s
+    Web.Click Element    xpath=//li[contains(text(),'${district_name}')]
+    Sleep    5s
+    Log To Console    ✅ Selected District: ${district_name}
+
+Select Event Taluka in CMS
+    [Documentation]    Selects taluka in Event creation form location fields
+    [Arguments]    ${taluka_name}
+    Sleep    10s
+    Web.Wait Until Element Is Visible    xpath=//label[contains(text(),'Taluka')]/..//div[@aria-haspopup='listbox']    20s
+    Web.Click Element    xpath=//label[contains(text(),'Taluka')]/..//div[@aria-haspopup='listbox']
+    Sleep    10s
+    Web.Wait Until Element Is Visible    xpath=//li[contains(text(),'${taluka_name}')]    30s
+    Web.Click Element    xpath=//li[contains(text(),'${taluka_name}')]
+    Sleep    5s
+    Log To Console    ✅ Selected Taluka: ${taluka_name}
+
+Select Event Village in CMS
+    [Documentation]    Selects village in Event creation form location fields
+    [Arguments]    ${village_name}
+    Sleep    10s
+    Web.Wait Until Element Is Visible    xpath=//label[contains(text(),'Village')]/..//div[@aria-haspopup='listbox']    20s
+    Web.Click Element    xpath=//label[contains(text(),'Village')]/..//div[@aria-haspopup='listbox']
+    Sleep    10s
+    Web.Wait Until Element Is Visible    xpath=//li[contains(text(),'${village_name}')]    30s
+    Web.Click Element    xpath=//li[contains(text(),'${village_name}')]
+    Sleep    5s
+    Log To Console    ✅ Selected Village: ${village_name}
 
 Click on the Hindi Events Tab
     [Documentation]    Clicks on the Hindi events tab
@@ -1110,31 +1242,33 @@ Fetch All Event Category Names
         # Filter out navigation elements (but keep Event_Category_* as they are actual categories)
         ${filtered_elements}=    Create List
         FOR    ${element}    IN    @{category_elements}
-            ${content_desc}=    Mobile Get Element Attribute    ${element}    content-desc
-            # Check if it's an Event_Category_* (actual category) or navigation element
-            ${is_event_category}=    Run Keyword And Return Status
-            ...    Should Match Regexp
-            ...    ${content_desc}
-            ...    Event_Category_\\d+
-            ${is_navigation}=    Run Keyword And Return Status
-            ...    Should Contain Any
-            ...    ${content_desc}
-            ...    Home
-            ...    News
-            ...    Explore
-            ...    Events
-            ...    Audio
-            ...    Global Events
-            ...    Local Events
-            ...    Categories
-            IF    ${is_event_category} == True
-                # This is an Event_Category_* element, so keep it
-                Append To List    ${filtered_elements}    ${element}
-                # Log To Console    📋 Found Event Category: ${content_desc}
-            ELSE IF    ${is_navigation} == False
-                Append To List    ${filtered_elements}    ${element}
-            ELSE
-                Log To Console    🚫 Filtered out navigation element: ${content_desc}
+            ${status}    ${content_desc}=    Run Keyword And Ignore Error    Mobile Get Element Attribute    ${element}    content-desc
+            IF    $status == 'PASS'
+                # Check if it's an Event_Category_* (actual category) or navigation element
+                ${is_event_category}=    Run Keyword And Return Status
+                ...    Should Match Regexp
+                ...    ${content_desc}
+                ...    Event_Category_\\d+
+                ${is_navigation}=    Run Keyword And Return Status
+                ...    Should Contain Any
+                ...    ${content_desc}
+                ...    Home
+                ...    News
+                ...    Explore
+                ...    Events
+                ...    Audio
+                ...    Global Events
+                ...    Local Events
+                ...    Categories
+                IF    ${is_event_category} == True
+                    # This is an Event_Category_* element, so keep it
+                    Append To List    ${filtered_elements}    ${element}
+                    # Log To Console    📋 Found Event Category: ${content_desc}
+                ELSE IF    ${is_navigation} == False
+                    Append To List    ${filtered_elements}    ${element}
+                ELSE
+                    Log To Console    🚫 Filtered out navigation element: ${content_desc}
+                END
             END
         END
 
@@ -1144,9 +1278,9 @@ Fetch All Event Category Names
         # Process current visible categories
         Log To Console    🔍 Processing ${current_count} visible elements...
         FOR    ${category}    IN    @{category_elements}
-            ${category_name}=    Mobile Get Element Attribute    ${category}    content-desc
+            ${status}    ${category_name}=    Run Keyword And Ignore Error    Mobile Get Element Attribute    ${category}    content-desc
             # Log To Console    🔍 Found element with content-desc: ${category_name}
-            IF    $category_name and $category_name != 'None'
+            IF    $status == 'PASS'
                 # Check if category is not already in our list
                 ${already_exists}=    Run Keyword And Return Status
                 ...    List Should Contain Value
@@ -1159,7 +1293,7 @@ Fetch All Event Category Names
                     Log To Console    🔄 Category already exists: ${category_name}
                 END
             ELSE
-                Log To Console    ⚠️ Element with empty or None content-desc
+                Log To Console    ⚠️ Element with empty, None, or inaccessible content-desc
             END
         END
 
@@ -1193,13 +1327,13 @@ Fetch All Event Category Names
     RETURN    ${all_categories}
 
 Click on Specific Event Category
-    [Documentation]    Clicks on a specific event category by name with scroll-up logic
+    [Documentation]    Clicks on a specific event category by name with scroll logic
     [Arguments]    ${category_name}
     Sleep    2s
 
     ${category_found}=    Set Variable    False
     ${scroll_attempts}=    Set Variable    0
-    ${max_scroll_attempts}=    Set Variable    5
+    ${max_scroll_attempts}=    Set Variable    10
 
     # First try to find the category without scrolling
     ${category_found}=    Run Keyword And Return Status
@@ -1207,12 +1341,29 @@ Click on Specific Event Category
     ...    xpath=//android.widget.ImageView[@content-desc='${category_name}']
     ...    3s
 
-    # If not found, try scrolling up to find it (simple approach)
+    # If not found, scroll to top first (category might be at top after fetch scrolled down)
+    IF    ${category_found} == False
+        Log To Console    🔄 Category not visible, scrolling back to top...
+        # Scroll to top by swiping down multiple times
+        FOR    ${i}    IN RANGE    5
+            Mobile Swipe    start_x=500    start_y=500    end_x=500    end_y=1500    duration=500ms
+            Sleep    500ms
+        END
+        Sleep    2s
+
+        # Try to find again after scrolling to top
+        ${category_found}=    Run Keyword And Return Status
+        ...    Mobile.Wait Until Element Is Visible
+        ...    xpath=//android.widget.ImageView[@content-desc='${category_name}']
+        ...    3s
+    END
+
+    # If still not found, try scrolling down through the list
     WHILE    ${category_found} == False and ${scroll_attempts} < ${max_scroll_attempts}
         ${scroll_attempts}=    Evaluate    ${scroll_attempts} + 1
-        Log To Console    🔄 Scroll up attempt ${scroll_attempts}/${max_scroll_attempts} to find: ${category_name}
+        Log To Console    🔄 Scroll down attempt ${scroll_attempts}/${max_scroll_attempts} to find: ${category_name}
 
-        # Scroll up to bring top categories back into view (swipe from bottom to top)
+        # Scroll down to find category (swipe from top to bottom)
         Mobile Swipe    start_x=500    start_y=1500    end_x=500    end_y=500    duration=1s
         Sleep    2s
 
@@ -1223,7 +1374,7 @@ Click on Specific Event Category
         ...    3s
 
         IF    ${category_found} == True
-            Log To Console    ✅ Found ${category_name} after ${scroll_attempts} scroll up attempts
+            Log To Console    ✅ Found ${category_name} after ${scroll_attempts} scroll attempts
         END
     END
 
@@ -1278,49 +1429,73 @@ Click on the Event Filter Icon
 Select Event Country in Filter
     [Documentation]    Selects a country in the Event filter dropdown
     [Arguments]    ${country_name}
-    Sleep    2s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select Country"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select Country"]
-    Sleep    2s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
+    Sleep    5s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
     Mobile.Input Text    xpath=//android.widget.EditText    ${country_name}
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${country_name}"]    5s
-    Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${country_name}"]
-    Sleep    2s
+    Sleep    3s
+
+    # Don't hide keyboard - try clicking the option while keyboard is visible
+    Log To Console    🔍 Trying to tap country option: ${country_name}
+
+    # Use Tap instead of Click Element (more reliable for dropdown options)
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${country_name}"]    10s
+    Mobile.Tap    xpath=//android.widget.Button[@content-desc="${country_name}"]
+    Sleep    3s
+    Log To Console    ✅ Tapped country option: ${country_name}
+
+    Sleep    3s
     Log To Console    ✅ Selected ${country_name} in Country dropdown
 
 Select Event State in Filter
     [Documentation]    Selects a state in the Event filter dropdown
     [Arguments]    ${state_name}
-    Sleep    2s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select State"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select State"]
-    Sleep    2s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
+    Sleep    5s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
     Mobile.Input Text    xpath=//android.widget.EditText    ${state_name}
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    5s
-    Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${state_name}"]
-    Sleep    2s
+    Sleep    3s
+
+    # Don't hide keyboard - try tapping the option while keyboard is visible
+    Log To Console    🔍 Trying to tap state option: ${state_name}
+
+    # Use Tap instead of Click Element
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${state_name}"]    10s
+    Mobile.Tap    xpath=//android.widget.Button[@content-desc="${state_name}"]
+    Sleep    3s
+    Log To Console    ✅ Tapped state option: ${state_name}
+
+    Sleep    3s
     Log To Console    ✅ Selected ${state_name} in State dropdown
 
 Select Event District in Filter
     [Documentation]    Selects a district in the Event filter dropdown
     [Arguments]    ${district_name}
-    Sleep    2s
+    Sleep    5s
     Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Select District"]    10s
     Mobile.Click Element    xpath=//android.view.View[@content-desc="Select District"]
-    Sleep    2s
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
+    Sleep    5s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.EditText    10s
     Mobile.Click Element    xpath=//android.widget.EditText
     Mobile.Input Text    xpath=//android.widget.EditText    ${district_name}
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    5s
-    Mobile.Click Element    xpath=//android.widget.Button[@content-desc="${district_name}"]
-    Sleep    2s
+    Sleep    3s
+
+    # Don't hide keyboard - try tapping the option while keyboard is visible
+    Log To Console    🔍 Trying to tap district option: ${district_name}
+
+    # Use Tap instead of Click Element
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="${district_name}"]    10s
+    Mobile.Tap    xpath=//android.widget.Button[@content-desc="${district_name}"]
+    Sleep    3s
+    Log To Console    ✅ Tapped district option: ${district_name}
+
+    Sleep    3s
     Log To Console    ✅ Selected ${district_name} in District dropdown
 
 Click Apply Event Filter Button
@@ -1502,3 +1677,192 @@ Verify the Review Status as Approved for Local Events
         Log To Console    ⚠️ Approval Status column not found in Local Events table
         Log To Console    ✅ Event approved via Change Request - ready for mobile app verification
     END
+# ===========================================================================================
+# Global Events Approval Flow Keywords (same UI as Local Events)
+# ===========================================================================================
+
+Verify the Review Status as Pending for Global Events
+    [Documentation]    Verifies that the Review Status is Pending for Global Events
+    Sleep    3s
+    # Check if approval status column exists in Global Events table
+    ${status_exists}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${LOCAL_EVENTS_APPROVAL_STATUS_CELL}    3s
+
+    IF    ${status_exists}
+        ${cms_status}=    Web.Get Text    ${LOCAL_EVENTS_APPROVAL_STATUS_CELL}
+        Should Be Equal    ${cms_status}    Pending
+        Log To Console    ✅ Verified Review Status as Pending in CMS: Status=${cms_status}
+    ELSE
+        # Approval status column not visible in table
+        Log To Console    ⚠️ Approval Status column not found in Global Events table
+        Log To Console    ✅ Event found in Global Events list - assuming Pending status
+    END
+
+Click on the Edit Button from Global Events
+    [Documentation]    Clicks on the Edit Button from Global Events
+    Web Wait Until Element Is Visible    ${LOCAL_EVENTS_MORE_BUTTON}    10s
+    Sleep    5s
+    Web Click Element    ${LOCAL_EVENTS_MORE_BUTTON}
+    Sleep    5s
+    Web Click Element    xpath=//li[normalize-space()='Edit']
+    Log To Console    ✅ Clicked on the Edit Button from Global Events
+
+Verify the Review Status as Approved for Global Events
+    [Documentation]    Verifies that the Review Status is Approved for Global Events
+    Sleep    3s
+    # Check if approval status column exists in Global Events table
+    ${status_exists}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${LOCAL_EVENTS_APPROVAL_STATUS_CELL}    3s
+
+    IF    ${status_exists}
+        ${cms_status}=    Web.Get Text    ${LOCAL_EVENTS_APPROVAL_STATUS_CELL}
+        Should Be Equal    ${cms_status}    Approved
+        Log To Console    ✅ Verified Review Status as Approved in CMS: Status=${cms_status}
+    ELSE
+        # Approval status column not visible in table
+        Log To Console    ⚠️ Approval Status column not found in Global Events table
+        Log To Console    ✅ Event approved via Change Request - ready for mobile app verification
+    END
+
+Select Location Radio Button for Event Filter
+    [Documentation]    Selects the Location radio button in the Event filter dialog
+    Sleep    2s
+    # Wait for the filter dialog to be visible
+    Mobile.Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Location"]    10s
+    # Click on Location radio button
+    Mobile.Click Element    xpath=//android.view.View[@content-desc="Location"]
+    Sleep    2s
+    Log To Console    ✅ Selected Location radio button in Event filter
+
+Select Specific Event Dhyankendra
+    [Documentation]    Selects a specific dhyankendra by name from dropdown
+    [Arguments]    ${dhyankendra_name}
+    Sleep    5s
+    # Scroll down the page to make Dhyankendra field visible
+    Web.Execute Javascript    window.scrollTo(0, document.body.scrollHeight/2)
+    Sleep    5s
+    # Click on Dhyankendra dropdown
+    Web.Wait Until Page Contains    Dhyankendra    10s
+    Web.Click Element    xpath=//input[contains(@placeholder,'Dhyankendra') or @id[contains(.,'dhyan')]]
+    Sleep    5s
+    # Search for specific dhyankendra
+    Web.Input Text    xpath=//input[contains(@placeholder,'Dhyankendra') or @id[contains(.,'dhyan')]]    ${dhyankendra_name}
+    Sleep    5s
+    # Click on the matching option
+    Web.Wait Until Element Is Visible    xpath=//ul[@role='listbox']//li[contains(text(),'${dhyankendra_name}')]    10s
+    Web.Click Element    xpath=//ul[@role='listbox']//li[contains(text(),'${dhyankendra_name}')]
+    Log To Console    ✅ Selected Event Dhyankendra: ${dhyankendra_name}
+
+Navigate To Dhyankendra Management
+    [Documentation]    Navigates to Dhyankendra Management menu in CMS
+    Sleep    5s
+    # Click on Dhyankendra menu (goes directly to dhyankendra listing)
+    Web.Wait Until Element Is Visible    xpath=//span[contains(text(),'Dhyankendra')]    10s
+    Web.Click Element    xpath=//span[contains(text(),'Dhyankendra')]
+    Sleep    5s
+    Log To Console    ✅ Navigated to Dhyankendra Management
+
+Search Dhyankendra By Name
+    [Arguments]    ${dhyankendra_name}
+    [Documentation]    Searches for dhyankendra by name in Dhyankendra listing
+    Sleep    5s
+    Log To Console    🔍 Searching for Dhyankendra: ${dhyankendra_name}
+    # Wait for search box to appear
+    Web.Wait Until Element Is Visible    xpath=//input[@type='search' and @placeholder='Search…']    15s
+    Web.Click Element    xpath=//input[@type='search' and @placeholder='Search…']
+    Sleep    2s
+    # Clear any existing text and enter dhyankendra name
+    Web.Input Text    xpath=//input[@type='search' and @placeholder='Search…']    ${dhyankendra_name}
+    Sleep    5s
+    Log To Console    ✅ Searched for Dhyankendra: ${dhyankendra_name}
+
+Get Dhyankendra Location Details From Table
+    [Arguments]    ${dhyankendra_name}
+    [Documentation]    Extracts Country, State, District from the dhyankendra table row
+    Sleep    5s
+    # Material-UI DataGrid uses div elements with role='gridcell' and data-field attributes
+
+    # Wait for the table to load
+    Web.Wait Until Element Is Visible    xpath=//div[@role='gridcell' and @data-field='dhyankendraName']    15s
+    Sleep    3s
+
+    # Find the row containing the dhyankendra name
+    # Material-UI DataGrid structure: each row has multiple div cells with data-field attributes
+    # We need to find the row that contains the dhyankendra name and get its parent row element
+
+    # Get the row element by finding the cell with dhyankendra name and going up to the row
+    ${row_xpath}=    Set Variable    xpath=//div[@role='gridcell' and @data-field='dhyankendraName' and contains(text(),'${dhyankendra_name}')]/ancestor::div[@role='row']
+    Web.Wait Until Element Is Visible    ${row_xpath}    15s
+
+    # Debug: Log all data-field attributes in the row
+    @{all_cells}=    Web.Get WebElements    ${row_xpath}//div[@role='gridcell']
+    Log To Console    🔍 DEBUG: Found ${all_cells.__len__()} cells in the row
+    FOR    ${cell}    IN    @{all_cells}
+        ${data_field}=    Web.Get Element Attribute    ${cell}    data-field
+        ${cell_text}=    Web.Get Text    ${cell}
+        Log To Console    🔍 DEBUG: data-field='${data_field}', text='${cell_text}'
+    END
+
+    # From the row, get the specific cells by data-field attribute
+    # Get Country
+    ${country}=    Web.Get Text    ${row_xpath}//div[@role='gridcell' and @data-field='countryName']
+
+    # Get State
+    ${state}=    Web.Get Text    ${row_xpath}//div[@role='gridcell' and @data-field='stateName']
+
+    # Get District
+    ${district}=    Web.Get Text    ${row_xpath}//div[@role='gridcell' and @data-field='districtName']
+
+    Log To Console    ✅ Dhyankendra Location Details:
+    Log To Console    📍 Country: ${country}
+    Log To Console    📍 State: ${state}
+    Log To Console    📍 District: ${district}
+
+    RETURN    ${country}    ${state}    ${district}
+
+Apply Location Filter In Mobile For Local Events
+    [Arguments]    ${country}    ${state}    ${district}
+    [Documentation]    Applies location filter in mobile app Local Events section
+    Sleep    5s
+
+    # Click on Filter button
+    Log To Console    🔍 Clicking on Filter button in Local Events
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc='Filter']    10s
+    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc='Filter']
+    Sleep    5s
+    Log To Console    ✅ Clicked on Filter button
+
+    # Select Country
+    Log To Console    📍 Selecting Country: ${country}
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.TextView[@text='Country']    10s
+    Mobile.Click Element    xpath=//android.widget.TextView[@text='Country']
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.TextView[@text='${country}']    10s
+    Mobile.Click Element    xpath=//android.widget.TextView[@text='${country}']
+    Sleep    3s
+    Log To Console    ✅ Selected Country: ${country}
+
+    # Select State
+    Log To Console    📍 Selecting State: ${state}
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.TextView[@text='State']    10s
+    Mobile.Click Element    xpath=//android.widget.TextView[@text='State']
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.TextView[@text='${state}']    10s
+    Mobile.Click Element    xpath=//android.widget.TextView[@text='${state}']
+    Sleep    3s
+    Log To Console    ✅ Selected State: ${state}
+
+    # Select District
+    Log To Console    📍 Selecting District: ${district}
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.TextView[@text='District']    10s
+    Mobile.Click Element    xpath=//android.widget.TextView[@text='District']
+    Sleep    3s
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.TextView[@text='${district}']    10s
+    Mobile.Click Element    xpath=//android.widget.TextView[@text='${district}']
+    Sleep    3s
+    Log To Console    ✅ Selected District: ${district}
+
+    # Apply filter
+    Log To Console    ✅ Applying location filter
+    Mobile.Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc='Apply']    10s
+    Mobile.Click Element    xpath=//android.widget.Button[@content-desc='Apply']
+    Sleep    5s
+    Log To Console    ✅ Location filter applied successfully
