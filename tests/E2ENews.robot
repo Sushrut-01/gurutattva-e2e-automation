@@ -83,11 +83,15 @@ Verify that the user is able to add a English news, publish it in the CMS, and v
     Search News By Title    ${E2E_NEWS_TITLE_EN}
     Verify News In List    ${E2E_NEWS_TITLE_EN}
     Verify News Publish Status    ${E2E_NEWS_TITLE_EN}    Publish
+    Log To Console    ✅ Global News created and published successfully
     Close Web Browser
+
     Open Gurutattva App
     Handle First Time Setup
+    Clear App Cache And Reopen
+    Handle First Time Setup
     Click on the News Tab
-    Verify Mobile News Details 
+    Verify Mobile News Details
     Close Gurutattva App
 
 Verify that the user is able to add a Hindi news, publish it in the CMS, and verify the hindi news details on the mobile app
@@ -111,25 +115,13 @@ Verify that the user is able to add a Hindi news, publish it in the CMS, and ver
     Search News By Title    ${E2E_NEWS_TITLE_HI}
     Verify News In List    ${E2E_NEWS_TITLE_HI}
     Verify News Publish Status    ${E2E_NEWS_TITLE_HI}    Publish
+    Log To Console    ✅ Global Hindi News created and published successfully
     Close Web Browser
+
     Open Gurutattva App
-
-    # Handle first time setup with error handling (app may restart)
-    TRY
-        Handle First Time Setup
-    EXCEPT
-        Log To Console    ⚠️ First time setup caused app restart - waiting for app to stabilize
-        Sleep    5s
-    END
-
-    # Verify app is responsive before proceeding
-    ${home_visible}=    Run Keyword And Return Status    Mobile.Wait Until Page Contains Element    xpath=//android.widget.ImageView[@content-desc="Home"]    10s
-    IF    ${home_visible}
-        Log To Console    ✅ App is ready for testing
-    ELSE
-        Log To Console    ⚠️ Home element not immediately visible, proceeding anyway...
-        Sleep    5s
-    END
+    Handle First Time Setup
+    Clear App Cache And Reopen
+    Handle First Time Setup
 
     # --- Mobile App: Change Language to Hindi and Verify Hindi News Details ---
     Log To Console    📱 Step 1: Changing language to Hindi to view Hindi news
@@ -150,9 +142,9 @@ Verify that the user is able to add a Hindi news, publish it in the CMS, and ver
     Select English from the Language Selection
     Click on the Save Button from Language Selection
     Click on the Back Button from Profile Screen
+    Sleep    3s
     Log To Console    ✅ Language reset to English successfully!
-
-    Close Gurutattva App
+    Log To Console    🎉 E2E Hindi News Test Completed Successfully!
 
 Test Unpublish News from CMS and Verify in Mobile App
     [Tags]    TC04    E2ENews    Unpublish    E2E    milestone2
