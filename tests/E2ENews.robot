@@ -258,7 +258,7 @@ Test Check Local News Filter Functionality
     Log To Console    ✅ Step 4: Selected Gujarat in State dropdown
     
     # --- Mobile App: Select District (Ahmedabad) ---
-    Select District in Filter    Ahmadabad
+    Select District in Filter    Ahmedabad
     Log To Console    ✅ Step 5: Selected Ahmedabad in District dropdown
     
     # --- Mobile App: Apply Filter ---
@@ -356,11 +356,11 @@ Test Sanchalak Adds Local News And Super Admin Approves It
     Sleep    1s
     Select State in Filter    Gujarat
     Sleep    1s
-    Select District in Filter    Ahmadabad
+    Select District in Filter    Ahmedabad
     Sleep    1s
     Click Apply Filter Button
     Sleep    2s
-    Log To Console    ✅ Applied filter: India > Gujarat > Ahmadabad
+    Log To Console    ✅ Applied filter: India > Gujarat > Ahmedabad
 
     # Verify approved news in mobile app with scrolling
     Verify Approved News In Mobile App With Scrolling    ${E2E_NEWS_TITLE_EN}
