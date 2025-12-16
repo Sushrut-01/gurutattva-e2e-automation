@@ -141,8 +141,14 @@ Verify that the user is able to add a Hindi news, publish it in the CMS, and ver
     Click on the Language Tab
     Select English from the Language Selection
     Click on the Save Button from Language Selection
+    Sleep    5s
+    Log To Console    ⏳ Waiting for language change to be saved...
     Click on the Back Button from Profile Screen
-    Sleep    3s
+    Sleep    5s
+
+    # Verify language changed to English by checking for English UI
+    Log To Console    🔍 Verifying language is English...
+    Verify App Language Is English
     Log To Console    ✅ Language reset to English successfully!
     Log To Console    🎉 E2E Hindi News Test Completed Successfully!
 

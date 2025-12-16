@@ -393,11 +393,30 @@ Reset Language To English
 
 Click on the Privacy Policy Tab
     Swipe Until Element Visible    ${DELETE & LOGOUT}
-    Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'Privacy Policy')]    
+    Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'Privacy Policy')]
 
 Click on the T&C Tab
     Swipe Until Element Visible    ${DELETE & LOGOUT}
-    Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'T&C')]    
+    Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'T&C')]
+
+Verify App Language Is English
+    [Documentation]    Verifies that the app language is set to English by checking for English UI elements
+    Sleep    2s
+    # Check if Profile tab is in English (not Hindi "प्रोफ़ाइल")
+    ${profile_english}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile"]    5s
+
+    IF    ${profile_english}
+        Log To Console    ✅ App is in English - Profile tab found
+    ELSE
+        # If Profile not found in English, check if it's in Hindi
+        ${profile_hindi}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="प्रोफ़ाइल"]    3s
+        IF    ${profile_hindi}
+            Log To Console    ❌ App is still in Hindi - Profile tab is "प्रोफ़ाइल"
+            Fail    Language did not change to English - app is still in Hindi
+        ELSE
+            Log To Console    ⚠️ Could not verify language - Profile tab not found
+        END
+    END    
 
 
 Verify Privacy Policy Screen details is Displayed
