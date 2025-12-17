@@ -419,62 +419,12 @@ Verify App Language Is English
     END
 
 Revert App Language To English And Close
-    [Documentation]    Teardown keyword for TC02 - Reverts language to English even if test fails
+    [Documentation]    Teardown keyword for TC02 - Uses E2EHindi proven pattern to revert language
     Log To Console    🔄 TC02 Teardown: Reverting language to English...
 
-    # Always attempt to revert language - don't check if app is open first
-    # The app might be on a different screen, so Profile tab might not be visible
-
-    Sleep    2s
-    Log To Console    📱 Attempting to navigate to Profile and revert language...
-
-    # Try clicking Profile tab (handles both English and Hindi)
-    ${profile_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="Profile"]
-
-    IF    not ${profile_clicked}
-        # Try Hindi Profile tab
-        ${profile_hindi_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="प्रोफ़ाइल"]
-
-        IF    not ${profile_hindi_clicked}
-            Log To Console    ⚠️ Could not find Profile tab - app may be closed or crashed
-            Log To Console    🔄 TC02 Teardown completed - Normal teardown will close app
-            RETURN
-        END
-    END
-
-    Sleep    3s
-    Log To Console    ✅ Profile tab clicked
-
-    # Click on Language tab (works for both English and Hindi)
-    ${lang_tab_clicked}=    Run Keyword And Return Status    Click on the Language Tab
-
-    IF    ${lang_tab_clicked}
-        Sleep    2s
-
-        # Select English
-        Run Keyword And Ignore Error    Select English from the Language Selection
-        Sleep    5s
-
-        # Click Save
-        Run Keyword And Ignore Error    Click on the Save Button from Language Selection
-        Sleep    5s
-        Log To Console    ⏳ Waiting for language change to be saved...
-
-        # Click Back
-        Run Keyword And Ignore Error    Click on the Back Button from Profile Screen
-        Sleep    5s
-
-        # Verify language is English
-        ${english_verified}=    Run Keyword And Return Status    Mobile.Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile"]    5s
-
-        IF    ${english_verified}
-            Log To Console    ✅ Language successfully reverted to English
-        ELSE
-            Log To Console    ⚠️ Could not verify English - but attempted language revert
-        END
-    ELSE
-        Log To Console    ⚠️ Could not access Language tab
-    END
+    # Use the same proven approach as E2EHindi module
+    Run Keyword And Ignore Error    Revert Language To English
+    Run Keyword And Ignore Error    Wait For Language Change    10s
 
     Log To Console    🔄 TC02 Teardown completed - Normal teardown will close app    
 
