@@ -419,13 +419,64 @@ Verify App Language Is English
     END
 
 Revert App Language To English And Close
-    [Documentation]    Teardown keyword for TC02 - Uses E2EHindi proven pattern to revert language
-    Log To Console    🔄 TC02 Teardown: Reverting language to English...
+    [Documentation]    Teardown keyword for TC02 - Force revert to English using explicit locators
+    Log To Console    🔄 TC02 Teardown: Force reverting language to English...
 
-    # Use the same proven approach as E2EHindi module
-    Run Keyword And Ignore Error    Revert Language To English
-    Run Keyword And Ignore Error    Wait For Language Change    10s
+    Sleep    3s
 
+    # First, click Home icon to ensure bottom navigation bar is visible
+    Log To Console    📱 Step 1: Clicking Home to make Profile tab visible
+    ${home_eng_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="Home"]
+    IF    not ${home_eng_clicked}
+        # Try Hindi Home icon
+        ${home_hin_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]
+        IF    not ${home_hin_clicked}
+            Log To Console    ⚠️ Could not find Home icon - continuing anyway
+        ELSE
+            Log To Console    ✅ Hindi Home icon clicked
+        END
+    ELSE
+        Log To Console    ✅ English Home icon clicked
+    END
+
+    Sleep    2s
+
+    # Now click Profile tab - try both English and Hindi content-desc
+    Log To Console    📱 Step 2: Clicking Profile tab
+    ${profile_eng_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="Profile"]
+    IF    not ${profile_eng_clicked}
+        ${profile_hin_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="प्रोफ़ाइल"]
+        IF    not ${profile_hin_clicked}
+            Log To Console    ⚠️ Could not find Profile tab - trying xpath position
+            Run Keyword And Ignore Error    Mobile.Click Element    ${PROFILE_TAB}
+        ELSE
+            Log To Console    ✅ Hindi Profile tab clicked
+        END
+    ELSE
+        Log To Console    ✅ English Profile tab clicked
+    END
+
+    Sleep    3s
+    Log To Console    📱 Step 3: Navigating to Language settings
+
+    # Click Language tab (handles both English and Hindi)
+    ${lang_clicked}=    Run Keyword And Ignore Error    Click on the Language Tab
+    Sleep    3s
+
+    # Select English (handles both English and Hindi labels)
+    ${english_selected}=    Run Keyword And Ignore Error    Select English from the Language Selection
+    Sleep    5s
+
+    # Click Save button (handles both English and Hindi)
+    ${saved}=    Run Keyword And Ignore Error    Click on the Save Button from Language Selection
+    Sleep    7s
+    Log To Console    ⏳ Waiting for language change to persist...
+
+    # Click Back button
+    ${back_clicked}=    Run Keyword And Ignore Error    Click on the Back Button from Profile Screen
+    Sleep    5s
+
+    Log To Console    ✅ Language revert sequence completed
     Log To Console    🔄 TC02 Teardown completed - Normal teardown will close app    
 
 
