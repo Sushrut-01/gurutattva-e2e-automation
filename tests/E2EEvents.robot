@@ -103,6 +103,7 @@ Verify that the user is able to add a English event, publish it in the CMS, and 
     
 Verify that the user is able to add a Hindi event, publish it in the CMS, and verify the hindi event details on the mobile app
     [Tags]    TC40    E2EEvents    Hindi    E2E
+    [Teardown]    Revert App Language To English And Close
 
     # Generate unique test data for this test run
     Generate E2E Events Test Data For Hindi
@@ -152,16 +153,8 @@ Verify that the user is able to add a Hindi event, publish it in the CMS, and ve
     Click on the Hindi Events Tab
     Verify Mobile Events Hindi Details    ${E2E_EVENTS_TITLE_HI}
     Log To Console    🎉 Hindi Events Verified Successfully!
-
-    # --- Reset Language to English ---
-    Log To Console    🔄 Resetting app language to English...
-    Click on the Profile Tab
-    Click on the Language Tab
-    Select English from the Language Selection
-    Click on the Save Button from Language Selection
-    Click on the Back Button from Profile Screen
-    Log To Console    ✅ Language reset to English successfully!
     Log To Console    🎉 E2E Hindi Events Test Completed Successfully!
+    # Note: Language revert handled by [Teardown] - will run even if test fails
 
 Test Add Event Category from CMS and Add Events under that Category
     [Tags]    TC43    E2EEvents    Category    E2E    milestone2
@@ -348,9 +341,16 @@ Test Check Local Event Filter Functionality
     Select Event Publish to Date
     Select Event Publish Status
     Select Event Category
-    Select Event Country in CMS    India
-    Select Event State in CMS    Gujarat
-    Select Event District in CMS    Ahmedabad
+    # Store location values for use in mobile filter
+    ${country}=    Set Variable    India
+    ${state}=    Set Variable    Gujarat
+    ${district}=    Set Variable    Ahmedabad
+    Set Test Variable    ${country}
+    Set Test Variable    ${state}
+    Set Test Variable    ${district}
+    Select Event Country in CMS    ${country}
+    Select Event State in CMS    ${state}
+    Select Event District in CMS    ${district}
     Select Event Taluka in CMS    Ahmedabad City
     Select Event Village in CMS    CG Road
     Upload Event English Thumbnail Image
@@ -360,7 +360,7 @@ Test Check Local Event Filter Functionality
     Search Events By Title    ${E2E_EVENTS_TITLE_EN}
     Verify Events In List    ${E2E_EVENTS_TITLE_EN}
     Verify Events Publish Status    ${E2E_EVENTS_TITLE_EN}    Pending
-    Log To Console    🎉 Local Event Created - Status: Pending for Approval
+    Log To Console    🎉 Local Event Created with Location: ${country}/${state}/${district}
     Close Web Browser
 
     # --- Web CMS: Admin Approves Local Event ---
@@ -391,13 +391,11 @@ Test Check Local Event Filter Functionality
     # Click on Filter Icon
     Click on the Event Filter Icon
 
-    # Select Location Radio Button (instead of default Dhyankendra)
-    Select Location Radio Button for Event Filter
-
-    # Select Location Filters
-    Select Event Country in Filter    India
-    Select Event State in Filter    Gujarat
-    Select Event District in Filter    Ahmedabad
+    # Select Location Filters (using captured CMS values)
+    Log To Console    🔍 Applying location filter: ${country}/${state}/${district}
+    Select Event Country in Filter    ${country}
+    Select Event State in Filter    ${state}
+    Select Event District in Filter    ${district}
 
     # Apply Filter
     Click Apply Event Filter Button
@@ -512,8 +510,9 @@ Sanchalak adds local event and Acharya/Super Admin Rejects that event.
     Enter Events Venue
     Select Event Publish from Date
     Select Event Publish to Date
-    Select Event Publish Status  
-    Select Event Category 
+    Select Event Publish Status
+    Select Event Category
+    Select Event Dhyankendra
     Upload Event English Thumbnail Image  
     Upload Event English Image
     Click Submit Button
