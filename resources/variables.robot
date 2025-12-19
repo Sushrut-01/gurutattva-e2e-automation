@@ -16,10 +16,10 @@ ${AUTO_GRANT_PERMISSIONS}           ${True}
 ${DONT_STOP_APP_ON_RESET}           ${True}
 
 # Timeout Capabilities (in milliseconds)
-${UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT}    30000
-${UIAUTOMATOR2_SERVER_INSTALL_TIMEOUT}   30000
-${ADB_EXEC_TIMEOUT}                      20000
-${NEW_COMMAND_TIMEOUT}                   300000
+${UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT}    60000
+${UIAUTOMATOR2_SERVER_INSTALL_TIMEOUT}   60000
+${ADB_EXEC_TIMEOUT}                      40000
+${NEW_COMMAND_TIMEOUT}                   600000
 
 # Additional Stability Flags
 ${APP_WAIT_DURATION}                10000

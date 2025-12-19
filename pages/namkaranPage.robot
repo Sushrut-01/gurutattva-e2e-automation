@@ -30,9 +30,9 @@ ${ADD_NAMKARAN_BUTTON}             xpath=(//android.widget.ImageView)[2]
 ${FNameInputField}                 xpath=(//android.widget.EditText)[1]
 ${MNameInputField}                 xpath=(//android.widget.EditText)[2]
 ${LNameInputField}                 xpath=(//android.widget.EditText)[3]
-${EmailInputField}                 xpath=(//android.widget.EditText)[4]
-${PhoneInputField}                 xpath=(//android.widget.EditText)[5]
-${MarriageInputfield}              xpath=//android.widget.EditText
+${EmailInputField}                 xpath=//android.view.View[contains(@content-desc,"Email") or contains(@content-desc,"email")]/following-sibling::android.widget.EditText[1]
+${PhoneInputField}                 xpath=//android.view.View[contains(@content-desc,"Phone") or contains(@content-desc,"phone") or contains(@content-desc,"Mobile")]/following-sibling::android.widget.EditText[1]
+${MarriageInputfield}              xpath=//android.view.View[contains(@content-desc,"Marriage Place")]/following-sibling::android.widget.EditText[1]
 ${AddressInputField}               xpath=//android.widget.EditText
 
 # Confirmation and Status Messages
@@ -119,9 +119,10 @@ ${THIRD_OWNER_FIRST_NAME}          xpath=//android.view.View[@content-desc="Thir
 ${THIRD_OWNER_MIDDLE_NAME}         xpath=//android.view.View[@content-desc="Third Owner Middle Name"]/following-sibling::android.widget.EditText[1]
 ${THIRD_OWNER_LAST_NAME}           xpath=//android.view.View[@content-desc="Third Owner Last Name"]/following-sibling::android.widget.EditText[1]
 ${OWNER_EMAIL}                     xpath=//android.view.View[@content-desc="Owner Email *"]/following-sibling::android.widget.EditText[1]
-${OWNER_PHONE}                     xpath=//android.view.View[@content-desc="Owner Phone Number *"]/following-sibling::android.widget.EditText[1]
+${OWNER_PHONE}                     xpath=//android.view.View[@content-desc="Owner Phone Number *"]/..//android.widget.EditText[2]
 ${BUSINESS_DESC}                   xpath=//android.view.View[@content-desc="Business Description *"]/following-sibling::android.widget.EditText[1]
 ${FULL_ADDRESS}                    xpath=//android.view.View[@content-desc="Business Full Address *"]/following-sibling::android.widget.EditText[1]
+${HOUSE_FULL_ADDRESS}              xpath=//android.view.View[contains(@content-desc,"House") and contains(@content-desc,"Address")]/following-sibling::android.widget.EditText[1]
 
 # Multiple Names Selection
 ${YES_MULTIPLE_NAMES}              xpath=//android.view.View[@content-desc="Yes"]
@@ -726,32 +727,26 @@ Select Single Number of child
     Log To Console    ✅ Selected single child option
 
 Select DOB
-    [Documentation]    Select child's date of birth for Child Namkaran
-    ...    Navigates backward 4 months to select August 15, 2025
-    ...    Ensures DOB is within the 5 month limit requirement
+    [Documentation]    Select child's DOB (4 months ago) using arrow navigation
     Log To Console    🔄 Scrolling to find DOB field...
     Scroll Until Element Visible    ${Select_DOB}
-    Log To Console    📅 Selecting DOB...
+    Log To Console    📅 Selecting DOB (4 months ago, day 15)...
     Mobile Wait Until Element Is Visible     ${Select_DOB}    10s
     Mobile Click Element     ${Select_DOB}
     Sleep    2s
-    # Select August 15, 2025 (4 months ago, within 5 month limit, not current date)
-    # Navigate backward to August
-    Mobile Click Element     xpath=//android.widget.Button[@content-desc="Previous month"]
-    Sleep    1s
-    Mobile Click Element     xpath=//android.widget.Button[@content-desc="Previous month"]
-    Sleep    1s
-    Mobile Click Element     xpath=//android.widget.Button[@content-desc="Previous month"]
-    Sleep    1s
-    Mobile Click Element     xpath=//android.widget.Button[@content-desc="Previous month"]
-    Sleep    1s
-    # Now at August 2025, select 15th
-    Mobile Wait Until Element Is Visible   xpath=//android.view.View[@content-desc="15 August 2025"]    10s
-    Mobile Click Element     xpath=//android.view.View[@content-desc="15 August 2025"]
+    # Navigate backward 4 months using left arrow button
+    FOR    ${i}    IN RANGE    4
+        Mobile Click Element    xpath=//android.widget.Button[1]
+        Sleep    1s
+    END
+    # Select day 15 from the current month view
+    Mobile Wait Until Element Is Visible   xpath=//android.view.View[contains(@content-desc,"15")]    10s
+    ${day_elements}=    Mobile Get Webelements    xpath=//android.view.View[contains(@content-desc,"15")]
+    Mobile Click Element    ${day_elements}[0]
     Sleep    1s
     Mobile Click Element     ${SelectOK}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Log To Console    ✅ Selected DOB: August 15, 2025
+    Log To Console    ✅ Selected DOB: 4 months ago, day 15
 
 Select Gender
     [Documentation]    Select child's gender for Child Namkaran
@@ -1051,9 +1046,9 @@ Enter Owner house full Address
     ...    @param ADDRESS: Full address to enter (default: DefaultHouseAddress)
     [Arguments]    ${ADDRESS}=DefaultHouseAddress
     Log To Console    🔄 Entering owner house address...
-    Mobile Wait Until Element Is Visible   ${AddressInputField}    10s
-    Mobile Click Element    ${AddressInputField}
-    Mobile Input Text    ${AddressInputField}    ${ADDRESS}
+    Mobile Wait Until Element Is Visible   ${HOUSE_FULL_ADDRESS}    10s
+    Mobile Click Element    ${HOUSE_FULL_ADDRESS}
+    Mobile Input Text    ${HOUSE_FULL_ADDRESS}    ${ADDRESS}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered owner house address: ${ADDRESS}
 
@@ -1133,9 +1128,9 @@ Click on the Submit Button
     Log To Console    ✅ Clicked Submit button successfully
     Sleep    3s
 
-    # Scroll to top to see any error messages
-    Log To Console    ⬆️ Scrolling to top to check for messages...
-    FOR    ${i}    IN RANGE    5
+    # Scroll up slightly to show contact fields area for screenshot
+    Log To Console    ⬆️ Scrolling to contact fields area...
+    FOR    ${i}    IN RANGE    2
         Mobile Swipe    500    300    500    800    500
         Sleep    0.5s
     END
@@ -1490,9 +1485,9 @@ Enter Business Description
     ...    @param DESCRIPTION: Business description text (default: TechNova Solutions...)
     [Arguments]    ${DESCRIPTION}=TechNova Solutions provides end-to-end software development, cloud services, and IT consulting to help businesses scale efficiently.
     Log To Console    🔄 Entering business description...
-    Mobile Wait Until Element Is Visible   xpath=//android.widget.EditText[@hint='Enter Text Here']    10s
-    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Text Here']
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Text Here']      ${DESCRIPTION}
+    Mobile Wait Until Element Is Visible   ${BUSINESS_DESC}    10s
+    Mobile Click Element    ${BUSINESS_DESC}
+    Mobile Input Text    ${BUSINESS_DESC}    ${DESCRIPTION}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered business description
 
@@ -1504,6 +1499,17 @@ Verify Validation Message for Business Description
     ${message}=    Mobile Get Element Attribute    ${BUSINESS_DESCRIPTION_VALIDATION}    content-desc
     Should Be Equal As Strings      ${message}    Please enter business description
     Log To Console    ⚠️ Validation message verified: ${message}
+
+Enter Business Address
+    [Documentation]    Enter business full address for Business Namkaran
+    ...    @param ADDRESS: Full business address to enter
+    [Arguments]    ${ADDRESS}
+    Log To Console    🔄 Entering business address...
+    Mobile Wait Until Element Is Visible   ${FULL_ADDRESS}    10s
+    Mobile Click Element    ${FULL_ADDRESS}
+    Mobile Input Text    ${FULL_ADDRESS}    ${ADDRESS}
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Log To Console    ✅ Entered business address: ${ADDRESS}
 
 Verify Validation Message for Business Address
     [Documentation]    Verify validation message for missing business address

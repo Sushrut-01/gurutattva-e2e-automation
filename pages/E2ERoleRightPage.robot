@@ -597,7 +597,14 @@ Test User Role Access
 Navigate To Login Page
     [Documentation]    Navigates to the login page
     Web.Go To    ${LOGIN_URL}
-    Web Wait Until Page Contains Element    ${LOGIN_EMAIL_FIELD}    10s
+
+    # Wait for page to fully load to prevent white screen
+    Sleep    3s
+    Wait For Page To Be Ready
+
+    # Wait for login form elements with increased timeout
+    Web Wait Until Page Contains Element    ${LOGIN_EMAIL_FIELD}    20s
+    Web Wait Until Element Is Visible    ${LOGIN_EMAIL_FIELD}    20s
     Log To Console    📱 Navigated to login page
 
 Validate Submenu Access Via Button

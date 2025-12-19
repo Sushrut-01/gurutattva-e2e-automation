@@ -17,7 +17,7 @@ Verify user is able to add Bride Namkaran with NO Option on the mobile app and v
     [Tags]  TC08  Namkaran  Gurutattva  E2E
     Open Gurutattva App
     Handle First Time Setup
-    
+
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Bride
     
@@ -32,11 +32,11 @@ Verify user is able to add Bride Namkaran with NO Option on the mobile app and v
     # Select Bride Namkaran category
     Select Bride Namkaran from category dropdown
     
-    # Enter E2E test data (different from existing test)
+    # Enter E2E test data (fills ALL fields: names, email, phone, marriage place)
     Enter E2E Bride Namkaran Data
 
     # Select Marriage Date
-    Select Marriage Date
+    namkaranPage.Select Marriage Date
 
     # Select NO for multiple name choice (for NO Option test)
     namkaranPage.Select NO Radio Button
@@ -205,6 +205,17 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
     # Select NO for multiple name choice (for NO Option test)
     namkaranPage.Select NO Radio Button
 
+    # Fill "Exclude the existing child name" field (required for NO option)
+    Sleep    2s
+    ${all_edittext}=    Mobile Get Webelements    xpath=//android.widget.EditText
+    ${count}=    Get Length    ${all_edittext}
+    ${exclude_index}=    Evaluate    ${count} - 1
+    Log To Console    🔍 Found ${count} EditText fields, using [${exclude_index}] for Exclude field
+    Mobile Click Element    ${all_edittext}[${exclude_index}]
+    Mobile Input Text    ${all_edittext}[${exclude_index}]    OldName
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Log To Console    ✅ Entered excluded name: OldName
+
     # Submit the namkaran
     Click on the Submit Button
 
@@ -256,13 +267,13 @@ Verify user is able to add Bride Namkaran with YES Option on the mobile app and 
     # Select Bride Namkaran category
     Select Bride Namkaran from category dropdown
 
-    # Enter E2E test data (basic Bride data only)
-    Enter E2E Bride Namkaran Data With YES Option
+    # Enter E2E test data (fills ALL fields: names, email, phone, marriage place)
+    Enter E2E Bride Namkaran Data
 
-    # Select Marriage Date (comes AFTER basic data for Bride category)
-    Select Marriage Date
+    # Select Marriage Date (same as TC08)
+    namkaranPage.Select Marriage Date
 
-    # Select YES radio button and enter name choices (comes AFTER Marriage Date for Bride)
+    # Select YES radio button and enter name choices
     Select YES Radio Button And Enter Name Choices For Bride
 
     # Submit the namkaran
@@ -311,8 +322,11 @@ Verify user is able to add Business Namkaran with YES Option on the mobile app a
     # Select Business Namkaran category
     Select Business Namkaran from category dropdown
 
-    # Enter E2E test data with YES option for multiple names
-    Enter E2E Business Namkaran Data With YES Option
+    # Enter E2E test data (same as TC09)
+    Enter E2E Business Namkaran Data
+
+    # Select YES for multiple name choice and enter name choices
+    Select YES Radio Button And Enter Name Choices For Business
 
     # Submit the namkaran
     Click on the Submit Button
@@ -360,8 +374,11 @@ Verify user is able to add House Namkaran with YES Option on the mobile app and 
     # Select House Namkaran category
     Select House Namkaran from category dropdown
 
-    # Enter E2E test data with YES option for multiple names
-    Enter E2E House Namkaran Data With YES Option
+    # Enter E2E test data (same as TC13)
+    Enter E2E House Namkaran Data
+
+    # Select YES for multiple name choice and enter name choices
+    Select YES Radio Button And Enter Name Choices For House
 
     # Submit the namkaran
     Click on the Submit Button
@@ -408,10 +425,17 @@ Verify user is able to add Child Namkaran with YES Option on the mobile app and 
     # Select Child Namkaran category
     Select Child Namkaran from category dropdown
 
-    # Enter E2E test data with YES option for multiple names
-    Enter E2E Child Namkaran Data With YES Option
+    # Enter E2E test data (same as TC14)
+    Enter E2E Child Namkaran Data
 
+    # Additional steps for Child Namkaran (MANDATORY - same as TC14)
+    Select DOB
+    namkaranPage.Select Gender
+    Select Time
+    Enter Birth Place    ${E2E_CHILD_BIRTH_PLACE}
 
+    # Select YES for multiple name choice and enter name choices
+    Select YES Radio Button And Enter Name Choices For Child
 
     # Submit the namkaran
     Click on the Submit Button
@@ -468,8 +492,8 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
     # Enter E2E test data
     Enter E2E Bride Namkaran Data
 
-    # Select Marriage Date
-    Select Marriage Date
+    # Select Marriage Date (same as TC08)
+    namkaranPage.Select Marriage Date
 
     # Select NO for multiple name choice
     namkaranPage.Select NO Radio Button
@@ -726,6 +750,17 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     # Select NO for multiple name choice
     namkaranPage.Select NO Radio Button
 
+    # Fill "Exclude the existing child name" field (MANDATORY for NO option - same as TC14)
+    Sleep    2s
+    ${all_edittext}=    Mobile Get Webelements    xpath=//android.widget.EditText
+    ${count}=    Get Length    ${all_edittext}
+    ${exclude_index}=    Evaluate    ${count} - 1
+    Log To Console    🔍 Found ${count} EditText fields, using [${exclude_index}] for Exclude field
+    Mobile Click Element    ${all_edittext}[${exclude_index}]
+    Mobile Input Text    ${all_edittext}[${exclude_index}]    OldName
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Log To Console    ✅ Entered excluded name: OldName
+
     # Submit the namkaran
     Click on the Submit Button
 
@@ -735,7 +770,7 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
     Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
-    
+
     Close Gurutattva App
 
     # --- Web CMS: Admin Approval Workflow ---
@@ -811,8 +846,8 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
     # Enter E2E test data
     Enter E2E Bride Namkaran Data
 
-    # Select Marriage Date
-    Select Marriage Date
+    # Select Marriage Date (same as TC08)
+    namkaranPage.Select Marriage Date
 
     # Select NO for multiple name choice
     namkaranPage.Select NO Radio Button
@@ -1057,6 +1092,17 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     # Select NO for multiple name choice
     namkaranPage.Select NO Radio Button
 
+    # Fill "Exclude the existing child name" field (MANDATORY for NO option - same as TC14)
+    Sleep    2s
+    ${all_edittext}=    Mobile Get Webelements    xpath=//android.widget.EditText
+    ${count}=    Get Length    ${all_edittext}
+    ${exclude_index}=    Evaluate    ${count} - 1
+    Log To Console    🔍 Found ${count} EditText fields, using [${exclude_index}] for Exclude field
+    Mobile Click Element    ${all_edittext}[${exclude_index}]
+    Mobile Input Text    ${all_edittext}[${exclude_index}]    OldName
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Log To Console    ✅ Entered excluded name: OldName
+
     # Submit the namkaran
     Click on the Submit Button
 
@@ -1066,7 +1112,7 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
     Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
-    
+
     Close Gurutattva App
 
     # --- Web CMS: Admin Rejection Workflow ---

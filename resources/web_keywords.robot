@@ -32,10 +32,30 @@ Open Web Browser
         Sleep    2s
         Log To Console    ✅ Proceeded past SSL warning
     END
-    
-     # Clear cookies and cache
-    # Delete All Cookies
-    # Execute Javascript    window.localStorage.clear();
+
+    # Clear cookies and cache to prevent white screen issues
+    Delete All Cookies
+    Execute Javascript    window.localStorage.clear();
+    Execute Javascript    window.sessionStorage.clear();
+    Log To Console    ✅ Cookies and cache cleared
+
+    # Wait for page to be fully loaded (handles white screen issue)
+    Wait For Page To Be Ready
+    Log To Console    ✅ Page is fully loaded and ready
+
+Wait For Page To Be Ready
+    [Documentation]    Waits for page to be fully loaded including JavaScript
+    Log To Console    ⏳ Waiting for page to be fully loaded...
+
+    # Wait for document.readyState to be complete
+    Wait Until Keyword Succeeds    30s    2s    Page Should Be Ready
+    Sleep    2s
+    Log To Console    ✅ Page ready state confirmed
+
+Page Should Be Ready
+    [Documentation]    Checks if page is in ready state
+    ${ready_state}=    Execute Javascript    return document.readyState
+    Should Be Equal    ${ready_state}    complete
 
 Login in with valid credentials
     [Documentation]    Logs in to web application with valid credentials

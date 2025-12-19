@@ -1,0 +1,51 @@
+[ WARN ] Error in file 'C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\pages\E2ENamkaranPage.robot' on line 880: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.
+[ WARN ] Error in file 'C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\pages\E2ENamkaranPage.robot' on line 887: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.
+[ WARN ] Error in file 'C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\pages\E2ENamkaranPage.robot' on line 930: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.
+==============================================================================
+E2ENamkaran                                                                   
+==============================================================================
+Verify user is able to add Bride Namkaran with NO Option on the mo... ===== Starting Test Setup =====
+===== Test Setup Completed =====
+===== Opening Gurutattva App =====
+===== Gurutattva App Opened Successfully =====
+? Already logged in - skipping first time setup
+? Generated E2E Namkaran Test Data:
+? Bride Name: E2E_Bride_8955 E2E_Middle_8955 E2E_Bride_Last_8955
+? Groom Name: E2E_Groom_8955 E2E_Groom_Middle_8955 E2E_Groom_Last_8955
+? Email: e2enamkaran.8955@test.com
+? Phone: 9188778955
+? Marriage Place: E2E Test Place, Gujarat, India
+? Marriage Date: 2025-06-19
+? Scrolling to find Namkaran card...
+? Waiting for UI to settle after scroll...
+? Clicked on Namkaran Card
+? Clicking Add Namkaran button...
+? Clicked Add Namkaran button
+? Clicked on Apply Now Button
+? Clicked on I Agree Button
+? Namkaran screen content: Namkaran Categories  *
+? Selected Bride Namkaran category
+? Bride First: E2E_Bride_8955
+?? Keyboard already hidden or cannot be hidden - continuing test
+? Bride Middle: E2E_Middle_8955
+? Bride Last: E2E_Bride_Last_8955
+===== Starting Test Teardown =====
+? Mobile screenshot captured: C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation/results/Screenshot/Verify_user_is_able_to_add_Bride_Namkaran_with_NO_Option_on_the_mobile_app_and_verify_the_details_in_CSM_20251217_185915.png
+? Screenshot captured: C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation/results/Screenshot/Verify_user_is_able_to_add_Bride_Namkaran_with_NO_Option_on_the_mobile_app_and_verify_the_details_in_CSM_20251217_185915.png
+===== Closing Gurutattva App =====
+? App terminated gracefully
+? Mobile session closed
+===== Gurutattva App Closed =====
+?? Cleared download directory: C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\downloads
+? Triggering delayed email notification...
+? Delayed email process started - will send after reports are fully generated
+===== Test Teardown Completed =====
+| FAIL |
+ValueError: Element locator 'xpath=//android.widget.ScrollView/*[@index='11']' did not match any elements.
+------------------------------------------------------------------------------
+E2ENamkaran                                                           | FAIL |
+1 test, 0 passed, 1 failed
+==============================================================================
+Output:  C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\results\output.xml
+Log:     C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\results\log.html
+Report:  C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\results\report.html

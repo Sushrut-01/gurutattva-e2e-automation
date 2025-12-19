@@ -148,7 +148,7 @@ Scroll Until Element Visible
     # Reduced scroll distance to 20% to avoid skipping fields
     ${end_y}=       Evaluate    int(${height} * 0.4)
 
-    FOR    ${i}    IN RANGE    0    10
+    FOR    ${i}    IN RANGE    0    20
         ${visible}=    Run Keyword And Return Status    Mobile Page Should Contain Element    ${locator}
         Exit For Loop If    ${visible}
         Mobile Swipe    ${start_x}    ${start_y}    ${end_x}    ${end_y}    600ms
