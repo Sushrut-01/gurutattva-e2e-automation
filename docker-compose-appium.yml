@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  appium:
+    image: appium/appium:latest
+    container_name: gurutattva-appium-server
+    ports:
+      - "4723:4723"
+    environment:
+      # Appium Server Configuration
+      APPIUM_HOST: "0.0.0.0"
+      APPIUM_PORT: "4723"
+
+      # Logging
+      LOG_LEVEL: "info"
+
+      # Android Configuration
+      ANDROID_HOME: "/opt/android-sdk"
+      JAVA_HOME: "/usr/lib/jvm/java-11-openjdk-amd64"
+
+      # UIAutomator2 Driver Settings
+      APPIUM_UIAUTOMATOR2_SERVER_INSTALL_TIMEOUT: "60000"
+      APPIUM_UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT: "60000"
+
+    volumes:
+      # Mount Android SDK
+      - ${ANDROID_SDK_PATH}:/opt/android-sdk:ro
+      # Mount ADB
+      - ${ADB_PATH}:/usr/bin/adb:ro
+      # Appium logs
+      - ./appium-logs:/root/.appium
+
+    networks:
+      - gurutattva-network
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4723/wd/hub/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+    restart: unless-stopped
+
+networks:
+  gurutattva-network:
+    driver: bridge

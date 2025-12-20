@@ -1,5 +1,5 @@
 *** Variables ***
-${REMOTE_URL}        http://localhost:4723/wd/hub
+${REMOTE_URL}        http://localhost:4723
 
 # Android Device Configuration
 ${PLATFORM_NAME}     Android
