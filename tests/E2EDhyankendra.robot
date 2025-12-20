@@ -1,5 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
+Resource    ../resources/web_keywords.robot
 Resource    ../resources/test_setup_teardown.robot
 Resource    ../pages/E2EAudioPage.robot
 Resource    ../pages/DhyankendraPage.robot
@@ -16,6 +17,8 @@ Test Dhyankendra Different Filter Functionality
     [Tags]    e2e    dhyankendra    filter    tc58_02    milestone2
 
     # --- Web CRM: Test Filter Function
+    # Role: Super Admin (sushrut.nistane@rysun.com / Sharu@051220)
+    # Reason: Needs full access to all filters and records
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
@@ -143,6 +146,8 @@ Test Dhyankendra Management Refresh Button Functionality
     [Tags]    e2e    dhyankendra    refresh    TC61    milestone2
 
     # --- Web CRM: Test Refresh Button for Dhyankendra ---
+    # Role: Super Admin (sushrut.nistane@rysun.com / Sharu@051220)
+    # Reason: Needs full access to see all pagination records
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
@@ -173,15 +178,21 @@ Test Dhyankendra Management Refresh Button Functionality
     Log To Console    ✅ Dhyankendra refresh button test completed successfully
     Close Web Browser
 
-Sanchalak login to CMS application and as per the role and rights it should have access to left menu. News, Event, Dhyankendra added by own, Dhyansthali   
-    [Tags]  E2E  TC65  Dhyankendra   milestone2   
+Sanchalak login to CMS application and as per the role and rights it should have access to left menu. News, Event, Dhyankendra added by own, Dhyansthali
+    [Tags]  E2E  TC65  Dhyankendra   milestone2
+    # Role: Sanchalak (patilvaishub@gmail.com / Lavanya@21) - Vaishali/Vaishub
+    # From: Roles & Rights Module - CRM_AudioPage.robot
+    # Reason: Test role-based menu access - verify Sanchalak sees only permitted menus
     Open Web Browser
-    Login in with Harsh Sanchalak credentials
+    Login in with Sanchalak credentials
     Verify the left menu access
     Close Web Browser
 
 Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields of Mobile with CMS.
     [Tags]  E2E  TC64  Dhyankendra
+    # Mobile: Sadhak user (OTP-based authentication)
+    # CMS: Super Admin (sushrut.nistane@rysun.com / Sharu@051220) - to validate registered data
+    # Reason: Mobile uses app-based OTP auth, CMS needs Super Admin to view all submissions
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
@@ -217,11 +228,19 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Enter Mobile for Dhyankendra
     Click on the Submit Button for Dhyankendra
     Close Gurutattva App
+    # --- CMS Validation by Super Admin ---
     Validate the filled value on that sadak user on the CMS side
 
-Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the changes requeted. check reflection in mobile app. 
-    [Tags]  E2E  TC67  Dhyankendra  
+Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the changes requeted. check reflection in mobile app.
+    [Tags]  E2E  TC67  Dhyankendra
+    # Mobile: Sadhak user (OTP-based) - Register Dhyankendra
+    # CMS Step 1: Super Admin (sushrut.nistane@rysun.com / Sharu@051220) - Initial approval
+    # CMS Step 2: Sanchalak - Vaishali/Vaishub (patilvaishub@gmail.com / Lavanya@21) - Request changes
+    # CMS Step 3: Super Admin - Reject the requested changes
+    # Mobile: Sadhak user - Verify rejection reflected in app
+    # All credentials from: Roles & Rights Module
     Generate Center Name for Dhyankendra
+    # --- Step 1: Mobile Registration by Sadhak ---
     Open Gurutattva App
     Handle First Time Setup
     Click on the DhyanKendra Tab
@@ -254,8 +273,10 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Select User for Dhyankendra    Adesh
     Enter Email for Dhyankendra
     Enter Mobile for Dhyankendra
-    Click on the Submit Button for Dhyankendra   
+    Click on the Submit Button for Dhyankendra
     Close Gurutattva App
+
+    # --- Step 2: Super Admin Approval ---
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
@@ -265,6 +286,8 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Click on the Cancel Button in CMS
     Verify the Approved Status in CMS
     Close Web Browser
+
+    # --- Step 3: Sanchalak Request Changes ---
     Open Web Browser
     Login in with Sanchalak credentials
     Click on the Dhyankendra Management Menu
@@ -278,6 +301,8 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Click on the Dhyankendra Management Menu
     Verify the Review Status as Pending
     Close Web Browser
+
+    # --- Step 4: Super Admin REJECTS Changes ---
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
@@ -290,15 +315,24 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Click on the Dhyankendra Management Menu
     Verify the Review Status as Rejected
     Close Web Browser
+
+    # --- Step 5: Mobile Validation - Verify Rejection ---
     Open Gurutattva App
     Handle First Time Setup
     Click on the DhyanKendra Tab
     Validate the fields after rejection in the mobile app
     Close Gurutattva App
 
-Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the changes requeted. Check refleciton in Mobile app. 
-    [Tags]  E2E  TC66  Dhyankendra  
+Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the changes requeted. Check refleciton in Mobile app.
+    [Tags]  E2E  TC66  Dhyankendra
+    # Mobile: Sadhak user (OTP-based) - Register Dhyankendra
+    # CMS Step 1: Super Admin (sushrut.nistane@rysun.com / Sharu@051220) - Initial approval
+    # CMS Step 2: Sanchalak - Vaishali/Vaishub (patilvaishub@gmail.com / Lavanya@21) - Request changes
+    # CMS Step 3: Super Admin - Approve the requested changes
+    # Mobile: Sadhak user - Verify approval reflected in app
+    # All credentials from: Roles & Rights Module
     Generate Center Name for Dhyankendra
+    # --- Step 1: Mobile Registration by Sadhak ---
     Open Gurutattva App
     Handle First Time Setup
     Click on the DhyanKendra Tab
@@ -331,8 +365,10 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Select User for Dhyankendra    Adesh
     Enter Email for Dhyankendra
     Enter Mobile for Dhyankendra
-    Click on the Submit Button for Dhyankendra   
+    Click on the Submit Button for Dhyankendra
     Close Gurutattva App
+
+    # --- Step 2: Super Admin Approval ---
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
@@ -342,6 +378,8 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Click on the Cancel Button in CMS
     Verify the Approved Status in CMS
     Close Web Browser
+
+    # --- Step 3: Sanchalak Request Changes ---
     Open Web Browser
     Login in with Sanchalak credentials
     Click on the Dhyankendra Management Menu
@@ -355,6 +393,8 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Click on the Dhyankendra Management Menu
     Verify the Review Status as Pending
     Close Web Browser
+
+    # --- Step 4: Super Admin APPROVES Changes ---
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
@@ -368,6 +408,8 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Click on the Dhyankendra Management Menu
     Verify the Review Status as Approved
     Close Web Browser
+
+    # --- Step 5: Mobile Validation - Verify Approval ---
     Open Gurutattva App
     Handle First Time Setup
     Click on the DhyanKendra Tab
@@ -375,14 +417,30 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Close Gurutattva App
 
 Change the Primary Sanchalak from Dhyankendra and add other sanchalak
-    [Tags]    Web    Dhyankendra    TC_CHANGE_SANCHALAK    
+    [Tags]    E2E    Web    Dhyankendra    TC68
+    # Role: Super Admin (sushrut.nistane@rysun.com / Sharu@051220)
+    # Reason: Only Super Admin can modify Sanchalak assignments for Dhyankendra centers
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
     Open Dhyankendra Management And Show Approved Records
     Open Edit For First Approved Dhyankendra
+    Handle Pending Change Request If Present
+    # After rejecting, page navigates back to listing. Now search by center name (status is now Rejected)
+    Log To Console    After rejecting, searching for the same record by center name...
+    Search Dhyankendra By Center Name    ${E2E_DHYANKENDRA_NAME}
+    Sleep    2s
+    # Open edit for the record found by center name
+    ${row_more}=    Set Variable    xpath=//div[@role='row']//button[@aria-label='more']
+    Web Wait Until Element Is Visible    ${row_more}    10s
+    Web Scroll Element Into View         ${row_more}
+    Web Click Element    ${row_more}
+    Sleep    2s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_BUTTON}    10s
+    Web Click Element    ${DHYANKENDRA_EDIT_BUTTON}
+    Sleep    5s
+    # Now edit the Primary Sanchalak (no Change Request button this time)
     Go To Sanchalak Details Section
-    Change Primary Sanchalak To    Keshav    Keshav - 20
-    Handle Validation And Submit Or Cancel
+    Change Primary Sanchalak To Available One
     Verify Sanchalak Update Outcome
     Close Web Browser
