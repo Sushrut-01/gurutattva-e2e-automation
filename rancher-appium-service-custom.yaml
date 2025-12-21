@@ -1,0 +1,152 @@
+---
+# Rancher Service Configuration for Appium with Custom Android SDK Image
+# Deploy in a separate namespace: gurutattva-appium
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gurutattva-appium
+  labels:
+    app: gurutattva
+    component: mobile-testing
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appium-server
+  namespace: gurutattva-appium
+  labels:
+    app: gurutattva
+    service: appium
+    version: v1
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: gurutattva
+      service: appium
+
+  template:
+    metadata:
+      labels:
+        app: gurutattva
+        service: appium
+        version: v1
+
+    spec:
+      containers:
+      - name: appium
+        image: appium-gurutattva:latest
+        imagePullPolicy: Never
+
+        ports:
+        - name: appium-port
+          containerPort: 4723
+          protocol: TCP
+
+        env:
+        - name: APPIUM_HOST
+          value: "0.0.0.0"
+        - name: APPIUM_PORT
+          value: "4723"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: ANDROID_HOME
+          value: "/opt/android-sdk"
+        - name: APPIUM_UIAUTOMATOR2_SERVER_INSTALL_TIMEOUT
+          value: "60000"
+        - name: APPIUM_UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT
+          value: "60000"
+
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+          limits:
+            memory: "4Gi"
+            cpu: "2"
+
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 4723
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: 4723
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: appium-service
+  namespace: gurutattva-appium
+  labels:
+    app: gurutattva
+    service: appium
+
+spec:
+  type: ClusterIP
+  selector:
+    app: gurutattva
+    service: appium
+
+  ports:
+  - name: appium
+    port: 4723
+    targetPort: appium-port
+    protocol: TCP
+
+---
+# Optional: Ingress for external access (if needed)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: appium-network-policy
+  namespace: gurutattva-appium
+
+spec:
+  podSelector:
+    matchLabels:
+      service: appium
+
+  policyTypes:
+  - Ingress
+  - Egress
+
+  ingress:
+  - from:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 4723
+
+  egress:
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80

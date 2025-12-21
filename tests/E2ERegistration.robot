@@ -21,7 +21,7 @@ Test Teardown    Test Teardown
 
 *** Test Cases ***
 Verify that quick registration on the mobile app reflects correctly in the CMS and user details are displayed properly in profile and flip card.
-    [Tags]  TC07   Registration   QuickRegistration
+    [Tags]  E2E  TC07  Registration  QuickRegistration
     Generate E2E Quick Registration Test Data
 
     Open Gurutattva App
@@ -62,7 +62,7 @@ Verify that quick registration on the mobile app reflects correctly in the CMS a
     Close Web Browser
 
 Verify user is not able to do quick registration on mobile app with already used email id and phone number
-     [Tags]  TC08   Registration   QuickRegistration
+     [Tags]  E2E  TC08  Registration  QuickRegistration
     # # --- Generate Unique Test Data ---
     # Generate E2E Registration Test Data
    

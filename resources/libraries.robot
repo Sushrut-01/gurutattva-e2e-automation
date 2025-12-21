@@ -4,8 +4,6 @@ Library    BuiltIn
 Library    AppiumLibrary    WITH NAME    Mobile
 Library    SeleniumLibrary    WITH NAME    Web
 Library    OperatingSystem
-Library    AppiumLibrary    run_on_failure=No Operation
-Library    SeleniumLibrary    run_on_failure=No Operation
 Library    Collections
 Library    String
 Library    DateTime
