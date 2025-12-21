@@ -25,7 +25,12 @@ Test Teardown    Test Teardown
 *** Test Cases ***
 Verify when super admin is able to reject the dhyankendra request of sadhak and verify the status as Rejected on the mobile app
     [Tags]    Dhyankendra    TC46
+    # Mobile: Sadhak user (OTP-based) - Register Dhyankendra
+    # CMS: Super Admin (sushrut.nistane@rysun.com / Sharu@051220) - Reject registration
+    # Mobile: Sadhak user - Verify rejection reflected in app
+    # All credentials from: Roles & Rights Module
     Generate Center Name for Dhyankendra
+    # --- Step 1: Mobile Registration by Sadhak ---
     Open Gurutattva App
     Handle First Time Setup
     Click on the DhyanKendra Tab
@@ -35,6 +40,9 @@ Verify when super admin is able to reject the dhyankendra request of sadhak and 
     Select Premise Type
     Select Ownership
     Enter Sitting Capacity
+    Select Morning Timeslot
+    Select Evening Timeslot
+    Click on the Next Button for Dhyankendra
     Enter Full Address For Dhyankendra
     Enter Pincode For Dhyankendra
     Select Country for Dhyankendra
@@ -55,25 +63,27 @@ Verify when super admin is able to reject the dhyankendra request of sadhak and 
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    Select User for Dhyankendra    yatish
-    Enter Email for Dhyankendra
-    Enter Mobile for Dhyankendra
-    Click on the Submit Button for Dhyankendra
+    Select Sanchalak And Submit With Validation Loop
     Close Gurutattva App
+
+    # --- Step 2: Super Admin REJECTS Registration ---
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
-    Verify the created Dhyankendra in CMS
+    Click on the Search Button
     Click on the Edit Button in CMS
     Click on the reject button in CMS
     Verify the Update Message For Dhyankendra
-    Click on the Cancel Button in CMS
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Rejected Status in CMS
     Close Web Browser
+
+    # --- Step 3: Mobile Validation - Verify Rejection ---
     Open Gurutattva App
     Handle First Time Setup
     Click on the DhyanKendra Tab
-    Verify the Dhyankendra in the List
+    Validate the fields after rejection in the mobile app
     Close Gurutattva App
 
 Verify Sadhak registration, Sanchalak approval, DhyanKendra activation/deactivation by Super Admin, update approval, and CMS login access
