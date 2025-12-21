@@ -1,12 +1,31 @@
 import xml.etree.ElementTree as ET
 import sys
 import io
+import os
 
 # Fix encoding for Windows console
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
+# Find output.xml file dynamically (works with any project path)
+# First try current directory + results/output.xml
+output_file = os.path.join(os.getcwd(), 'results', 'output.xml')
+
+# If not found, try parent directories
+if not os.path.exists(output_file):
+    # Try common paths
+    possible_paths = [
+        r'results/output.xml',
+        r'./results/output.xml',
+        r'D:\gurutattva-e2e-automation\results\output.xml',
+        r'C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\results\output.xml',
+    ]
+    for path in possible_paths:
+        if os.path.exists(path):
+            output_file = path
+            break
+
 # Parse the output.xml file
-tree = ET.parse(r'D:\gurutattva-e2e-automation\results\output.xml')
+tree = ET.parse(output_file)
 root = tree.getroot()
 
 # Find all test cases
