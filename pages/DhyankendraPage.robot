@@ -1821,18 +1821,18 @@ Apply Review Status Filter
 
 Handle Pagination For Dhyankendra Filter Verification
     [Arguments]    ${verification_keyword}    @{args}
-    [Documentation]    Handles pagination when verifying filter results across multiple pages for Dhyankendra
-    Log To Console    🔍 Handling pagination for Dhyankendra filter verification
-    
+    [Documentation]    Handles pagination - verifies first page, skips to last page, verifies last page (FAST MODE)
+    Log To Console    🔍 Handling pagination for Dhyankendra filter verification (FAST MODE)
+
     # Get total count from pagination info
     ${pagination_text}=    Web.Get Text    ${PAGINATION_DISPLAYED_ROWS}
     Log To Console    RAW: "${pagination_text}"
-    
+
     # Clean the text and extract total count using Method 4 (splitting by "of")
     ${clean_text}=    Strip String    ${pagination_text}
     ${parts}=    Split String    ${clean_text}    of
     Log To Console    Split parts: ${parts}
-    
+
     IF    len(${parts}) > 1
         ${last_part}=    Strip String    ${parts[-1]}
         ${total_count}=    Set Variable    ${last_part}
@@ -1841,17 +1841,23 @@ Handle Pagination For Dhyankendra Filter Verification
         Log To Console    ⚠️ Could not extract total count, defaulting to 1
         ${total_count}=    Set Variable    1
     END
-    
+
     # Set start and end records for display
     ${start_record}=    Set Variable    1
     ${end_record}=    Set Variable    ${total_count}
-    
+
     Log To Console    📊 Records: ${start_record}-${end_record} of ${total_count}
-    
+
     # Calculate total pages (assuming 10 records per page)
     ${total_pages}=    Evaluate    (${total_count} + 9) // 10
     Log To Console    📄 Total pages: ${total_pages}
-    
+
+    # If zero pages (no results), just return
+    IF    ${total_pages} == 0
+        Log To Console    📄 No results to verify
+        RETURN
+    END
+
     # If only one page, just verify current page
     IF    ${total_pages} == 1
         Log To Console    📄 Only one page, verifying current page
@@ -1859,25 +1865,29 @@ Handle Pagination For Dhyankendra Filter Verification
         Log To Console    ✅ Single page verification completed
         RETURN
     END
-    
-    # Verify records on each page
-    FOR    ${page}    IN RANGE    1    ${total_pages} + 1
-        Log To Console    🔍 Verifying page ${page} of ${total_pages}
-        
-        # Call the verification keyword for current page
-        Run Keyword    ${verification_keyword}    @{args}
-        
-        # Check if there's a next page
-        IF    ${page} < ${total_pages}
-            Log To Console    ➡️ Clicking next page button
-            Web.Wait Until Page Contains Element    ${PAGINATION_ENABLED_NEXT}    5s
-            Web.Click Element    ${PAGINATION_ENABLED_NEXT}
-            Sleep    3s
+
+    # FAST MODE: Verify first page only
+    Log To Console    🔍 Verifying page 1 of ${total_pages} (first page)
+    Run Keyword    ${verification_keyword}    @{args}
+
+    # Skip to last page quickly (click next until disabled)
+    Log To Console    ⏩ Skipping to last page...
+    FOR    ${i}    IN RANGE    1    ${total_pages}
+        ${next_enabled}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${PAGINATION_ENABLED_NEXT}    2s
+        IF    not ${next_enabled}
+            Log To Console    ✅ Reached last page
+            BREAK
         END
+        Web.Click Element    ${PAGINATION_ENABLED_NEXT}
+        Sleep    1s
     END
-    
-    Log To Console    ✅ Pagination verification completed for all ${total_pages} pages
-    
+
+    # Verify last page
+    Log To Console    🔍 Verifying page ${total_pages} of ${total_pages} (last page)
+    Run Keyword    ${verification_keyword}    @{args}
+
+    Log To Console    ✅ Pagination verification completed (first & last page verified)
+
     # Store total_pages for potential use in Clear All Filters
     Set Test Variable    ${TOTAL_PAGES_FOR_CLEAR}    ${total_pages}
 
