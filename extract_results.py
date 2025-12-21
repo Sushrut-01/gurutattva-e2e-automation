@@ -1,7 +1,12 @@
 import xml.etree.ElementTree as ET
+import sys
+import io
+
+# Fix encoding for Windows console
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # Parse the output.xml file
-tree = ET.parse(r'C:\Users\srvadmin\version_0_guruttava_automation\Gurutattva_E2E_Automation\results\output.xml')
+tree = ET.parse(r'D:\gurutattva-e2e-automation\results\output.xml')
 root = tree.getroot()
 
 # Find all test cases
