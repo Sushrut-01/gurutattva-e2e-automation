@@ -30,7 +30,7 @@ ${DISTRICT_VALIDATION_LOCATOR}            xpath=//android.view.View[@content-des
 ${CITY_VALIDATION_LOCATOR}                xpath=//android.view.View[@content-desc="Please select your taluka / city"]
 ${VILLAGE_VALIDATION_LOCATOR}             xpath=//android.view.View[@content-desc="Please select your village"]
 ${SELECT_STATE}                           xpath=//android.view.View[@content-desc="Select State"]
-${SELECT_CITY}                            xpath=//android.view.View[@content-desc="Select Taluka / City"]
+${SELECT_CITY}                            xpath=//*[contains(@content-desc,"Select Taluka") or contains(@text,"Select Taluka")]
 # ${LOGIN_BUTTON}                         xpath=//android.view.View[@content-desc="Do you have an account? Login"]
 ${SELECT_DISTRICT}                        xpath=//android.view.View[@content-desc="Select District"]
 ${SELECT_AREA}                            xpath=//android.view.View[@content-desc="Select Area / Village"]
@@ -125,11 +125,11 @@ ${TALUKA_SELECTED_ADAJAN}                              xpath=//android.widget.Im
 ${VILLAGE_SELECTED_MOTA_VARCHA}                        xpath=//android.widget.ImageView[@content-desc="Mota Varachha"] | //android.widget.Button[@content-desc="Mota Varachha"]
 ${REGISTER_FNAME}                                      xpath=//android.widget.EditText[@hint='Enter First Name']
 ${REGISTER_LNAME}                                      xpath=//android.widget.EditText[@hint='Enter Last Name']
-${SEARCH}                                              xpath=//android.widget.EditText[@hint='Search']
+${SEARCH}                                              xpath=//android.widget.EditText | //*[@text='Search']
 ${INDIA}                                               xpath=//android.widget.Button[@content-desc="India"]
 ${GUJARAT}                                             xpath=//android.widget.Button[@content-desc="Gujarat"]
-${AHMEDABAD}                                           xpath=//android.widget.Button[@content-desc="Ahmadabad"]
-${AHMEDABAD_CITY}                                      xpath=//android.widget.Button[@content-desc="Ahmedabad City"]
+${AHMEDABAD}                                           xpath=//*[@content-desc="Ahmedabad" or @content-desc="Ahmadabad" or @text="Ahmedabad" or @text="Ahmadabad"]
+${AHMEDABAD_CITY}                                      xpath=//*[contains(@content-desc,"Ahmedabad") and contains(@content-desc,"City") or contains(@text,"Ahmedabad") and contains(@text,"City")]
 ${UNIVERSITY_ROAD}                                     xpath=//android.widget.Button[@content-desc="University Road"]
 ${FIRST_HEADER}                                        xpath=//android.view.View[@content-desc="Select how you want to register."]
 ${SECOND_HEADER}                                       xpath=//android.view.View[@content-desc="Mobile Number"]
@@ -374,33 +374,59 @@ Select State for Register Screen
     Mobile Click Element                    ${GUJARAT}                   
 
 Select District for Register Screen
-    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}     5s 
+    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}     5s
     Mobile Click Element                    ${SELECT_DISTRICT}
+    Sleep    1s
     Mobile Click Element                    ${SEARCH}
-    Mobile Input Text                       ${SEARCH}              Ahmadabad
-    Mobile Wait Until Element Is Visible    ${AHMEDABAD}           5s
-    Mobile Click Element                    ${AHMEDABAD} 
+    Mobile Input Text                       ${SEARCH}              Ahmedabad
+    Sleep    1s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click on Ahmedabad from list (second occurrence - first is search field)
+    Mobile Click Element    xpath=(//*[contains(@text,'Ahmedabad') or contains(@content-desc,'Ahmedabad')])[2] 
 
 Select Taluka/City for Register Screen
-    Mobile Wait Until Element Is Visible    ${SELECT_CITY}         5s
-    Mobile Click Element                    ${SELECT_CITY}
-    Mobile Wait Until Element Is Visible    ${SEARCH}           5s
-    Mobile Click Element                    ${SEARCH}
-    Mobile Input Text                       ${SEARCH}              Ahmedabad City
-    Mobile Wait Until Element Is Visible    ${AHMEDABAD_CITY}      5s    
-    Mobile Click Element                    ${AHMEDABAD_CITY} 
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Scroll down to reveal Taluka/City dropdown
+    ${height}=    Mobile Get Window Height
+    ${width}=    Mobile Get Window Width
+    ${start_x}=    Evaluate    int(${width} * 0.5)
+    ${start_y}=    Evaluate    int(${height} * 0.7)
+    ${end_y}=    Evaluate    int(${height} * 0.3)
+    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
+    Sleep    1s
+    Mobile Click Element    xpath=//*[contains(@text,'Select Taluka') or contains(@content-desc,'Select Taluka')]
+    Sleep    1s
+    Mobile Click Element    ${SEARCH}
+    Mobile Input Text       ${SEARCH}    Ahmedabad
+    Sleep    1s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click on Ahmedabad City from list (first match containing both Ahmedabad and City)
+    Mobile Click Element    xpath=(//*[contains(@text,'Ahmedabad City') or contains(@content-desc,'Ahmedabad City') or contains(@text,'Ahmedabad (City)') or contains(@content-desc,'Ahmedabad (City)')])[1] 
 
 Select Area/Village for Register Screen
-    Mobile Wait Until Element Is Visible    ${SELECT_AREA}         5s
-    Mobile Click Element                    ${SELECT_AREA}
-    Mobile Wait Until Element Is Visible    ${SEARCH}           5s
-    Mobile Click Element                    ${SEARCH}
-    # Mobile Input Text                       ${SEARCH}              University Road
-    # Mobile Wait Until Element Is Visible    ${UNIVERSITY_ROAD}      5s
-    # Mobile Click Element                    ${UNIVERSITY_ROAD} 
-    Mobile Input Text                       ${SEARCH}              Ahmedabad (City)
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="Ahmedabad (City)"]      5s
-    Mobile Click Element                    xpath=//android.widget.Button[@content-desc="Ahmedabad (City)"] 
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Scroll to see Area/Village dropdown
+    ${height}=    Mobile Get Window Height
+    ${width}=    Mobile Get Window Width
+    ${start_x}=    Evaluate    int(${width} * 0.5)
+    ${start_y}=    Evaluate    int(${height} * 0.8)
+    ${end_y}=    Evaluate    int(${height} * 0.3)
+    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
+    Sleep    1s
+    # Click on Area/Village dropdown
+    Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area')]
+    Sleep    1s
+    Mobile Click Element    ${SEARCH}
+    Mobile Input Text       ${SEARCH}    Navrangpura
+    Sleep    1s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click second Navrangpura (first is search field, second is list item)
+    Mobile Click Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2] 
 
 Click on the Quick Registration Tab
     # Sleep      2s

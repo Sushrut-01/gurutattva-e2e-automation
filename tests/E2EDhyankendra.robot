@@ -192,6 +192,9 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Select Premise Type
     Select Ownership
     Enter Sitting Capacity
+    Select Morning Timeslot
+    Select Evening Timeslot
+    Click on the Next Button for Dhyankendra
     Enter Full Address For Dhyankendra
     Enter Pincode For Dhyankendra
     Select Country for Dhyankendra
@@ -212,10 +215,9 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    Select User for Dhyankendra    Adesh
-    Enter Email for Dhyankendra
-    Enter Mobile for Dhyankendra
-    Click on the Submit Button for Dhyankendra
+    # Dynamic Sanchalak selection with validation loop
+    # Enters Email/Mobile once, then tries Sanchalaks by index until one is not already registered
+    Select Sanchalak And Submit With Validation Loop
     Close Gurutattva App
     Validate the filled value on that sadak user on the CMS side
 

@@ -34,9 +34,9 @@ Open Web Browser
     END
 
     # Clear cookies and cache to prevent white screen issues
-    Delete All Cookies
-    Execute Javascript    window.localStorage.clear();
-    Execute Javascript    window.sessionStorage.clear();
+    Web.Delete All Cookies
+    Web.Execute Javascript    window.localStorage.clear();
+    Web.Execute Javascript    window.sessionStorage.clear();
     Log To Console    ✅ Cookies and cache cleared
 
     # Wait for page to be fully loaded (handles white screen issue)
@@ -54,7 +54,7 @@ Wait For Page To Be Ready
 
 Page Should Be Ready
     [Documentation]    Checks if page is in ready state
-    ${ready_state}=    Execute Javascript    return document.readyState
+    ${ready_state}=    Web.Execute Javascript    return document.readyState
     Should Be Equal    ${ready_state}    complete
 
 Login in with valid credentials

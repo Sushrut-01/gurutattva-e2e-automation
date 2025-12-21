@@ -17,15 +17,15 @@ Resource    ../pages/E2EAudioPage.robot
 
 *** Variables ***
 ${REGISTER_NOW_FOR_DHYANKENDRA}                        xpath=//android.view.View[@content-desc="Register Now"]
-${CENTER_NAME}                                         xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[6]/android.widget.EditText[1]
+${CENTER_NAME}                                         xpath=(//android.widget.EditText)[1]
 ${CENTER_NAME_INPUT}                                   xpath=//android.widget.EditText
 ${SELECT_OPTION}                                       xpath=(//android.view.View[@content-desc="Select Option"])[1]
-${SITTING}                                             xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[6]/android.widget.EditText[2]
+${SITTING}                                             xpath=(//android.widget.EditText)[2]
 ${SITTING_INPUT}                                       xpath=//android.widget.ScrollView/android.widget.EditText[2]
-${SEARCH_INPUT}                                        xpath=//android.widget.EditText[@hint='Search']
+${SEARCH_INPUT}                                        xpath=//android.widget.EditText | //*[@text='Search' or @hint='Search']
 ${TEMPLE_BUTTON}                                       xpath=//android.widget.Button[@content-desc="Temple"]
 ${SAHKA_OWNED_BUTTON}                                  xpath=//android.widget.Button[@content-desc="Sadhak Owned"]
-${DHYANKENDRA_NEXT}                                    xpath=//android.view.View[@content-desc="Next"]
+${DHYANKENDRA_NEXT}                                    xpath=//*[@content-desc="Next" or @text="Next"]
 ${FULL_ADDRESS_INPUT}                                  xpath=//android.widget.ScrollView/android.view.View/android.view.View/android.widget.EditText[1]
 ${PINCODE_INPUT}                                       xpath=//android.widget.ScrollView/android.view.View/android.view.View/android.widget.EditText[2]
 ${INPUT_HALL_LENGTH}                                   xpath=//android.widget.EditText[1]
@@ -36,11 +36,16 @@ ${NO_BUTTON}                                           xpath=//android.widget.Bu
 ${MODERATE}                                            xpath=//android.widget.Button[@content-desc="Moderate"]
 ${AVERAGE}                                             xpath=//android.widget.Button[@content-desc="Average"]
 ${RCC}                                                 xpath=//android.widget.Button[@content-desc="RCC"]
-${SEARCH_BY_UID_OR_NAME}                               xpath=//android.widget.EditText[@hint='Search by UID or name'][1]
-${SELECT_USER}                                         xpath=//android.widget.Button[@content-desc="Adesh M Pawar - 24"]
-${DHYANKENDRA_EMAIL_INPUT}                             xpath=//android.widget.EditText[@hint='Enter Email']
-${DHYANKENDRA_MOBILE_INPUT}                            xpath=//android.widget.EditText[@hint='00 0000 0000']
-${DHYANKENDRA_SUBMIT}                                  xpath=//android.view.View[@content-desc="Submit"]
+${SEARCH_BY_UID_OR_NAME}                               xpath=(//android.widget.EditText)[1] | //*[contains(@hint,'Search') or contains(@text,'Search')]
+${SELECT_USER}                                         xpath=//*[contains(@content-desc,'Adesh') or contains(@text,'Adesh')]
+# Email is 3rd EditText on Step 4 (after Sanchalak 1 Name and Sanchalak 2 Name)
+${DHYANKENDRA_EMAIL_INPUT}                             xpath=//*[contains(@text,'Enter Email') or contains(@hint,'Enter Email')] | (//android.widget.EditText)[3]
+# Office Number is 4th EditText on Step 4
+${DHYANKENDRA_MOBILE_INPUT}                            xpath=//*[contains(@text,'00 0000 0000') or contains(@hint,'0000')] | (//android.widget.EditText)[4]
+${DHYANKENDRA_SUBMIT}                                  xpath=//*[@content-desc="Submit" or @text="Submit"]
+# Validation error message when Sanchalak already registered
+${SANCHALAK_VALIDATION_ERROR}                          xpath=//*[contains(@text,'already') or contains(@content-desc,'already') or contains(@text,'registered') or contains(@content-desc,'registered')]
+${VALIDATION_OK_BUTTON}                                xpath=//*[@text='OK' or @content-desc='OK' or @text='Close' or @content-desc='Close']
 ${DHYANKENDRA_SUCCESS_MESSAGE}                         xpath=//android.view.View[contains(@content-desc,'Jay Aatmeshwar!')]
 ${DHYANKENDRA_CLOSE_SUCCESS_MESSAGE}                   xpath=//android.widget.ImageView[1]
 ${DHYANKENDRA_SUBMITTED_APPLICATION}                   xpath=//android.view.View[@content-desc="Submitted Application"]
@@ -130,9 +135,48 @@ Enter Sitting Capacity
     Mobile Click Element    ${SITTING}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${SITTING}    100
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Entered Sitting Capacity
-    Mobile Click Element    ${DHYANKENDRA_NEXT}
-    Log To Console    Clicked on Next Button
+
+Select Morning Timeslot
+    [Documentation]    Select Morning timeslot for Dhyankendra - MUST be AM
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    Scroll Until Element Found    xpath=//*[contains(@content-desc,'Dhyankendra Timeslot') or contains(@text,'Dhyankendra Timeslot')]
+    Sleep    1s
+    # Click on the first Select button (Morning)
+    Mobile Click Element    xpath=(//*[@text='Select' or @content-desc='Select'])[1]
+    Sleep    2s
+    # Click AM button to ensure morning time is AM
+    TRY
+        Mobile Click Element    xpath=//*[@text='AM' or @content-desc='AM']
+        Sleep    1s
+    EXCEPT
+        Log To Console    AM button not found, time picker may be different
+    END
+    # Click OK to confirm the time
+    Mobile Click Element    xpath=//*[@text='OK' or @content-desc='OK']
+    Sleep    1s
+    Log To Console    Selected Morning Timeslot (AM)
+
+Select Evening Timeslot
+    [Documentation]    Select Evening timeslot for Dhyankendra - MUST be PM
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click on the remaining Select button (Evening)
+    Mobile Click Element    xpath=(//*[@text='Select' or @content-desc='Select'])[1]
+    Sleep    2s
+    # Click PM button to ensure evening time is PM
+    TRY
+        Mobile Click Element    xpath=//*[@text='PM' or @content-desc='PM']
+        Sleep    1s
+    EXCEPT
+        Log To Console    PM button not found, time picker may be different
+    END
+    # Click OK to confirm the time
+    Mobile Click Element    xpath=//*[@text='OK' or @content-desc='OK']
+    Sleep    1s
+    Log To Console    Selected Evening Timeslot (PM)
 
 Enter Full Address For Dhyankendra
     Mobile Click Element    ${FULL_ADDRESS_INPUT}
@@ -165,18 +209,47 @@ Enter Hall Height
     Log To Console    Entered Hall Height
 
 Select Country for Dhyankendra
-    Scroll until element Visible    ${DHYANKENDRA_NEXT}
-    Mobile Click Element                    ${REGISTER_COUNTRY}
-    Mobile Click Element                    xpath=//android.widget.EditText
-    Mobile Input Text                       xpath=//android.widget.EditText              India
-    Mobile Click Element                    ${INDIA}
+    [Documentation]    Select Country - India
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Swipe from above the map area (start at 55% height) to scroll page not map
+    ${height}=    Mobile Get Window Height
+    ${width}=    Mobile Get Window Width
+    ${start_x}=    Evaluate    int(${width} * 0.5)
+    ${start_y}=    Evaluate    int(${height} * 0.55)
+    ${end_y}=    Evaluate    int(${height} * 0.15)
+    # Swipe three times to ensure we scroll past the map
+    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    400ms
+    Sleep    0.5s
+    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    400ms
+    Sleep    0.5s
+    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    400ms
+    Sleep    1s
+    # Click on Country dropdown and select India
+    Mobile Click Element    xpath=//*[contains(@text,'Select Country') or contains(@content-desc,'Select Country')]
+    Sleep    2s
+    Mobile Click Element    xpath=//android.widget.EditText
+    Mobile Input Text    xpath=//android.widget.EditText    India
+    Sleep    1s
+    # Click on the India option in the dropdown list (second instance after the input)
+    Mobile Click Element    xpath=(//*[@text='India' or @content-desc='India'])[2]
+    Sleep    1s
+    Log To Console    Selected Country - India
 
 Select State for Dhyankendra
-    Scroll until element found    ${DHYANKENDRA_NEXT}
-    Mobile Click Element                    ${SELECT_STATE}
-    Mobile Click Element                    xpath=//android.widget.EditText
-    Mobile Input Text                       xpath=//android.widget.EditText              Gujarat
-    Mobile Click Element                    ${GUJARAT} 
+    [Documentation]    Select State - Gujarat
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click on State dropdown
+    Mobile Click Element    xpath=//*[contains(@text,'Select State') or contains(@content-desc,'Select State')]
+    Sleep    2s
+    Mobile Click Element    xpath=//android.widget.EditText
+    Mobile Input Text    xpath=//android.widget.EditText    Gujarat
+    Sleep    1s
+    # Click on the Gujarat option in dropdown list (second instance)
+    Mobile Click Element    xpath=(//*[@text='Gujarat' or @content-desc='Gujarat'])[2]
+    Sleep    1s
+    Log To Console    Selected State - Gujarat 
 
 Click on the Next Button for Dhyankendra
     Scroll until element found    ${DHYANKENDRA_NEXT}
@@ -246,41 +319,250 @@ Select Roof Type
 
 Select User for Dhyankendra
     [Arguments]    ${name}
-    # Click on the Sanchalak name input field
-    Mobile Click Element    ${SEARCH_BY_UID_OR_NAME}
-    Type Text Using Keyboard    ${name}
-    Mobile Click Element    ${SELECT_USER}
+    [Documentation]    Legacy keyword - kept for backward compatibility
+    # Click on the Sanchalak 1 dropdown field
+    Mobile Click Element    xpath=//*[contains(@text,'Sanchalak 1 Name') or contains(@content-desc,'Sanchalak 1')]//following::android.view.View[1] | (//android.view.View[@clickable='true'])[1]
+    Sleep    2s
+    # Select user by searching
+    Mobile Click Element    xpath=//android.widget.EditText
+    Mobile Input Text    xpath=//android.widget.EditText    ${name}
+    Sleep    1s
+    # Click on the matching result (2nd instance - 1st is search field)
+    Mobile Click Element    xpath=(//*[contains(@text,'${name}') or contains(@content-desc,'${name}')])[2]
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Log To Console    Selected User for Dhyankendra
+    Sleep    1s
+    Log To Console    Selected User: ${name}
 
-Type Text Using Keyboard
-    [Arguments]    ${text}
-    # Split characters
-    @{characters}=    Evaluate    list('${text}')
-    FOR    ${char}    IN    @{characters}
-        ${keycode}=    Get Keycode For Character    ${char}
-        Run Keyword If    '${keycode}' != 'None'    Mobile Press Keycode    ${keycode}
-        ...    ELSE    Mobile Input Text    ${SEARCH_BY_UID_OR_NAME}    ${char}
-        Sleep    0.3s
+Select Sanchalak By Index
+    [Arguments]    ${index}
+    [Documentation]    Select Sanchalak from searchable dropdown at specified index
+    ...    Tries different search terms until dropdown appears, then selects item
+    Log To Console    Attempting to select Sanchalak at index ${index}
+    Sleep    1s
+
+    ${width}=    Mobile Get Window Width
+    ${height}=    Mobile Get Window Height
+    ${x}=    Evaluate    int(${width} * 0.5)
+
+    # Clear existing Sanchalak selection if any (for retry attempts)
+    ${sanchalak_field}=    Set Variable    xpath=(//android.widget.EditText)[1]
+    Run Keyword And Ignore Error    Mobile Clear Text    ${sanchalak_field}
+    Sleep    1s
+
+    # Click on Sanchalak 1 Name field (first EditText on Step 4)
+    Mobile Click Element    ${sanchalak_field}
+    Sleep    2s
+
+    # Try different search terms until dropdown list appears
+    ${dropdown_visible}=    Set Variable    ${FALSE}
+    @{search_terms}=    Create List    aaa    aa    a    ash    bh    ja    ra    sa    ya
+
+    FOR    ${term}    IN    @{search_terms}
+        # Clear field and type new search term
+        Run Keyword And Ignore Error    Mobile Clear Text    ${sanchalak_field}
+        Sleep    0.5s
+        Mobile Click Element    ${sanchalak_field}
+        Sleep    1s
+
+        # Type the search term character by character
+        ${chars}=    Split String To Characters    ${term}
+        FOR    ${char}    IN    @{chars}
+            ${keycode}=    Get Keycode For Character    ${char}
+            Mobile Press Keycode    ${keycode}
+            Sleep    0.3s
+        END
+
+        Log To Console    Typed '${term}', waiting for dropdown...
+        Sleep    5s    # Wait for dropdown results to load
+
+        # Check if dropdown list appeared
+        ${dropdown_visible}=    Run Keyword And Return Status    Mobile Element Should Be Visible    xpath=//android.view.View[contains(@content-desc,' ') and string-length(@content-desc) > 3]
+        IF    ${dropdown_visible}
+            Log To Console    ✅ Dropdown list appeared with search term '${term}'
+            BREAK
+        ELSE
+            Log To Console    ❌ No dropdown with '${term}', trying next...
+        END
     END
 
+    IF    not ${dropdown_visible}
+        Log To Console    ⚠️ Could not trigger dropdown with any search term
+        RETURN    ${FALSE}
+    END
+
+    Sleep    2s
+
+    # Select from dropdown at specified index
+    ${selected}=    Set Variable    ${FALSE}
+    @{dropdown_locators}=    Create List
+    ...    xpath=(//android.view.View[contains(@content-desc,' ') and string-length(@content-desc) > 3])[${index}]
+    ...    xpath=(//android.widget.TextView[string-length(@text) > 5])[${index}]
+    ...    xpath=(//android.view.View[string-length(@text) > 5])[${index}]
+
+    FOR    ${locator}    IN    @{dropdown_locators}
+        ${click_success}=    Run Keyword And Return Status    Mobile Click Element    ${locator}
+        IF    ${click_success}
+            Log To Console    ✅ Selected Sanchalak at index ${index}
+            ${selected}=    Set Variable    ${TRUE}
+            BREAK
+        END
+    END
+
+    IF    not ${selected}
+        # Fallback: Tap on screen coordinates
+        ${tap_y}=    Evaluate    280 + (${index} * 55)
+        Log To Console    Trying coordinate tap at y=${tap_y}
+        Run Keyword And Ignore Error    Mobile.Click A Point    ${x}    ${tap_y}
+    END
+
+    Sleep    2s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+
+    Log To Console    Sanchalak selection attempt completed for index ${index}
+    RETURN    ${TRUE}
+
+Get Keycode For Character
+    [Arguments]    ${char}
+    [Documentation]    Returns Android keycode for a given character
+    ${char_lower}=    Convert To Lower Case    ${char}
+    # Android keycodes: a=29, b=30, c=31, ... z=54
+    ${keycodes}=    Create Dictionary
+    ...    a=29    b=30    c=31    d=32    e=33    f=34    g=35    h=36    i=37
+    ...    j=38    k=39    l=40    m=41    n=42    o=43    p=44    q=45    r=46
+    ...    s=47    t=48    u=49    v=50    w=51    x=52    y=53    z=54
+    ${keycode}=    Get From Dictionary    ${keycodes}    ${char_lower}
+    RETURN    ${keycode}
+
+Click Outside To Close Dialog
+    [Documentation]    Close validation dialog by clicking OK/Close button or tapping outside
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+
+    # Try clicking OK or Close button first
+    ${ok_clicked}=    Run Keyword And Return Status    Mobile Click Element    xpath=//*[@text='OK' or @content-desc='OK' or @text='Close' or @content-desc='Close' or @text='Tamam' or @content-desc='Tamam']
+    IF    ${ok_clicked}
+        Log To Console    Closed dialog by clicking OK/Close button
+        Sleep    1s
+        RETURN
+    END
+
+    # Try tapping outside dialog area (top of screen)
+    ${width}=    Mobile Get Window Width
+    ${x}=    Evaluate    int(${width} * 0.5)
+    Run Keyword And Ignore Error    Mobile.Click A Point    ${x}    100
+    Sleep    1s
+    Log To Console    Closed dialog by tapping outside
+
+Check For Sanchalak Validation Error
+    [Documentation]    Check if validation error appeared for Sanchalak issues
+    ...    Checks for: already registered, not found, required field errors
+    Sleep    3s
+    # Check for various validation errors
+    ${error_locator}=    Set Variable    xpath=//*[contains(@text,'already') or contains(@content-desc,'already') or contains(@text,'associated') or contains(@content-desc,'associated') or contains(@text,'registered') or contains(@content-desc,'registered') or contains(@text,'not found') or contains(@content-desc,'not found') or contains(@text,'required') or contains(@content-desc,'required') or contains(@text,'Sanchalak') or contains(@content-desc,'Sanchalak')]
+    ${error_visible}=    Run Keyword And Return Status    Mobile Element Should Be Visible    ${error_locator}
+    IF    ${error_visible}
+        Log To Console    ⚠️ Validation error detected
+    ELSE
+        Log To Console    ✅ No validation error detected
+    END
+    RETURN    ${error_visible}
+
 Enter Email for Dhyankendra
+    [Documentation]    Enter email in the Email field (3rd EditText on Step 4)
+    Sleep    1s
     Mobile Click Element    ${DHYANKENDRA_EMAIL_INPUT}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    0.5s
     Mobile Input Text    ${DHYANKENDRA_EMAIL_INPUT}    ${E2E_EMAIL}
-    Log To Console    Entered Email for Dhyankendra
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Log To Console    Entered Email: ${E2E_EMAIL}
 
 Enter Mobile for Dhyankendra
+    [Documentation]    Enter mobile in Office Number field (4th EditText on Step 4)
+    Sleep    1s
     Mobile Click Element    ${DHYANKENDRA_MOBILE_INPUT}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    0.5s
     Mobile Input Text    ${DHYANKENDRA_MOBILE_INPUT}    ${E2E_MOBILE}
-    Log To Console    Entered Mobile for Dhyankendra
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Log To Console    Entered Mobile: ${E2E_MOBILE}
 
 Click on the Submit Button for Dhyankendra
-    Scroll until element found    ${DHYANKENDRA_SUBMIT}
+    [Documentation]    Scroll to Submit button and click it
+    Sleep    1s
+    # Scroll down to find Submit button
+    ${height}=    Mobile Get Window Height
+    ${width}=    Mobile Get Window Width
+    ${x}=    Evaluate    int(${width} * 0.5)
+    ${start_y}=    Evaluate    int(${height} * 0.7)
+    ${end_y}=    Evaluate    int(${height} * 0.3)
+    FOR    ${i}    IN RANGE    3
+        ${found}=    Run Keyword And Return Status    Mobile Element Should Be Visible    ${DHYANKENDRA_SUBMIT}
+        IF    ${found}    BREAK
+        Mobile Swipe    ${x}    ${start_y}    ${x}    ${end_y}    500ms
+        Sleep    1s
+    END
+    Sleep    1s
+    # Wait for element to be ready and click
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMIT}    10s
+    Sleep    0.5s
     Mobile Click Element    ${DHYANKENDRA_SUBMIT}
-    Log To Console    Clicked on the Submit Button for Dhyankendra
-    Sleep    10s
+    Log To Console    Clicked Submit Button
+    Sleep    3s
+
+Select Sanchalak And Submit With Validation Loop
+    [Documentation]    Dynamic Sanchalak selection with validation error handling
+    ...    Selects Sanchalak FIRST, then Email/Mobile, tries until successful submission
+    [Arguments]    ${max_attempts}=10
+
+    # Loop through Sanchalaks by index until successful submission
+    FOR    ${index}    IN RANGE    1    ${max_attempts}+1
+        Log To Console    === Attempt ${index}: Trying Sanchalak at index ${index} ===
+
+        # Step 1: Select Sanchalak FIRST using aaa approach
+        ${selected}=    Select Sanchalak By Index    ${index}
+        IF    not ${selected}
+            Log To Console    No more Sanchalaks available at index ${index}, stopping loop
+            Fail    No valid Sanchalak found after ${index} attempts
+        END
+
+        # Step 2: Enter Email and Mobile (only on first attempt)
+        IF    ${index} == 1
+            Log To Console    === Entering Email and Mobile ===
+            Enter Email for Dhyankendra
+            Enter Mobile for Dhyankendra
+        END
+
+        # Step 3: Submit the form
+        Click on the Submit Button for Dhyankendra
+
+        # Step 4: Check for validation error (Sanchalak already registered)
+        ${has_error}=    Check For Sanchalak Validation Error
+
+        IF    ${has_error}
+            Log To Console    ⚠️ Validation error: Sanchalak ${index} already assigned. Trying next...
+            # Close error dialog by clicking outside
+            Click Outside To Close Dialog
+            Sleep    1s
+            # Continue to next Sanchalak
+        ELSE
+            Log To Console    SUCCESS: Sanchalak ${index} accepted, form submitted!
+            RETURN
+        END
+    END
+
+    Fail    Could not find valid Sanchalak after ${max_attempts} attempts
+
+Scroll To Top Of Page
+    [Documentation]    Scroll up to reach Sanchalak field for next selection
+    ${width}=    Mobile Get Window Width
+    ${height}=    Mobile Get Window Height
+    ${x}=    Evaluate    int(${width} * 0.5)
+    ${start_y}=    Evaluate    int(${height} * 0.3)
+    ${end_y}=    Evaluate    int(${height} * 0.8)
+    Mobile Swipe    ${x}    ${start_y}    ${x}    ${end_y}    500ms
+    Sleep    1s
 
 Verify Dhyankendra Success Message
     Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUCCESS_MESSAGE}    10s
@@ -627,20 +909,62 @@ Validate the filled value on that sadak user on the CMS side
     Close Web Browser
 
 Click on the Search Button
-    [Documentation]    Clicks on the Search Button
+    [Documentation]    Clicks on the Search Button and waits for data to load
+    # Wait for any loading overlay to disappear first
+    Sleep    3s
+    Wait Until Loading Completes
     Web Wait Until Element Is Visible    ${DHYANKENDRA_SEARCH_BUTTON}    10s
     Web Click Element    ${DHYANKENDRA_SEARCH_BUTTON}
     Web Input Text    ${DHYANKENDRA_SEARCH_BUTTON}    ${E2E_CENTER_NAME}
+    # Press Enter to search
+    Web Press Keys    ${DHYANKENDRA_SEARCH_BUTTON}    ENTER
+    Sleep    5s
+    Wait Until Loading Completes
     Log To Console    Clicked on the Search Button
 
-Click on the ViewButton in CMS
+Click on the View Button in CMS
     [Documentation]    Clicks on the View Button in CMS
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_MORE_BUTTON}    10s
-    Sleep    5s
+    Sleep    3s
+    Wait Until Loading Completes
+    # Verify search results exist first
+    ${results_found}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_MORE_BUTTON}    20s
+    IF    not ${results_found}
+        Log To Console    ⚠️ No search results found, refreshing page...
+        Web.Reload Page
+        Sleep    5s
+        Wait Until Loading Completes
+    END
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_MORE_BUTTON}    15s
+    Sleep    2s
     Web Click Element    ${DHYANKENDRA_MORE_BUTTON}
-    Sleep    5s
-    Web Click Element    ${DHYANKENDRA_VIEW_BUTTON}
+    Sleep    3s
+    # Try clicking View button with retry
+    TRY
+        Web Wait Until Element Is Visible    ${DHYANKENDRA_VIEW_BUTTON}    10s
+        Web Click Element    ${DHYANKENDRA_VIEW_BUTTON}
+    EXCEPT
+        # Retry clicking more button
+        Log To Console    Retrying click on more button...
+        Web Click Element    ${DHYANKENDRA_MORE_BUTTON}
+        Sleep    2s
+        Web Wait Until Element Is Visible    ${DHYANKENDRA_VIEW_BUTTON}    10s
+        Web Click Element    ${DHYANKENDRA_VIEW_BUTTON}
+    END
     Log To Console    Clicked on the View Button in CMS
+
+Wait Until Loading Completes
+    [Documentation]    Waits until the MuiDataGrid loading overlay disappears
+    ${loading_overlay}=    Set Variable    xpath=//div[contains(@class,'MuiDataGrid-overlay')]
+    FOR    ${i}    IN RANGE    20
+        ${is_visible}=    Run Keyword And Return Status    Web Element Should Be Visible    ${loading_overlay}
+        IF    not ${is_visible}
+            Log To Console    Loading complete
+            RETURN
+        END
+        Sleep    1s
+        Log To Console    Waiting for loading to complete... (${i+1}/20)
+    END
+    Log To Console    Loading may still be in progress, continuing anyway
 
 Verify the filled value on that sadak user on the CMS side
     [Documentation]    Verifies the filled value on that sadak user on the CMS side
