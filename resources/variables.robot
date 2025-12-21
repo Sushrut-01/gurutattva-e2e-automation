@@ -10,9 +10,9 @@ ${REMOTE_URL}        http://localhost:4723
 # - RZCY31K3MHL              : Physical Android device (current setup)
 # - emulator-5554            : Android Studio Emulator on same machine
 # - <device-ip>:5555         : Physical device via ADB over network
-# Leave empty to auto-detect first available device
+# - ${EMPTY}                 : Auto-detect first available device
 ${PLATFORM_NAME}     Android
-${DEVICE_NAME}       RZCY31K3MHL
+${DEVICE_NAME}       ${EMPTY}
 ${APP_PACKAGE}       com.org.gurutattva.app
 ${APP_ACTIVITY}      com.example.gurutattva_flutter_app.MainActivity
 ${AUTOMATION_NAME}   UiAutomator2

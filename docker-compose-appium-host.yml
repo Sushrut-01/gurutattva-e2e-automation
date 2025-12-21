@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  appium:
+    image: appium-gurutattva:latest
+    container_name: gurutattva-appium-server-host
+
+    # Use host network - allows container to access host's ADB server
+    network_mode: host
+
+    environment:
+      # Appium Server Configuration
+      APPIUM_HOST: "0.0.0.0"
+      APPIUM_PORT: "4723"
+      LOG_LEVEL: "info"
+
+      # Android Configuration (from built image)
+      ANDROID_HOME: "/opt/android-sdk"
+      JAVA_HOME: "/usr/lib/jvm/java-17-openjdk-amd64"
+
+      # UIAutomator2 Driver Settings
+      APPIUM_UIAUTOMATOR2_SERVER_INSTALL_TIMEOUT: "60000"
+      APPIUM_UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT: "60000"
+      APPIUM_ADB_EXEC_TIMEOUT: "40000"
+      APPIUM_NEW_COMMAND_TIMEOUT: "600000"
+
+    volumes:
+      # Appium logs
+      - ./appium-logs:/root/.appium
+      # ADB state directory
+      - ./adb-state:/root/.android
+      # Mount host's ADB socket
+      - /var/run/adb:/var/run/adb
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4723/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+    restart: unless-stopped
