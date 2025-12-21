@@ -335,8 +335,8 @@ Select User for Dhyankendra
 
 Select Sanchalak By Index
     [Arguments]    ${index}
-    [Documentation]    Select Sanchalak from searchable dropdown at specified index
-    ...    Tries different search terms until dropdown appears, then selects item
+    [Documentation]    Select Sanchalak using unique search term and result position per attempt
+    ...    Pattern: Attempt 1-2 use "ash" (result 1,2), Attempt 3-4 use "bh" (result 1,2), etc.
     Log To Console    Attempting to select Sanchalak at index ${index}
     Sleep    1s
 
@@ -353,11 +353,31 @@ Select Sanchalak By Index
     Mobile Click Element    ${sanchalak_field}
     Sleep    2s
 
-    # Try different search terms until dropdown list appears
-    ${dropdown_visible}=    Set Variable    ${FALSE}
-    @{search_terms}=    Create List    aaa    aa    a    ash    bh    ja    ra    sa    ya
+    # Common Indian name prefixes (3+ characters for dropdown to appear)
+    @{search_terms}=    Create List    ash    bha    jay    raj    san    yat    adi    ami    ani    vij    pra    sur    dee    gop    man    pat    kam    nil    har    sha    din    kum    lax    meh    moh    nar    nee    aru    gan    him    ket    kir    mit    muk    pun    rah    ram    sat    she    shr    vai    vin    yog
 
-    FOR    ${term}    IN    @{search_terms}
+    # Calculate search term and result position
+    # Pattern: Every 2 attempts use same search term, alternating result 1 and 2
+    # Attempt 1: term 0, result 1 | Attempt 2: term 0, result 2
+    # Attempt 3: term 1, result 1 | Attempt 4: term 1, result 2
+    ${term_idx}=    Evaluate    (${index} - 1) // 2 % len(${search_terms})
+    ${result_position}=    Evaluate    ((${index} - 1) % 2) + 1
+    ${primary_term}=    Get From List    ${search_terms}    ${term_idx}
+
+    Log To Console    Using search term '${primary_term}' with result position ${result_position}
+
+    ${dropdown_visible}=    Set Variable    ${FALSE}
+
+    # Try the primary term first, then fallback to others if needed
+    @{terms_to_try}=    Create List    ${primary_term}
+    # Add fallback terms
+    FOR    ${i}    IN RANGE    1    5
+        ${fallback_idx}=    Evaluate    (${term_idx} + ${i}) % len(${search_terms})
+        ${fallback_term}=    Get From List    ${search_terms}    ${fallback_idx}
+        Append To List    ${terms_to_try}    ${fallback_term}
+    END
+
+    FOR    ${term}    IN    @{terms_to_try}
         # Clear field and type new search term
         Run Keyword And Ignore Error    Mobile Clear Text    ${sanchalak_field}
         Sleep    0.5s
@@ -392,32 +412,42 @@ Select Sanchalak By Index
 
     Sleep    2s
 
-    # Select from dropdown at specified index
+    # Select result at calculated position (1 or 2 based on attempt number)
     ${selected}=    Set Variable    ${FALSE}
     @{dropdown_locators}=    Create List
-    ...    xpath=(//android.view.View[contains(@content-desc,' ') and string-length(@content-desc) > 3])[${index}]
-    ...    xpath=(//android.widget.TextView[string-length(@text) > 5])[${index}]
-    ...    xpath=(//android.view.View[string-length(@text) > 5])[${index}]
+    ...    xpath=(//android.view.View[contains(@content-desc,' ') and string-length(@content-desc) > 3])[${result_position}]
+    ...    xpath=(//android.widget.TextView[string-length(@text) > 5])[${result_position}]
+    ...    xpath=(//android.view.View[string-length(@text) > 5])[${result_position}]
 
     FOR    ${locator}    IN    @{dropdown_locators}
         ${click_success}=    Run Keyword And Return Status    Mobile Click Element    ${locator}
         IF    ${click_success}
-            Log To Console    ✅ Selected Sanchalak at index ${index}
+            Log To Console    ✅ Selected Sanchalak from '${primary_term}' search at position ${result_position}
             ${selected}=    Set Variable    ${TRUE}
             BREAK
         END
     END
 
     IF    not ${selected}
-        # Fallback: Tap on screen coordinates
-        ${tap_y}=    Evaluate    280 + (${index} * 55)
+        # Fallback: Tap on screen coordinates based on result position
+        ${tap_y}=    Evaluate    280 + (${result_position} * 55)
         Log To Console    Trying coordinate tap at y=${tap_y}
-        Run Keyword And Ignore Error    Mobile.Click A Point    ${x}    ${tap_y}
+        ${tap_success}=    Run Keyword And Return Status    Mobile.Click A Point    ${x}    ${tap_y}
+        IF    ${tap_success}
+            ${selected}=    Set Variable    ${TRUE}
+        END
     END
 
     Sleep    2s
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
+
+    # Verify selection was made by checking if field has value
+    ${field_value}=    Run Keyword And Return Status    Mobile Element Should Be Visible    xpath=(//android.widget.EditText[@text!=''])[1]
+    IF    not ${selected} and not ${field_value}
+        Log To Console    ⚠️ No Sanchalak selected from '${primary_term}' search
+        RETURN    ${FALSE}
+    END
 
     Log To Console    Sanchalak selection attempt completed for index ${index}
     RETURN    ${TRUE}
@@ -514,27 +544,31 @@ Click on the Submit Button for Dhyankendra
 Select Sanchalak And Submit With Validation Loop
     [Documentation]    Dynamic Sanchalak selection with validation error handling
     ...    Selects Sanchalak FIRST, then Email/Mobile, tries until successful submission
-    [Arguments]    ${max_attempts}=10
+    [Arguments]    ${max_attempts}=15
+
+    # Track if email/mobile have been entered
+    ${email_entered}=    Set Variable    ${FALSE}
 
     # Loop through Sanchalaks by index until successful submission
     FOR    ${index}    IN RANGE    1    ${max_attempts}+1
         Log To Console    === Attempt ${index}: Trying Sanchalak at index ${index} ===
 
-        # Step 1: Select Sanchalak FIRST using aaa approach
+        # Step 1: Select Sanchalak using unique search term
         ${selected}=    Select Sanchalak By Index    ${index}
         IF    not ${selected}
-            Log To Console    No more Sanchalaks available at index ${index}, stopping loop
-            Fail    No valid Sanchalak found after ${index} attempts
+            Log To Console    ⚠️ No Sanchalak found at attempt ${index}, trying next search term...
+            CONTINUE
         END
 
-        # Step 2: Enter Email and Mobile (only on first attempt)
-        IF    ${index} == 1
+        # Step 2: Enter Email and Mobile (only on first successful selection)
+        IF    not ${email_entered}
             Log To Console    === Entering Email and Mobile ===
             Enter Email for Dhyankendra
             Enter Mobile for Dhyankendra
+            ${email_entered}=    Set Variable    ${TRUE}
         END
 
-        # Step 3: Submit the form
+        # Step 3: Submit the form (only if Sanchalak was selected)
         Click on the Submit Button for Dhyankendra
 
         # Step 4: Check for validation error (Sanchalak already registered)

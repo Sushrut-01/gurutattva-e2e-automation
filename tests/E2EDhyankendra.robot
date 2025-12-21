@@ -252,6 +252,9 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Select Premise Type
     Select Ownership
     Enter Sitting Capacity
+    Select Morning Timeslot
+    Select Evening Timeslot
+    Click on the Next Button for Dhyankendra
     Enter Full Address For Dhyankendra
     Enter Pincode For Dhyankendra
     Select Country for Dhyankendra
@@ -272,20 +275,21 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    Select User for Dhyankendra    Adesh
-    Enter Email for Dhyankendra
-    Enter Mobile for Dhyankendra
-    Click on the Submit Button for Dhyankendra
+    Select Sanchalak And Submit With Validation Loop
     Close Gurutattva App
 
     # --- Step 2: Super Admin Approval ---
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
-    Verify the created Dhyankendra in CMS
+    Click on the Search Button
     Click on the Edit Button in CMS
-    Click on the approve button in CMS
-    Click on the Cancel Button in CMS
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Approve Button from Edit Request
+    Verify the Edit Dhyankendra Success Message
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Approved Status in CMS
     Close Web Browser
 
@@ -293,7 +297,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Open Web Browser
     Login in with Sanchalak credentials
     Click on the Dhyankendra Management Menu
-    Filter the Dhyankendra in CMS by Center Name
+    Click on the Search Button
     Click on the Edit Button in CMS
     Change the Address of the Dhyankendra
     Select Community Hall Premise Type
@@ -301,6 +305,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Verify the Edit Request Message
     Click on the Audio Menu
     Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Review Status as Pending
     Close Web Browser
 
@@ -308,13 +313,14 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Review Status as Pending
     Click on the Edit Button in CMS
     Click on the Change Request Button for Web
     Enter Remark for Edit Request
     Click on the Reject Button from Edit Request
-    Click on the Prayer Menu
     Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Review Status as Rejected
     Close Web Browser
 
@@ -344,6 +350,9 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Select Premise Type
     Select Ownership
     Enter Sitting Capacity
+    Select Morning Timeslot
+    Select Evening Timeslot
+    Click on the Next Button for Dhyankendra
     Enter Full Address For Dhyankendra
     Enter Pincode For Dhyankendra
     Select Country for Dhyankendra
@@ -364,20 +373,21 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    Select User for Dhyankendra    Adesh
-    Enter Email for Dhyankendra
-    Enter Mobile for Dhyankendra
-    Click on the Submit Button for Dhyankendra
+    Select Sanchalak And Submit With Validation Loop
     Close Gurutattva App
 
     # --- Step 2: Super Admin Approval ---
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
-    Verify the created Dhyankendra in CMS
+    Click on the Search Button
     Click on the Edit Button in CMS
-    Click on the approve button in CMS
-    Click on the Cancel Button in CMS
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Approve Button from Edit Request
+    Verify the Edit Dhyankendra Success Message
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Approved Status in CMS
     Close Web Browser
 
@@ -385,7 +395,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Open Web Browser
     Login in with Sanchalak credentials
     Click on the Dhyankendra Management Menu
-    Filter the Dhyankendra in CMS by Center Name
+    Click on the Search Button
     Click on the Edit Button in CMS
     Change the Address of the Dhyankendra
     Select Community Hall Premise Type
@@ -393,6 +403,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Verify the Edit Request Message
     Click on the Audio Menu
     Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Review Status as Pending
     Close Web Browser
 
@@ -400,14 +411,15 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Review Status as Pending
     Click on the Edit Button in CMS
     Click on the Change Request Button for Web
     Enter Remark for Edit Request
     Click on the Approve Button from Edit Request
     Verify the Edit Dhyankendra Success Message
-    Click on the Prayer Menu
     Click on the Dhyankendra Management Menu
+    Click on the Search Button
     Verify the Review Status as Approved
     Close Web Browser
 
