@@ -26,7 +26,9 @@ Test Teardown    Test Teardown
 Verify when super admin is able to reject the dhyankendra request of sadhak and verify the status as Rejected on the mobile app
     [Tags]    Dhyankendra    TC46
     # Mobile: Sadhak user (OTP-based) - Register Dhyankendra
-    # CMS: Super Admin (sushrut.nistane@rysun.com / Sharu@051220) - Reject registration
+    # CMS Step 1: Super Admin (sushrut.nistane@rysun.com / Sharu@051220) - Initial approval
+    # CMS Step 2: Sanchalak - Vaishali/Vaishub (patilvaishub@gmail.com / Lavanya@21) - Request changes
+    # CMS Step 3: Super Admin - Reject the requested changes
     # Mobile: Sadhak user - Verify rejection reflected in app
     # All credentials from: Roles & Rights Module
     Generate Center Name for Dhyankendra
@@ -66,20 +68,53 @@ Verify when super admin is able to reject the dhyankendra request of sadhak and 
     Select Sanchalak And Submit With Validation Loop
     Close Gurutattva App
 
-    # --- Step 2: Super Admin REJECTS Registration ---
+    # --- Step 2: Super Admin Approval ---
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
     Click on the Search Button
     Click on the Edit Button in CMS
-    Click on the reject button in CMS
-    Verify the Update Message For Dhyankendra
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Approve Button from Edit Request
+    Verify the Edit Dhyankendra Success Message
     Click on the Dhyankendra Management Menu
     Click on the Search Button
-    Verify the Rejected Status in CMS
+    Verify the Approved Status in CMS
     Close Web Browser
 
-    # --- Step 3: Mobile Validation - Verify Rejection ---
+    # --- Step 3: Sanchalak Request Changes ---
+    Open Web Browser
+    Login in with Sanchalak credentials
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Click on the Edit Button in CMS
+    Change the Address of the Dhyankendra
+    Select Community Hall Premise Type
+    Click on the Submit Button for Web
+    Verify the Edit Request Message
+    Click on the Audio Menu
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Verify the Review Status as Pending
+    Close Web Browser
+
+    # --- Step 4: Super Admin REJECTS Changes ---
+    Open Web Browser
+    Login in with valid credentials
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Verify the Review Status as Pending
+    Click on the Edit Button in CMS
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Reject Button from Edit Request
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Verify the Review Status as Rejected
+    Close Web Browser
+
+    # --- Step 5: Mobile Validation - Verify Rejection ---
     Open Gurutattva App
     Handle First Time Setup
     Click on the DhyanKendra Tab
