@@ -1,6 +1,55 @@
 *** Variables ***
 ${REMOTE_URL}        http://localhost:4723/wd/hub
 
+# ═══════════════════════════════════════════════════════════════════
+# E2E REGISTRATION TEST SUITE - MOBILE NUMBER & OTP CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════
+# IMPORTANT: This suite runs SEQUENTIALLY with phone number progression
+#
+# Phone Number Strategy:
+#   - Primary (TC07, TC08, TC09, TC10): 9999999999
+#   - Tertiary (Community Reg, TC14): 9999999911
+#   - All test-only numbers (never used in real world)
+#
+# OTP Strategy:
+#   - Single hardcoded OTP: 999999
+#   - Used for ALL test mobile registrations
+#   - Automatically entered via keypad presses
+# ═══════════════════════════════════════════════════════════════════
+
+# Primary Test Phone (Used by TC07, TC08, TC09, TC10)
+${PRIMARY_PHONE}                          9999999999
+${PRIMARY_PHONE_OTP}                      999999
+
+# Secondary Test Phone (Used by TC10 - Becomes Member upgrade)
+# Note: Same as PRIMARY for upgrade scenario
+${SECONDARY_PHONE}                        9999999999
+${SECONDARY_PHONE_OTP}                    999999
+
+# Tertiary Test Phone (Used by Community Registration, TC14)
+${TERTIARY_PHONE}                         9999999911
+${TERTIARY_PHONE_OTP}                     999999
+
+# Universal Test OTP (Same for ALL mobile registrations)
+${UNIVERSAL_TEST_OTP}                     999999
+
+# Community Registration Test Data
+${COMMUNITY_EMAIL}                        qa.community@gurutattva.com
+
+# Quick Registration Test Data
+${QUICK_REGISTRATION_EMAIL}               qa.user@gurutattva.com
+
+# ═══════════════════════════════════════════════════════════════════
+# WEB/CMS CREDENTIALS
+# ═══════════════════════════════════════════════════════════════════
+# Super Admin Credentials (Used in TC07 CMS verification & Community Reg CMS)
+${SUPER_ADMIN_EMAIL}                      sushrut.nistane@rysun.com
+${SUPER_ADMIN_PASSWORD}                   Sharu@051220
+
+# Sanchalak Credentials (Used in Dhyankendra tests only - NOT in E2ERegistration)
+${SANCHALAK_EMAIL}                        patilvaishub@gmail.com
+${SANCHALAK_PASSWORD}                     Lavanya@21
+
 # Android Device Configuration
 ${PLATFORM_NAME}     Android
 ${DEVICE_NAME}       emulator-5554

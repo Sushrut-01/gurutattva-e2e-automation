@@ -22,6 +22,10 @@ Test Teardown    Test Teardown
 *** Test Cases ***
 Verify that quick registration on the mobile app reflects correctly in the CMS and user details are displayed properly in profile and flip card.
     [Tags]  E2E  TC07  Registration  QuickRegistration
+    # SEQUENTIAL TEST SUITE - START OF USER JOURNEY
+    # Phone: 9999999999 | OTP: 999999
+    # This test CREATES a new user that will be used by TC08, TC09, and TC10
+    # Must pass first before other tests can proceed
     Generate E2E Quick Registration Test Data
 
     Open Gurutattva App
@@ -31,7 +35,7 @@ Verify that quick registration on the mobile app reflects correctly in the CMS a
     Enter First Name for Register Screen       ${E2E_USER_FIRST_NAME}
     Enter Last Name for Register Screen        ${E2E_USER_LAST_NAME}
     Enter Email for Register Screen            qa.user@gurutattva.com
-    Enter Mobile Number for Register Screen    8888888888
+    Enter Mobile Number for Register Screen    9999999999
     Select Gender for register screen
     Select Current Date DOB for Register Screen
     Select Country for Register Screen
@@ -63,9 +67,12 @@ Verify that quick registration on the mobile app reflects correctly in the CMS a
 
 Verify user is not able to do quick registration on mobile app with already used email id and phone number
      [Tags]  E2E  TC08  Registration  QuickRegistration
-    # # --- Generate Unique Test Data ---
-    # Generate E2E Registration Test Data
-   
+    # SEQUENTIAL - DEPENDENT ON TC07
+    # Phone: 9999999999 (SAME AS TC07)
+    # This test validates that the user created by TC07 cannot be registered again
+    # Tests duplicate prevention for both email and phone number
+    # Must run AFTER TC07 passes
+
     # --- Mobile App: Quick Registration ---
     Open Gurutattva App
     Handle First Time Setup
@@ -81,7 +88,7 @@ Verify user is not able to do quick registration on mobile app with already used
     Select Taluka/City for Register Screen
     Select Area/Village for Register Screen
     Enter Registered Email for Register Screen            qa.user@gurutattva.com
-    Enter Valid Mobile Number                             8888888888
+    Enter Valid Mobile Number                             9999999999
     Click on the Quick Registration Button
     Verify Validation Message for Registered Email Address and Mobile Number
     Close Gurutattva App
@@ -115,6 +122,11 @@ Verify user is not able to do quick registration on mobile app with already used
 
 Verify that the quick registration user is not able to access Events, Dhyan Kendra, and Podcasts , Home screen on the mobile app, and that a pop-up message is displayed
     [Tags]  TC09  Registration   QuickRegistration
+    # SEQUENTIAL - DEPENDENT ON TC07
+    # Phone: 9999999999 (SAME AS TC07 - logs in with this user)
+    # This test verifies that quick-registered users have feature access restrictions
+    # Logs in the user created by TC07 and tests access restrictions
+    # Must run AFTER TC07 passes
     Open Gurutattva App
 	Handle First Time Setup
 	Login As Non Community Member
@@ -133,6 +145,11 @@ Verify that the quick registration user is not able to access Events, Dhyan Kend
 
 Verify that the quick registration user is able to become a member on the mobile app
     [Tags]  TC10  Registration   QuickRegistration
+    # SEQUENTIAL FLOW: This test is PART OF THE SAME USER JOURNEY
+    # Phone: 9999999999 (SAME as TC07, TC08, TC09)
+    # User from TC07 is being UPGRADED from Quick Registration → Community Member
+    # No phone entry needed because user already exists from TC07
+    # This test continues the user session/data from previous tests
     Open Gurutattva App
     Handle First Time Setup
     Click on the Events Tab

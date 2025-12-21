@@ -110,7 +110,7 @@ Enter the validate and exist mobile number
     Mobile Input Text       ${LOGIN_EMAIL}      9999999999   
 
 Enter the Mobile Number of Quick Registration
-    Mobile Input Text       ${LOGIN_EMAIL}      8888888888
+    Mobile Input Text       ${LOGIN_EMAIL}      9999999999
 Enter the validate and exist email address
     Sleep    2s
     Mobile Click Element    ${EmailRadioBtn}
@@ -349,9 +349,10 @@ Enter Email OTP Manually
 
 Enter Mobile OTP Manually
     [Documentation]    Specifically for mobile login - waits for user to enter OTP received via SMS
+    # OTP: 999999 (Hardcoded test OTP - used for all mobile registrations)
     # Mobile Wait Until Element Is Visible    ${OTP_INPUT_FIELD}    10s
     # Mobile Click Element    ${OTP_INPUT_FIELD}
-    Enter Community Mobile By Keypad    888888
+    Enter Community Mobile By Keypad    999999
 
     # Sleep    2s
     
