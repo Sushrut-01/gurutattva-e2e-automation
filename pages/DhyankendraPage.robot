@@ -378,9 +378,27 @@ Select Sanchalak By Index
     END
 
     FOR    ${term}    IN    @{terms_to_try}
-        # Clear field and type new search term
-        Run Keyword And Ignore Error    Mobile Clear Text    ${sanchalak_field}
+        # Clear field character by character using backspace
+        Mobile Click Element    ${sanchalak_field}
         Sleep    0.5s
+        # Press backspace multiple times to clear (max 10 characters)
+        FOR    ${i}    IN RANGE    10
+            # Check if dropdown is still visible
+            ${dropdown_still_visible}=    Run Keyword And Return Status    Mobile Element Should Be Visible    xpath=//android.view.View[contains(@content-desc,' ') and string-length(@content-desc) > 3]
+            # Press backspace (keycode 67)
+            Mobile Press Keycode    67
+            Sleep    0.3s
+            # After backspace, check if dropdown disappeared
+            IF    not ${dropdown_still_visible}
+                # Field might be clear, try one more backspace to be sure
+                Mobile Press Keycode    67
+                Sleep    0.3s
+                BREAK
+            END
+        END
+        Sleep    0.5s
+
+        # Click field again to ensure focus
         Mobile Click Element    ${sanchalak_field}
         Sleep    1s
 
