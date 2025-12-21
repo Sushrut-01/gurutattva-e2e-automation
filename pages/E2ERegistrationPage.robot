@@ -66,7 +66,7 @@ ${VERIFY_L_N}                                     xpath=//android.widget.EditTex
 ${V_EMAIL}                                        xpath=//android.view.View[contains(@text, 'payment.gateway@rysun.com')]
 ${V_PHONE}                                        xpath=//android.view.View[contains(@text, '9999999999')]
 ${Q_EMAIL}                                        xpath=//android.view.View[contains(@text, 'qa.user@gurutattva.com')]
-${Q_PHONE}                                        xpath=//android.view.View[contains(@text, '8888888888')]
+${Q_PHONE}                                        xpath=//android.view.View[contains(@text, '9999999999')]
 ${V_DOB}                                          xpath=//android.widget.ImageView[contains(@content-desc,'2025')]
 ${V_COUNTRY}                                      xpath=//android.widget.Button[@content-desc="India"]
 ${V_STATE}                                        xpath=//android.widget.Button[@content-desc="Gujarat"]
@@ -81,7 +81,7 @@ ${QUICK_REG_TYPE}                                Sadhak
 ${QUICK_NAME}                                    ${E2E_USER_FIRST_NAME} ${E2E_USER_LAST_NAME}
 ${COMMUNITY_NAME}                                ${COMMUNITY_USER_FIRST_NAME} ${COMMUNITY_USER_LAST_NAME}
 ${QUICK_EMAIL}                                   qa.user@gurutattva.com
-${QUICK_PHONE}                                   8888888888
+${QUICK_PHONE}                                   9999999999
 ${COMMUNITY_REG_EMAIL}                           payment.gateway@rysun.com
 ${COMMUNITY_REG_PHONE}                           9999999999
 
@@ -225,7 +225,7 @@ Enter E2E Registration Data with already used email id and phone number
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='00 0000 0000']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='00 0000 0000']
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='00 0000 0000']    8888888888
+    Mobile Input Text    xpath=//android.widget.EditText[@hint='00 0000 0000']    9999999999
     Swipe Until Element Visible    ${REGISTER_BUTTON}
     Mobile Click Element    ${REGISTER_BUTTON}
     Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'Mobile number or Email already exists.')]    10s
@@ -882,7 +882,7 @@ Generate E2E Quick Registration Test Data
     Set Test Variable    ${E2E_USER_FIRST_NAME}          E2E_First_${random_num}
     Set Test Variable    ${E2E_USER_LAST_NAME}           Last_Name
     Set Test Variable    ${E2E_QUICK_USER_EMAIL}         qa.user@gurutattva.com
-    Set Test Variable    ${E2E_QUICK_USER_MOBILE}        8888888888
+    Set Test Variable    ${E2E_QUICK_USER_MOBILE}        9999999999
     Set Test Variable    ${E2E_QUICK_USER_GENDER}        Male
     Set Test Variable    ${E2E_QUICK_USER_DOB}           2025
     Set Test Variable    ${E2E_QUICK_USER_COUNTRY}       India
