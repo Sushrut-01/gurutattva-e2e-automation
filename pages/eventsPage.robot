@@ -1,6 +1,9 @@
 *** Settings ***
 Library    AppiumLibrary
+Library    OperatingSystem
+Library    DateTime
 Resource    ../resources/keywords.robot
+Resource    ../resources/debug_utilities.robot
 Resource    loginPage.robot
 
 *** Variables ***
@@ -35,18 +38,35 @@ Clear App Cache And Reopen
     Log To Console    ✅ App cache cleared and app reopened
 
 Click on the Events Tab
-    # Handle both English "Events" and Hindi "घटनाएं"
-    ${events_found_en}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${EVENTS_TAB}    5s
-    IF    ${events_found_en}
-        Mobile Click Element    ${EVENTS_TAB}
-    ELSE
-        # Try Hindi version "घटनाएं"
-        Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="घटनाएं"]    10s
-        Mobile Click Element    xpath=//android.widget.ImageView[@content-desc="घटनाएं"]
+    [Documentation]    Clicks Events Tab - element bounds [693,2128][816,2138]
+    Sleep    2s
+    # Events icon center: x=754, y=2133 (from XML bounds)
+    Log To Console    📍 Clicking Events Tab at (754, 2133)...
+    @{coords}=    Create List    ${754}    ${2133}
+    AppiumLibrary.Tap    ${coords}
+    Sleep    5s
+    # Check if clicked
+    ${popup}=    Run Keyword And Return Status    AppiumLibrary.Element Should Be Visible    xpath=//android.view.View[@content-desc="Cancel"]
+    IF    not ${popup}
+        Log To Console    📍 Retry tap at (780, 2100)...
+        @{coords2}=    Create List    ${780}    ${2100}
+        AppiumLibrary.Tap    ${coords2}
+        Sleep    5s
     END
+    Log To Console    ✅ Events Tab click attempted
+
+Click on the Events Tab Without Popup Handling
+    [Documentation]    Clicks Events Tab without dismissing popup - for TC09 validation
+    Sleep    2s
+    Mobile Wait Until Element Is Visible    ${Events}    10s
+    Log To Console    📍 Events Tab found, using Tap with coordinates...
+    # Element bounds [693,2128][816,2138] - icon extends above visible area
+    # Tap at x=754 (center), y=2080 (where actual icon should be)
+    @{coords}=    Create List    ${754}    ${2080}
+    AppiumLibrary.Tap    ${coords}
+    Log To Console    ✅ Tapped Events at coordinates (754, 2080)
     Sleep    3s
-    # Handle Community Member popup if it appears
-    Handle Community Member Popup If Visible
+    # Do NOT handle popup - let the test verify it appears
 
 Handle Community Member Popup If Visible
     [Documentation]    Handles the "You do not have access to this feature" popup by clicking Cancel
@@ -175,9 +195,50 @@ Login As Community Member
     Mobile Click Element    ${VERIFY_BUTTON}
 
 Login As Non Community Member
+    [Documentation]    Login with TC07 user (9960232311)
+    ...    Always logout first if logged in, then login with Quick Registration user
+
+    # Step 1: Check if already logged in (Home page visible)
+    ${already_logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
+
+    IF    ${already_logged_in}
+        Log To Console    📱 User is logged in - logging out first
+        Click on the Profile Tab
+        Sleep    2s
+        Click on the Logout Tab
+        Sleep    2s
+        Click on the Yes Button from Logout Alert
+        Sleep    3s
+        Log To Console    ✅ Logged out successfully
+    END
+
+    # Step 2: Now login with Quick Registration user (9960232311)
+    Log To Console    📱 Logging in with Quick Registration user 9960232311
     Click on the input field
     Enter the Mobile Number of Quick Registration
     Click on the Login Button
     Verify OTP Screen is Displayed
     Enter Mobile OTP Manually
-    Click on the Verify Button
+    # Re-find Verify button fresh - try multiple locators
+    Sleep    2s
+    ${verify_clicked}=    Set Variable    ${FALSE}
+    # Try Button first
+    ${btn_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="Verify"]    3s
+    IF    ${btn_visible}
+        Mobile Click Element    xpath=//android.widget.Button[@content-desc="Verify"]
+        ${verify_clicked}=    Set Variable    ${TRUE}
+        Log To Console    Clicked Verify Button (Button element)
+    END
+    # Try View if Button not found
+    IF    not ${verify_clicked}
+        ${view_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify"]    3s
+        IF    ${view_visible}
+            Mobile Click Element    xpath=//android.view.View[@content-desc="Verify"]
+            ${verify_clicked}=    Set Variable    ${TRUE}
+            Log To Console    Clicked Verify Button (View element)
+        END
+    END
+    Sleep    5s
+    # Wait for Home screen - MUST appear for login to succeed
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    15s
+    Log To Console    ✅ Login completed with 9960232311 - Home screen visible

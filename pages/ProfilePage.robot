@@ -52,13 +52,19 @@ Verify User Details in Profile Card
     Log To Console    User Details: ${profile_title}
 
 Click on the Logout Tab
+    [Documentation]    Clicks on Logout tab - swipes to find and clicks
+    Sleep    2s
     Swipe Until Element Visible    ${DELETE & LOGOUT}
     Mobile Wait Until Element Is Visible    ${LOGOUT_TAB}    10s
     Mobile Click Element    ${LOGOUT_TAB}
+    Log To Console    ✅ Clicked on Logout Tab
 
 Click on the Yes Button from Logout Alert
+    [Documentation]    Clicks Yes button on logout confirmation alert
+    Sleep    2s
     Mobile Wait Until Element Is Visible    ${YES_TAB}    10s
-    Mobile Click Element    ${YES_TAB} 
+    Mobile Click Element    ${YES_TAB}
+    Log To Console    ✅ Clicked Yes on Logout Alert 
 
 Click on the Edit Profile Tab
     Mobile Wait Until Element Is Visible    ${UPDATE_PROFILE}    10s
@@ -306,17 +312,56 @@ Click on the Delete Button from Delete Account Alert
     Mobile Click Element    xpath=//android.widget.Button[@content-desc="Delete"]
 
 Click on the Back Button from Edit Profile Screen
-    Sleep    2s
-    Mobile Wait Until Element Is Visible    ${Back_Profile}    10s
-    Sleep    2s
-    # Try to click the element, if it fails due to stale element, refresh and retry
-    ${click_status}=    Run Keyword And Return Status    Mobile Click Element    ${Back_Profile}
-    IF    not ${click_status}
-        Log To Console    First click attempt failed, refreshing element and retrying...
+    [Documentation]    Clicks back button from Edit Profile screen with multiple fallback strategies
+    Sleep    3s
+    Log To Console    Attempting to click Back button from Edit Profile...
+
+    # Strategy 1: Try original xpath with longer wait
+    ${strategy1}=    Run Keyword And Return Status
+    ...    Run Keywords
+    ...    Mobile Wait Until Element Is Visible    ${Back_Profile}    10s
+    ...    AND    Mobile Click Element    ${Back_Profile}
+    IF    ${strategy1}
+        Log To Console    ✅ Back button clicked using Strategy 1 (original xpath)
         Sleep    2s
-        Mobile Wait Until Element Is Visible    ${Back_Profile}    10s
-        Mobile Click Element    ${Back_Profile}
+        RETURN
     END
+
+    # Strategy 2: Try first ImageView with index
+    Sleep    2s
+    ${strategy2}=    Run Keyword And Return Status
+    ...    Run Keywords
+    ...    Mobile Wait Until Element Is Visible    xpath=(//android.widget.ImageView)[1]    10s
+    ...    AND    Mobile Click Element    xpath=(//android.widget.ImageView)[1]
+    IF    ${strategy2}
+        Log To Console    ✅ Back button clicked using Strategy 2 (first ImageView)
+        Sleep    2s
+        RETURN
+    END
+
+    # Strategy 3: Try Android back key
+    Sleep    2s
+    ${strategy3}=    Run Keyword And Return Status    Mobile Press Keycode    4
+    IF    ${strategy3}
+        Log To Console    ✅ Back button clicked using Strategy 3 (Android back key)
+        Sleep    3s
+        RETURN
+    END
+
+    # Strategy 4: Try tap at back button location (top-left corner based on screenshot)
+    Sleep    2s
+    ${strategy4}=    Run Keyword And Return Status    Mobile Click Element At Coordinates    36    64
+    IF    ${strategy4}
+        Log To Console    ✅ Back button clicked using Strategy 4 (coordinate tap)
+        Sleep    2s
+        RETURN
+    END
+
+    # Final fallback: press back key again
+    Sleep    2s
+    Mobile Press Keycode    4
+    Sleep    3s
+    Log To Console    ⚠️ Used final fallback - Android back key
 
 Click on the back button from Profile Screen
     Mobile Click Element    ${PROFILE_TAB}

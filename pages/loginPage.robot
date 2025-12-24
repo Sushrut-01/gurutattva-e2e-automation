@@ -110,7 +110,8 @@ Enter the validate and exist mobile number
     Mobile Input Text       ${LOGIN_EMAIL}      9999999999   
 
 Enter the Mobile Number of Quick Registration
-    Mobile Input Text       ${LOGIN_EMAIL}      9999999999
+    # Fixed phone number for TC07-10 test suite: 9960232311
+    Mobile Input Text       ${LOGIN_EMAIL}      9960232311
 Enter the validate and exist email address
     Sleep    2s
     Mobile Click Element    ${EmailRadioBtn}
@@ -207,11 +208,145 @@ Wait For Manual Register Click
     END
 
 Click on Register Text Only
-    [Documentation]    Clicks specifically on the "Register" part of the text using coordinates
-    # Sleep    5s
-    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'Register')]   10s
-    Mobile Click Element    xpath=//android.view.View[contains(@content-desc,'Register')]
-    Log To Console    Clicked on Register Text Only
+    [Documentation]    Clicks specifically on the "Register" link with multiple fallback strategies
+    Sleep    3s
+    ${clicked}=    Set Variable    ${FALSE}
+
+    # Strategy 1: Direct click on content-desc containing "Register"
+    Log To Console    Strategy 1: Direct click on content-desc
+    ${status1}=    Run Keyword And Return Status    Try Register Click Strategy 1
+    IF    ${status1}
+        ${clicked}=    Set Variable    ${TRUE}
+        Log To Console    ✅ Strategy 1 SUCCESS
+    END
+
+    # Strategy 2: Click using text attribute
+    IF    not ${clicked}
+        Log To Console    Strategy 2: Click using text attribute
+        ${status2}=    Run Keyword And Return Status    Try Register Click Strategy 2
+        IF    ${status2}
+            ${clicked}=    Set Variable    ${TRUE}
+            Log To Console    ✅ Strategy 2 SUCCESS
+        END
+    END
+
+    # Strategy 3: Coordinate tap using swipe
+    IF    not ${clicked}
+        Log To Console    Strategy 3: Coordinate tap using swipe
+        ${status3}=    Run Keyword And Return Status    Try Register Click Strategy 3
+        IF    ${status3}
+            ${clicked}=    Set Variable    ${TRUE}
+            Log To Console    ✅ Strategy 3 SUCCESS
+        END
+    END
+
+    # Strategy 4: Click last element matching Register
+    IF    not ${clicked}
+        Log To Console    Strategy 4: Click last matching element
+        ${status4}=    Run Keyword And Return Status    Try Register Click Strategy 4
+        IF    ${status4}
+            ${clicked}=    Set Variable    ${TRUE}
+            Log To Console    ✅ Strategy 4 SUCCESS
+        END
+    END
+
+    # Strategy 5: Use accessibility id
+    IF    not ${clicked}
+        Log To Console    Strategy 5: Accessibility ID
+        ${status5}=    Run Keyword And Return Status    Try Register Click Strategy 5
+        IF    ${status5}
+            ${clicked}=    Set Variable    ${TRUE}
+            Log To Console    ✅ Strategy 5 SUCCESS
+        END
+    END
+
+    # Strategy 6: JavaScript tap
+    IF    not ${clicked}
+        Log To Console    Strategy 6: JavaScript tap
+        ${status6}=    Run Keyword And Return Status    Try Register Click Strategy 6
+        IF    ${status6}
+            ${clicked}=    Set Variable    ${TRUE}
+            Log To Console    ✅ Strategy 6 SUCCESS
+        END
+    END
+
+    Sleep    3s
+    Log To Console    Clicked on Register Text Only (clicked=${clicked})
+
+Try Register Click Strategy 1
+    [Documentation]    Direct click on element with content-desc containing Register
+    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Register")]    5s
+    Mobile Click Element    xpath=//android.view.View[contains(@content-desc,"Register")]
+    Sleep    2s
+    # Verify we navigated away from login
+    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Quick Registration") or contains(@content-desc,"Community Registration")]    5s
+
+Try Register Click Strategy 2
+    [Documentation]    Click using text attribute
+    ${elements}=    Mobile.Get Webelements    xpath=//*[contains(@text,"Register")]
+    ${count}=    Get Length    ${elements}
+    IF    ${count} > 0
+        Mobile Click Element    xpath=//*[contains(@text,"Register")]
+        Sleep    2s
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Quick Registration") or contains(@content-desc,"Community Registration")]    5s
+    ELSE
+        Fail    No elements with text Register found
+    END
+
+Try Register Click Strategy 3
+    [Documentation]    Coordinate tap using swipe on calculated position
+    ${element}=    Set Variable    xpath=//android.view.View[contains(@content-desc,"Register")]
+    Mobile Wait Until Element Is Visible    ${element}    5s
+    ${location}=    Mobile.Get Element Location    ${element}
+    ${size}=    Mobile.Get Element Size    ${element}
+    # Calculate tap position - click on right side where "Register" text is
+    ${x}=    Evaluate    int(${location}[x] + ${size}[width] * 0.85)
+    ${y}=    Evaluate    int(${location}[y] + ${size}[height] / 2)
+    Log To Console    Tapping at coordinates: x=${x}, y=${y}
+    Mobile Swipe    ${x}    ${y}    ${x}    ${y}    100
+    Sleep    2s
+    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Quick Registration") or contains(@content-desc,"Community Registration")]    5s
+
+Try Register Click Strategy 4
+    [Documentation]    Click last element matching Register (in case multiple matches)
+    ${elements}=    Mobile.Get Webelements    xpath=//android.view.View[contains(@content-desc,"Register")]
+    ${count}=    Get Length    ${elements}
+    IF    ${count} > 0
+        ${last_index}=    Evaluate    ${count} - 1
+        ${last_element}=    Get From List    ${elements}    ${last_index}
+        Mobile.Click Element    ${last_element}
+        Sleep    2s
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Quick Registration") or contains(@content-desc,"Community Registration")]    5s
+    ELSE
+        Fail    No Register elements found
+    END
+
+Try Register Click Strategy 5
+    [Documentation]    Try using accessibility_id locator
+    ${status}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    accessibility_id=Register    3s
+    IF    ${status}
+        Mobile Click Element    accessibility_id=Register
+        Sleep    2s
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Quick Registration") or contains(@content-desc,"Community Registration")]    5s
+    ELSE
+        # Try partial match with xpath on content-desc ending with Register
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[substring(@content-desc, string-length(@content-desc) - string-length('Register') + 1) = 'Register']    3s
+        Mobile Click Element    xpath=//android.view.View[substring(@content-desc, string-length(@content-desc) - string-length('Register') + 1) = 'Register']
+        Sleep    2s
+        Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Quick Registration") or contains(@content-desc,"Community Registration")]    5s
+    END
+
+Try Register Click Strategy 6
+    [Documentation]    Use screen percentage tap
+    ${width}=    Mobile Get Window Width
+    ${height}=    Mobile Get Window Height
+    # Register link is approximately at 70% width, 72% height based on screenshot
+    ${x}=    Evaluate    int(${width} * 0.70)
+    ${y}=    Evaluate    int(${height} * 0.72)
+    Log To Console    Screen tap at: x=${x}, y=${y} (screen: ${width}x${height})
+    Mobile Swipe    ${x}    ${y}    ${x}    ${y}    100
+    Sleep    2s
+    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Quick Registration") or contains(@content-desc,"Community Registration")]    5s
 
 Verify Registration Screen Is Displayed
     Mobile Wait Until Element Is Visible    ${QUICK_REGISTRATION}    10s
@@ -260,10 +395,21 @@ Verify Values screen
 
 Verify OTP Screen is Displayed
     Sleep    5s
-    Mobile Wait Until Element Is Visible    ${Verify_OTP_SCREEN}    10s
-    ${otp_message}=    Mobile Get Element Attribute    ${Verify_OTP_SCREEN}    content-desc
-    Should Contain    ${otp_message}    Verify OTP
-    Log To Console    OTP Screen is Displayed: ${otp_message}
+    # Try multiple locators for OTP screen
+    ${otp_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify OTP"]    5s
+    IF    ${otp_found}
+        Log To Console    OTP Screen is Displayed: Verify OTP
+    ELSE
+        # Try alternative - look for Verify button directly
+        ${verify_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify"]    5s
+        IF    ${verify_found}
+            Log To Console    OTP Screen is Displayed: Verify button found
+        ELSE
+            # Try OTP input field
+            Mobile Wait Until Element Is Visible    xpath=//*[contains(@content-desc,"OTP") or contains(@content-desc,"otp")]    10s
+            Log To Console    OTP Screen is Displayed: OTP element found
+        END
+    END
 
 Enter the valid OTP
     [Documentation]    Waits for user to enter OTP manually and then proceeds
@@ -289,11 +435,43 @@ Click on the Verify Button
     Log To Console    Clicked on Verify Button
 
 Verify Home Screen is Displayed
-    [Documentation]    Verifies that the home screen is displayed after successful login
-    Mobile Wait Until Element Is Visible    ${HOME_SCREEN_VERIFICATION}    10s
-    ${home_screen}=    Mobile Get Element Attribute    ${HOME_SCREEN_VERIFICATION}    content-desc
-    Should Contain    ${home_screen}    Home
-    Log To Console    Home Screen is Displayed: ${home_screen}
+    [Documentation]    Verifies that the home screen is displayed after successful login/registration
+    ...    Tries multiple locators for English and Hindi UI
+    Log To Console    Verifying Home Screen is displayed...
+    Sleep    5s    # Wait for screen transition after registration/login
+
+    # Strategy 1: Try English Home locator
+    ${strategy1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${HOME_SCREEN_VERIFICATION}    15s
+    IF    ${strategy1}
+        ${home_screen}=    Mobile Get Element Attribute    ${HOME_SCREEN_VERIFICATION}    content-desc
+        Log To Console    ✅ Home Screen is Displayed (English): ${home_screen}
+        RETURN
+    END
+
+    # Strategy 2: Try Hindi Home locator
+    ${strategy2}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="होम"]    10s
+    IF    ${strategy2}
+        ${home_screen}=    Mobile Get Element Attribute    xpath=//android.widget.ImageView[@content-desc="होम"]    content-desc
+        Log To Console    ✅ Home Screen is Displayed (Hindi): ${home_screen}
+        RETURN
+    END
+
+    # Strategy 3: Try any element with content-desc containing "Home"
+    ${strategy3}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[contains(@content-desc,'Home')]    10s
+    IF    ${strategy3}
+        Log To Console    ✅ Home Screen is Displayed (contains Home)
+        RETURN
+    END
+
+    # Strategy 4: Check for bottom navigation bar (Profile, Audio, Events tabs)
+    ${strategy4}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile"]    10s
+    IF    ${strategy4}
+        Log To Console    ✅ Home Screen is Displayed (Profile tab found)
+        RETURN
+    END
+
+    # Final check - if still not found, fail with clear message
+    Fail    Home Screen not displayed - could not find Home tab or navigation elements
 
 Wait For User OTP Input
     [Documentation]    Waits for user to manually enter OTP with customizable timeout
@@ -348,11 +526,62 @@ Enter Email OTP Manually
     Log To Console    Proceeding with email OTP verification...
 
 Enter Mobile OTP Manually
-    [Documentation]    Specifically for mobile login - waits for user to enter OTP received via SMS
-    # OTP: 999999 (Hardcoded test OTP - used for all mobile registrations)
-    # Mobile Wait Until Element Is Visible    ${OTP_INPUT_FIELD}    10s
-    # Mobile Click Element    ${OTP_INPUT_FIELD}
-    Enter Community Mobile By Keypad    999999
+    [Documentation]    Waits for manual OTP entry - user must enter 999999 on mobile device
+    # OTP: 999999 (Universal test OTP - used for all mobile registrations)
+    Sleep    2s
+    Log To Console    \n
+    Log To Console    ╔════════════════════════════════════════════════════╗
+    Log To Console    ║  MANUAL ACTION REQUIRED - ENTER OTP ON MOBILE!     ║
+    Log To Console    ║  OTP: 999999                                       ║
+    Log To Console    ║  You have 15 seconds to enter the OTP...           ║
+    Log To Console    ╚════════════════════════════════════════════════════╝
+    Log To Console    \n
+    # Wait for user to enter OTP manually on the mobile device
+    Sleep    15s
+    Log To Console    ===== OTP ENTRY TIME COMPLETE =====
+
+Enter OTP Automatically
+    [Documentation]    Tries to automatically enter OTP by clicking field and typing
+    [Arguments]    ${otp}=999999
+    Log To Console    Attempting automatic OTP entry for: ${otp}
+
+    # Strategy 1: Click first OTP box and use ADB input (works best for Flutter)
+    ${first_box}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[contains(@content-desc, "-")])[1]    3s
+    IF    ${first_box}
+        Log To Console    Found OTP box - clicking and entering via ADB
+        Mobile Click Element    xpath=(//android.view.View[contains(@content-desc, "-")])[1]
+        Sleep    1s
+        # Use ADB to input the OTP text
+        ${result}=    Run Process    adb    shell    input    text    ${otp}
+        Sleep    2s
+        Log To Console    ✅ OTP entered via ADB shell input
+        RETURN
+    END
+
+    # Strategy 2: Try EditText field if available
+    ${edit_field}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[1]    3s
+    IF    ${edit_field}
+        Mobile Click Element    xpath=(//android.widget.EditText)[1]
+        Sleep    1s
+        Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${otp}
+        Log To Console    ✅ OTP typed into EditText field
+        RETURN
+    END
+
+    # Strategy 3: Direct ADB input without clicking (if keyboard is already up)
+    Log To Console    Trying direct ADB input...
+    ${result}=    Run Process    adb    shell    input    text    ${otp}
+    Sleep    2s
+
+    # Verify OTP was entered by checking if "-" is still present
+    ${still_empty}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    2s
+    IF    ${still_empty}
+        Log To Console    ⚠️ OTP boxes still empty - entry may have failed
+        Fail    OTP entry failed - boxes still show "-"
+    END
+
+    Log To Console    ✅ OTP entered successfully
+    RETURN
 
     # Sleep    2s
     

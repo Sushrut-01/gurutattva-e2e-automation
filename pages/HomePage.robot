@@ -152,10 +152,15 @@ Click on the Cancel Button from Become a Member Popup
    Mobile Click Element    xpath=//android.view.View[@content-desc="Cancel"]
    Log To Console    Clicked on Cancel Button from Become a Member Popup.
 
-Click on the Become a Member Button   
+Click on the Become a Member Button
+   [Documentation]    Clicks Become a Member - waits for popup then clicks
+   Log To Console    📍 Waiting for popup...
+
+   # Simple approach - same as Cancel button which works
    Sleep    5s
    Mobile Click Element    xpath=//android.view.View[@content-desc="Become a Member"]
-   Log To Console    Clicked on Become a Member Button.
+   Log To Console    ✅ Clicked Become a Member
+   Sleep    3s
 
 Navigate to Recommended for you Section
     Swipe Until Element Visible                 xpath=//android.view.View[contains(@content-desc,'Bhajan')]

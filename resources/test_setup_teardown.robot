@@ -69,10 +69,7 @@ Test Teardown
     # Clean up downloaded files
     Run Keyword And Ignore Error    Cleanup Downloaded Files
 
-    # Trigger delayed email notification for individual test execution
-    Log To Console    📧 Triggering delayed email notification...
-    Run Keyword And Ignore Error    Start Process    python    send_email.py    shell=True
-    Log To Console    📧 Delayed email process started - will send after reports are fully generated
+    # Email notification moved to Suite Teardown (sends only once per suite)
 
     Log To Console    ===== Test Teardown Completed =====
 

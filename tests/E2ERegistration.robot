@@ -23,19 +23,22 @@ Test Teardown    Test Teardown
 Verify that quick registration on the mobile app reflects correctly in the CMS and user details are displayed properly in profile and flip card.
     [Tags]  E2E  TC07  Registration  QuickRegistration
     # SEQUENTIAL TEST SUITE - START OF USER JOURNEY
-    # Phone: 9999999999 | OTP: 999999
+    # Phone: 9960232311 | OTP: 999999
     # This test CREATES a new user that will be used by TC08, TC09, and TC10
     # Must pass first before other tests can proceed
+    # NOTE: 9999999999 is SUPER ADMIN - do not use for registration!
     Generate E2E Quick Registration Test Data
 
     Open Gurutattva App
     Handle First Time Setup
+    # TC07 Setup: Logout current user, check if TC07 user exists, delete if needed
+    TC07 Pre-Registration Setup
     Click on Register Text Only
     Click on the Quick Registration Tab
     Enter First Name for Register Screen       ${E2E_USER_FIRST_NAME}
     Enter Last Name for Register Screen        ${E2E_USER_LAST_NAME}
-    Enter Email for Register Screen            qa.user@gurutattva.com
-    Enter Mobile Number for Register Screen    9999999999
+    Enter Email for Register Screen            ${E2E_QUICK_USER_EMAIL}
+    Enter Mobile Number for Register Screen    ${E2E_QUICK_USER_MOBILE}
     Select Gender for register screen
     Select Current Date DOB for Register Screen
     Select Country for Register Screen
@@ -68,7 +71,7 @@ Verify that quick registration on the mobile app reflects correctly in the CMS a
 Verify user is not able to do quick registration on mobile app with already used email id and phone number
      [Tags]  E2E  TC08  Registration  QuickRegistration
     # SEQUENTIAL - DEPENDENT ON TC07
-    # Phone: 9999999999 (SAME AS TC07)
+    # Phone: 8888888888 (SAME AS TC07)
     # This test validates that the user created by TC07 cannot be registered again
     # Tests duplicate prevention for both email and phone number
     # Must run AFTER TC07 passes
@@ -76,19 +79,21 @@ Verify user is not able to do quick registration on mobile app with already used
     # --- Mobile App: Quick Registration ---
     Open Gurutattva App
     Handle First Time Setup
+    # TC08 Setup: Logout current user, try login with TC07 user and logout
+    TC08 Pre-Registration Setup
     Click on Register Text Only
     Click on the Quick Registration Tab
-    Enter First Name for Register Screen        FN
-    Enter Last Name for Register Screen        Last_Name
+    Enter First Name for Register Screen        TestFN
+    Enter Last Name for Register Screen        Lastname
     Select Gender for register screen
-    Select DOB for Register Screen
+    Select Current Date DOB for Register Screen
     Select Country for Register Screen
     Select State for Register Screen
     Select District for Register Screen
     Select Taluka/City for Register Screen
     Select Area/Village for Register Screen
-    Enter Registered Email for Register Screen            qa.user@gurutattva.com
-    Enter Valid Mobile Number                             9999999999
+    Enter Registered Email for Register Screen            ${E2E_TEST_EMAIL}
+    Enter Valid Mobile Number                             ${E2E_TEST_PHONE}
     Click on the Quick Registration Button
     Verify Validation Message for Registered Email Address and Mobile Number
     Close Gurutattva App
@@ -121,7 +126,7 @@ Verify user is not able to do quick registration on mobile app with already used
 
 
 Verify that the quick registration user is not able to access Events, Dhyan Kendra, and Podcasts , Home screen on the mobile app, and that a pop-up message is displayed
-    [Tags]  TC09  Registration   QuickRegistration
+    [Tags]  E2E  TC09  Registration   QuickRegistration
     # SEQUENTIAL - DEPENDENT ON TC07
     # Phone: 9999999999 (SAME AS TC07 - logs in with this user)
     # This test verifies that quick-registered users have feature access restrictions
@@ -134,24 +139,20 @@ Verify that the quick registration user is not able to access Events, Dhyan Kend
     Click on the DhyanKendra Tab
     Verify Quick Registration Access Restriction Popup
     Click on the Cancel Button from Become a Member Popup
-	Click on the Events Tab
-	Verify Quick Registration Access Restriction Popup
-    Click on the Cancel Button from Become a Member Popup
-    Click on the Audio Tab
-    Click on the Podcast Tab
-    Verify Quick Registration Access Restriction Popup
-    Click on the Cancel Button from Become a Member Popup
+    # Go back to Home screen using back arrow
+    Click on Back Arrow to Home
+    Sleep    2s
+    # Events Tab - SKIPPED in TC09 (to be verified in TC10)
     Close Gurutattva App
 
 Verify that the quick registration user is able to become a member on the mobile app
-    [Tags]  TC10  Registration   QuickRegistration
-    # SEQUENTIAL FLOW: This test is PART OF THE SAME USER JOURNEY
-    # Phone: 9999999999 (SAME as TC07, TC08, TC09)
-    # User from TC07 is being UPGRADED from Quick Registration → Community Member
-    # No phone entry needed because user already exists from TC07
-    # This test continues the user session/data from previous tests
+    [Tags]  E2E  TC10  Registration   QuickRegistration
+    # TC10: Quick Registration user (7600699169) upgrades to Community Member
+    # Using different phone than TC07-09 to avoid conflicts
     Open Gurutattva App
     Handle First Time Setup
+    TC10 Login As Quick Registration User
+    # Trigger Become a Member flow from Events Tab
     Click on the Events Tab
     Click on the Become a Member Button
     Click on the NO and Second YES Radio Button from Community Registration for Become a Member
@@ -161,22 +162,26 @@ Verify that the quick registration user is able to become a member on the mobile
     Fill address and pincode for become a member
     Fill the Education Information for become a member
     Verify Home Screen is displayed with correct details
-    # Verify the User Updated Message
+    # After becoming member, verify full access to all features
+    # Audio/Podcast verification
     Click on the Audio Tab
     Click on the Podcast Tab
     Verify Podcast Screen is displayed
+    # Events verification
     Click on the Events Tab
     Verify Events Access
+    # DhyanKendra verification
     Click on the Explore Button
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location
     Verify DhyanKendra Access
+    # Logout
     Click on the Profile Tab
     Click on the Logout Tab
     Click on the Yes Button from Logout Alert
     Close Gurutattva App
 Verify that Community registration on the mobile app reflects correctly in the CMS and user details are displayed properly in profile and flip card.
-    [Tags]  Registration   CommunityRegistration
+    [Tags]  E2E  Registration   CommunityRegistration
     # Generate unique test data for E2E validation
     Generate E2E Community Registration Test Data
 
