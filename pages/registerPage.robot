@@ -2207,8 +2207,8 @@ Click on the Community Registration Tab
 Enter Registered Email for Register Screen
     [Arguments]    ${EMAIL}
     Sleep    2s
-    # Scroll DOWN to reveal Email field (not UP to header!)
-    Scroll Until Element Visible    ${REGISTER_EMAIL}
+    # Scroll UP to first header because Email field is at TOP of form but filled LAST in sequence (after location dropdowns)
+    Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    15s
     Sleep    1s
     Mobile Click Element                   ${REGISTER_EMAIL}
@@ -2223,15 +2223,18 @@ Enter Registered Email for Register Screen
 Enter Registered Mobile Number for Register Screen
     [Arguments]    ${MOBILE}
     Sleep    2s
-    # Scroll DOWN to reveal Mobile field (not UP to header!)
-    Scroll Until Element Visible    ${REGISTER_MOBILE}
+    # Scroll UP to first header because Mobile field is at TOP of form but filled LAST in sequence (after location dropdowns)
+    Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    15s
     Sleep    1s
     Mobile Click Element                   ${REGISTER_MOBILE}
     Sleep    1s
-    # Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    500ms
     Mobile Input Text                      ${REGISTER_MOBILE}    ${MOBILE}
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
+    Log To Console    ✅ Entered Mobile: ${MOBILE}
 
 Select Country for Community Registration
     # Using proven working pattern from DhyankendraPage
