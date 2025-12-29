@@ -924,18 +924,20 @@ Verify Community User Details in Edit Profile
     Should Contain    ${last_name_value}    ${COMMUNITY_USER_LAST_NAME}
     Log To Console    Last Name verified: ${last_name_value}
     
-    # Verify Email field
-    Mobile.Wait Until Element Is Visible    ${V_EMAIL}    5s
-    ${email_value}=    Mobile Get Element Attribute    ${V_EMAIL}    text
-    Should Contain    ${email_value}    ${COMMUNITY_REG_EMAIL}
+    # Verify Email field (use dynamic generated email)
+    ${email_locator}=    Set Variable    xpath=//android.view.View[contains(@text, '${COMMUNITY_USER_EMAIL}')]
+    Mobile.Wait Until Element Is Visible    ${email_locator}    5s
+    ${email_value}=    Mobile Get Element Attribute    ${email_locator}    text
+    Should Contain    ${email_value}    ${COMMUNITY_USER_EMAIL}
     Log To Console    Email verified: ${email_value}
 
     Scroll Until Element Found     xpath=//android.view.View[@content-desc="State"]
     
-    # Verify Phone field
-    Mobile.Wait Until Element Is Visible    ${V_PHONE}    5s
-    ${phone_value}=    Mobile Get Element Attribute    ${V_PHONE}    text
-    Should Contain    ${phone_value}    ${COMMUNITY_REG_PHONE}
+    # Verify Phone field (use dynamic generated phone)
+    ${phone_locator}=    Set Variable    xpath=//android.view.View[contains(@text, '${COMMUNITY_USER_MOBILE}')]
+    Mobile.Wait Until Element Is Visible    ${phone_locator}    5s
+    ${phone_value}=    Mobile Get Element Attribute    ${phone_locator}    text
+    Should Contain    ${phone_value}    ${COMMUNITY_USER_MOBILE}
     Log To Console    Phone verified: ${phone_value}
 
     
