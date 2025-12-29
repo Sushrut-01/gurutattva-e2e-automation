@@ -1242,43 +1242,6 @@ Click on the Education Qualification Field
 
     Log To Console    ✅ Selected Education Qualification: Engineering
 
-    # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
-    Sleep    2s
-    Scroll Until Element Found     xpath=//android.view.View[@content-desc="Occupation"]
-    Sleep    1s
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}    15s
-    Sleep    1s
-    Mobile Click Element                   ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}
-    Sleep    5s  # Wait longer for dropdown to fully open
-
-    # Method 1: Try direct content-desc locator
-    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    3s
-    IF    ${status1}
-        Log To Console    ✅ Method 1: Found B.E./Btech by content-desc
-        Mobile Click Element    ${COMMUNITY_BACHELOR_SUB_CATEGORY}
-    ELSE
-        # Method 2: Try UiScrollable scrollIntoView
-        Log To Console    ⚠️ Method 1 failed, trying UiScrollable...
-        ${uiscroll}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("B.E./Btech"))
-        ${status2}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll}
-        IF    ${status2}
-            Log To Console    ✅ Method 2: UiScrollable clicked B.E./Btech
-        ELSE
-            # Method 3: Try clicking by content-desc button
-            Log To Console    ⚠️ Method 2 failed, trying direct button click...
-            Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    10s
-            Mobile Click Element    ${COMMUNITY_BACHELOR_SUB_CATEGORY}
-            Log To Console    ✅ Method 3: Clicked B.E./Btech button
-        END
-    END
-
-    Sleep    2s
-    # Hide keyboard after selection to reveal next field
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    2s
-
-    Log To Console    ✅ Selected Education Qualification Sub-Category: B.E./Btech
-
 Click on the Occupation Type Field
     # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
     Sleep    2s
