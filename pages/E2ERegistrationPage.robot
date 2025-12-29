@@ -1182,27 +1182,42 @@ TC11 Pre-Registration Setup
     [Documentation]    TC11: Find available phone number for Community Registration
     ...    Tries random numbers until finding one that doesn't exist
 
-    # Step 1: Logout if logged in
-    ${logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
-    IF    ${logged_in}
-        Log To Console    TC11: User logged in - logging out first
+    # Step 1: Check app state and navigate to login screen
+    # Priority: Home Screen (logout) → Welcome Screen (click Login) → Login Screen (use it)
+
+    # Check 1: Are we on Home screen? (user logged in)
+    ${on_home}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
+    IF    ${on_home}
+        Log To Console    TC11: On Home screen - logging out first
         Click on the Profile Tab
         Sleep    2s
         Click on the Logout Tab
         Sleep    2s
         Click on the Yes Button from Logout Alert
         Sleep    3s
-        Log To Console    ✅ Logged out successfully
-    ELSE
-        Log To Console    TC11: No user logged in - continuing
+        Log To Console    ✅ TC11: Logged out successfully - should be on welcome screen now
     END
 
-    # Step 1.5: Navigate to login screen from welcome screen
-    # After Handle First Time Setup, we're on the welcome screen with Login/Register buttons
-    # We need to click Login button to access the login screen (similar to how TC07 clicks Register)
-
+    # Check 2: Are we on Login screen already? (input field visible)
     ${on_login_screen}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${LOGIN_EMAIL}    3s
-    IF    not ${on_login_screen}
+
+    IF    ${on_login_screen}
+        Log To Console    ✅ TC11: Already on login screen
+
+        # Check if there's any existing text in the login field and clear it
+        ${field_text}=    Run Keyword And Ignore Error    Mobile Get Text    ${LOGIN_EMAIL}
+        IF    '${field_text[0]}' == 'PASS' and '${field_text[1]}' != ''
+            Log To Console    TC11: Existing mobile number found - clearing it
+            Click on the input field
+            Sleep    300ms
+            Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+            Sleep    300ms
+            Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+            Sleep    300ms
+            Log To Console    ✅ TC11: Cleared existing mobile number
+        END
+    ELSE
+        # Check 3: Are we on Welcome screen? (Login/Register buttons visible)
         Log To Console    TC11: Not on login screen yet - clicking Login button from welcome screen...
 
         # Click on Login button using the same multi-strategy approach as "Click on Register Text Only"
@@ -1250,8 +1265,6 @@ TC11 Pre-Registration Setup
         # Verify we're now on login screen with email/phone input field visible
         Mobile Wait Until Element Is Visible    ${LOGIN_EMAIL}    10s
         Log To Console    ✅ TC11: Now on login screen
-    ELSE
-        Log To Console    ✅ TC11: Already on login screen
     END
 
     # Step 2: Find an available phone number by trying login
