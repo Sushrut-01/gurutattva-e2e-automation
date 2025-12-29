@@ -156,6 +156,12 @@ TC08 Pre-Registration Setup
     # Step 2: Try to login with TC07 mobile number
     Log To Console    Step 2: Checking if TC07 user (9960232311) can login...
     Click on the input field
+    Sleep    300ms
+    # Clear any existing mobile number in the field
+    Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+    Sleep    300ms
+    Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+    Sleep    300ms
     Mobile Input Text    ${LOGIN_EMAIL}    9960232311
     Click on the Login Button
     Sleep    3s
@@ -215,6 +221,12 @@ TC07 Pre-Registration Setup
     # Step 2: Try to login with TC07 mobile number to check if user exists
     Log To Console    Step 2: Checking if TC07 user (9960232311) exists...
     Click on the input field
+    Sleep    300ms
+    # Clear any existing mobile number in the field
+    Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+    Sleep    300ms
+    Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+    Sleep    300ms
     Log To Console    Step 2: Entering mobile number 9960232311...
     Mobile Input Text    ${LOGIN_EMAIL}    9960232311
     Sleep    1s
