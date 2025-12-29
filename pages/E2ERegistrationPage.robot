@@ -67,7 +67,7 @@ ${V_EMAIL}                                        xpath=//android.view.View[cont
 ${V_PHONE}                                        xpath=//android.view.View[contains(@text, '9999999999')]
 ${Q_EMAIL}                                        xpath=//android.view.View[contains(@text, 'qa.user@gurutattva.com')]
 ${Q_PHONE}                                        xpath=//android.view.View[contains(@text, '9999999999')]
-${V_DOB}                                          xpath=//android.widget.ImageView[contains(@content-desc,'2025')]
+${V_DOB}                                          xpath=//android.view.View[contains(@content-desc,'2005') or contains(@content-desc,'DOB')]
 ${V_COUNTRY}                                      xpath=//android.widget.Button[@content-desc="India"]
 ${V_STATE}                                        xpath=//android.widget.Button[@content-desc="Gujarat"]
 ${V_DISTRICT}                                     xpath=//android.widget.Button[@content-desc="Ahmadabad"]
