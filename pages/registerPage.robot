@@ -1827,11 +1827,38 @@ Click on the Education Qualification Field for Personal Information
     Log To Console                  Selected Education Qualification For Personal Information
 
 Click on the Education Qualification Sub-Category Field for Personal Information
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}    10s
+    # NO TYPING APPROACH - direct selection like TC11
+    Sleep    2s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}    15s
+    Sleep    1s
     Mobile Click Element                   ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    10s
-    Mobile Click Element                   ${COMMUNITY_BACHELOR_SUB_CATEGORY}
-    Log To Console                  Selected Education Qualification Sub-Category For Personal Information    
+    Sleep    5s  # Wait for dropdown to fully open
+
+    # Method 1: Try direct locator
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    3s
+    IF    ${status1}
+        Log To Console    ✅ Method 1: Found B.E./Btech by content-desc
+        Mobile Click Element    ${COMMUNITY_BACHELOR_SUB_CATEGORY}
+    ELSE
+        # Method 2: UiScrollable
+        Log To Console    ⚠️ Method 1 failed, trying UiScrollable...
+        ${uiscroll}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("B.E./Btech"))
+        ${status2}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll}
+        IF    ${status2}
+            Log To Console    ✅ Method 2: UiScrollable clicked B.E./Btech
+        ELSE
+            # Method 3: Direct click after wait
+            Log To Console    ⚠️ Method 2 failed, trying direct button click...
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    10s
+            Mobile Click Element    ${COMMUNITY_BACHELOR_SUB_CATEGORY}
+            Log To Console    ✅ Method 3: Clicked B.E./Btech button
+        END
+    END
+
+    Sleep    2s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+    Log To Console                  ✅ Selected Education Qualification Sub-Category For Personal Information    
 
 Click on the Occupation Field for Personal Information
     Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION}    10s

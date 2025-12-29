@@ -70,7 +70,7 @@ ${Q_PHONE}                                        xpath=//android.view.View[cont
 ${V_DOB}                                          xpath=//android.view.View[contains(@content-desc,'2005') or contains(@content-desc,'DOB')]
 ${V_COUNTRY}                                      xpath=//android.widget.Button[@content-desc="India"]
 ${V_STATE}                                        xpath=//android.widget.Button[@content-desc="Gujarat"]
-${V_DISTRICT}                                     xpath=//android.widget.Button[@content-desc="Ahmadabad"]
+${V_DISTRICT}                                     xpath=//android.widget.Button[@content-desc="Ahmedabad"]
 ${V_CITY}                                         xpath=//android.widget.Button[@content-desc="Ahmedabad City"]
 ${V_AREA}                                         xpath=//android.widget.Button[@content-desc="Ahmedabad (City)"]
 ${DhyanKendra_Tab}                                xpath=//android.view.View[contains(@content-desc,'Do you want to register for a Dhyankendra?')]
@@ -87,10 +87,10 @@ ${COMMUNITY_REG_PHONE}                           9999999999
 
 
 # Quick Registration Test Data Variables
-${QUICK_REG_DOB}                                2025
+${QUICK_REG_DOB}                                2005
 ${QUICK_REG_COUNTRY}                            India
 ${QUICK_REG_STATE}                              Gujarat
-${QUICK_REG_DISTRICT}                           Ahmadabad
+${QUICK_REG_DISTRICT}                           Ahmedabad
 ${QUICK_REG_CITY}                               Ahmedabad City
 ${QUICK_REG_AREA}                               Ahmedabad (City)
 
@@ -273,7 +273,7 @@ Generate E2E Registration Test Data
     Set Test Variable    ${E2E_USER_DOB}    1990-01-01
     Set Test Variable    ${E2E_USER_COUNTRY}    India
     Set Test Variable    ${E2E_USER_STATE}    Gujarat
-    Set Test Variable    ${E2E_USER_DISTRICT}    Ahmadabad
+    Set Test Variable    ${E2E_USER_DISTRICT}    Ahmedabad
     Set Test Variable    ${E2E_USER_CITY}    Ahmedabad City
     Set Test Variable    ${E2E_USER_AREA}    University Road
     
@@ -1115,7 +1115,7 @@ Generate E2E Quick Registration Test Data
     Set Test Variable    ${E2E_QUICK_USER_DOB}           2005
     Set Test Variable    ${E2E_QUICK_USER_COUNTRY}       India
     Set Test Variable    ${E2E_QUICK_USER_STATE}         Gujarat
-    Set Test Variable    ${E2E_QUICK_USER_DISTRICT}      Ahmadabad
+    Set Test Variable    ${E2E_QUICK_USER_DISTRICT}      Ahmedabad
     Set Test Variable    ${E2E_QUICK_USER_CITY}          Ahmedabad City
     Set Test Variable    ${E2E_QUICK_USER_AREA}          Ahmedabad (City)
 
@@ -1150,7 +1150,7 @@ Generate TC10 Become Member Test Data
     Set Test Variable    ${TC10_USER_GENDER}              Male
     Set Test Variable    ${TC10_USER_COUNTRY}             India
     Set Test Variable    ${TC10_USER_STATE}               Gujarat
-    Set Test Variable    ${TC10_USER_DISTRICT}            Ahmadabad
+    Set Test Variable    ${TC10_USER_DISTRICT}            Ahmedabad
     Set Test Variable    ${TC10_USER_CITY}                Ahmedabad City
     Set Test Variable    ${TC10_USER_AREA}                Ahmedabad (City)
 

@@ -220,7 +220,7 @@ Select State From Dropdown
 
 Select District From Dropdown
     Mobile Click Element                        xpath=//android.widget.ImageView[@content-desc="Select District"]
-    Mobile Click Element                        xpath=//android.widget.Button[@content-desc="Ahmadabad"] 
+    Mobile Click Element                        xpath=//android.widget.Button[@content-desc="Ahmedabad"] 
 
 Select Taluka/City From Dropdown
     Mobile Click Element                        xpath=//android.widget.ImageView[@content-desc="Select Taluka / City"]
