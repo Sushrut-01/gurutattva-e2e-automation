@@ -2180,19 +2180,24 @@ Click on the Community Registration Tab
 Enter Registered Email for Register Screen
     [Arguments]    ${EMAIL}
     Sleep    2s
-    Scroll Up Until Element Visible    ${FIRST_HEADER}
+    # Scroll DOWN to reveal Email field (not UP to header!)
+    Scroll Until Element Visible    ${REGISTER_EMAIL}
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    15s
     Sleep    1s
     Mobile Click Element                   ${REGISTER_EMAIL}
     Sleep    1s
-    # Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    500ms
     Mobile Input Text                      ${REGISTER_EMAIL}    ${EMAIL}
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
+    Log To Console    ✅ Entered Email: ${EMAIL}
 
 Enter Registered Mobile Number for Register Screen
     [Arguments]    ${MOBILE}
     Sleep    2s
-    Scroll Up Until Element Visible    ${FIRST_HEADER}
+    # Scroll DOWN to reveal Mobile field (not UP to header!)
+    Scroll Until Element Visible    ${REGISTER_MOBILE}
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    15s
     Sleep    1s
     Mobile Click Element                   ${REGISTER_MOBILE}
