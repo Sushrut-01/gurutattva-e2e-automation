@@ -959,40 +959,40 @@ Verify Community User Details in Edit Profile
     # Verify Date of Birth
     Mobile.Wait Until Element Is Visible    ${V_DOB}    5s
     ${dob_value}=    Mobile Get Element Attribute    ${V_DOB}    content-desc
-    Should Contain    ${dob_value}    ${QUICK_REG_DOB}
+    Should Contain    ${dob_value}    ${COMMUNITY_USER_DOB}
     Log To Console    Date of Birth verified: ${dob_value}
-    
+
     # Verify Country
     Mobile.Wait Until Element Is Visible    ${V_COUNTRY}    5s
     ${country_value}=    Mobile Get Element Attribute    ${V_COUNTRY}    content-desc
-    Should Contain    ${country_value}    ${QUICK_REG_COUNTRY}
+    Should Contain    ${country_value}    ${COMMUNITY_USER_COUNTRY}
     Log To Console    Country verified: ${country_value}
-    
+
     # Verify State
     Mobile.Wait Until Element Is Visible    ${V_STATE}    5s
     ${state_value}=    Mobile Get Element Attribute    ${V_STATE}    content-desc
-    Should Contain    ${state_value}    ${QUICK_REG_STATE}
+    Should Contain    ${state_value}    ${COMMUNITY_USER_STATE}
     Log To Console    State verified: ${state_value}
-    
+
     # Scroll down to verify location fields
     Scroll Until Element Found    xpath=//android.view.View[@content-desc="Save"]
 
     # Verify District
     Mobile.Wait Until Element Is Visible    ${V_DISTRICT}    5s
     ${district_value}=    Mobile Get Element Attribute    ${V_DISTRICT}    content-desc
-    Should Contain    ${district_value}    ${QUICK_REG_DISTRICT}
+    Should Contain    ${district_value}    ${COMMUNITY_USER_DISTRICT}
     Log To Console    District verified: ${district_value}
-    
+
     # Verify City
     Mobile.Wait Until Element Is Visible    ${V_CITY}    5s
     ${city_value}=    Mobile Get Element Attribute    ${V_CITY}    content-desc
-    Should Contain    ${city_value}    ${QUICK_REG_CITY}
+    Should Contain    ${city_value}    ${COMMUNITY_USER_CITY}
     Log To Console    City verified: ${city_value}
-    
+
     # Verify Area
     Mobile.Wait Until Element Is Visible    ${V_AREA}    5s
     ${area_value}=    Mobile Get Element Attribute    ${V_AREA}    content-desc
-    Should Contain    ${area_value}    ${QUICK_REG_AREA}
+    Should Contain    ${area_value}    ${COMMUNITY_USER_AREA}
     Log To Console    Area verified: ${area_value}
     
     Log To Console    All user details verified successfully in Edit Profile screen
