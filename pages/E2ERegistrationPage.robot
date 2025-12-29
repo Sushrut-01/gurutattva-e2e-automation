@@ -1505,8 +1505,9 @@ Select Current Date DOB for Register Screen
     Mobile.Click Element                    ${OK_BUTTON}
     Sleep    2s
 
-    ${selected_date}=    Run Keyword And Ignore Error    Mobile.Get Element Attribute    ${V_DOB}    content-desc
-    Log To Console    📅 Selected DOB: ${selected_date}
+    # Skip DOB verification for now (${V_DOB} locator has wrong element type)
+    # ${selected_date}=    Run Keyword And Ignore Error    Mobile.Get Element Attribute    ${V_DOB}    content-desc
+    # Log To Console    📅 Selected DOB: ${selected_date}
     Log To Console    📅 DOB selection completed
 
 Verify Quick Registration User Details in Edit Profile
