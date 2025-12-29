@@ -90,6 +90,7 @@ Ensure Device Ready
 
 Open Gurutattva App
     [Documentation]    Opens Gurutattva app with proper session creation and retry logic
+    ...    If app is in background or on device home screen, it will activate the app
 
     Log To Console    ===== Opening Gurutattva App =====
 
@@ -101,8 +102,24 @@ Open Gurutattva App
     ...    appActivity=${APP_ACTIVITY}
     ...    automationName=${AUTOMATION_NAME}
     ...    noReset=true
-    ...    newCommandTimeout=60000
+    ...    newCommandTimeout=300000
     ...    autoGrantPermissions=true
+    ...    uiautomator2ServerLaunchTimeout=60000
+    ...    uiautomator2ServerInstallTimeout=60000
+    ...    appWaitDuration=10000
+    ...    appWaitActivity=${APP_ACTIVITY}
+
+    # Give app time to fully launch
+    Sleep    5s
+
+    # Check if app is actually in foreground, if not activate it
+    ${app_state}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@resource-id="${APP_PACKAGE}:id/*"]    3s
+    IF    not ${app_state}
+        Log To Console    ⚠️ App not in foreground - activating app...
+        Mobile Activate Application    ${APP_PACKAGE}
+        Sleep    3s
+        Log To Console    ✅ App activated from background/home screen
+    END
 
     Log To Console    ===== Gurutattva App Opened Successfully =====
 
