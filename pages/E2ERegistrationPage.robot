@@ -350,21 +350,23 @@ Enter E2E Registration Data with already used email id and phone number
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ✅ Entered Last Name: Kumar
     
-    # Enter Email
-    #Swipe Until Element Visible   xpath=//android.widget.Button[@content-desc="Select Gender"]
+    # Enter Email (use TC07's email to test duplicate validation)
+    # Scroll to make Email field visible after keyboard is hidden
+    Sleep    1s
+    Scroll Until Element Visible    xpath=//android.widget.EditText[@hint='Enter Email']
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Email']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Email']
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    qa.user@gurutattva.com
+    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Email']    ${E2E_TEST_EMAIL}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Log To Console    ✅ Entered Email: qa.user@gurutattva.com
-    
-    # Enter Mobile Number
+    Log To Console    ✅ Entered Email: ${E2E_TEST_EMAIL}
+
+    # Enter Mobile Number (use TC07's mobile to test duplicate validation)
     # Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]
     Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='00 0000 0000']    10s
     Mobile Click Element    xpath=//android.widget.EditText[@hint='00 0000 0000']
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile Input Text    xpath=//android.widget.EditText[@hint='00 0000 0000']    9999999999
+    Mobile Input Text    xpath=//android.widget.EditText[@hint='00 0000 0000']    ${E2E_TEST_PHONE}
     Swipe Until Element Visible    ${REGISTER_BUTTON}
     Mobile Click Element    ${REGISTER_BUTTON}
     Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'Mobile number or Email already exists.')]    10s
