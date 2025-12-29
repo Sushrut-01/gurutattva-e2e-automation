@@ -116,9 +116,24 @@ Open Gurutattva App
     ${app_state}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@resource-id="${APP_PACKAGE}:id/*"]    3s
     IF    not ${app_state}
         Log To Console    ⚠️ App not in foreground - activating app...
-        Mobile Activate Application    ${APP_PACKAGE}
+        Mobile.Activate Application    ${APP_PACKAGE}
         Sleep    3s
         Log To Console    ✅ App activated from background/home screen
+    END
+
+    # Check if user is logged in (Home page visible) and logout if needed
+    ${user_logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
+    IF    ${user_logged_in}
+        Log To Console    ⚠️ User is logged in - logging out to start fresh...
+        Click on the Profile Tab
+        Sleep    2s
+        Click on the Logout Tab
+        Sleep    2s
+        Click on the Yes Button from Logout Alert
+        Sleep    3s
+        Log To Console    ✅ User logged out - ready for test
+    ELSE
+        Log To Console    ✅ No user logged in - ready for test
     END
 
     Log To Console    ===== Gurutattva App Opened Successfully =====
