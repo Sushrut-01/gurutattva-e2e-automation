@@ -215,7 +215,10 @@ TC07 Pre-Registration Setup
     # Step 2: Try to login with TC07 mobile number to check if user exists
     Log To Console    Step 2: Checking if TC07 user (9960232311) exists...
     Click on the input field
+    Log To Console    Step 2: Entering mobile number 9960232311...
     Mobile Input Text    ${LOGIN_EMAIL}    9960232311
+    Sleep    1s
+    Log To Console    Step 2: Mobile number entered, clicking Login button...
     Click on the Login Button
     Sleep    3s
 
@@ -1118,10 +1121,10 @@ Generate E2E Quick Registration Test Data
     Log To Console    Area: ${E2E_QUICK_USER_AREA}
 
 Generate TC10 Become Member Test Data
-    [Documentation]    Generates unique test data for TC10 - Uses DIFFERENT phone than TC07-09
-    ...    TC10 converts Quick Reg user to Community Member, so it needs its own phone number
-    ...    to avoid breaking TC07-09 on future runs
-    # Fixed phone number for TC10: 9963222000 | OTP: 999999
+    [Documentation]    DEPRECATED - TC10 now uses TC07's user (9960232311) instead
+    ...    This keyword is no longer used and can be removed in future cleanup
+    ...    TC10 now reuses the Quick Reg user created by TC07
+    # OLD: Fixed phone number for TC10: 7600699169 | OTP: 999999
     ${random_email_num}=    Evaluate    random.randint(10000, 99999)    random
 
     Set Test Variable    ${TC10_USER_FIRST_NAME}          TC10First
@@ -1143,8 +1146,10 @@ Generate TC10 Become Member Test Data
     Log To Console    ================================================
 
 TC10 Login As Quick Registration User
-    [Documentation]    TC10: Login with existing Quick Registration user (7600699169)
-    ...    This user will then be converted to Community Member via "Become a Member" flow
+    [Documentation]    DEPRECATED - TC10 now uses "Login As Non Community Member" keyword
+    ...    This keyword is no longer used and can be removed in future cleanup
+    ...    TC10 now reuses TC07's user (9960232311) via the shared login keyword
+    # OLD: Login with existing Quick Registration user (7600699169)
 
     # Step 1: Logout any existing user
     ${logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
@@ -1173,27 +1178,205 @@ TC10 Login As Quick Registration User
     Run Keyword And Ignore Error    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    10s
     Log To Console    TC10: Login completed with 7600699169
 
-Generate E2E Community Registration Test Data              
+TC11 Pre-Registration Setup
+    [Documentation]    TC11: Find available phone number for Community Registration
+    ...    Tries random numbers until finding one that doesn't exist
+
+    # Step 1: Logout if logged in
+    ${logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
+    IF    ${logged_in}
+        Log To Console    TC11: User logged in - logging out first
+        Click on the Profile Tab
+        Sleep    2s
+        Click on the Logout Tab
+        Sleep    2s
+        Click on the Yes Button from Logout Alert
+        Sleep    3s
+        Log To Console    ✅ Logged out successfully
+    ELSE
+        Log To Console    TC11: No user logged in - continuing
+    END
+
+    # Step 1.5: Navigate to login screen from welcome screen
+    # After Handle First Time Setup, we're on the welcome screen with Login/Register buttons
+    # We need to click Login button to access the login screen (similar to how TC07 clicks Register)
+
+    ${on_login_screen}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${LOGIN_EMAIL}    3s
+    IF    not ${on_login_screen}
+        Log To Console    TC11: Not on login screen yet - clicking Login button from welcome screen...
+
+        # Click on Login button using the same multi-strategy approach as "Click on Register Text Only"
+        Sleep    3s
+        ${clicked}=    Set Variable    ${FALSE}
+
+        # Strategy 1: Direct click on content-desc containing "Login" with android.view.View
+        Log To Console    TC11: Strategy 1 - android.view.View with content-desc Login
+        ${login_view}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Login")]    5s
+        IF    ${login_view}
+            Mobile Click Element    xpath=//android.view.View[contains(@content-desc,"Login")]
+            ${clicked}=    Set Variable    ${TRUE}
+            Sleep    2s
+            Log To Console    ✅ TC11: Strategy 1 SUCCESS
+        END
+
+        # Strategy 2: Try android.widget.Button with text
+        IF    not ${clicked}
+            Log To Console    TC11: Strategy 2 - android.widget.Button with text Login
+            ${login_button}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[contains(@text,"Login")]    3s
+            IF    ${login_button}
+                Mobile Click Element    xpath=//android.widget.Button[contains(@text,"Login")]
+                ${clicked}=    Set Variable    ${TRUE}
+                Sleep    2s
+                Log To Console    ✅ TC11: Strategy 2 SUCCESS
+            END
+        END
+
+        # Strategy 3: Try any element with text "Login"
+        IF    not ${clicked}
+            Log To Console    TC11: Strategy 3 - Any element with text Login
+            ${login_text}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,"Login")]    3s
+            IF    ${login_text}
+                Mobile Click Element    xpath=//*[contains(@text,"Login")]
+                ${clicked}=    Set Variable    ${TRUE}
+                Sleep    2s
+                Log To Console    ✅ TC11: Strategy 3 SUCCESS
+            END
+        END
+
+        IF    not ${clicked}
+            Fail    TC11: Could not find Login button on welcome screen (tried 3 strategies)
+        END
+
+        # Verify we're now on login screen with email/phone input field visible
+        Mobile Wait Until Element Is Visible    ${LOGIN_EMAIL}    10s
+        Log To Console    ✅ TC11: Now on login screen
+    ELSE
+        Log To Console    ✅ TC11: Already on login screen
+    END
+
+    # Step 2: Find an available phone number by trying login
+    ${phone_found}=    Set Variable    ${FALSE}
+    ${attempt}=    Set Variable    ${0}
+    ${max_attempts}=    Set Variable    5
+
+    WHILE    not ${phone_found} and ${attempt} < ${max_attempts}
+        ${attempt}=    Evaluate    ${attempt} + 1
+
+        # Generate random phone number using timestamp + attempt counter
+        ${timestamp}=    Evaluate    int(time.time())    time
+        ${random_suffix}=    Evaluate    str(${timestamp})[-6:]
+        ${tc11_phone}=    Set Variable    9876${random_suffix}
+
+        Log To Console    TC11: Attempt ${attempt}/${max_attempts} - Trying phone: ${tc11_phone}
+
+        # Clear login field if it has any pre-existing number
+        Log To Console    TC11: Clicking on input field...
+        Click on the input field
+        Sleep    500ms
+        Log To Console    TC11: Clearing any existing text...
+        Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+        Sleep    500ms
+        Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+        Sleep    500ms
+
+        # Try to login with this number
+        Log To Console    TC11: Entering phone number: ${tc11_phone}
+        Mobile Input Text    ${LOGIN_EMAIL}    ${tc11_phone}
+        Sleep    1s
+        Log To Console    TC11: Clicking Login button...
+        Click on the Login Button
+        Sleep    3s
+        Log To Console    TC11: Waiting to check if OTP screen appears...
+
+        # Check if OTP screen appears (user exists) or error/invalid message (user doesn't exist)
+        ${otp_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${Verify_OTP_SCREEN}    5s
+
+        IF    ${otp_visible}
+            # User EXISTS - this number is taken, try another
+            Log To Console    ⚠️ TC11: Phone ${tc11_phone} EXISTS - trying another number
+            # Go back to login screen
+            Run Keyword And Ignore Error    Mobile Press Keycode    4    # Back button
+            Sleep    2s
+        ELSE
+            # User DOESN'T EXIST - this number is available!
+            Log To Console    ✅ TC11: Phone ${tc11_phone} is AVAILABLE - using this number
+            ${phone_found}=    Set Variable    ${TRUE}
+            Set Suite Variable    ${TC11_COMMUNITY_PHONE}    ${tc11_phone}
+        END
+    END
+
+    IF    not ${phone_found}
+        Fail    TC11: Could not find available phone number after ${max_attempts} attempts
+    END
+
+    Log To Console    ✅ TC11: Ready for Community Registration with phone: ${tc11_phone}
+
+TC14 Login As Community Member
+    [Documentation]    TC14: Login with Community Member created in TC11
+    ...    This user should have full access to all features
+
+    # Step 1: Logout any existing user
+    ${logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
+    IF    ${logged_in}
+        Log To Console    TC14: User logged in - logging out first
+        Click on the Profile Tab
+        Sleep    2s
+        Click on the Logout Tab
+        Sleep    2s
+        Click on the Yes Button from Logout Alert
+        Sleep    3s
+    END
+
+    # Step 2: Login with TC11 Community Member (use the phone from TC11)
+    ${tc11_phone}=    Set Variable If    '${TC11_COMMUNITY_PHONE}' != '${EMPTY}'    ${TC11_COMMUNITY_PHONE}    9876543210
+    Log To Console    TC14: Logging in with Community Member ${tc11_phone}
+    Click on the input field
+    Mobile Input Text    ${LOGIN_EMAIL}    ${tc11_phone}
+    Click on the Login Button
+    Verify OTP Screen is Displayed
+    Enter Mobile OTP Manually
+    Sleep    2s
+    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify"]    10s
+    Mobile Click Element    xpath=//android.view.View[@content-desc="Verify"]
+    Log To Console    Clicked on Verify Button
+    Sleep    3s
+    Run Keyword And Ignore Error    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    10s
+    Log To Console    ✅ TC14: Login completed with ${tc11_phone}
+
+Generate E2E Community Registration Test Data
     [Documentation]    Generates unique test data for E2E Community Registration validation
+    ...    Uses phone number from TC11 Pre-Registration Setup if available
+    ...    Generates random email ID using timestamp for unique registration
     ${random_num}=    Evaluate    random.randint(1000, 9999)    random
-    
+
+    # Use TC11 phone if set by pre-setup, otherwise use default
+    ${mobile}=    Set Variable If    '${TC11_COMMUNITY_PHONE}' != '${EMPTY}'    ${TC11_COMMUNITY_PHONE}    9876543210
+
+    # Generate unique email using timestamp
+    ${timestamp}=    Evaluate    int(time.time())    time
+    ${unique_email}=    Set Variable    community${timestamp}@rysun.com
+
     Set Test Variable    ${COMMUNITY_USER_FIRST_NAME}    CommunityFirst
     Set Test Variable    ${COMMUNITY_USER_LAST_NAME}     CommunityLast
-    Set Test Variable    ${COMMUNITY_USER_EMAIL}         payment.gateway@rysun.com
-    Set Test Variable    ${COMMUNITY_USER_MOBILE}        9999999999
+    Set Test Variable    ${COMMUNITY_USER_EMAIL}         ${unique_email}
+    Set Test Variable    ${COMMUNITY_USER_MOBILE}        ${mobile}
+    Set Test Variable    ${COMMUNITY_USER_ADDRESS}       123 Test Street, Test Area
+    Set Test Variable    ${COMMUNITY_USER_PINCODE}       380015
     Set Test Variable    ${COMMUNITY_USER_GENDER}        Male
-    Set Test Variable    ${COMMUNITY_USER_DOB}           2025
+    Set Test Variable    ${COMMUNITY_USER_DOB}           2005
     Set Test Variable    ${COMMUNITY_USER_COUNTRY}       India
     Set Test Variable    ${COMMUNITY_USER_STATE}         Gujarat
-    Set Test Variable    ${COMMUNITY_USER_DISTRICT}      Ahmadabad
+    Set Test Variable    ${COMMUNITY_USER_DISTRICT}      Ahmedabad
     Set Test Variable    ${COMMUNITY_USER_CITY}          Ahmedabad City
     Set Test Variable    ${COMMUNITY_USER_AREA}          Ahmedabad (City)
-    
+
     Log To Console    🎯 Generated E2E Community Registration Test Data:
     Log To Console    🎯 First Name: ${COMMUNITY_USER_FIRST_NAME}
     Log To Console    🎯 Last Name: ${COMMUNITY_USER_LAST_NAME}
     Log To Console    🎯 Email: ${COMMUNITY_USER_EMAIL}
     Log To Console    🎯 Mobile: ${COMMUNITY_USER_MOBILE}
+    Log To Console    🎯 Address: ${COMMUNITY_USER_ADDRESS}
+    Log To Console    🎯 Pincode: ${COMMUNITY_USER_PINCODE}
     Log To Console    🎯 Gender: ${COMMUNITY_USER_GENDER}
     Log To Console    🎯 DOB: ${COMMUNITY_USER_DOB}
     Log To Console    🎯 Country: ${COMMUNITY_USER_COUNTRY}
@@ -1385,35 +1568,132 @@ Verify Quick Registration User Details in Edit Profile
     Log To Console    All user details verified successfully in Edit Profile screen
 
 Fill the Personal and Address Information for Community Registration
+    Log To Console    📝 Filling Personal and Address Information (Page 3)...
+
+    # Email and Mobile (working fine - keep as is)
     Enter Community Email
     Click on the Community Mobile Field
-    Enter Community Mobile By Keypad    9999999999
+    # Use mobile number from TC11 pre-setup or test data generation
+    Enter Community Mobile By Keypad    ${COMMUNITY_USER_MOBILE}
     Enter Community Registration First Name
     # Enter Community Registration Middle Name
     Enter Community Registration Last Name
-    Enter Community Full Address
-    Enter Community Pincode
+
+    # TC11 DOES have Full Address field - need to scroll down to see it after Last Name
+    Sleep    2s
+    ${height}=    Mobile Get Window Height
+    ${width}=    Mobile Get Window Width
+
+    # Scroll down to reveal Full Address field
+    Mobile Swipe    ${width//2}    ${height*2//3}    ${width//2}    ${height//3}    500ms
+    Sleep    2s
+
+    # FULL ADDRESS - Use hint-based locator
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Full Address']    10s
+    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Full Address']
+    Sleep    1s
+    Run Keyword And Ignore Error    Mobile Clear Text    xpath=//android.widget.EditText[@hint='Enter Full Address']
+    Sleep    500ms
+    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Full Address']    ${COMMUNITY_USER_ADDRESS}
+    Sleep    1s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+    Log To Console    ✅ Entered Full Address: ${COMMUNITY_USER_ADDRESS}
+
+    # PINCODE - Scroll down a bit more and use hint-based locator
+    Mobile Swipe    ${width//2}    ${height*2//3}    ${width//2}    ${height//3}    500ms
+    Sleep    2s
+
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Pin Code']    10s
+    Mobile Click Element    xpath=//android.widget.EditText[@hint='Enter Pin Code']
+    Sleep    1s
+    Run Keyword And Ignore Error    Mobile Clear Text    xpath=//android.widget.EditText[@hint='Enter Pin Code']
+    Sleep    500ms
+    Mobile Input Text    xpath=//android.widget.EditText[@hint='Enter Pin Code']    ${COMMUNITY_USER_PINCODE}
+    Sleep    1s
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+    Log To Console    ✅ Entered Pin Code: ${COMMUNITY_USER_PINCODE}
+
+    # LOCATION DROPDOWNS - TC11 specific (TC10 doesn't have these)
+    # After Pincode, TC11 needs to select Country, State, District, City, Area
     Select Country for Community Registration
     Select State for Community Registration
     Select District for Register Screen
     Select Taluka/City for Register Screen
     Select Area/Village for Register Screen
-    Click on the Next Button from Community Registration
+
+    # NEXT BUTTON - After location selection, click Next
+    # Hide keyboard and scroll to see Next button
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+    Mobile Swipe    ${width//2}    ${height*2//3}    ${width//2}    ${height//3}    500ms
+    Sleep    2s
+
+    # Click Next button
+    Run Keyword And Ignore Error    Mobile Click Element    xpath=//*[@content-desc="Next"]
+    Log To Console    ✅ Clicked Next
+    Sleep    3s
 
 Enter Community Registration First Name
-    # Mobile.Wait Until Element Is Visible    ${COMMUNITY_FIRST_NAME}    10s
-    Mobile.Click Element                    ${COMMUNITY_FIRST_NAME}
-    Mobile.Click Element                    ${COMMUNITY_FIRST_NAME}
-    Run Keyword And Ignore Error    Mobile.Hide Keyboard
-    Mobile.Input Text                      ${COMMUNITY_FIRST_NAME}     ${COMMUNITY_USER_FIRST_NAME}
-    # Mobile.Hide Keyboard            
+    Log To Console    👤 Entering First Name: ${COMMUNITY_USER_FIRST_NAME}
 
- Enter Community Registration Last Name
-    Scroll Until Element Found           xpath=//android.view.View[@content-desc="Pin Code"]
-    # Mobile.Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    10s
-    Mobile.Click Element                    ${COMMUNITY_LAST_NAME}
+    # Scroll down to make First Name field visible (it's below mobile number)
+    Sleep    1s
+    ${height}=    Mobile Get Window Height
+    ${width}=    Mobile Get Window Width
+    ${start_x}=    Evaluate    int(${width} * 0.5)
+    ${start_y}=    Evaluate    int(${height} * 0.6)
+    ${end_y}=    Evaluate    int(${height} * 0.3)
+    Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
+    Sleep    1s
+
+    # Use hint-based locator (most reliable) - avoid index-based fallback
+    ${first_name_locator}=    Set Variable    xpath=//android.widget.EditText[@hint='Enter First Name']
+    Mobile.Wait Until Element Is Visible    ${first_name_locator}    10s
+    Sleep    500ms
+    Mobile.Click Element                    ${first_name_locator}
+    Sleep    500ms
+    # Clear any existing text in the field
+    Run Keyword And Ignore Error    Mobile.Clear Text    ${first_name_locator}
+    Sleep    500ms
     Run Keyword And Ignore Error    Mobile.Hide Keyboard
-    Mobile.Input Text                      ${COMMUNITY_LAST_NAME}     ${COMMUNITY_USER_LAST_NAME}
+    Sleep    500ms
+    Mobile.Input Text                      ${first_name_locator}     ${COMMUNITY_USER_FIRST_NAME}
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
+    Log To Console    ✅ Entered First Name: ${COMMUNITY_USER_FIRST_NAME}            
+
+Enter Community Registration Last Name
+    Log To Console    👤 Entering Last Name: ${COMMUNITY_USER_LAST_NAME}
+
+    # Small scroll to ensure Last Name field is visible (don't scroll too far!)
+    Sleep    500ms
+    ${last_name_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']    3s
+    IF    not ${last_name_visible}
+        # Only scroll a little if not visible
+        ${height}=    Mobile Get Window Height
+        ${width}=    Mobile Get Window Width
+        ${start_x}=    Evaluate    int(${width} * 0.5)
+        ${start_y}=    Evaluate    int(${height} * 0.6)
+        ${end_y}=    Evaluate    int(${height} * 0.4)
+        Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
+        Sleep    1s
+    END
+
+    # Use hint-based locator (most reliable) - avoid index-based fallback
+    ${last_name_locator}=    Set Variable    xpath=//android.widget.EditText[@hint='Enter Last Name']
+    Mobile.Wait Until Element Is Visible    ${last_name_locator}    10s
+    Sleep    500ms
+    Mobile.Click Element                    ${last_name_locator}
+    Sleep    500ms
+    # Clear any existing text in the field
+    Run Keyword And Ignore Error    Mobile.Clear Text    ${last_name_locator}
+    Sleep    500ms
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
+    Sleep    500ms
+    Mobile.Input Text                      ${last_name_locator}     ${COMMUNITY_USER_LAST_NAME}
+    Run Keyword And Ignore Error    Mobile.Hide Keyboard
+    Log To Console    ✅ Entered Last Name: ${COMMUNITY_USER_LAST_NAME}
        
 
 Enter Community Registration Middle Name
@@ -1476,7 +1756,8 @@ Click on the NO and Second YES Radio Button from Community Registration
     Mobile Click Element                    xpath=//android.view.View[@content-desc="January"]
     Mobile Click Element                    xpath=//android.widget.Button[@content-desc="OK"]
     Sleep   2s
-    Mobile Click Element                    xpath=//android.view.View[@content-desc="Selected Year"]
+    # Fix: Use [2] index to select the correct "Selected Year" element (same as Become a Member flow)
+    Mobile Click Element                    xpath=//android.view.View[@content-desc="Selected Year"][2]
     Mobile Click Element                    xpath=//android.view.View[@content-desc="2025"]
     Mobile Click Element                    xpath=//android.widget.Button[@content-desc="OK"]
     Log To Console                  Clicked on the NO and Second YES Radio Button from Community Registration
@@ -1630,8 +1911,10 @@ Fill the Education Information for become a member
     Select Marital Status For Personal Information
     Click on the Education Level Field
     Click on the Education Qualification Field
+    Click on the Education Qualification Sub-Category Field for Personal Information
     Click on the Occupation Type Field
     Click on the Occupation Field
+    Click on the Occupation Sub-Category Field for Personal Information
     Click on the register Button from Community Registration
 
 Verify the User Updated Message

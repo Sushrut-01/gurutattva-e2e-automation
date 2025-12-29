@@ -614,7 +614,7 @@ Select DOB for Register Screen
 Select Country for Register Screen
     # Using proven pattern from DhyankendraPage
     Sleep    2s
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    # Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
     Scroll Until Element Found     ${REGISTER_COUNTRY}
     Sleep    1s
@@ -642,7 +642,7 @@ Select Country from dropdown in Register screen
 
 Select State for Register Screen
     # Using proven pattern - scroll and find State dropdown
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    # Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
     # Scroll down slightly to ensure State field is fully visible
     ${height}=    Mobile Get Window Height
@@ -701,7 +701,7 @@ Select State for Register Screen
 
 Select District for Register Screen
     # Using proven pattern from DhyankendraPage
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    # Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
     # Click on District dropdown
     Mobile Click Element    xpath=//*[contains(@text,'Select District') or contains(@content-desc,'Select District')]
@@ -717,7 +717,7 @@ Select District for Register Screen
 
 Select Taluka/City for Register Screen
     # Using proven pattern from DhyankendraPage
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    # Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
     # Scroll down to reveal Taluka/City dropdown if needed
     ${height}=    Mobile Get Window Height
@@ -741,7 +741,7 @@ Select Taluka/City for Register Screen
 
 Select Area/Village for Register Screen
     # Using proven pattern from DhyankendraPage
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    # Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
     # Scroll to see Area/Village dropdown if needed
     ${height}=    Mobile Get Window Height
@@ -872,14 +872,16 @@ Select Dhyankendra and click on the Next Button
 
 Enter Community Email
     # Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_EMAIL_HINT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_EMAIL_HINT}    10s
     Mobile Click Element                    ${COMMUNITY_EMAIL_HINT}
-    Mobile Input Text                       ${COMMUNITY_EMAIL_HINT}     payment.gateway@rysun.com
+    Mobile Input Text                       ${COMMUNITY_EMAIL_HINT}     ${COMMUNITY_USER_EMAIL}
+    Sleep    500ms
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    500ms
 
 Click on the Community Mobile Field
     # Scroll Up Until Element Visible  xpath=//android.view.View[@content-desc="Select how you want to register."]
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_MOBILE_HINT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_MOBILE_HINT}    10s
     Mobile Click Element                    ${COMMUNITY_MOBILE_HINT}
     # Mobile Input Text                      ${COMMUNITY_MOBILE_HINT}     8590620194
     # Mobile Hide Keyboard
@@ -1036,7 +1038,7 @@ Enter Community Mobile By Keypad
         ${keycode}=    Evaluate    {'0':7, '1':8, '2':9, '3':10, '4':11, '5':12, '6':13, '7':14, '8':15, '9':16}[str(${digit})]
         Mobile Press Keycode    ${keycode}
     END
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
 
 Fill the Personal,Select Unmarried and Education Information
     Select DOB For Personal Information
@@ -1055,12 +1057,73 @@ Select DOB For Personal Information
   Mobile Wait Until Element Is Visible    ${COMMUNITY_DOB}    15s
   Sleep    1s
   Mobile Click Element                   ${COMMUNITY_DOB}
-  Sleep    3s
+  Sleep    3s  # Wait for date picker to load
+
+  # PROVEN PATTERN from namkaranPage.robot: Click on current year text FIRST to open year picker
+  Log To Console    📅 Opening year picker by clicking on current year (2025)
+  ${year_picker_opened}=    Set Variable    ${FALSE}
+
+  # Try to click on 2025 year text to open year picker
+  ${status_open}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="2025"]    3s
+  IF    ${status_open}
+      Mobile Click Element    xpath=//android.view.View[@content-desc="2025"]
+      Log To Console    ✅ Clicked on 2025 to open year picker
+      ${year_picker_opened}=    Set Variable    ${TRUE}
+      Sleep    2s  # Wait for year picker to open
+  END
+
+  # Select year from ${COMMUNITY_USER_DOB} variable
+  Log To Console    📅 Selecting year ${COMMUNITY_USER_DOB}
+  ${year_clicked}=    Set Variable    ${FALSE}
+
+  # Method 1: Try direct content-desc xpath (if year picker is open, year should be visible)
+  ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="${COMMUNITY_USER_DOB}"]    3s
+  IF    ${status1}
+      Mobile Click Element    xpath=//android.view.View[@content-desc="${COMMUNITY_USER_DOB}"]
+      Log To Console    ✅ Direct xpath clicked year ${COMMUNITY_USER_DOB}
+      ${year_clicked}=    Set Variable    ${TRUE}
+  END
+
+  # Method 2: UiScrollable scrollIntoView with text selector
+  IF    not ${year_clicked}
+      ${uiscroll}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("${COMMUNITY_USER_DOB}"))
+      ${status2}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll}
+      IF    ${status2}
+          Log To Console    ✅ UiScrollable text clicked year ${COMMUNITY_USER_DOB}
+          ${year_clicked}=    Set Variable    ${TRUE}
+      END
+  END
+
+  # Method 3: UiScrollable with description
+  IF    not ${year_clicked}
+      ${uiscroll2}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().description("${COMMUNITY_USER_DOB}"))
+      ${status3}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll2}
+      IF    ${status3}
+          Log To Console    ✅ UiScrollable description clicked year ${COMMUNITY_USER_DOB}
+          ${year_clicked}=    Set Variable    ${TRUE}
+      END
+  END
+
+  IF    not ${year_clicked}
+      Log To Console    ⚠️ Could not select year ${COMMUNITY_USER_DOB}, using default
+  END
+  Sleep    1s
+
+  # Click on a date (day 15 is safe for any month)
+  Log To Console    📅 Clicking on date 15
+  ${date_clicked}=    Run Keyword And Return Status    Mobile Click Element    xpath=//android.view.View[@content-desc="15"]
+  IF    not ${date_clicked}
+      Log To Console    ⚠️ Could not click date 15, trying xpath with text
+      Run Keyword And Ignore Error    Mobile Click Element    xpath=//*[@text="15"]
+  END
+  Sleep    500ms
+
+  # Click OK to confirm
   Mobile Wait Until Element Is Visible    ${OK_BUTTON}    15s
   Sleep    1s
   Mobile Click Element                   ${OK_BUTTON}
   Sleep    2s
-  Log To Console                  Selected DOB For Personal Information
+  Log To Console                  ✅ Selected DOB: ${COMMUNITY_USER_DOB}-XX-15
 
 Select Gender For Personal Information
   Sleep    2s
@@ -1070,14 +1133,17 @@ Select Gender For Personal Information
   Mobile Click Element                   ${COMMUNITY_GENDER}
   Sleep    2s
   Mobile Click Element                   ${SEARCH}
-#   Mobile Hide Keyboard
-  Mobile Input Text                      ${SEARCH}     Male
+  # Don't hide keyboard - we need it for text input
+  Mobile Input Text                      ${SEARCH}     ${COMMUNITY_USER_GENDER}
   Sleep    2s
-  Mobile Wait Until Element Is Visible   ${SELECT_MALE}    15s
+
+  # Click on the gender option from dropdown (using dynamic xpath)
+  ${gender_xpath}=    Set Variable    xpath=(//*[@text='${COMMUNITY_USER_GENDER}' or @content-desc='${COMMUNITY_USER_GENDER}'])[2]
+  Mobile Wait Until Element Is Visible   ${gender_xpath}    15s
   Sleep    1s
-  Mobile Click Element                   ${SELECT_MALE}
+  Mobile Click Element                   ${gender_xpath}
   Sleep    2s
-  Log To Console                  Selected Gender For Personal Information
+  Log To Console                  ✅ Selected Gender: ${COMMUNITY_USER_GENDER}
 
 Select Blood Group For Personal Information
   Sleep    2s
@@ -1121,65 +1187,219 @@ Click on the Education Level Field
     Mobile Click Element                   ${COMMUNITY_EDUCATION_LEVEL}
     Sleep    2s
     Mobile Click Element                   ${SEARCH}
-    # Mobile Hide Keyboard
+    # Don't hide keyboard - we need it for typing
     Mobile Input Text                      ${SEARCH}    Postgraduate
     Sleep    2s
     Mobile Wait Until Element Is Visible    ${COMMUNITY_POSTGRADUATE}    15s
     Sleep    1s
     Mobile Click Element                   ${COMMUNITY_POSTGRADUATE}
     Sleep    2s
-    Log To Console                  Selected Education Level For Personal Information
+    # Hide keyboard after selection to reveal next field
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    3s
+
+    # CRITICAL: Wait for Education Level dropdown to fully close before opening next dropdown
+    Run Keyword And Ignore Error    Mobile Wait Until Element Is NOT Visible    ${SEARCH}    10s
+    Sleep    3s
+
+    Log To Console                  ✅ Selected Education Level: Postgraduate
 
 Click on the Education Qualification Field
+    # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
+    Sleep    2s
     Scroll Until Element Found     xpath=//android.view.View[@content-desc="Occupation"]
-    # Swipe Until Element Visible      xpath=//android.view.View[@content-desc="Occupation"]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION}    10s
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION}    15s
+    Sleep    1s
     Mobile Click Element                   ${COMMUNITY_EDUCATION_QUALIFICATION}
-    Mobile Click Element                   ${SEARCH}
-    # Mobile Hide Keyboard
-    Mobile Input Text                      ${SEARCH}    Engineering
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    10s
-    Mobile Click Element                   ${COMMUNITY_BACHELOR}
-    Log To Console                  Selected Education Qualification For Personal Information
+    Sleep    5s  # Wait longer for dropdown to fully open and render all options
+
+    # Method 1: Try direct content-desc locator
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    3s
+    IF    ${status1}
+        Log To Console    ✅ Method 1: Found Engineering by content-desc
+        Mobile Click Element    ${COMMUNITY_BACHELOR}
+    ELSE
+        # Method 2: Try UiScrollable scrollIntoView
+        Log To Console    ⚠️ Method 1 failed, trying UiScrollable...
+        ${uiscroll}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("Engineering"))
+        ${status2}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll}
+        IF    ${status2}
+            Log To Console    ✅ Method 2: UiScrollable clicked Engineering
+        ELSE
+            # Method 3: Try clicking by content-desc button
+            Log To Console    ⚠️ Method 2 failed, trying direct button click...
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    10s
+            Mobile Click Element    ${COMMUNITY_BACHELOR}
+            Log To Console    ✅ Method 3: Clicked Engineering button
+        END
+    END
+
+    Sleep    2s
+    # Hide keyboard after selection to reveal next field
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+
+    Log To Console    ✅ Selected Education Qualification: Engineering
+
+    # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
+    Sleep    2s
     Scroll Until Element Found     xpath=//android.view.View[@content-desc="Occupation"]
-    # Swipe Until Element Visible      xpath=//android.view.View[@content-desc="Occupation"]
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}    10s
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}    15s
+    Sleep    1s
     Mobile Click Element                   ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}
-    Mobile Click Element                   ${SEARCH}
-    # Mobile Hide Keyboard
-    Mobile Input Text                      ${SEARCH}    B.E./Btech   
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    10s
-    Mobile Click Element                   ${COMMUNITY_BACHELOR_SUB_CATEGORY}
-    Log To Console                  Selected Education Qualification Sub-Category For Personal Information
+    Sleep    5s  # Wait longer for dropdown to fully open
+
+    # Method 1: Try direct content-desc locator
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    3s
+    IF    ${status1}
+        Log To Console    ✅ Method 1: Found B.E./Btech by content-desc
+        Mobile Click Element    ${COMMUNITY_BACHELOR_SUB_CATEGORY}
+    ELSE
+        # Method 2: Try UiScrollable scrollIntoView
+        Log To Console    ⚠️ Method 1 failed, trying UiScrollable...
+        ${uiscroll}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("B.E./Btech"))
+        ${status2}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll}
+        IF    ${status2}
+            Log To Console    ✅ Method 2: UiScrollable clicked B.E./Btech
+        ELSE
+            # Method 3: Try clicking by content-desc button
+            Log To Console    ⚠️ Method 2 failed, trying direct button click...
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    10s
+            Mobile Click Element    ${COMMUNITY_BACHELOR_SUB_CATEGORY}
+            Log To Console    ✅ Method 3: Clicked B.E./Btech button
+        END
+    END
+
+    Sleep    2s
+    # Hide keyboard after selection to reveal next field
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+
+    Log To Console    ✅ Selected Education Qualification Sub-Category: B.E./Btech
 
 Click on the Occupation Type Field
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION_TYPE}    10s
+    # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
+    Sleep    2s
+    # Hide keyboard first (it was left open from previous field)
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    Scroll Until Element Found     xpath=//android.view.View[@content-desc="Occupation"]
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION_TYPE}    15s
+    Sleep    1s
     Mobile Click Element                   ${COMMUNITY_OCCUPATION_TYPE}
-    Mobile Click Element                   ${SEARCH}
-    # Mobile Hide Keyboard
-    Mobile Input Text                      ${SEARCH}    Business/Self Employed
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}    10s
-    Mobile Click Element                   ${COMMUNITY_BUSINESS_SELF_EMPLOYED}
-    Log To Console                  Selected Occupation Type For Personal Information
+    Sleep    5s  # Wait longer for dropdown to fully open
+
+    # Method 1: Try direct content-desc locator
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}    3s
+    IF    ${status1}
+        Log To Console    ✅ Method 1: Found Business/Self Employed by content-desc
+        Mobile Click Element    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}
+    ELSE
+        # Method 2: Try UiScrollable scrollIntoView
+        Log To Console    ⚠️ Method 1 failed, trying UiScrollable...
+        ${uiscroll}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("Business/Self Employed"))
+        ${status2}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll}
+        IF    ${status2}
+            Log To Console    ✅ Method 2: UiScrollable clicked Business/Self Employed
+        ELSE
+            # Method 3: Try clicking by content-desc button
+            Log To Console    ⚠️ Method 2 failed, trying direct button click...
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}    10s
+            Mobile Click Element    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}
+            Log To Console    ✅ Method 3: Clicked Business/Self Employed button
+        END
+    END
+
+    Sleep    2s
+    # Hide keyboard after selection to reveal next field
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+
+    Log To Console    ✅ Selected Occupation Type: Business/Self Employed
 
 Click on the Occupation Field
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION}    10s
+    # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
+    Sleep    2s
+    # Hide keyboard first (it was left open from previous field)
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Scroll Until Element Found     ${REGISTER_BUTTON_2}
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION}    15s
+    Sleep    1s
     Mobile Click Element                   ${COMMUNITY_OCCUPATION}
-    Mobile Click Element                   ${SEARCH}
-    
-    Mobile Input Text                      ${SEARCH}    ITSoftwareEngineering
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    10s
-    Mobile Click Element                   ${COMMUNITY_IT_SOFTWARE_ENGINEERING}
-    Log To Console                  Selected Occupation For Personal Information
-    # Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION_SUB_CATEGORY}    10s
+    Sleep    5s  # Wait longer for dropdown to fully open
+
+    # Method 1: Try direct content-desc locator with longer wait
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    10s
+    IF    ${status1}
+        Log To Console    ✅ Method 1: Found IT-Software-Engineering by content-desc
+        Mobile Click Element    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}
+    ELSE
+        # Method 2: Try UiScrollable scrollIntoView with descriptionContains
+        Log To Console    ⚠️ Method 1 failed, trying UiScrollable descriptionContains...
+        ${uiscroll}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().descriptionContains("ITSoftware"))
+        ${status2}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll}
+        IF    ${status2}
+            Log To Console    ✅ Method 2: UiScrollable descriptionContains clicked IT-Software-Engineering
+        ELSE
+            # Method 3: Try clicking by content-desc button with longer wait
+            Log To Console    ⚠️ Method 2 failed, trying direct wait and click...
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    15s
+            Mobile Click Element    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}
+            Log To Console    ✅ Method 3: Clicked IT-Software-Engineering button after 15s wait
+        END
+    END
+
+    Sleep    2s
+    # Hide keyboard after selection to reveal next field
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+
+    Log To Console    ✅ Selected Occupation: IT-Software-Engineering
+
+    # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
+    Sleep    2s
+    # Hide keyboard first (it was left open from previous field)
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Scroll Until Element Found     ${REGISTER_BUTTON_2}
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION_SUB_CATEGORY}    15s
+    Sleep    1s
     Mobile Click Element                   ${COMMUNITY_OCCUPATION_SUB_CATEGORY}
-    Mobile Click Element                   ${SEARCH}
-    Mobile Input Text                      ${SEARCH}    Software Professional (Others)
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}    10s
-    Mobile Click Element                   ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}
-    Log To Console                  Selected Occupation Sub-Category For Personal Information
+    Sleep    5s  # Wait longer for dropdown to fully open
+
+    # Method 1: Try direct content-desc locator with longer wait
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}    10s
+    IF    ${status1}
+        Log To Console    ✅ Method 1: Found Software Professional (Others) by content-desc
+        Mobile Click Element    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}
+    ELSE
+        # Method 2: Try UiScrollable scrollIntoView
+        Log To Console    ⚠️ Method 1 failed, trying UiScrollable...
+        ${uiscroll}=    Set Variable    new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("Software Professional (Others)"))
+        ${status2}=    Run Keyword And Return Status    Mobile Click Element    android=${uiscroll}
+        IF    ${status2}
+            Log To Console    ✅ Method 2: UiScrollable clicked Software Professional (Others)
+        ELSE
+            # Method 3: Try clicking by content-desc button with longer wait
+            Log To Console    ⚠️ Method 2 failed, trying direct wait and click...
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}    15s
+            Mobile Click Element    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}
+            Log To Console    ✅ Method 3: Clicked Software Professional (Others) button after 15s wait
+        END
+    END
+
+    Sleep    2s
+    # Hide keyboard after selection to reveal next field
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    2s
+
+    Log To Console    ✅ Selected Occupation Sub-Category: Software Professional (Others)
 
 Click on the register Button from Community Registration
     # Swipe Until Element Visible      ${REGISTER_BUTTON_2}
@@ -1965,7 +2185,7 @@ Enter Registered Email for Register Screen
     Sleep    1s
     Mobile Click Element                   ${REGISTER_EMAIL}
     Sleep    1s
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    # Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_EMAIL}    ${EMAIL}
     Sleep    1s
 
@@ -1977,28 +2197,37 @@ Enter Registered Mobile Number for Register Screen
     Sleep    1s
     Mobile Click Element                   ${REGISTER_MOBILE}
     Sleep    1s
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    # Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_MOBILE}    ${MOBILE}
     Sleep    1s
 
 Select Country for Community Registration
-    # Swipe Until Element Visible      ${REGISTER_COUNTRY}
+    # Using proven working pattern from DhyankendraPage
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Scroll until element found    ${REGISTER_COUNTRY}
-    Mobile Wait Until Element Is Visible    ${REGISTER_COUNTRY}    5s
-    Mobile Click Element                    ${REGISTER_COUNTRY}
-    Mobile Click Element                    ${SEARCH}
-    Mobile Input Text                       ${SEARCH}              India
-    # Mobile Hide Keyboard
-    Mobile Wait Until Element Is Visible    ${INDIA}               5s
-    Mobile Click Element                    ${INDIA}
+    # Click on Country dropdown and select India
+    Mobile Click Element    xpath=//*[contains(@text,'Select Country') or contains(@content-desc,'Select Country')]
+    Sleep    2s
+    Mobile Click Element    xpath=//android.widget.EditText
+    Mobile Input Text    xpath=//android.widget.EditText    India
+    Sleep    1s
+    # Click on the India option in the dropdown list (second instance after the input)
+    Mobile Click Element    xpath=(//*[@text='India' or @content-desc='India'])[2]
+    Sleep    1s
+    Log To Console    Selected Country - India
 
 Select State for Community Registration
-    # Swipe Until Element Visible      ${COMMUNITY_NEXT}
-    Scroll until element found    ${COMMUNITY_NEXT}
-    Mobile Wait Until Element Is Visible    ${SELECT_STATE}        5s 
-    Mobile Click Element                    ${SELECT_STATE}
-    Mobile Click Element                    ${SEARCH}
-    Mobile Input Text                       ${SEARCH}              Gujarat
-    # Mobile Hide Keyboard
-    Mobile Wait Until Element Is Visible    ${GUJARAT}             5s
-    Mobile Click Element                    ${GUJARAT}    
+    # Using proven working pattern from DhyankendraPage
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click on State dropdown
+    Mobile Click Element    xpath=//*[contains(@text,'Select State') or contains(@content-desc,'Select State')]
+    Sleep    2s
+    Mobile Click Element    xpath=//android.widget.EditText
+    Mobile Input Text    xpath=//android.widget.EditText    Gujarat
+    Sleep    1s
+    # Click on the Gujarat option in dropdown list (second instance)
+    Mobile Click Element    xpath=(//*[@text='Gujarat' or @content-desc='Gujarat'])[2]
+    Sleep    1s
+    Log To Console    Selected State - Gujarat    
