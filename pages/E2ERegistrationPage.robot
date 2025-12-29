@@ -1206,7 +1206,7 @@ TC11 Pre-Registration Setup
 
         # Check if there's any existing text in the login field and clear it
         ${field_text}=    Run Keyword And Ignore Error    Mobile Get Text    ${LOGIN_EMAIL}
-        IF    '${field_text[0]}' == 'PASS' and '${field_text[1]}' != ''
+        IF    $field_text[0] == 'PASS' and $field_text[1] != ''
             Log To Console    TC11: Existing mobile number found - clearing it
             Click on the input field
             Sleep    300ms
