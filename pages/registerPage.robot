@@ -287,7 +287,7 @@ Click on the Quick Registration Button
         Run Keyword And Ignore Error    Mobile Capture Page Screenshot    ${EXECDIR}/results/Screenshot/continuous_${i}_${ts}.png
 
         # Capture page source and analyze immediately
-        ${src_status}    ${page_source}=    Run Keyword And Ignore Error    Mobile Get Source
+        ${src_status}    ${page_source}=    Run Keyword And Ignore Error    Mobile.Get Source
 
         # Check for error keywords in page source
         ${has_already}=    Run Keyword And Return Status    Should Contain    ${page_source}    already
@@ -1828,11 +1828,21 @@ Click on the Occupation Field for Personal Information
     Mobile Click Element                   ${COMMUNITY_OCCUPATION}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile Input Text                      ${SEARCH}    IT Software Engineering   
+    Mobile Input Text                      ${SEARCH}    IT Software Engineering
     Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    10s
-    Mobile Click Element                   ${COMMUNITY_IT_SOFTWARE_ENGINEERING} 
+    Mobile Click Element                   ${COMMUNITY_IT_SOFTWARE_ENGINEERING}
     Log To Console                  Selected Occupation For Personal Information
-      
+
+Click on the Occupation Sub-Category Field for Personal Information
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION_SUB_CATEGORY}    10s
+    Mobile Click Element                   ${COMMUNITY_OCCUPATION_SUB_CATEGORY}
+    Mobile Click Element                   ${SEARCH}
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Mobile Input Text                      ${SEARCH}    Software Professional
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}    10s
+    Mobile Click Element                   ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}
+    Log To Console                  ✅ Selected Occupation Sub-Category: Software Professional (Others)
+
 Click on the register Button from Personal Information
     Swipe Until Element Visible      ${REGISTER_BUTTON_2}
     Mobile Wait Until Element Is Visible    ${REGISTER_BUTTON_2}    10s

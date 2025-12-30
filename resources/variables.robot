@@ -1,5 +1,7 @@
 *** Variables ***
-${REMOTE_URL}        http://localhost:4723/wd/hub
+# Appium 2.x uses http://localhost:4723 (without /wd/hub)
+# Appium 1.x uses http://localhost:4723/wd/hub
+${REMOTE_URL}        http://localhost:4723
 
 # ═══════════════════════════════════════════════════════════════════
 # E2E REGISTRATION TEST SUITE - MOBILE NUMBER & OTP CONFIGURATION
@@ -52,7 +54,7 @@ ${SANCHALAK_PASSWORD}                     Lavanya@21
 
 # Android Device Configuration
 ${PLATFORM_NAME}     Android
-${DEVICE_NAME}       emulator-5554
+${DEVICE_NAME}       RZCT40WL69K
 ${APP_PACKAGE}       com.org.gurutattva.app
 ${APP_ACTIVITY}      com.example.gurutattva_flutter_app.MainActivity
 ${AUTOMATION_NAME}   UiAutomator2

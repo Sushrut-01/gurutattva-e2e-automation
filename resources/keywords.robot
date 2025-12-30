@@ -102,12 +102,20 @@ Open Gurutattva App
     ...    appActivity=${APP_ACTIVITY}
     ...    automationName=${AUTOMATION_NAME}
     ...    noReset=true
+    ...    fullReset=false
     ...    newCommandTimeout=300000
     ...    autoGrantPermissions=true
-    ...    uiautomator2ServerLaunchTimeout=60000
-    ...    uiautomator2ServerInstallTimeout=60000
-    ...    appWaitDuration=10000
-    ...    appWaitActivity=${APP_ACTIVITY}
+    ...    skipServerInstallation=false
+    ...    skipDeviceInitialization=false
+    ...    disableWindowAnimation=true
+    ...    systemPort=8204
+    ...    uiautomator2ServerReadTimeout=120000
+    ...    uiautomator2ServerLaunchTimeout=120000
+    ...    uiautomator2ServerInstallTimeout=120000
+    ...    adbExecTimeout=90000
+    ...    ignoreHiddenApiPolicyError=true
+    ...    enableWebviewDetailsCollection=false
+    ...    skipLogcatCapture=true
 
     # Give app time to fully launch
     Sleep    5s
