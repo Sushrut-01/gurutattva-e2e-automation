@@ -195,6 +195,9 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
+    # Login as Sadhak user (9960232311) to access Dhyankendra tab
+    Login As Non Community Member
+    Click on the Explore Button
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location
     Click on the Register Now for Dhyankendra
@@ -244,6 +247,9 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     # --- Step 1: Mobile Registration by Sadhak ---
     Open Gurutattva App
     Handle First Time Setup
+    # Login as Sadhak user (9960232311) to access Dhyankendra tab
+    Login As Non Community Member
+    Click on the Explore Button
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location
     Click on the Register Now for Dhyankendra
@@ -342,6 +348,9 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     # --- Step 1: Mobile Registration by Sadhak ---
     Open Gurutattva App
     Handle First Time Setup
+    # Login as Sadhak user (9960232311) to access Dhyankendra tab
+    Login As Non Community Member
+    Click on the Explore Button
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location
     Click on the Register Now for Dhyankendra
