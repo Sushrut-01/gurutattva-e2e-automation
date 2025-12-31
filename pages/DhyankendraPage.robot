@@ -309,41 +309,35 @@ Select Taluka/City for Dhyankendra
     Log To Console    Selected Taluka/City - Ahmedabad City
 
 Select Area/Village for Dhyankendra
-    [Documentation]    Select first available Area/Village
+    [Documentation]    Select first available Area/Village - uses proven registerPage pattern with 20s wait
     # Area/Village field takes time to load after Taluka/City selection (fetches data from server)
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ⏳ Waiting for Area/Village field to load (can take up to 20 seconds)...
     Sleep    20s
-    # Wait for Area/Village dropdown to be clickable
-    ${clicked}=    Set Variable    ${FALSE}
-    # Try exact match first
-    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@content-desc="Select Area / Village"]    10s
-    IF    ${status1}
-        Mobile Click Element    xpath=//*[@content-desc="Select Area / Village"]
-        ${clicked}=    Set Variable    ${TRUE}
-        Log To Console    ✅ Clicked Area/Village dropdown
-    END
-    # Try clickable view containing Area/Village
-    IF    not ${clicked}
-        ${status2}=    Run Keyword And Return Status    Mobile Click Element    xpath=//android.view.View[@clickable='true' and (contains(@content-desc,'Area') or contains(@content-desc,'Village'))]
-        IF    ${status2}
-            ${clicked}=    Set Variable    ${TRUE}
-            Log To Console    ✅ Clicked Area/Village dropdown (clickable view)
-        END
-    END
-    # Fallback to original locator
-    IF    not ${clicked}
-        Mobile Click Element    xpath=//*[contains(@content-desc,'Select Area') or contains(@content-desc,'Select Village')]
-        Log To Console    ✅ Clicked Area/Village dropdown (fallback)
+    # Click on Area/Village dropdown
+    Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]
+    Sleep    2s
+    Log To Console    ✅ Clicked Area/Village dropdown
+    # Type in EditText search field - try Navrangpura first, then select first available
+    Mobile Click Element    xpath=//android.widget.EditText
+    Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
+    Sleep    1s
+    # Check if Navrangpura exists in dropdown results
+    ${navrangpura_found}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+    IF    ${navrangpura_found}
+        # Click on Navrangpura option (second instance - first is search field)
+        Mobile Click Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+        Log To Console    ✅ Selected Area/Village - Navrangpura
+    ELSE
+        # Navrangpura not available, clear search and select first option
+        Log To Console    ⚠️ Navrangpura not available, selecting first area from list
+        Mobile Clear Text    xpath=//android.widget.EditText
+        Sleep    1s
+        # Click first area option (exclude EditText itself)
+        Mobile Click Element    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[1]
+        Log To Console    ✅ Selected first available area from list
     END
     Sleep    2s
-    # Click on EditText and select first available area
-    Mobile Click Element    xpath=//android.widget.EditText
-    Sleep    1s
-    # Click first available area option (second element - first is EditText itself)
-    Mobile Click Element    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[2]
-    Sleep    1s
-    Log To Console    ✅ Selected first available Area/Village
 
 Click on the Next Button for Dhyankendra
     # Ensure keyboard is hidden before clicking Next
