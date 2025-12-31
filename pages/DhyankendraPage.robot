@@ -1016,10 +1016,16 @@ Verify the Review Status as Pending
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
     Sleep    2s
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    2s
+    Sleep    3s
     # Scroll table horizontally to make approval status column visible
-    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
-    Sleep    1s
+    Log To Console    📜 Scrolling table horizontally to reveal approval status column...
+    # Try multiple scroll approaches
+    ${scroll_status}=    Run Keyword And Return Status    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
+    IF    not ${scroll_status}
+        # Fallback: Try with different selector
+        Web.Execute Javascript    var grid = document.querySelector('[role="grid"]'); if(grid) grid.scrollLeft = 10000;
+    END
+    Sleep    2s
     ${cms_status}=    Web.Get Text    ${DHYANKENDRA_APPROVAL_STATUS_CELL}
     Should Be Equal    ${cms_status}    Pending
     Log To Console    Verified Review Status as Pending in CMS: Status=${cms_status}
@@ -1034,10 +1040,16 @@ Verify the Review Status as Approved
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
     Sleep    2s
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    2s
+    Sleep    3s
     # Scroll table horizontally to make approval status column visible
-    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
-    Sleep    1s
+    Log To Console    📜 Scrolling table horizontally to reveal approval status column...
+    # Try multiple scroll approaches
+    ${scroll_status}=    Run Keyword And Return Status    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
+    IF    not ${scroll_status}
+        # Fallback: Try with different selector
+        Web.Execute Javascript    var grid = document.querySelector('[role="grid"]'); if(grid) grid.scrollLeft = 10000;
+    END
+    Sleep    2s
     ${cms_status}=    Web.Get Text    ${DHYANKENDRA_APPROVAL_STATUS_CELL}
     Should Be Equal    ${cms_status}    Approved
     Log To Console    Verified Review Status as Approved in CMS: Status=${cms_status}
@@ -1052,10 +1064,16 @@ Verify the Review Status as Rejected
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
     Sleep    2s
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    2s
+    Sleep    3s
     # Scroll table horizontally to make approval status column visible
-    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
-    Sleep    1s
+    Log To Console    📜 Scrolling table horizontally to reveal approval status column...
+    # Try multiple scroll approaches
+    ${scroll_status}=    Run Keyword And Return Status    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
+    IF    not ${scroll_status}
+        # Fallback: Try with different selector
+        Web.Execute Javascript    var grid = document.querySelector('[role="grid"]'); if(grid) grid.scrollLeft = 10000;
+    END
+    Sleep    2s
     ${cms_status}=    Web.Get Text    ${DHYANKENDRA_APPROVAL_STATUS_CELL}
     Should Be Equal    ${cms_status}    Rejected
     Log To Console    Verified Review Status as Rejected in CMS: Status=${cms_status}
