@@ -741,7 +741,7 @@ Select Taluka/City for Register Screen
 
 Select Area/Village for Register Screen
     # Using proven pattern from DhyankendraPage
-    # Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
     # Scroll to see Area/Village dropdown if needed
     ${height}=    Mobile Get Window Height
@@ -753,16 +753,21 @@ Select Area/Village for Register Screen
     Sleep    1s
     # Click on Area/Village dropdown
     Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]
-    Sleep    2s
-    # Wait for EditText search field to appear after dropdown opens
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
-    Sleep    0.5s
-    # Type in EditText search field
-    Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
-    Sleep    1s
-    # Click on Navrangpura option (second instance - first is search field)
-    Mobile Click Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+    Sleep    3s
+    # Try to find EditText - if not visible, the dropdown might be a different type
+    ${edittext_exists}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=//android.widget.EditText
+    IF    not ${edittext_exists}
+        Log To Console    ⚠️ EditText not found, trying alternate approach with direct selection
+        # Maybe this dropdown doesn't have search - try clicking Navrangpura directly
+        Mobile Click Element    xpath=//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')]
+    ELSE
+        # Type in EditText search field
+        Mobile Click Element    xpath=//android.widget.EditText
+        Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
+        Sleep    1s
+        # Click on Navrangpura option (second instance - first is search field)
+        Mobile Click Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+    END
     Sleep    2s
     Log To Console    Selected Area/Village - Navrangpura 
 
