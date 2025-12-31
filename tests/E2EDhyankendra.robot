@@ -195,8 +195,8 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
-    # Login as Sadhak user (9960232311) to access Dhyankendra tab
-    Login As Non Community Member
+    # Login as Sadhak user (9835625646) to access Dhyankendra tab
+    Login As Dhyankendra Sadhak
     Click on the Explore Button
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location
@@ -247,8 +247,8 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     # --- Step 1: Mobile Registration by Sadhak ---
     Open Gurutattva App
     Handle First Time Setup
-    # Login as Sadhak user (9960232311) to access Dhyankendra tab
-    Login As Non Community Member
+    # Login as Sadhak user (9835625646) to access Dhyankendra tab
+    Login As Dhyankendra Sadhak
     Click on the Explore Button
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location
@@ -308,8 +308,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Select Community Hall Premise Type
     Click on the Submit Button for Web
     Verify the Edit Request Message
-    Click on the Audio Menu
-    Click on the Dhyankendra Management Menu
+    # Already on Dhyankendra listing page after submit, no need to navigate away
     Click on the Search Button
     Verify the Review Status as Pending
     Close Web Browser
@@ -348,8 +347,8 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     # --- Step 1: Mobile Registration by Sadhak ---
     Open Gurutattva App
     Handle First Time Setup
-    # Login as Sadhak user (9960232311) to access Dhyankendra tab
-    Login As Non Community Member
+    # Login as Sadhak user (9835625646) to access Dhyankendra tab
+    Login As Dhyankendra Sadhak
     Click on the Explore Button
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location
@@ -409,8 +408,7 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Select Community Hall Premise Type
     Click on the Submit Button for Web
     Verify the Edit Request Message
-    Click on the Audio Menu
-    Click on the Dhyankendra Management Menu
+    # Already on Dhyankendra listing page after submit, no need to navigate away
     Click on the Search Button
     Verify the Review Status as Pending
     Close Web Browser
