@@ -311,9 +311,29 @@ Select Taluka/City for Dhyankendra
 Select Area/Village for Dhyankendra
     [Documentation]    Select first available Area/Village
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    1s
-    # Click on Area/Village dropdown
-    Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]
+    Sleep    2s
+    # Wait for and click on Area/Village dropdown - try multiple locators
+    ${clicked}=    Set Variable    ${FALSE}
+    # Try exact match first
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@content-desc="Select Area / Village"]    5s
+    IF    ${status1}
+        Mobile Click Element    xpath=//*[@content-desc="Select Area / Village"]
+        ${clicked}=    Set Variable    ${TRUE}
+        Log To Console    ✅ Clicked Area/Village dropdown
+    END
+    # Try clickable view containing Area/Village
+    IF    not ${clicked}
+        ${status2}=    Run Keyword And Return Status    Mobile Click Element    xpath=//android.view.View[@clickable='true' and (contains(@content-desc,'Area') or contains(@content-desc,'Village'))]
+        IF    ${status2}
+            ${clicked}=    Set Variable    ${TRUE}
+            Log To Console    ✅ Clicked Area/Village dropdown (clickable view)
+        END
+    END
+    # Fallback to original locator
+    IF    not ${clicked}
+        Mobile Click Element    xpath=//*[contains(@content-desc,'Select Area') or contains(@content-desc,'Select Village')]
+        Log To Console    ✅ Clicked Area/Village dropdown (fallback)
+    END
     Sleep    2s
     # Click on EditText and select first available area
     Mobile Click Element    xpath=//android.widget.EditText
@@ -321,7 +341,7 @@ Select Area/Village for Dhyankendra
     # Click first available area option (second element - first is EditText itself)
     Mobile Click Element    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[2]
     Sleep    1s
-    Log To Console    Selected first available Area/Village
+    Log To Console    ✅ Selected first available Area/Village
 
 Click on the Next Button for Dhyankendra
     # Ensure keyboard is hidden before clicking Next
