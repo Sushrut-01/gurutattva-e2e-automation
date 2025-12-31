@@ -754,6 +754,9 @@ Select Area/Village for Register Screen
     # Click on Area/Village dropdown
     Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]
     Sleep    2s
+    # Wait for EditText search field to appear after dropdown opens
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
+    Sleep    0.5s
     # Type in EditText search field
     Mobile Click Element    xpath=//android.widget.EditText
     Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
