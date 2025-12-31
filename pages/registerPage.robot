@@ -742,34 +742,55 @@ Select Taluka/City for Register Screen
 Select Area/Village for Register Screen
     # Using proven pattern from DhyankendraPage
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    1s
-    # Scroll to see Area/Village dropdown if needed
+    Sleep    2s
+    # Scroll down more to ensure Area/Village dropdown is visible
     ${height}=    Mobile Get Window Height
     ${width}=    Mobile Get Window Width
     ${start_x}=    Evaluate    int(${width} * 0.5)
-    ${start_y}=    Evaluate    int(${height} * 0.6)
-    ${end_y}=    Evaluate    int(${height} * 0.4)
+    ${start_y}=    Evaluate    int(${height} * 0.7)
+    ${end_y}=    Evaluate    int(${height} * 0.3)
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-    Sleep    1s
+    Sleep    2s
     # Click on Area/Village dropdown
     Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]
     Sleep    3s
-    # Try to find EditText - if not visible, the dropdown might be a different type
+    # Check if EditText search field exists
     ${edittext_exists}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=//android.widget.EditText
-    IF    not ${edittext_exists}
-        Log To Console    ⚠️ EditText not found, trying alternate approach with direct selection
-        # Maybe this dropdown doesn't have search - try clicking Navrangpura directly
-        Mobile Click Element    xpath=//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')]
-    ELSE
-        # Type in EditText search field
+    IF    ${edittext_exists}
+        Log To Console    ✅ EditText search field found
+        # Type in search field
         Mobile Click Element    xpath=//android.widget.EditText
         Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
         Sleep    1s
-        # Click on Navrangpura option (second instance - first is search field)
-        Mobile Click Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+        # Try to click Navrangpura option
+        ${navrangpura_found}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+        IF    ${navrangpura_found}
+            Mobile Click Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+            Log To Console    ✅ Selected Navrangpura
+        ELSE
+            # Navrangpura not found, clear and select first available option
+            Log To Console    ⚠️ Navrangpura not available, selecting first area from list
+            Mobile Clear Text    xpath=//android.widget.EditText
+            Sleep    1s
+            # Click first clickable option after search field
+            Mobile Click Element    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[1]
+            Log To Console    ✅ Selected first available area
+        END
+    ELSE
+        # No search field - select directly from list
+        Log To Console    ⚠️ No search field found
+        ${navrangpura_direct}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')]
+        IF    ${navrangpura_direct}
+            Mobile Click Element    xpath=//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')]
+            Log To Console    ✅ Selected Navrangpura directly
+        ELSE
+            # Select first available option
+            Log To Console    ⚠️ Selecting first available area from list
+            Mobile Click Element    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[1]
+            Log To Console    ✅ Selected first available area
+        END
     END
-    Sleep    2s
-    Log To Console    Selected Area/Village - Navrangpura 
+    Sleep    2s 
 
 Click on the Quick Registration Tab
     Sleep    3s
