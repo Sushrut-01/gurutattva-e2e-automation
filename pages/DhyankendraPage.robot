@@ -310,12 +310,14 @@ Select Taluka/City for Dhyankendra
 
 Select Area/Village for Dhyankendra
     [Documentation]    Select first available Area/Village
+    # Area/Village field takes time to load after Taluka/City selection (fetches data from server)
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    2s
-    # Wait for and click on Area/Village dropdown - try multiple locators
+    Log To Console    ⏳ Waiting for Area/Village field to load (can take up to 20 seconds)...
+    Sleep    20s
+    # Wait for Area/Village dropdown to be clickable
     ${clicked}=    Set Variable    ${FALSE}
     # Try exact match first
-    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@content-desc="Select Area / Village"]    5s
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@content-desc="Select Area / Village"]    10s
     IF    ${status1}
         Mobile Click Element    xpath=//*[@content-desc="Select Area / Village"]
         ${clicked}=    Set Variable    ${TRUE}
