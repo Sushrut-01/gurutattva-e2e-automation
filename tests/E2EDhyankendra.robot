@@ -212,9 +212,9 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Enter Pincode For Dhyankendra
     Select Country for Dhyankendra
     Select State for Dhyankendra
-    Select District for Register Screen
-    Select Taluka/City for Register Screen
-    Select Area/Village for Register Screen
+    Select District for Dhyankendra
+    Select Taluka/City for Dhyankendra
+    Select Area/Village for Dhyankendra
     Click on the Next Button for Dhyankendra
     Enter Hall Length
     Enter Hall Width
@@ -264,9 +264,9 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the chan
     Enter Pincode For Dhyankendra
     Select Country for Dhyankendra
     Select State for Dhyankendra
-    Select District for Register Screen
-    Select Taluka/City for Register Screen
-    Select Area/Village for Register Screen
+    Select District for Dhyankendra
+    Select Taluka/City for Dhyankendra
+    Select Area/Village for Dhyankendra
     Click on the Next Button for Dhyankendra
     Enter Hall Length
     Enter Hall Width
@@ -364,9 +364,9 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Enter Pincode For Dhyankendra
     Select Country for Dhyankendra
     Select State for Dhyankendra
-    Select District for Register Screen
-    Select Taluka/City for Register Screen
-    Select Area/Village for Register Screen
+    Select District for Dhyankendra
+    Select Taluka/City for Dhyankendra
+    Select Area/Village for Dhyankendra
     Click on the Next Button for Dhyankendra
     Enter Hall Length
     Enter Hall Width

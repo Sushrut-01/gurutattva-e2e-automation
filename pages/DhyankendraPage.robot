@@ -276,7 +276,52 @@ Select State for Dhyankendra
     # Click on the Gujarat option in dropdown list (second instance)
     Mobile Click Element    xpath=(//*[@text='Gujarat' or @content-desc='Gujarat'])[2]
     Sleep    1s
-    Log To Console    Selected State - Gujarat 
+    Log To Console    Selected State - Gujarat
+
+Select District for Dhyankendra
+    [Documentation]    Select District - Ahmedabad
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click on District dropdown
+    Mobile Click Element    xpath=//*[contains(@text,'Select District') or contains(@content-desc,'Select District')]
+    Sleep    2s
+    Mobile Click Element    xpath=//android.widget.EditText
+    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad
+    Sleep    1s
+    # Click on Ahmedabad option (second instance)
+    Mobile Click Element    xpath=(//*[@text='Ahmedabad' or @content-desc='Ahmedabad'])[2]
+    Sleep    1s
+    Log To Console    Selected District - Ahmedabad
+
+Select Taluka/City for Dhyankendra
+    [Documentation]    Select Taluka/City - Ahmedabad City
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click on Taluka/City dropdown
+    Mobile Click Element    xpath=//*[contains(@text,'Select Taluka') or contains(@content-desc,'Select Taluka') or contains(@text,'Select City') or contains(@content-desc,'Select City')]
+    Sleep    2s
+    Mobile Click Element    xpath=//android.widget.EditText
+    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad City
+    Sleep    1s
+    # Click on Ahmedabad City option (second instance)
+    Mobile Click Element    xpath=(//*[contains(@text,'Ahmedabad City') or contains(@content-desc,'Ahmedabad City')])[2]
+    Sleep    1s
+    Log To Console    Selected Taluka/City - Ahmedabad City
+
+Select Area/Village for Dhyankendra
+    [Documentation]    Select first available Area/Village
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
+    # Click on Area/Village dropdown
+    Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]
+    Sleep    2s
+    # Click on EditText and select first available area
+    Mobile Click Element    xpath=//android.widget.EditText
+    Sleep    1s
+    # Click first available area option (second element - first is EditText itself)
+    Mobile Click Element    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[2]
+    Sleep    1s
+    Log To Console    Selected first available Area/Village
 
 Click on the Next Button for Dhyankendra
     # Ensure keyboard is hidden before clicking Next
