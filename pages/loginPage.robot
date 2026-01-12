@@ -544,7 +544,7 @@ Enter Mobile OTP Manually
     Log To Console    ===== OTP ENTRY TIME COMPLETE =====
 
 Enter OTP Automatically
-    [Documentation]    ORIGINAL VERSION - Used by Audio module (PROVEN WORKING - DO NOT MODIFY)
+    [Documentation]    ORIGINAL WORKING VERSION - DO NOT MODIFY - Used by Audio module
     [Arguments]    ${otp}=999999
     Log To Console    Attempting automatic OTP entry for: ${otp}
     Sleep    2s
