@@ -43,6 +43,16 @@ desktop.ini
 *.tmp
 *.temp
 email_args.json
+*.backup
+*_output.txt
+nul
+run_*_debug.bat
+
+# Claude Code
+.claude/
+
+# Revert documentation
+REVERT_*.md
 
 # Keep important files
 !test_data/
