@@ -587,110 +587,50 @@ Enter OTP Automatically
     RETURN
 
 Enter OTP Automatically Enhanced
-    [Documentation]    ENHANCED VERSION for Namkaran - Multiple click attempts and keyboard verification
+    [Documentation]    ENHANCED VERSION for Namkaran - Same as original but with better logging
     [Arguments]    ${otp}=999999
     Log To Console    \n╔════════════════════════════════════════════════════╗
     Log To Console    ║  Enhanced OTP Entry: ${otp}
     Log To Console    ╚════════════════════════════════════════════════════╝
-    Sleep    2s
 
-    # Strategy 1: Try EditText field first
-    Log To Console    📱 Strategy 1: Checking for EditText field...
+    # Strategy 1: Click first OTP box and use ADB input (same as Audio - PROVEN WORKING)
+    ${first_box}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[contains(@content-desc, "-")])[1]    3s
+    IF    ${first_box}
+        Log To Console    ✅ Found OTP box - clicking with Appium and entering via ADB
+        Mobile Click Element    xpath=(//android.view.View[contains(@content-desc, "-")])[1]
+        Sleep    1s
+        # Use ADB to input the OTP text
+        ${result}=    Run Process    adb    shell    input    text    ${otp}
+        Sleep    2s
+        Log To Console    ✅ OTP entered via ADB shell input
+        RETURN
+    END
+
+    # Strategy 2: Try EditText field if available
+    Log To Console    ⚠️ OTP dash boxes not found, trying EditText...
     ${edit_field}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[1]    3s
     IF    ${edit_field}
         Log To Console    ✅ Found EditText field - entering OTP directly
         Mobile Click Element    xpath=(//android.widget.EditText)[1]
         Sleep    1s
         Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${otp}
-        Run Keyword And Ignore Error    Mobile Hide Keyboard
-        Sleep    2s
-        Log To Console    ✅ OTP entered successfully via EditText: ${otp}
+        Log To Console    ✅ OTP typed into EditText field
         RETURN
     END
-    Log To Console    ⚠️ EditText not found, using enhanced Flutter method...
 
-    # Strategy 2: Enhanced Flutter OTP with multiple click attempts
-    ${dash_boxes_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    5s
-
-    IF    ${dash_boxes_found}
-        Log To Console    ✅ Found OTP dash boxes - attempting clicks...
-
-        # Click Attempt 1: Appium click
-        TRY
-            Mobile Click Element    xpath=(//android.view.View[@content-desc="-"])[1]
-            Sleep    1s
-            Log To Console    ✅ Appium click done
-        EXCEPT
-            Log To Console    ⚠️ Appium click failed
-        END
-
-        # Click Attempt 2: ADB tap with calculated center
-        TRY
-            ${location}=    Mobile Get Element Location    xpath=(//android.view.View[@content-desc="-"])[1]
-            ${size}=    Mobile Get Element Size    xpath=(//android.view.View[@content-desc="-"])[1]
-            ${x}=    Evaluate    ${location['x']} + (${size['width']} / 2)
-            ${y}=    Evaluate    ${location['y']} + (${size['height']} / 2)
-            Log To Console    📍 Tapping at: (${x}, ${y})
-            Run Process    adb    shell    input    tap    ${x}    ${y}
-            Sleep    1s
-            # Double-tap for extra assurance
-            Run Process    adb    shell    input    tap    ${x}    ${y}
-            Sleep    1s
-            Log To Console    ✅ ADB tap + double-tap done
-        EXCEPT
-            Log To Console    ⚠️ Coordinate tap failed
-            Run Process    adb    shell    input    tap    540    1100
-            Sleep    1s
-        END
-    ELSE
-        Log To Console    ⚠️ Dash boxes not found - using fallback
-        Run Process    adb    shell    input    tap    540    1100
-        Sleep    1s
-        Run Process    adb    shell    input    tap    540    1100
-        Sleep    1s
-    END
-
-    # Verify keyboard appeared
+    # Strategy 3: Direct ADB input without clicking (if keyboard is already up)
+    Log To Console    ⚠️ Trying direct ADB input as fallback...
+    ${result}=    Run Process    adb    shell    input    text    ${otp}
     Sleep    2s
-    ${keyboard_appeared}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.FrameLayout[contains(@resource-id,'inputmethod')]    2s
-    IF    ${keyboard_appeared}
-        Log To Console    ✅ Keyboard detected - box clicked successfully!
-    ELSE
-        Log To Console    ⚠️ Keyboard not detected - final tap attempt...
-        Run Process    adb    shell    input    tap    540    1100
-        Sleep    2s
-    END
 
-    # Enter OTP using keyevent
-    Log To Console    ⌨️ Entering OTP digits...
-    @{digits}=    Split String To Characters    ${otp}
-    FOR    ${digit}    IN    @{digits}
-        ${keycode}=    Evaluate    int(${digit}) + 7
-        Run Process    adb    shell    input    keyevent    ${keycode}
-        Sleep    0.5s
-    END
-    Sleep    2s
-    Log To Console    ✅ OTP digits sent: ${otp}
-
-    # Verify and retry if needed
+    # Verify OTP was entered by checking if "-" is still present
     ${still_empty}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    2s
     IF    ${still_empty}
-        Log To Console    ⚠️ Retrying with text input...
-        TRY
-            Mobile Click Element    xpath=(//android.view.View[@content-desc="-"])[1]
-            Sleep    1s
-            Run Process    adb    shell    input    text    ${otp}
-            Sleep    2s
-        EXCEPT
-            Run Process    adb    shell    input    tap    540    1100
-            Sleep    1s
-            Run Process    adb    shell    input    text    ${otp}
-            Sleep    2s
-        END
-    ELSE
-        Log To Console    ✅ SUCCESS: OTP verified!
+        Log To Console    ⚠️ OTP boxes still empty - entry may have failed
+        Fail    OTP entry failed - boxes still show "-"
     END
 
+    Log To Console    ✅ OTP entered successfully
     Log To Console    ╚════════════════════════════════════════════════════╝
     RETURN
 
