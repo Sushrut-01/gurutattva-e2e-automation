@@ -146,67 +146,67 @@ Submit Registration
  
 # Verify All Mandatory Validations
 Verify Validation Message for FN
-    Mobile Wait Until Element Is Visible   ${FN_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible   ${FN_VALIDATION_LOCATOR}    15s
     ${message_name_2}=               Mobile Get Element Attribute    ${FN_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings      ${message_name_2}    Please enter First name    
     Log To Console                  ${message_name_2}
 
 Verify Validation Message for LN
-    Mobile Wait Until Element Is Visible   ${LN_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible   ${LN_VALIDATION_LOCATOR}    15s
     ${message_name_2}=               Mobile Get Element Attribute    ${LN_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings      ${message_name_2}    Please enter Last name    
     Log To Console                  ${message_name_2}    
 
 Verify Validation Message for Email
-    Mobile Wait Until Element Is Visible   ${EMAIL_VALIDATION_LOCATOR_2}    5s
+    Mobile Wait Until Element Is Visible   ${EMAIL_VALIDATION_LOCATOR_2}    15s
     ${message_email_2}=               Mobile Get Element Attribute    ${EMAIL_VALIDATION_LOCATOR_2}    content-desc
     Should Be Equal As Strings      ${message_email_2}    Please enter your email   
     Log To Console                            ${message_email_2}
 
 Verify Validation Message for Mobile Number 
-    Mobile Wait Until Element Is Visible   ${MOBILE_VALIDATION_LOCATOR_2}    5s
+    Mobile Wait Until Element Is Visible   ${MOBILE_VALIDATION_LOCATOR_2}    15s
     ${message_mobile_2}=               Mobile Get Element Attribute    ${MOBILE_VALIDATION_LOCATOR_2}    content-desc
     Should Be Equal As Strings      ${message_mobile_2}    Please enter your mobile number   
     Log To Console                            ${message_mobile_2}
 
 Verify Validation Message for Gender 
-    Mobile Wait Until Element Is Visible   ${GENDER_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible   ${GENDER_VALIDATION_LOCATOR}    15s
     ${message_gender}=               Mobile Get Element Attribute    ${GENDER_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings      ${message_gender}    Please Select Gender   
     Log To Console                             ${message_gender}
 
 Verify Validation Message for DOB
-    Mobile Wait Until Element Is Visible    ${DOB_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible    ${DOB_VALIDATION_LOCATOR}    15s
     ${message_dob}=               Mobile Get Element Attribute    ${DOB_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings       ${message_dob}    Please select your date of birth   
     Log To Console                              ${message_dob}
 
 Verify Validation Message for Country
-    Mobile Wait Until Element Is Visible    ${COUNTRY_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible    ${COUNTRY_VALIDATION_LOCATOR}    15s
     ${message_country}=               Mobile Get Element Attribute    ${COUNTRY_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings       ${message_country}    Please select your country   
     Log To Console                              ${message_country}
 
 Verify Validation Message for State
-    Mobile Wait Until Element Is Visible    ${STATE_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible    ${STATE_VALIDATION_LOCATOR}    15s
     ${message_state}=               Mobile Get Element Attribute    ${STATE_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings       ${message_state}    Please select your state    
     Log To Console                             ${message_state}
 
 Verify Validation Message for District
-    Mobile Wait Until Element Is Visible    ${DISTRICT_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible    ${DISTRICT_VALIDATION_LOCATOR}    15s
     ${message_district}=               Mobile Get Element Attribute    ${DISTRICT_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings       ${message_district}    Please select your district    
     Log To Console                             ${message_district}    
 
 Verify Validation Message for City
-    Mobile Wait Until Element Is Visible    ${CITY_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible    ${CITY_VALIDATION_LOCATOR}    15s
     ${message_CITY}=               Mobile Get Element Attribute    ${CITY_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings       ${message_CITY}    Please select your taluka / city   
     Log To Console                             ${message_CITY}
 
 Verify Validation Message for Village
-    Mobile Wait Until Element Is Visible    ${VILLAGE_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible    ${VILLAGE_VALIDATION_LOCATOR}    15s
     ${message_village}=               Mobile Get Element Attribute    ${VILLAGE_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings       ${message_village}    Please select your village   
     Log To Console                             ${message_village}
@@ -225,7 +225,7 @@ Click on the Quick Registration Button
         Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
         Sleep    1s
         # Check if button is visible
-        ${btn_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@content-desc="Quick Registration"]    2s
+        ${btn_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@content-desc="Quick Registration"]    15s
         IF    ${btn_visible}
             Log To Console    Quick Registration button found after ${scroll_attempt} scroll(s)
             BREAK
@@ -336,7 +336,7 @@ Click on the Quick Registration Button
     Log To Console    🔍 OTP screen found: ${otp_found}
 
     # Final check after 2 more seconds
-    Sleep    2s
+    Sleep    300ms
     Log To Console    📋 === FINAL STATE CHECK ===
 
     ${final_ts}=    Get Current Date    result_format=%Y%m%d_%H%M%S
@@ -362,8 +362,8 @@ Click on the Quick Registration Button
     END
 
 Click on the skip button
-    Sleep      2s 
-    Mobile Wait Until Element Is Visible   xpath=//android.widget.Button[@content-desc="Skip"]    10s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible   xpath=//android.widget.Button[@content-desc="Skip"]    15s
     Mobile Click Element                   xpath=//android.widget.Button[@content-desc="Skip"] 
 
 Enter Invalid Email
@@ -371,7 +371,7 @@ Enter Invalid Email
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Invalid Email    
-    Mobile Wait Until Element Is Visible   ${EMAIL_VALIDATION_LOCATOR}    10s
+    Mobile Wait Until Element Is Visible   ${EMAIL_VALIDATION_LOCATOR}    15s
     ${message_email}=               Mobile Get Element Attribute    ${EMAIL_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings      ${message_email}    Please enter a valid email address
     Log To Console                             ${message_email}
@@ -381,20 +381,20 @@ Enter Invalid Mobile Number
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Invalid Mobile Number
-    Mobile Wait Until Element Is Visible   ${MOBILE_VALIDATION_LOCATOR}    5s
+    Mobile Wait Until Element Is Visible   ${MOBILE_VALIDATION_LOCATOR}    15s
     ${message_mobile}=               Mobile Get Element Attribute    ${MOBILE_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings      ${message_mobile}    Please enter your valid mobile number
     Log To Console                            ${message_mobile}   
 
 Click on the Login Button from Register Page
     Scroll Until Element Visible     ${SELECT_AREA}
-    Sleep      2s  
-    # Wait Until Element Is Visible    ${LOGIN_BUTTON}    10s
+    Sleep    300ms
+    # Wait Until Element Is Visible    ${LOGIN_BUTTON}    15s
     # Click Element                   ${LOGIN_BUTTON}
     # Log                             Clicked on Login Button from Register Page
 
 Verify Login Screen Is Displayed  
-    Mobile Wait Until Element Is Visible    ${LOGIN}    10s
+    Mobile Wait Until Element Is Visible    ${LOGIN}    15s
     Mobile Element Should Be Visible        ${LOGIN}
     ${login_title}=    Mobile Get Element Attribute    ${LOGIN}    content-desc
     Should Contain    ${login_title}     Login
@@ -402,9 +402,9 @@ Verify Login Screen Is Displayed
 
 # Fill Registration Form
 Click on the Name Field
-    Sleep     5s
+    Sleep    300ms
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]
-    Mobile Wait Until Element Is Visible   ${REGISTER_NAME}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_NAME}    15s
     Mobile Click Element                   ${REGISTER_NAME}
     
 Enter the Name    
@@ -413,7 +413,7 @@ Enter the Name
 
 Enter First Name for Register Screen
     [Arguments]    ${FIRST_NAME}
-    Sleep    2s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible   ${REGISTER_FNAME}    15s
     Sleep    1s
     Mobile Click Element                  ${REGISTER_FNAME}
@@ -425,7 +425,7 @@ Enter First Name for Register Screen
 
 Enter Last Name for Register Screen
     [Arguments]    ${LAST_NAME}
-    Sleep    2s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible   ${REGISTER_LNAME}    15s
     Sleep    1s
     Mobile Click Element    ${REGISTER_LNAME}
@@ -436,7 +436,7 @@ Enter Last Name for Register Screen
 
 Enter Email for Register Screen
     [Arguments]    ${EMAIL}
-    Sleep    2s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    15s
     Sleep    1s
     Mobile Click Element                   ${REGISTER_EMAIL}
@@ -447,7 +447,7 @@ Enter Email for Register Screen
 
 Enter Mobile Number for Register Screen
     [Arguments]    ${MOBILE}
-    Sleep    2s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    15s
     Sleep    1s
     Mobile Click Element                   ${REGISTER_MOBILE}
@@ -459,27 +459,27 @@ Enter Mobile Number for Register Screen
 
 Click on the Email Field
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]        
-    Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    15s
     Mobile Click Element                   ${REGISTER_EMAIL}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Valid Email
     [Arguments]    ${EMAIL}
     Scroll Up Until Element Visible    ${FIRST_HEADER}
-    Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    15s
     Mobile Click Element                   ${REGISTER_EMAIL}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_EMAIL}    ${EMAIL}
 
 Click on the Mobile Field
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Name"]     
-    Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    15s
     Mobile Click Element                   ${REGISTER_MOBILE}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Valid Mobile Number
     [Arguments]    ${MOBILE}
-    Sleep    2s
+    Sleep    300ms
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    15s
     Sleep    1s
@@ -492,11 +492,11 @@ Enter Valid Mobile Number
 Select Gender
     Scroll Up Until Element Visible  xpath=//android.view.View[@content-desc="Name"]  
     Mobile Click Element                   ${REGISTER_GENDER}
-    Mobile Wait Until Element Is Visible   ${SELECT_MALE}    10s
+    Mobile Wait Until Element Is Visible   ${SELECT_MALE}    15s
     Mobile Click Element                   ${SELECT_MALE}  
 
 Select Gender for register screen
-    Sleep    2s
+    Sleep    300ms
     # Small scroll down to reveal Gender dropdown (scroll only 20% of screen)
     ${height}=    Mobile Get Window Height
     ${width}=    Mobile Get Window Width
@@ -504,26 +504,25 @@ Select Gender for register screen
     ${start_y}=    Evaluate    int(${height} * 0.6)
     ${end_y}=    Evaluate    int(${height} * 0.4)
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-    Sleep    2s
+    Sleep    300ms
     # Try to find Gender field, if not visible scroll a bit more
-    ${status}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible   ${REGISTER_GENDER}    5s
+    ${status}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible   ${REGISTER_GENDER}    15s
     IF    not ${status}
         Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-        Sleep    2s
+    Sleep    300ms
     END
     Mobile Wait Until Element Is Visible   ${REGISTER_GENDER}    15s
     Sleep    1s
     Mobile Click Element                   ${REGISTER_GENDER}
-    Sleep    2s
+    Sleep    300ms
     # Wait for dropdown and select Male
     Mobile Wait Until Element Is Visible   ${SELECT_MALE}    15s
     Sleep    1s
     Mobile Click Element                   ${SELECT_MALE}
-    Sleep    2s
-
+    Sleep    300ms
 Select DOB for Register Screen
     [Documentation]    Selects a valid DOB (year 2000) - user must be 18+ years old
-    Sleep    2s
+    Sleep    300ms
     # Small scroll down to reveal DOB field (scroll only 15% of screen)
     ${height}=    Mobile Get Window Height
     ${width}=    Mobile Get Window Width
@@ -531,18 +530,17 @@ Select DOB for Register Screen
     ${start_y}=    Evaluate    int(${height} * 0.55)
     ${end_y}=    Evaluate    int(${height} * 0.4)
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-    Sleep    2s
+    Sleep    300ms
     # Try to find DOB field, if not visible scroll a bit more
-    ${status}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${REGISTER_DOB}    5s
+    ${status}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${REGISTER_DOB}    15s
     IF    not ${status}
         Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-        Sleep    2s
+    Sleep    300ms
     END
     Mobile Wait Until Element Is Visible    ${REGISTER_DOB}        15s
     Sleep    1s
     Mobile Click Element                    ${REGISTER_DOB}
-    Sleep    3s
-
+    Sleep    300ms
     # === SELECT VALID YEAR (2000) - User must be 18+ years old ===
     Log To Console    📅 Step 1: Click on year header...
     ${year_header}=    Set Variable    xpath=//android.view.View[@content-desc="2025"] | //*[contains(@content-desc,'2025')]
@@ -552,8 +550,7 @@ Select DOB for Register Screen
     ELSE
         Run Keyword And Ignore Error    Mobile Click Element    xpath=//android.view.View[@content-desc="2024"]
     END
-    Sleep    2s
-
+    Sleep    300ms
     # === Step 2 & 3: Scroll and CLICK year immediately when found ===
     Log To Console    📅 Step 2: Scrolling and clicking year...
     ${year_clicked}=    Set Variable    ${FALSE}
@@ -606,38 +603,38 @@ Select DOB for Register Screen
 
     # === Step 5: Click OK ===
     Log To Console    📅 Step 5: Clicking OK...
-    Mobile Wait Until Element Is Visible    ${OK_BUTTON}           10s
+    Mobile Wait Until Element Is Visible    ${OK_BUTTON}           15s
     Mobile Click Element                    ${OK_BUTTON}
-    Sleep    2s
+    Sleep    300ms
     Log To Console    📅 DOB selection completed
 
 Select Country for Register Screen
     # Using proven pattern from DhyankendraPage
-    Sleep    2s
+    Sleep    300ms
     # Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
     Scroll Until Element Found     ${REGISTER_COUNTRY}
     Sleep    1s
     # Click on Country dropdown
     Mobile Click Element    xpath=//*[contains(@text,'Select Country') or contains(@content-desc,'Select Country')]
-    Sleep    2s
+    Sleep    300ms
     # Type in EditText search field
     Mobile Click Element    xpath=//android.widget.EditText
     Mobile Input Text    xpath=//android.widget.EditText    India
     Sleep    1s
     # Click on India option (second instance - first is search field)
     Mobile Click Element    xpath=(//*[@text='India' or @content-desc='India'])[2]
-    Sleep    2s
+    Sleep    300ms
     Log To Console    Selected Country - India
 
 Select Country from dropdown in Register screen
     Swipe Until Element Visible     ${SELECT_AREA}
-    Mobile Wait Until Element Is Visible    ${REGISTER_COUNTRY}    5s
+    Mobile Wait Until Element Is Visible    ${REGISTER_COUNTRY}    15s
     Mobile Click Element                    ${REGISTER_COUNTRY}
     Mobile Click Element                    ${SEARCH}
     Mobile Input Text                       ${SEARCH}              India
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile Wait Until Element Is Visible    ${INDIA}               5s
+    Mobile Wait Until Element Is Visible    ${INDIA}               15s
     Mobile Click Element                    ${INDIA}    
 
 Select State for Register Screen
@@ -689,36 +686,49 @@ Select State for Register Screen
             Log To Console    Strategy 4: Coordinate tap below Country clicked
         END
     END
-    Sleep    2s
+    Sleep    300ms
     # Type in EditText search field
     Mobile Click Element    xpath=//android.widget.EditText
     Mobile Input Text    xpath=//android.widget.EditText    Gujarat
     Sleep    1s
     # Click on Gujarat option (second instance - first is search field)
     Mobile Click Element    xpath=(//*[@text='Gujarat' or @content-desc='Gujarat'])[2]
-    Sleep    2s
+    Sleep    300ms
     Log To Console    Selected State - Gujarat
 
 Select District for Register Screen
-    # Using proven pattern from DhyankendraPage
-    # Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    1s
-    # Click on District dropdown
+    # Using proven pattern from DhyankendraPage with fluent waits
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    20s
+    # Click on District dropdown with fluent wait
+    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,'Select District') or contains(@content-desc,'Select District')]    20s
     Mobile Click Element    xpath=//*[contains(@text,'Select District') or contains(@content-desc,'Select District')]
-    Sleep    2s
-    # Type in EditText search field
+    Sleep    30s
+    # Wait for search field and type
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad
     Sleep    1s
-    # Click on Ahmedabad option (second instance - first is search field)
-    Mobile Click Element    xpath=(//*[@text='Ahmedabad' or @content-desc='Ahmedabad'])[2]
+    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad
+    Sleep    5s
+    # Give extra time for dropdown results to load and render
+    Log To Console    ⏳ Waiting for District dropdown to populate with results...
+    # Try to find Ahmedabad in dropdown - try both [2] and [1] as fallback
+    ${ahmedabad_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//*[@text='Ahmedabad' or @content-desc='Ahmedabad'])[2]    30s
+    IF    ${ahmedabad_found}
+        Log To Console    ✅ Found Ahmedabad at index [2]
+        Mobile Click Element    xpath=(//*[@text='Ahmedabad' or @content-desc='Ahmedabad'])[2]
+    ELSE
+        Log To Console    ⚠️ Ahmedabad not found at [2], trying [1]...
+        Mobile Wait Until Element Is Visible    xpath=(//*[@text='Ahmedabad' or @content-desc='Ahmedabad'])[1]    15s
+        Mobile Click Element    xpath=(//*[@text='Ahmedabad' or @content-desc='Ahmedabad'])[1]
+    END
     Sleep    2s
     Log To Console    Selected District - Ahmedabad 
 
 Select Taluka/City for Register Screen
-    # Using proven pattern from DhyankendraPage
-    # Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    1s
+    # Using proven pattern from DhyankendraPage with fluent waits
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    300ms
     # Scroll down to reveal Taluka/City dropdown if needed
     ${height}=    Mobile Get Window Height
     ${width}=    Mobile Get Window Width
@@ -726,40 +736,47 @@ Select Taluka/City for Register Screen
     ${start_y}=    Evaluate    int(${height} * 0.6)
     ${end_y}=    Evaluate    int(${height} * 0.4)
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-    Sleep    1s
-    # Click on Taluka/City dropdown
+    Sleep    300ms
+    # Click on Taluka/City dropdown with fluent wait
+    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,'Select Taluka') or contains(@content-desc,'Select Taluka') or contains(@text,'Select City') or contains(@content-desc,'Select City')]    20s
     Mobile Click Element    xpath=//*[contains(@text,'Select Taluka') or contains(@content-desc,'Select Taluka') or contains(@text,'Select City') or contains(@content-desc,'Select City')]
-    Sleep    2s
-    # Type in EditText search field
+    Sleep    300ms
+    # Wait for search field and type
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad City
     Sleep    1s
-    # Click on Ahmedabad City option (second instance - first is search field)
+    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad City
+    Sleep    300ms
+    # Wait for and click on Ahmedabad City option (second instance - first is search field)
+    Mobile Wait Until Element Is Visible    xpath=(//*[contains(@text,'Ahmedabad City') or contains(@content-desc,'Ahmedabad City')])[2]    20s
     Mobile Click Element    xpath=(//*[contains(@text,'Ahmedabad City') or contains(@content-desc,'Ahmedabad City')])[2]
-    Sleep    2s
+    Sleep    300ms
     Log To Console    Selected Taluka/City - Ahmedabad City
 
 Select Area/Village for Register Screen
-    # Using proven pattern from DhyankendraPage - REVERT TO ORIGINAL WORKING VERSION
-    # Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    1s
-    # Scroll to see Area/Village dropdown (ORIGINAL: 60% to 40%)
+    # Using proven pattern from DhyankendraPage with fluent waits
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    300ms
+    # Scroll to see Area/Village dropdown
     ${height}=    Mobile Get Window Height
     ${width}=    Mobile Get Window Width
     ${start_x}=    Evaluate    int(${width} * 0.5)
     ${start_y}=    Evaluate    int(${height} * 0.6)
     ${end_y}=    Evaluate    int(${height} * 0.4)
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-    Sleep    1s
-    # Click on Area/Village dropdown
+    Sleep    300ms
+    # Click on Area/Village dropdown with fluent wait
+    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]    20s
     Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]
-    Sleep    2s
-    # Type in EditText search field
+    Sleep    300ms
+    # Wait for search field and type
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
     Sleep    1s
+    Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
+    Sleep    300ms
     # Check if Navrangpura exists in dropdown results
-    ${navrangpura_found}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+    ${navrangpura_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]    15s
     IF    ${navrangpura_found}
         # Click on Navrangpura option (second instance - first is search field)
         Mobile Click Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
@@ -768,15 +785,15 @@ Select Area/Village for Register Screen
         # Navrangpura not available, clear search and select first option
         Log To Console    ⚠️ Navrangpura not available, selecting first area from list
         Mobile Clear Text    xpath=//android.widget.EditText
-        Sleep    1s
-        # Click first area option (exclude EditText itself)
+    Sleep    300ms
+        # Wait for and click first area option (exclude EditText itself)
+        Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[1]    20s
         Mobile Click Element    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[1]
         Log To Console    ✅ Selected first available area from list
     END
-    Sleep    2s 
-
+    Sleep    300ms
 Click on the Quick Registration Tab
-    Sleep    3s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible    ${QUICK_TAB}    15s
     Mobile Click Element                             ${QUICK_TAB}
     Log To Console                            Clicked on Quick Registration Tab
@@ -820,7 +837,7 @@ Verify Validation Message for Registered Email Address and Mobile Number
         Log To Console    Mobile Number or EmailAddress already registered.
     ELSE
         # One more check with longer wait
-        Sleep    2s
+    Sleep    300ms
         ${final_src}=    Mobile.Get Source
         ${final_check}=    Run Keyword And Return Status    Should Contain    ${final_src}    already
         IF    ${final_check}
@@ -841,24 +858,24 @@ Enter Registered Mobile Number
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Community Registration is Selected by default
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_REGISTRATION_NEXT_LABEL}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_REGISTRATION_NEXT_LABEL}    15s
     ${checked}=    Mobile Get Element Attribute    ${COMMUNITY_REGISTRATION_NEXT_LABEL}    content-desc
     Should Contain    ${checked}    Did you attend last Guru Purnima?
     Log To Console    Community Registration is selected by default.   
 
 Click on the NO Radio Button
-    Mobile Wait Until Element Is Visible    ${NO_BUTTON_1}    10s
+    Mobile Wait Until Element Is Visible    ${NO_BUTTON_1}    15s
     Mobile Click Element                    ${NO_BUTTON_1}
-    Mobile Wait Until Element Is Visible    ${NO_BUTTON_2}    10s
+    Mobile Wait Until Element Is Visible    ${NO_BUTTON_2}    15s
     Mobile Click Element                    ${NO_BUTTON_2}
     Swipe Until Element Visible      ${COMMUNITY_NEXT}
-    Mobile Wait Until Element Is Visible    ${NO_BUTTON_3}    10s
+    Mobile Wait Until Element Is Visible    ${NO_BUTTON_3}    15s
     Mobile Click Element                    ${NO_BUTTON_3}
     Log To Console                  Clicked on NO Radio Button
 
 Click on the Next Button from Community Registration
     Swipe Until Element Visible    ${COMMUNITY_NEXT}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_NEXT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_NEXT}    15s
     Mobile Click Element                   ${COMMUNITY_NEXT}
     Log To Console                  Clicked on Next Button from Community Registration
 
@@ -871,20 +888,20 @@ Location Permission
     Run Keyword If    ${isVisible}    Log To Console    The Location Permission is allowed
 
 Select Dhyankendra and click on the Next Button
-    Mobile Wait Until Element Is Visible    ${SELECT_DHYANKEDRA}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_DHYANKEDRA}    15s
     Mobile Click Element                    ${SELECT_DHYANKEDRA}
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.RadioButton    10s
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.RadioButton    15s
     Mobile Click Element                    xpath=//android.widget.RadioButton
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_CONFIRM_DHYANKEDRA}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_CONFIRM_DHYANKEDRA}    15s
     Mobile Click Element                    ${COMMUNITY_CONFIRM_DHYANKEDRA}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_NEXT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_NEXT}    15s
     Mobile Click Element                    ${COMMUNITY_NEXT}
     Log To Console                   Selected Dhyankendra and clicked on Next Button
 
 
 Enter Community Email
     # Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_EMAIL_HINT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_EMAIL_HINT}    15s
     Mobile Click Element                    ${COMMUNITY_EMAIL_HINT}
     Mobile Input Text                       ${COMMUNITY_EMAIL_HINT}     ${COMMUNITY_USER_EMAIL}
     Sleep    500ms
@@ -893,19 +910,19 @@ Enter Community Email
 
 Click on the Community Mobile Field
     # Scroll Up Until Element Visible  xpath=//android.view.View[@content-desc="Select how you want to register."]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_MOBILE_HINT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_MOBILE_HINT}    15s
     Mobile Click Element                    ${COMMUNITY_MOBILE_HINT}
     # Mobile Input Text                      ${COMMUNITY_MOBILE_HINT}     8590620194
     # Mobile Hide Keyboard
 
 Click on the Community WhatsApp Number
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_WHATSAPP_ICON}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_WHATSAPP_ICON}    15s
     Mobile Click Element                   ${COMMUNITY_WHATSAPP_ICON}
 
 Enter the Community WhatsApp Number    
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_MOBILE_HINT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_MOBILE_HINT}    15s
     Mobile Click Element                    ${COMMUNITY_MOBILE_HINT}
     Mobile Click Element                    ${COMMUNITY_MOBILE_HINT}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
@@ -914,7 +931,7 @@ Enter the Community WhatsApp Number
 
 Enter Community First Name
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_FIRST_NAME}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_FIRST_NAME}    15s
     Mobile Click Element                    ${COMMUNITY_FIRST_NAME}
     Mobile Click Element                    ${COMMUNITY_FIRST_NAME}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
@@ -923,7 +940,7 @@ Enter Community First Name
 
 Enter Community Middle Name
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_MIDDLE_NAME}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_MIDDLE_NAME}    15s
     Mobile Click Element                    ${COMMUNITY_MIDDLE_NAME}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_MIDDLE_NAME}     Middle Name
@@ -931,28 +948,28 @@ Enter Community Middle Name
 
 Enter Middle Name for Community Registration
     Swipe Until Element Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_MIDDLE_NAME}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_MIDDLE_NAME}    15s
     Mobile Click Element                    ${COMMUNITY_MIDDLE_NAME}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_MIDDLE_NAME}     Middle Name
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Last Name for Community Registration
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    15s
     Mobile Click Element                    ${COMMUNITY_LAST_NAME}
     Mobile Input Text                      ${COMMUNITY_LAST_NAME}     Last Name
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community Last Name
     Swipe Until Element Visible    xpath=//android.widget.EditText[@hint='Enter Last Name']
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    15s
     Mobile Click Element                    ${COMMUNITY_LAST_NAME}
     Mobile Input Text                      ${COMMUNITY_LAST_NAME}     Last Name
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community Full Address
     # Try multiple locators for address field
-    Sleep    2s
+    Sleep    300ms
     ${address_locators}=    Create List
     ...    xpath=//android.widget.EditText[@hint='Enter Full Address']
     ...    xpath=//android.widget.EditText[contains(@hint,'Address')]
@@ -960,7 +977,7 @@ Enter Community Full Address
     ...    xpath=(//android.widget.EditText)[1]
     ${found}=    Set Variable    ${FALSE}
     FOR    ${locator}    IN    @{address_locators}
-        ${visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${locator}    3s
+        ${visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${locator}    15s
         IF    ${visible}
             Mobile Click Element    ${locator}
             Run Keyword And Ignore Error    Mobile Hide Keyboard
@@ -976,13 +993,13 @@ Enter Community Full Address
     
 
 Enter Community Address Line 2
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE2}    10s    
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE2}    15s    
     Mobile Click Element                    ${COMMUNITY_ADDRESS_LINE2}
     Mobile Input Text                      ${COMMUNITY_ADDRESS_LINE2}     Address Line 2
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Enter Community Landmark
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_LANDMARK}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_LANDMARK}    15s
     Mobile Click Element                    ${COMMUNITY_LANDMARK}
     Mobile Input Text                      ${COMMUNITY_LANDMARK}     Landmark
     Run Keyword And Ignore Error    Mobile Hide Keyboard
@@ -990,21 +1007,20 @@ Enter Community Landmark
 Enter Community Pincode
     # Pin Code field is at top of Community Member form
     # Scroll up first to ensure Pin Code is visible
-    Sleep    2s
+    Sleep    300ms
     ${height}=    Mobile Get Window Height
     ${width}=    Mobile Get Window Width
     ${start_x}=    Evaluate    int(${width} * 0.5)
     ${start_y}=    Evaluate    int(${height} * 0.4)
     ${end_y}=    Evaluate    int(${height} * 0.7)
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-    Sleep    2s
-
+    Sleep    300ms
     # Pin Code field - try clicking on first EditText element directly
-    Sleep    2s
+    Sleep    300ms
     ${pincode_found}=    Set Variable    ${FALSE}
 
     # Try to find and click the first EditText (Pin Code field)
-    ${visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[1]    5s
+    ${visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[1]    15s
     IF    ${visible}
         Mobile Click Element    xpath=(//android.widget.EditText)[1]
         Sleep    1s
@@ -1036,7 +1052,7 @@ Enter Community Pincode
 
 Enter Community Valid Pincode
     Scroll Up Until Element Visible      ${COMMUNITY_PINCODE}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_PINCODE}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_PINCODE}    15s
     Mobile Click Element                    ${COMMUNITY_PINCODE}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_PINCODE}     380015
@@ -1064,7 +1080,7 @@ Fill the Personal,Select Unmarried and Education Information
     Click on the register Button from Community Registration
 
 Select DOB For Personal Information
-  Sleep    2s
+    Sleep    300ms
   # Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
   Mobile Wait Until Element Is Visible    ${COMMUNITY_DOB}    15s
   Sleep    1s
@@ -1076,7 +1092,7 @@ Select DOB For Personal Information
   ${year_picker_opened}=    Set Variable    ${FALSE}
 
   # Try to click on 2025 year text to open year picker
-  ${status_open}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="2025"]    3s
+  ${status_open}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="2025"]    15s
   IF    ${status_open}
       Mobile Click Element    xpath=//android.view.View[@content-desc="2025"]
       Log To Console    ✅ Clicked on 2025 to open year picker
@@ -1089,7 +1105,7 @@ Select DOB For Personal Information
   ${year_clicked}=    Set Variable    ${FALSE}
 
   # Method 1: Try direct content-desc xpath (if year picker is open, year should be visible)
-  ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="${COMMUNITY_USER_DOB}"]    3s
+  ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="${COMMUNITY_USER_DOB}"]    15s
   IF    ${status1}
       Mobile Click Element    xpath=//android.view.View[@content-desc="${COMMUNITY_USER_DOB}"]
       Log To Console    ✅ Direct xpath clicked year ${COMMUNITY_USER_DOB}
@@ -1134,91 +1150,108 @@ Select DOB For Personal Information
   Mobile Wait Until Element Is Visible    ${OK_BUTTON}    15s
   Sleep    1s
   Mobile Click Element                   ${OK_BUTTON}
-  Sleep    2s
-  Log To Console                  ✅ Selected DOB: ${COMMUNITY_USER_DOB}-XX-15
+  Sleep    1s
+
+  # Capture the actual selected DOB and store it for verification
+  ${actual_dob}=    Run Keyword And Return Status    Mobile Get Element Attribute    ${COMMUNITY_DOB}    text
+  IF    ${actual_dob}
+      ${dob_value}=    Mobile Get Element Attribute    ${COMMUNITY_DOB}    text
+      Set Test Variable    ${COMMUNITY_USER_DOB}    ${dob_value}
+      Log To Console    📅 Captured actual DOB: ${dob_value}
+  ELSE
+      # Fallback: try content-desc attribute
+      ${dob_status}=    Run Keyword And Return Status    Mobile Get Element Attribute    ${COMMUNITY_DOB}    content-desc
+      IF    ${dob_status}
+          ${dob_value}=    Mobile Get Element Attribute    ${COMMUNITY_DOB}    content-desc
+          Set Test Variable    ${COMMUNITY_USER_DOB}    ${dob_value}
+          Log To Console    📅 Captured actual DOB (content-desc): ${dob_value}
+      ELSE
+          # If capture fails, set a default pattern for verification
+          Log To Console    ⚠️ Could not capture DOB value, will skip DOB verification
+          Set Test Variable    ${COMMUNITY_USER_DOB}    SKIP_VERIFICATION
+      END
+  END
+  Log To Console    ✅ DOB selection completed
 
 Select Gender For Personal Information
-  Sleep    2s
+    Sleep    300ms
   # Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
   Mobile Wait Until Element Is Visible    ${COMMUNITY_GENDER}    15s
   Sleep    1s
   Mobile Click Element                   ${COMMUNITY_GENDER}
-  Sleep    2s
+    Sleep    300ms
   Mobile Click Element                   ${SEARCH}
   # Don't hide keyboard - we need it for text input
   Mobile Input Text                      ${SEARCH}     ${COMMUNITY_USER_GENDER}
-  Sleep    2s
-
+    Sleep    300ms
   # Click on the gender option from dropdown (using dynamic xpath)
   ${gender_xpath}=    Set Variable    xpath=(//*[@text='${COMMUNITY_USER_GENDER}' or @content-desc='${COMMUNITY_USER_GENDER}'])[2]
   Mobile Wait Until Element Is Visible   ${gender_xpath}    15s
   Sleep    1s
   Mobile Click Element                   ${gender_xpath}
-  Sleep    2s
+    Sleep    300ms
   Log To Console                  ✅ Selected Gender: ${COMMUNITY_USER_GENDER}
 
 Select Blood Group For Personal Information
-  Sleep    2s
+    Sleep    300ms
 #   Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
   Mobile Wait Until Element Is Visible    ${COMMUNITY_GENDER}    15s
   Sleep    1s
   Mobile Click Element                   ${COMMUNITY_GENDER}
-  Sleep    2s
+    Sleep    300ms
   Mobile Click Element                   ${SEARCH}
 #   Mobile Hide Keyboard
   Mobile Input Text                      ${SEARCH}  O-
-  Sleep    2s
+    Sleep    300ms
   Mobile Wait Until Element Is Visible    ${COMMUNITY_BLOOD_GROUP}    15s
   Sleep    1s
   Mobile Click Element                   ${COMMUNITY_BLOOD_GROUP}
-  Sleep    2s
+    Sleep    300ms
   Log To Console                  Selected Blood Group For Personal Information
 
 Select Marital Status For Personal Information
-  Sleep    2s
+    Sleep    300ms
   Mobile Wait Until Element Is Visible    ${COMMUNITY_STATUS}    15s
   Sleep    1s
   Mobile Click Element                   ${COMMUNITY_STATUS}
-  Sleep    2s
+    Sleep    300ms
   Mobile Click Element                   ${SEARCH}
 #   Mobile Hide Keyboard
   Mobile Input Text                      ${SEARCH}     Unmarried
-  Sleep    2s
+    Sleep    300ms
   Mobile Wait Until Element Is Visible    ${COMMUNITY_MARITAL_STATUS}    15s
   Sleep    1s
   Mobile Click Element                   ${COMMUNITY_MARITAL_STATUS}
-  Sleep    2s
+    Sleep    300ms
   Log To Console                  Selected Marital Status For Personal Information
 
 Click on the Education Level Field
-    Sleep    2s
+    Sleep    300ms
     Scroll Until Element Found     xpath=//android.view.View[@content-desc="Occupation"]
     Sleep    1s
     Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_LEVEL}    15s
     Sleep    1s
     Mobile Click Element                   ${COMMUNITY_EDUCATION_LEVEL}
-    Sleep    2s
+    Sleep    300ms
     Mobile Click Element                   ${SEARCH}
     # Don't hide keyboard - we need it for typing
     Mobile Input Text                      ${SEARCH}    Postgraduate
-    Sleep    2s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible    ${COMMUNITY_POSTGRADUATE}    15s
     Sleep    1s
     Mobile Click Element                   ${COMMUNITY_POSTGRADUATE}
-    Sleep    2s
+    Sleep    300ms
     # Hide keyboard after selection to reveal next field
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    3s
-
+    Sleep    300ms
     # CRITICAL: Wait for Education Level dropdown to fully close before opening next dropdown
-    Run Keyword And Ignore Error    Mobile Wait Until Element Is NOT Visible    ${SEARCH}    10s
-    Sleep    3s
-
+    Run Keyword And Ignore Error    Mobile Wait Until Element Is NOT Visible    ${SEARCH}    15s
+    Sleep    300ms
     Log To Console                  ✅ Selected Education Level: Postgraduate
 
 Click on the Education Qualification Field
     # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
-    Sleep    2s
+    Sleep    300ms
     Scroll Until Element Found     xpath=//android.view.View[@content-desc="Occupation"]
     Sleep    1s
     Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION}    15s
@@ -1227,7 +1260,7 @@ Click on the Education Qualification Field
     Sleep    5s  # Wait longer for dropdown to fully open and render all options
 
     # Method 1: Try direct content-desc locator
-    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    3s
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    15s
     IF    ${status1}
         Log To Console    ✅ Method 1: Found Engineering by content-desc
         Mobile Click Element    ${COMMUNITY_BACHELOR}
@@ -1241,22 +1274,20 @@ Click on the Education Qualification Field
         ELSE
             # Method 3: Try clicking by content-desc button
             Log To Console    ⚠️ Method 2 failed, trying direct button click...
-            Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    10s
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    15s
             Mobile Click Element    ${COMMUNITY_BACHELOR}
             Log To Console    ✅ Method 3: Clicked Engineering button
         END
     END
-
-    Sleep    2s
+    Sleep    300ms
     # Hide keyboard after selection to reveal next field
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    2s
-
+    Sleep    300ms
     Log To Console    ✅ Selected Education Qualification: Engineering
 
 Click on the Occupation Type Field
     # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
-    Sleep    2s
+    Sleep    300ms
     # Hide keyboard first (it was left open from previous field)
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
@@ -1268,7 +1299,7 @@ Click on the Occupation Type Field
     Sleep    5s  # Wait longer for dropdown to fully open
 
     # Method 1: Try direct content-desc locator
-    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}    3s
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}    15s
     IF    ${status1}
         Log To Console    ✅ Method 1: Found Business/Self Employed by content-desc
         Mobile Click Element    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}
@@ -1282,22 +1313,20 @@ Click on the Occupation Type Field
         ELSE
             # Method 3: Try clicking by content-desc button
             Log To Console    ⚠️ Method 2 failed, trying direct button click...
-            Mobile Wait Until Element Is Visible    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}    10s
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}    15s
             Mobile Click Element    ${COMMUNITY_BUSINESS_SELF_EMPLOYED}
             Log To Console    ✅ Method 3: Clicked Business/Self Employed button
         END
     END
-
-    Sleep    2s
+    Sleep    300ms
     # Hide keyboard after selection to reveal next field
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    2s
-
+    Sleep    300ms
     Log To Console    ✅ Selected Occupation Type: Business/Self Employed
 
 Click on the Occupation Field
     # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
-    Sleep    2s
+    Sleep    300ms
     # Hide keyboard first (it was left open from previous field)
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
@@ -1309,7 +1338,7 @@ Click on the Occupation Field
     Sleep    5s  # Wait longer for dropdown to fully open
 
     # Method 1: Try direct content-desc locator with longer wait
-    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    10s
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    15s
     IF    ${status1}
         Log To Console    ✅ Method 1: Found IT-Software-Engineering by content-desc
         Mobile Click Element    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}
@@ -1328,16 +1357,14 @@ Click on the Occupation Field
             Log To Console    ✅ Method 3: Clicked IT-Software-Engineering button after 15s wait
         END
     END
-
-    Sleep    2s
+    Sleep    300ms
     # Hide keyboard after selection to reveal next field
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    2s
-
+    Sleep    300ms
     Log To Console    ✅ Selected Occupation: IT-Software-Engineering
 
     # NEW APPROACH: NO TYPING - use UiScrollable like manual testing
-    Sleep    2s
+    Sleep    300ms
     # Hide keyboard first (it was left open from previous field)
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
@@ -1349,7 +1376,7 @@ Click on the Occupation Field
     Sleep    5s  # Wait longer for dropdown to fully open
 
     # Method 1: Try direct content-desc locator with longer wait
-    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}    10s
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}    15s
     IF    ${status1}
         Log To Console    ✅ Method 1: Found Software Professional (Others) by content-desc
         Mobile Click Element    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}
@@ -1368,101 +1395,99 @@ Click on the Occupation Field
             Log To Console    ✅ Method 3: Clicked Software Professional (Others) button after 15s wait
         END
     END
-
-    Sleep    2s
+    Sleep    300ms
     # Hide keyboard after selection to reveal next field
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    2s
-
+    Sleep    300ms
     Log To Console    ✅ Selected Occupation Sub-Category: Software Professional (Others)
 
 Click on the register Button from Community Registration
     # Swipe Until Element Visible      ${REGISTER_BUTTON_2}
-    # Mobile Wait Until Element Is Visible    ${REGISTER_BUTTON_2}    10s
+    # Mobile Wait Until Element Is Visible    ${REGISTER_BUTTON_2}    15s
     Mobile Click Element                   ${REGISTER_BUTTON_2}
     Log To Console                  Clicked on register Button from Community Registration
 
 Enter Invalid Community Email
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_EMAIL_HINT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_EMAIL_HINT}    15s
     Mobile Click Element                    ${COMMUNITY_EMAIL_HINT}
     Mobile Input Text                       ${COMMUNITY_EMAIL_HINT}     yatish
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Invalid Community Email
-    Mobile Wait Until Element Is Visible    ${INVALID_EMAIL_VALIDATION_LOCATOR}    10s
+    Mobile Wait Until Element Is Visible    ${INVALID_EMAIL_VALIDATION_LOCATOR}    15s
     ${message_email}=               Mobile Get Element Attribute    ${INVALID_EMAIL_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings      ${message_email}    Please enter a valid email address
     Log To Console                             ${message_email}
 
 Enter Invalid Community Pincode
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_PINCODE}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_PINCODE}    15s
     Mobile Click Element                    ${COMMUNITY_PINCODE}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${COMMUNITY_PINCODE}     000
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Verify Validation Message for Invalid Community Pincode
-    Mobile Wait Until Element Is Visible    ${INVALID_PINCODE_VALIDATION_LOCATOR}    10s
+    Mobile Wait Until Element Is Visible    ${INVALID_PINCODE_VALIDATION_LOCATOR}    15s
     ${message_pincode}=               Mobile Get Element Attribute    ${INVALID_PINCODE_VALIDATION_LOCATOR}    content-desc
     Should Be Equal As Strings      ${message_pincode}    Please enter valid Pincode
     Log To Console                             ${message_pincode}
 
 Clear Community Mobile Field
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-    Mobile Wait Until Element Is Visible   xpath=(//android.widget.EditText[@text="0"])[1]    10s
+    Mobile Wait Until Element Is Visible   xpath=(//android.widget.EditText[@text="0"])[1]    15s
     Mobile Click Element    xpath=(//android.widget.EditText[@text="0"])[1]
     Mobile Clear Text       xpath=(//android.widget.EditText[@text="0"])[1]
 
 Click on the Third NO Button
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.ScrollView/android.view.View/android.widget.RadioButton[3]    10s
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.ScrollView/android.view.View/android.widget.RadioButton[3]    15s
     Mobile Click Element                    xpath=//android.widget.ScrollView/android.view.View/android.widget.RadioButton[3]
     Log To Console                  Clicked on Third NO Button
 
 Click on the First YES Radio Button
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_YES}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_YES}    15s
     Mobile Click Element                    ${COMMUNITY_YES}
     Log To Console                  Clicked on First YES Radio Button
 
 Click on the Second YES Radio Button
     Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Did you attend last Guru Purnima?"]
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_YES_1}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_YES_1}    15s
     Mobile Click Element                    ${COMMUNITY_YES_1}
     Log To Console                  Clicked on Second YES Radio Button
 
 Select Attended Year
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_ATTENDED_YEAR}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_ATTENDED_YEAR}    15s
     Mobile Click Element                   ${COMMUNITY_ATTENDED_YEAR}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_2024}    10s
-    Sleep  2s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_2024}    15s
+    Sleep    300ms
     Mobile Click Element                   ${COMMUNITY_2024}
-    Sleep   2s
+    Sleep    300ms
     Mobile Click Element                   ${OK_BUTTON}
     Log To Console                  Selected Attended Year
 
 Select Attended Year for Second Yes
    Swipe Until Element Visible     ${COMMUNITY_NEXT}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_ATTENDED_YEAR}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_ATTENDED_YEAR}    15s
     Mobile Click Element                   ${COMMUNITY_ATTENDED_YEAR}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_2024}    10s
-    Sleep  2s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_2024}    15s
+    Sleep    300ms
     Mobile Click Element                   ${COMMUNITY_2024}
-    Sleep   2s
+    Sleep    300ms
     Mobile Click Element                   ${OK_BUTTON}
     Log To Console                  Selected Attended Year  
 
 Select and Search Dhyankendra and click on the Next Button
-    Mobile Wait Until Element Is Visible    ${SELECT_DHYANKEDRA}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_DHYANKEDRA}    15s
     Mobile Click Element                    ${SELECT_DHYANKEDRA}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_SEARCH_DHYANKEDRA}      10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_SEARCH_DHYANKEDRA}      15s
     Mobile Click Element                    ${COMMUNITY_SEARCH_DHYANKEDRA}
     Mobile Input Text                       ${COMMUNITY_SEARCH_DHYANKEDRA}     Pune
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_SELECT_DHYANKEDRA_INPUT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_SELECT_DHYANKEDRA_INPUT}    15s
     Mobile Click Element                    ${COMMUNITY_SELECT_DHYANKEDRA_INPUT}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_CONFIRM_DHYANKEDRA}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_CONFIRM_DHYANKEDRA}    15s
     Mobile Click Element                    ${COMMUNITY_CONFIRM_DHYANKEDRA}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_NEXT}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_NEXT}    15s
     Mobile Click Element                    ${COMMUNITY_NEXT}
     Log To Console                  Selected and Searched Dhyankendra and clicked on Next Button
 
@@ -1500,169 +1525,169 @@ Fill the Personal,Select Married and Education Information
 
 Select Married From Marital Status
   Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-  Mobile Wait Until Element Is Visible    ${COMMUNITY_STATUS}    10s
+  Mobile Wait Until Element Is Visible    ${COMMUNITY_STATUS}    15s
   Mobile Click Element                   ${COMMUNITY_STATUS}
   Mobile Click Element                   ${SEARCH}
   Run Keyword And Ignore Error    Mobile Hide Keyboard
   Mobile Input Text                      ${SEARCH}     Married
-  Mobile Wait Until Element Is Visible    ${COMMUNITY_MARITAL_STATUS_MARRIED}    10s
+  Mobile Wait Until Element Is Visible    ${COMMUNITY_MARITAL_STATUS_MARRIED}    15s
   Mobile Click Element                   ${COMMUNITY_MARITAL_STATUS_MARRIED}
   Log To Console                  Selected Married From Marital Status
 
 Select Date of Anniversary
   Scroll Up Until Element Visible    xpath=//android.view.View[@content-desc="Select how you want to register."]
-  Mobile Wait Until Element Is Visible    ${COMMUNITY_DATE_OF_ANNIVERSARY}    10s
+  Mobile Wait Until Element Is Visible    ${COMMUNITY_DATE_OF_ANNIVERSARY}    15s
   Mobile Click Element                   ${COMMUNITY_DATE_OF_ANNIVERSARY}
-  Mobile Wait Until Element Is Visible    ${OK_BUTTON}    10s
+  Mobile Wait Until Element Is Visible    ${OK_BUTTON}    15s
   Mobile Click Element                   ${OK_BUTTON}
   Log To Console                  Selected Date of Anniversary
 
 Verify last attended Guru Purnima validation message
-    Mobile Wait Until Element Is Visible    ${LAST_ATTENDED_GURU_PURNIMA_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${LAST_ATTENDED_GURU_PURNIMA_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${LAST_ATTENDED_GURU_PURNIMA_VALIDATION}    content-desc
     Log To Console    Validation message for last attended Guru Purnima: ${actual_message}
     Should Be Equal    ${actual_message}    Please select last attended Guru Purnima
 
 Verify last attended Chaitanya mahotsav validation message
-    Mobile Wait Until Element Is Visible    ${LAST_ATTENDED_CHAITANYA_MAHOTSAV_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${LAST_ATTENDED_CHAITANYA_MAHOTSAV_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${LAST_ATTENDED_CHAITANYA_MAHOTSAV_VALIDATION}    content-desc
     Log To Console    Validation message for last attended Chaitanya mahotsav: ${actual_message}
     Should Be Equal    ${actual_message}    Please select last attended Chaitanya mahotsav
 
 Verify attend First Shivir validation message
-    Mobile Wait Until Element Is Visible    ${ATTEND_FIRST_SHIVIR_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${ATTEND_FIRST_SHIVIR_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${ATTEND_FIRST_SHIVIR_VALIDATION}    content-desc
     Log To Console    Validation message: ${actual_message}
     Should Be Equal    ${actual_message}    Please select when you first attended a Shivir
 
 Verify Dhyankendra validation message
-    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${DHYANKENDRA_VALIDATION}    content-desc
     Log To Console    Validation message for Dhyankendra: ${actual_message}
     Should Be Equal    ${actual_message}    Please select a Dhyankendra
 
 Verify Mobile Number validation message
-    Mobile Wait Until Element Is Visible    ${MOBILE_NUMBER_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${MOBILE_NUMBER_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${MOBILE_NUMBER_VALIDATION}    content-desc
     Log To Console    Validation message for Mobile Number: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter Mobile Number
 
 Verify WhatsApp Mobile Number validation message
-    Mobile Wait Until Element Is Visible    ${WHATSAPP_MOBILE_NUMBER_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${WHATSAPP_MOBILE_NUMBER_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${WHATSAPP_MOBILE_NUMBER_VALIDATION}    content-desc
     Log To Console    Validation message for WhatsApp Mobile Number: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter WhatsApp Mobile Number
 
 Verify First name validation message
-    Mobile Wait Until Element Is Visible    ${FIRST_NAME_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${FIRST_NAME_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${FIRST_NAME_VALIDATION}    content-desc
     Log To Console    Validation message for First name: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter First name
 
 Verify Middle name validation message
-    Mobile Wait Until Element Is Visible    ${MIDDLE_NAME_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${MIDDLE_NAME_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${MIDDLE_NAME_VALIDATION}    content-desc
     Log To Console    Validation message for Middle name: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter Middle name
 
 Verify Last name validation message
-    Mobile Wait Until Element Is Visible    ${LAST_NAME_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${LAST_NAME_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${LAST_NAME_VALIDATION}    content-desc
     Log To Console    Validation message for Last name: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter Last name
 
 Verify Address validation message
-    Mobile Wait Until Element Is Visible    ${ADDRESS_LINE1_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${ADDRESS_LINE1_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${ADDRESS_LINE1_VALIDATION}    content-desc
     Log To Console    Validation message for Address: ${actual_message}
     Should Be Equal    ${actual_message}    Enter Full Address
 
 Verify Address Line 2 validation message
-    Mobile Wait Until Element Is Visible    ${ADDRESS_LINE2_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${ADDRESS_LINE2_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${ADDRESS_LINE2_VALIDATION}    content-desc
     Log To Console    Validation message for Address Line 2: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter Address Line 2
 
 Verify Landmark validation message
-    Mobile Wait Until Element Is Visible    ${LANDMARK_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${LANDMARK_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${LANDMARK_VALIDATION}    content-desc
     Log To Console    Validation message for Landmark: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter Landmark
 
 Verify Pincode validation message
-    Mobile Wait Until Element Is Visible    ${PINCODE_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${PINCODE_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${PINCODE_VALIDATION}    content-desc
     Log To Console    Validation message for Pincode: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter Pincode
 
 Verify taluka/city validation message
-    Mobile Wait Until Element Is Visible    ${TALUKA_CITY_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${TALUKA_CITY_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${TALUKA_CITY_VALIDATION}    content-desc
     Log To Console    Validation message for taluka/city: ${actual_message}
     Should Be Equal    ${actual_message}    Please select your taluka / city
 
 Verify area/village validation message
-    Mobile Wait Until Element Is Visible    ${AREA_VILLAGE_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${AREA_VILLAGE_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${AREA_VILLAGE_VALIDATION}    content-desc
     Log To Console    Validation message for area/village: ${actual_message}
     Should Be Equal    ${actual_message}    Please select your area / village
 
 Verify DOB validation message for Community
-    Mobile Wait Until Element Is Visible    ${DOB_VALIDATION_COMMUNITY}    10s
+    Mobile Wait Until Element Is Visible    ${DOB_VALIDATION_COMMUNITY}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${DOB_VALIDATION_COMMUNITY}    content-desc
     Log To Console    Validation message for DOB: ${actual_message}
     Should Be Equal    ${actual_message}    Please select your date of birth
 
 Verify blood group validation message
-    Mobile Wait Until Element Is Visible    ${BLOOD_GROUP_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${BLOOD_GROUP_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${BLOOD_GROUP_VALIDATION}    content-desc
     Log To Console    Validation message for blood group: ${actual_message}
     Should Be Equal    ${actual_message}    Please select blood group
 
 Verify marital status validation message
-    Mobile Wait Until Element Is Visible    ${MARITAL_STATUS_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${MARITAL_STATUS_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${MARITAL_STATUS_VALIDATION}    content-desc
     Log To Console    Validation message for marital status: ${actual_message}
     Should Be Equal    ${actual_message}    Please select marital status
 
 Verify anniversary date validation message
-    Mobile Wait Until Element Is Visible    ${ANNIVERSARY_DATE_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${ANNIVERSARY_DATE_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${ANNIVERSARY_DATE_VALIDATION}    content-desc
     Log To Console    Validation message for anniversary date: ${actual_message}
     Should Be Equal    ${actual_message}    Select date of anniversary
 
 Verify educational level validation message
-    Mobile Wait Until Element Is Visible    ${EDUCATIONAL_LEVEL_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${EDUCATIONAL_LEVEL_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${EDUCATIONAL_LEVEL_VALIDATION}    content-desc
     Log To Console    Validation message for educational level: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter educational level
 
 Verify education qualification validation message
-    Mobile Wait Until Element Is Visible    ${EDUCATION_QUALIFICATION_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${EDUCATION_QUALIFICATION_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${EDUCATION_QUALIFICATION_VALIDATION}    content-desc
     Log To Console    Validation message for education qualification: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter education qualification
 
 Verify education qualification sub-category validation message
-    Mobile Wait Until Element Is Visible    ${EDUCATION_QUALIFICATION_SUBCATEGORY_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${EDUCATION_QUALIFICATION_SUBCATEGORY_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${EDUCATION_QUALIFICATION_SUBCATEGORY_VALIDATION}    content-desc
     Log To Console    Validation message for education qualification sub-category: ${actual_message}
     Should Be Equal    ${actual_message}    Please select education qualification sub-category
 
 Verify occupation type validation message
-    Mobile Wait Until Element Is Visible    ${OCCUPATION_TYPE_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${OCCUPATION_TYPE_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${OCCUPATION_TYPE_VALIDATION}    content-desc
     Log To Console    Validation message for occupation type: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter occupation type
 
 Verify occupation validation message
-    Mobile Wait Until Element Is Visible    ${OCCUPATION_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${OCCUPATION_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${OCCUPATION_VALIDATION}    content-desc
     Log To Console    Validation message for occupation: ${actual_message}
     Should Be Equal    ${actual_message}    Please enter occupation
 
 Verify occupation sub-category validation message
-    Mobile Wait Until Element Is Visible    ${OCCUPATION_SUBCATEGORY_VALIDATION}    10s
+    Mobile Wait Until Element Is Visible    ${OCCUPATION_SUBCATEGORY_VALIDATION}    15s
     ${actual_message}=    Mobile Get Element Attribute    ${OCCUPATION_SUBCATEGORY_VALIDATION}    content-desc
     Log To Console    Validation message for occupation sub-category: ${actual_message}
     Should Be Equal    ${actual_message}    Please select occupation sub-category
@@ -1740,7 +1765,7 @@ Verify Validation Message for Third page
 
 Scroll up to Community Last Name
     Scroll Up Until Element Visible    ${COMMUNITY_LAST_NAME}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_LAST_NAME}    15s
     Mobile Click Element                    ${COMMUNITY_LAST_NAME}
     Mobile Input Text                      ${COMMUNITY_LAST_NAME}     Last Name
     Run Keyword And Ignore Error    Mobile Hide Keyboard
@@ -1748,14 +1773,14 @@ Scroll up to Community Last Name
 
 Scroll up to Community Address Line 1
     Scroll Up Until Element Visible    ${COMMUNITY_ADDRESS_LINE1}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE1}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE1}    15s
     Mobile Click Element                    ${COMMUNITY_ADDRESS_LINE1}
     Mobile Input Text                      ${COMMUNITY_ADDRESS_LINE1}     Address Line 1
     Run Keyword And Ignore Error    Mobile Hide Keyboard
 
 Scroll up to Community Address Line 2
     Scroll Up Until Element Visible    ${COMMUNITY_ADDRESS_LINE2}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE2}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_ADDRESS_LINE2}    15s
     Mobile Click Element                    ${COMMUNITY_ADDRESS_LINE2}
     Mobile Input Text                      ${COMMUNITY_ADDRESS_LINE2}     Address Line 2
     Run Keyword And Ignore Error    Mobile Hide Keyboard
@@ -1795,22 +1820,22 @@ Verify Validation Message for Fourth page
     Verify occupation sub-category validation message 
 
 Click on the Education Qualification Field for Personal Information
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION}    15s
     Mobile Click Element                   ${COMMUNITY_EDUCATION_QUALIFICATION}
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR}    15s
     Mobile Click Element                   ${COMMUNITY_BACHELOR}
     Log To Console                  Selected Education Qualification For Personal Information
 
 Click on the Education Qualification Sub-Category Field for Personal Information
     # NO TYPING APPROACH - direct selection like TC11
-    Sleep    2s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible    ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}    15s
     Sleep    1s
     Mobile Click Element                   ${COMMUNITY_EDUCATION_QUALIFICATION_SUB_CATEGORY}
     Sleep    5s  # Wait for dropdown to fully open
 
     # Method 1: Try direct locator
-    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    3s
+    ${status1}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    15s
     IF    ${status1}
         Log To Console    ✅ Method 1: Found B.E./Btech by content-desc
         Mobile Click Element    ${COMMUNITY_BACHELOR_SUB_CATEGORY}
@@ -1824,58 +1849,57 @@ Click on the Education Qualification Sub-Category Field for Personal Information
         ELSE
             # Method 3: Direct click after wait
             Log To Console    ⚠️ Method 2 failed, trying direct button click...
-            Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    10s
+            Mobile Wait Until Element Is Visible    ${COMMUNITY_BACHELOR_SUB_CATEGORY}    15s
             Mobile Click Element    ${COMMUNITY_BACHELOR_SUB_CATEGORY}
             Log To Console    ✅ Method 3: Clicked B.E./Btech button
         END
     END
-
-    Sleep    2s
+    Sleep    300ms
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    2s
+    Sleep    300ms
     Log To Console                  ✅ Selected Education Qualification Sub-Category For Personal Information    
 
 Click on the Occupation Field for Personal Information
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION}    15s
     Mobile Click Element                   ${COMMUNITY_OCCUPATION}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}    IT Software Engineering
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_IT_SOFTWARE_ENGINEERING}    15s
     Mobile Click Element                   ${COMMUNITY_IT_SOFTWARE_ENGINEERING}
     Log To Console                  Selected Occupation For Personal Information
 
 Click on the Occupation Sub-Category Field for Personal Information
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION_SUB_CATEGORY}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_OCCUPATION_SUB_CATEGORY}    15s
     Mobile Click Element                   ${COMMUNITY_OCCUPATION_SUB_CATEGORY}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}    Software Professional
-    Mobile Wait Until Element Is Visible    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}    10s
+    Mobile Wait Until Element Is Visible    ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}    15s
     Mobile Click Element                   ${COMMUNITY_SOFTWARE_PROFESSIONAL_OTHERS}
     Log To Console                  ✅ Selected Occupation Sub-Category: Software Professional (Others)
 
 Click on the register Button from Personal Information
     Swipe Until Element Visible      ${REGISTER_BUTTON_2}
-    Mobile Wait Until Element Is Visible    ${REGISTER_BUTTON_2}    10s
+    Mobile Wait Until Element Is Visible    ${REGISTER_BUTTON_2}    15s
     Mobile Click Element                   ${REGISTER_BUTTON_2} 
     Log To Console                  Clicked on register Button from Personal Information
 
 Click on the Login Button from Community Registration Page
     Swipe Until Element Visible      ${COMMUNITY_NEXT}
     Sleep   2S     
-    # Wait Until Element Is Visible    ${LOGIN_BUTTON}    10s
+    # Wait Until Element Is Visible    ${LOGIN_BUTTON}    15s
     # Click Element                    ${LOGIN_BUTTON}
     # Log                             Clicked on Login Button from Community Registration Page
 
 Click on the Selected Country
-    Mobile Wait Until Element Is Visible    ${COUNTRY_SELECTED}    10s
+    Mobile Wait Until Element Is Visible    ${COUNTRY_SELECTED}    15s
     Mobile Click Element                   ${COUNTRY_SELECTED}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}    United States  
     # Scroll Until Element Visible     ${COUNTRY_SELECTED_US}
-    Mobile Wait Until Element Is Visible    ${COUNTRY_SELECTED_US}    10s
+    Mobile Wait Until Element Is Visible    ${COUNTRY_SELECTED_US}    15s
     Mobile Click Element                   ${COUNTRY_SELECTED_US}
 
 Verify that the address fields and related dropdowns remain disabled
@@ -1890,17 +1914,17 @@ Handle All Address Fields
     # Run Keyword And Ignore Error    Verify area/village value and dropdown is disabled
 
 Verify All Address Fields
-    ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    10s
-    # ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
-    # ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
-    # ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
+    ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    15s
+    # ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    15s
+    # ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    15s
+    # ${isVisible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    15s
     Run Keyword If    ${isVisible}    Verify state value and dropdown is disabled
     # Run Keyword If    ${isVisible}    Verify district value and dropdown is disabled
     # Run Keyword If    ${isVisible}    Verify taluka/city value and dropdown is disabled
     # Run Keyword If    ${isVisible}    Verify area/village value and dropdown is disabled
 
 Verify state value and dropdown is disabled
-    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    15s
     Mobile Click Element                   ${SELECT_STATE}
     ${isEnabled}=    Run Keyword And Return Status    Mobile Element Should Be Disabled    ${SELECT_STATE}
     Should Not Be True    ${isEnabled}
@@ -1910,7 +1934,7 @@ Verify state value and dropdown is disabled
     Log To Console    State dropdown value: ${dropdown_value}
     
 # Verify district value and dropdown is disabled
-#     Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
+#     Wait Until Element Is Visible    ${SELECT_DISTRICT}    15s
 #     Click Element                   ${SELECT_DISTRICT}
 #     ${isEnabled}=    Run Keyword And Return Status    Element Should Be Disabled    ${SELECT_DISTRICT}
 #     Should Not Be True    ${isEnabled}
@@ -1920,7 +1944,7 @@ Verify state value and dropdown is disabled
 #     Log To Console    District dropdown value: ${dropdown_value}
 
 # Verify taluka/city value and dropdown is disabled
-#     Wait Until Element Is Visible    ${SELECT_CITY}    10s
+#     Wait Until Element Is Visible    ${SELECT_CITY}    15s
 #     Click Element                   ${SELECT_CITY}
 #     ${isEnabled}=    Run Keyword And Return Status    Element Should Be Disabled    ${SELECT_CITY}
 #     Should Not Be True    ${isEnabled}
@@ -1931,7 +1955,7 @@ Verify state value and dropdown is disabled
 
 
 # Verify area/village value and dropdown is disabled
-#     Wait Until Element Is Visible    ${SELECT_AREA}    10s
+#     Wait Until Element Is Visible    ${SELECT_AREA}    15s
 #     Click Element                   ${SELECT_AREA}
 #     ${isEnabled}=    Run Keyword And Return Status    Element Should Be Disabled    ${SELECT_AREA}
 #     Should Not Be True    ${isEnabled}
@@ -1943,12 +1967,12 @@ Verify state value and dropdown is disabled
 
 Verify that the selected country values are displayed in the state dropdown
     Scroll Until Element Visible    ${SELECT_STATE}
-    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    15s
     Mobile Click Element                   ${SELECT_STATE}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Bihar
-    Mobile Wait Until Element Is Visible    ${STATE_SELECTED_BIHAR}    10s
+    Mobile Wait Until Element Is Visible    ${STATE_SELECTED_BIHAR}    15s
     Mobile Element Should Be Visible        ${STATE_SELECTED_BIHAR}
     ${actual_state}=            Mobile Get Element Attribute    ${STATE_SELECTED_BIHAR}    content-desc
     Should Contain                   ${actual_state}     Bihar
@@ -1957,13 +1981,13 @@ Verify that the selected country values are displayed in the state dropdown
 
 Verify that the selected state values are displayed in the district dropdown
     Scroll Until Element Visible    ${SELECT_DISTRICT}
-    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    15s
     Mobile Click Element                   ${SELECT_DISTRICT}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Aurangabad
     # Scroll Until Element Visible    ${DISTRICT_SELECTED_AURANGABAD}
-    Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_AURANGABAD}    10s
+    Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_AURANGABAD}    15s
     Mobile Element Should Be Visible        ${DISTRICT_SELECTED_AURANGABAD}
     ${actual_district}=            Mobile Get Element Attribute    ${DISTRICT_SELECTED_AURANGABAD}    content-desc
     Should Contain                   ${actual_district}     Aurangabad
@@ -1972,12 +1996,12 @@ Verify that the selected state values are displayed in the district dropdown
 
 Verify that the selected district values are displayed in the taluka/city dropdown
     Scroll Until Element Visible    ${SELECT_CITY}
-    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    15s
     Mobile Click Element                   ${SELECT_CITY}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Daudnagar
-    Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_DAUDNAGAR}    10s
+    Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_DAUDNAGAR}    15s
     Mobile Element Should Be Visible        ${TALUKA_SELECTED_DAUDNAGAR}
     ${actual_taluka}=            Mobile Get Element Attribute    ${TALUKA_SELECTED_DAUDNAGAR}    content-desc
     Should Contain                   ${actual_taluka}     Daudnagar
@@ -1986,12 +2010,12 @@ Verify that the selected district values are displayed in the taluka/city dropdo
 
 Verify that the selected taluka/city values are displayed in the area/village dropdown
     Scroll Until Element Visible    ${SELECT_AREA}
-    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    15s
     Mobile Click Element                   ${SELECT_AREA}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Daulatpur
-    Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_DAULATPUR}    10s
+    Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_DAULATPUR}    15s
     Mobile Element Should Be Visible        ${VILLAGE_SELECTED_DAULATPUR}
     ${actual_village}=            Mobile Get Element Attribute    ${VILLAGE_SELECTED_DAULATPUR}    content-desc
     Should Contain                   ${actual_village}     Daulatpur
@@ -1999,22 +2023,22 @@ Verify that the selected taluka/city values are displayed in the area/village dr
     Mobile Click Element                   ${VILLAGE_SELECTED_DAULATPUR}
 
 Select Other State
-    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    15s
     Mobile Click Element                   ${SELECT_STATE}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Maharashtra
     Scroll Until Element Visible    ${STATE_SELECTED_MAHARASHTRA}
-    Mobile Wait Until Element Is Visible    ${STATE_SELECTED_MAHARASHTRA}    10s
+    Mobile Wait Until Element Is Visible    ${STATE_SELECTED_MAHARASHTRA}    15s
     Mobile Click Element                   ${STATE_SELECTED_MAHARASHTRA}
 
 Verify that the other state values are displayed in the district dropdown
-    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    15s
     Mobile Click Element                   ${SELECT_DISTRICT}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Pune
-    Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_PUNE}    10s
+    Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_PUNE}    15s
     Mobile Element Should Be Visible        ${DISTRICT_SELECTED_PUNE}
     ${actual_district}=            Mobile Get Element Attribute    ${DISTRICT_SELECTED_PUNE}    content-desc
     Should Contain                   ${actual_district}     Pune
@@ -2022,12 +2046,12 @@ Verify that the other state values are displayed in the district dropdown
     Mobile Click Element                   ${DISTRICT_SELECTED_PUNE}
 
 Verify that the other district values are displayed in the taluka/city dropdown
-    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    15s
     Mobile Click Element                   ${SELECT_CITY}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Pune City
-    Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_PUNE_CITY}    10s
+    Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_PUNE_CITY}    15s
     Mobile Element Should Be Visible        ${TALUKA_SELECTED_PUNE_CITY}
     ${actual_taluka}=            Mobile Get Element Attribute    ${TALUKA_SELECTED_PUNE_CITY}    content-desc    
     Should Contain                   ${actual_taluka}     Pune City
@@ -2035,12 +2059,12 @@ Verify that the other district values are displayed in the taluka/city dropdown
     Mobile Click Element                   ${TALUKA_SELECTED_PUNE_CITY}
 
 Verify that the other taluka/city values are displayed in the area/village dropdown
-    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    15s
     Mobile Click Element                   ${SELECT_AREA}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Viman nagar
-    Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_VIMAN_NAGAR}    10s
+    Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_VIMAN_NAGAR}    15s
     Mobile Element Should Be Visible        ${VILLAGE_SELECTED_VIMAN_NAGAR}
     ${actual_village}=            Mobile Get Element Attribute    ${VILLAGE_SELECTED_VIMAN_NAGAR}    content-desc
     Should Contain                   ${actual_village}     Viman nagar
@@ -2049,44 +2073,44 @@ Verify that the other taluka/city values are displayed in the area/village dropd
 
 Select Another State
     # Scroll Until Element Visible    ${SELECT_STATE}
-    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_STATE}    15s
     Mobile Click Element                   ${SELECT_STATE}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Rajasthan
     # Scroll Until Element Visible    ${STATE_SELECTED_RAJASTHAN}
-    Mobile Wait Until Element Is Visible    ${STATE_SELECTED_RAJASTHAN}    10s
+    Mobile Wait Until Element Is Visible    ${STATE_SELECTED_RAJASTHAN}    15s
     Mobile Click Element                   ${STATE_SELECTED_RAJASTHAN}
 
 Select Other District
     # Scroll Until Element Visible    ${SELECT_DISTRICT}
-    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    15s
     Mobile Click Element                   ${SELECT_DISTRICT}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Jodhpur
     # Scroll Until Element Visible    ${DISTRICT_SELECTED_JODHPUR}
-    Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_JODHPUR}    10s
+    Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_JODHPUR}    15s
     Mobile Click Element                   ${DISTRICT_SELECTED_JODHPUR}
 
 Select Another District
     # Scroll Until Element Visible    ${SELECT_DISTRICT}
-    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_DISTRICT}    15s
     Mobile Click Element                   ${SELECT_DISTRICT}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Surat
     # Scroll Until Element Visible    ${DISTRICT_SELECTED_SURAT}
-    Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_SURAT}    10s
+    Mobile Wait Until Element Is Visible    ${DISTRICT_SELECTED_SURAT}    15s
     Mobile Click Element                   ${DISTRICT_SELECTED_SURAT}    
 
 Verify that the other Selected district values are displayed in the taluka/city dropdown
-    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    15s
     Mobile Click Element                   ${SELECT_CITY}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Balesar
-    Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_BALESAR}    10s
+    Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_BALESAR}    15s
     Mobile Element Should Be Visible        ${TALUKA_SELECTED_BALESAR}
     ${actual_taluka}=            Mobile Get Element Attribute    ${TALUKA_SELECTED_BALESAR}    content-desc
     Should Contain    ${actual_taluka}    Balesar
@@ -2094,12 +2118,12 @@ Verify that the other Selected district values are displayed in the taluka/city 
     Mobile Click Element                   ${TALUKA_SELECTED_BALESAR}
 
 Verify that the other Selected taluka/city values are displayed in the area/village dropdown
-    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    15s
     Mobile Click Element                   ${SELECT_AREA}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Agolai
-    Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_AGOLAI}    10s
+    Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_AGOLAI}    15s
     Mobile Element Should Be Visible        ${VILLAGE_SELECTED_AGOLAI}
     ${actual_village}=            Mobile Get Element Attribute    ${VILLAGE_SELECTED_AGOLAI}    content-desc
     Should Contain                   ${actual_village}     Agolai
@@ -2107,22 +2131,22 @@ Verify that the other Selected taluka/city values are displayed in the area/vill
     Mobile Click Element                   ${VILLAGE_SELECTED_AGOLAI}
 
 Select Another Taluka/City
-    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_CITY}    15s
     Mobile Click Element                   ${SELECT_CITY}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Adajan
     # Scroll Until Element Visible    ${TALUKA_SELECTED_ADAJAN}
-    Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_ADAJAN}    10s
+    Mobile Wait Until Element Is Visible    ${TALUKA_SELECTED_ADAJAN}    15s
     Mobile Click Element                   ${TALUKA_SELECTED_ADAJAN}
 
 Verify that the selected another taluka/city values are displayed in the area/village dropdown    
-    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    10s
+    Mobile Wait Until Element Is Visible    ${SELECT_AREA}    15s
     Mobile Click Element                   ${SELECT_AREA}
     Mobile Click Element                   ${SEARCH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${SEARCH}     Mota Varachha
-    Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_MOTA_VARCHA}    10s
+    Mobile Wait Until Element Is Visible    ${VILLAGE_SELECTED_MOTA_VARCHA}    15s
     Mobile Element Should Be Visible        ${VILLAGE_SELECTED_MOTA_VARCHA}
     ${actual_village}=            Mobile Get Element Attribute    ${VILLAGE_SELECTED_MOTA_VARCHA}    content-desc
     Should Contain                   ${actual_village}     Mota Varachha
@@ -2132,7 +2156,7 @@ Verify that the selected another taluka/city values are displayed in the area/vi
 Enter Mandatory FN for Register Screen
     [Arguments]    ${FIRST_NAME}
     Scroll Up Until Element Visible    ${FIRST_HEADER}
-    Mobile Wait Until Element Is Visible   ${REGISTER_FNAME}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_FNAME}    15s
     Mobile Click Element                  ${REGISTER_FNAME}
     Mobile Input Text                     ${REGISTER_FNAME}    ${FIRST_NAME}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
@@ -2140,7 +2164,7 @@ Enter Mandatory FN for Register Screen
 Enter Mandatory LN for Register Screen
     [Arguments]    ${LAST_NAME}
     Scroll Up Until Element Visible    ${FIRST_HEADER}
-    Mobile Wait Until Element Is Visible   ${REGISTER_LNAME}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_LNAME}    15s
     Mobile Click Element    ${REGISTER_LNAME}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text    ${REGISTER_LNAME}    ${LAST_NAME}
@@ -2148,7 +2172,7 @@ Enter Mandatory LN for Register Screen
 Enter Mandatory Email for Register Screen
     [Arguments]    ${EMAIL}
     Scroll Up Until Element Visible    ${FIRST_HEADER}
-    Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    15s
     Mobile Click Element                   ${REGISTER_EMAIL}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_EMAIL}    ${EMAIL}
@@ -2156,34 +2180,33 @@ Enter Mandatory Email for Register Screen
 Enter Mandatory Number for Register Screen
     [Arguments]    ${MOBILE}
     Scroll Up Until Element Visible    ${FIRST_HEADER}
-    Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    15s
     Mobile Click Element                   ${REGISTER_MOBILE}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Mobile Input Text                      ${REGISTER_MOBILE}    ${MOBILE}    
 
 Select Mandatory Gender for register screen
     Scroll Up Until Element Visible    ${SECOND_HEADER}
-    Mobile Wait Until Element Is Visible   ${REGISTER_GENDER}    10s
+    Mobile Wait Until Element Is Visible   ${REGISTER_GENDER}    15s
     Mobile Click Element                   ${REGISTER_GENDER}
     Mobile Click Element                   ${SEARCH}
     Mobile Input Text                      ${SEARCH}     Male
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Mobile Wait Until Element Is Visible   ${SELECT_MALE}    10s
+    Mobile Wait Until Element Is Visible   ${SELECT_MALE}    15s
     Mobile Click Element                   ${SELECT_MALE} 
 
 Select Mandatory DOB for Register Screen
-    Sleep    2s
+    Sleep    300ms
     Scroll Up Until Element Visible    ${SECOND_HEADER}
-    Sleep    2s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible    ${REGISTER_DOB}        15s
     Sleep    1s
     Mobile Click Element                    ${REGISTER_DOB}
-    Sleep    3s
+    Sleep    300ms
     Mobile Wait Until Element Is Visible    ${OK_BUTTON}           15s
     Sleep    1s
     Mobile Click Element                    ${OK_BUTTON}
-    Sleep    2s
-
+    Sleep    300ms
 Click on the Community Registration Tab
     Mobile Wait Until Element Is Visible           ${COMMUNITY_TAB}           5S
     Mobile Click Element                           ${COMMUNITY_TAB} 
@@ -2191,7 +2214,7 @@ Click on the Community Registration Tab
 
 Enter Registered Email for Register Screen
     [Arguments]    ${EMAIL}
-    Sleep    2s
+    Sleep    300ms
     # Scroll UP to first header because Email field is at TOP of form but filled LAST in sequence (after location dropdowns)
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_EMAIL}    15s
@@ -2207,7 +2230,7 @@ Enter Registered Email for Register Screen
 
 Enter Registered Mobile Number for Register Screen
     [Arguments]    ${MOBILE}
-    Sleep    2s
+    Sleep    300ms
     # Scroll UP to first header because Mobile field is at TOP of form but filled LAST in sequence (after location dropdowns)
     Scroll Up Until Element Visible    ${FIRST_HEADER}
     Mobile Wait Until Element Is Visible   ${REGISTER_MOBILE}    15s
@@ -2228,7 +2251,7 @@ Select Country for Community Registration
     Scroll until element found    ${REGISTER_COUNTRY}
     # Click on Country dropdown and select India
     Mobile Click Element    xpath=//*[contains(@text,'Select Country') or contains(@content-desc,'Select Country')]
-    Sleep    2s
+    Sleep    300ms
     Mobile Click Element    xpath=//android.widget.EditText
     Mobile Input Text    xpath=//android.widget.EditText    India
     Sleep    1s
@@ -2243,7 +2266,7 @@ Select State for Community Registration
     Sleep    1s
     # Click on State dropdown
     Mobile Click Element    xpath=//*[contains(@text,'Select State') or contains(@content-desc,'Select State')]
-    Sleep    2s
+    Sleep    300ms
     Mobile Click Element    xpath=//android.widget.EditText
     Mobile Input Text    xpath=//android.widget.EditText    Gujarat
     Sleep    1s

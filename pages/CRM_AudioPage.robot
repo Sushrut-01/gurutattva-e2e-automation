@@ -89,14 +89,28 @@ Login in with Harsh Sanchalak credentials
     Web Wait Until Page Contains    ${DASHBOARD_TEXT}    10s
 
 Click on the Audio Menu
-    [Documentation]    Clicks on the Audio menu in the web application
+    [Documentation]    Clicks on the Audio menu in the web application and waits for submenu to expand
+    Sleep    2s
     Web Wait Until Page Contains Element    ${AUDIO_MENU}    10s
-    Web Click Element    ${AUDIO_MENU}
+    # Check if submenu is already visible
+    ${is_expanded}=    Run Keyword And Return Status    Web Element Should Be Visible    ${MUSIC_SUBMENU}
+    IF    not ${is_expanded}
+        Web Click Element    ${AUDIO_MENU}
+        # Wait for submenu to expand
+        Sleep    3s
+        Log To Console    ✅ Clicked Audio menu and waiting for submenu to expand
+    ELSE
+        Log To Console    ✅ Audio menu already expanded
+    END
 
 Click on the Music Submenu
     [Documentation]    Clicks on the Music submenu under Audio with fallback locators
+    # First ensure Audio menu is expanded
+    Click on the Audio Menu
+    Sleep    2s
     TRY
         Web Wait Until Page Contains Element    ${MUSIC_SUBMENU}    15s
+        Sleep    1s
         Web Click Element    ${MUSIC_SUBMENU}
         Log To Console    ✅ Clicked Music submenu using primary locator
     EXCEPT
@@ -113,10 +127,17 @@ Click on the Music Submenu
                 Web Click Element    xpath=//a[contains(text(),'Music')]
                 Log To Console    ✅ Clicked Music submenu using link locator
             EXCEPT
-                # Final fallback - try by role
-                Web Wait Until Page Contains Element    xpath=//*[@role='menuitem' and contains(.,'Music')]    10s
-                Web Click Element    xpath=//*[@role='menuitem' and contains(.,'Music')]
-                Log To Console    ✅ Clicked Music submenu using role-based locator
+                # Try with href attribute
+                TRY
+                    Web Wait Until Page Contains Element    xpath=//a[@href='/audio/music']    10s
+                    Web Click Element    xpath=//a[@href='/audio/music']
+                    Log To Console    ✅ Clicked Music submenu using href locator
+                EXCEPT
+                    # Final fallback - try JavaScript click
+                    Log To Console    ⚠️ All locators failed, trying JavaScript click...
+                    Web.Execute Javascript    document.evaluate("//span[contains(text(),'Music')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();
+                    Log To Console    ✅ Clicked Music submenu using JavaScript
+                END
             END
         END
     END

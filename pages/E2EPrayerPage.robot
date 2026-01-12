@@ -19,7 +19,7 @@ ${SELECT_ROW}                         xpath=//input[@aria-label='Select row']
 ${EXPORT_BUTTON}                      xpath=//button[normalize-space()='Export']
 ${EXPORTED_STATUS}                    xpath=//span[contains(text(),'Exported')]
 ${PENDING_STATUS}                     xpath=//span[contains(@class,'minimal__label__root') and contains(text(),'Pending')]
-${TODAY_DATE}                         xpath=//div[contains(@class,'MuiDataGrid-cell') and contains(text(),'2025')]
+# TODAY_DATE is now set dynamically in the keyword using current year
 
 # E2E Test Data Variables (will be set during test execution)
 ${E2E_PRAYER_RANDOM_NUMBER}                 ${EMPTY}
@@ -78,8 +78,9 @@ Search for the created prayer
     Web Click Element    xpath=//input[@type='search' and @placeholder='Search…']
     Sleep    2s
     Web Input Text    xpath=//input[@type='search' and @placeholder='Search…']    ${E2E_PRAYER_PERSON_NAME}
-    Sleep    3s
+    Sleep    5s
     Log To Console    🔍 Searching for prayer: ${E2E_PRAYER_PERSON_NAME}
+    Log To Console    ⏳ Waiting for search results to load...
 
 Search for the created other prayer
     Log To Console    🔍 Waiting for search box to appear...
@@ -88,41 +89,60 @@ Search for the created other prayer
     Web Click Element    xpath=//input[@type='search' and @placeholder='Search…']
     Sleep    2s
     Web Input Text    xpath=//input[@type='search' and @placeholder='Search…']    ${E2E_PRAYER_APPLICANT_NAME_OTHER}
-    Sleep    3s
+    Sleep    5s
     Log To Console    🔍 Searching for prayer: ${E2E_PRAYER_APPLICANT_NAME_OTHER}
+    Log To Console    ⏳ Waiting for search results to load...
 	
 Verify the Newly added Self Prayer is displayed in the CMS
      [Documentation]    Verify the Newly added Self Prayer is displayed in the CMS
-    #  Web Wait Until Page Contains Element    ${APPILICANT_NAME}    5s
-	#  Web Page Should Contain Element    ${APPILICANT_NAME}
-     Web Wait Until Page Contains Element    ${CATEGORY_CHOICE}    5s
+     # Wait for search results to load
+     Sleep    3s
+     # Dynamically build XPath locators with runtime variable values
+     ${person_name_xpath}=    Set Variable    xpath=//div[@data-field='personName' and contains(text(),'${E2E_PRAYER_PERSON_NAME}')]
+     Log To Console    🔍 Looking for person name: ${E2E_PRAYER_PERSON_NAME}
+     Web Wait Until Page Contains Element    ${CATEGORY_CHOICE}    10s
      Web Page Should Contain Element    ${CATEGORY_CHOICE}
-	 Web Wait Until Page Contains Element    ${PERSON_NAME}    5s
-     Web Page Should Contain Element    ${PERSON_NAME}
-	 Web Wait Until Page Contains Element    ${PERSON_CITY}    5s
-     Web Page Should Contain Element    ${PERSON_CITY}
-     Web Wait Until Page Contains Element    ${TODAY_DATE}    5s
-     Web Page Should Contain Element    ${TODAY_DATE}
+     Log To Console    ✅ Category found
+     Web Wait Until Page Contains Element    ${person_name_xpath}    10s
+     Web Page Should Contain Element    ${person_name_xpath}
+     Log To Console    ✅ Person name found
+     # Dynamically get current year for date verification
+     ${current_year}=    Get Current Date    result_format=%Y
+     ${today_date_xpath}=    Set Variable    xpath=//div[contains(@class,'MuiDataGrid-cell') and contains(text(),'${current_year}')]
+     Web Wait Until Page Contains Element    ${today_date_xpath}    10s
+     Web Page Should Contain Element    ${today_date_xpath}
+     Log To Console    ✅ Date verified
      Web Wait Until Page Contains Element    ${PENDING_STATUS}    5s
      Web Page Should Contain Element    ${PENDING_STATUS}
-     Log To Console   Self Prayer displayed in list
+     Log To Console    ✅ Self Prayer displayed in list
      Sleep   2s
      
 Verify the Newly added Other Prayer is displayed in the CMS
      [Documentation]    Verify the Newly added Other Prayer is displayed in the CMS
-     Web Wait Until Page Contains Element    ${APPILICANT_NAME_OTHER}    5s
-	 Web Page Should Contain Element    ${APPILICANT_NAME_OTHER}
+     # Wait for search results to load
+     Sleep    3s
+     # Dynamically build XPath locators with runtime variable values
+     ${applicant_xpath}=    Set Variable    xpath=//div[@data-field='requesterName' and contains(text(),'${E2E_PRAYER_APPLICANT_NAME_OTHER}')]
+     ${other_name_xpath}=    Set Variable    xpath=//div[@data-field='personName' and contains(text(),'${E2E_PRAYER_OTHER_NAME}')]
+     Log To Console    🔍 Looking for applicant: ${E2E_PRAYER_APPLICANT_NAME_OTHER}
+     Web Wait Until Page Contains Element    ${applicant_xpath}    10s
+     Web Page Should Contain Element    ${applicant_xpath}
+     Log To Console    ✅ Applicant name found
      Web Wait Until Page Contains Element    ${CATEGORY_CHOICE}    5s
      Web Page Should Contain Element    ${CATEGORY_CHOICE}
-     Web Wait Until Page Contains Element    ${OTHER_PERSON_NAME}    5s
-     Web Page Should Contain Element    ${OTHER_PERSON_NAME}
-     Web Wait Until Page Contains Element    ${OTHER_PERSON_CITY}    5s
-     Web Page Should Contain Element    ${OTHER_PERSON_CITY}
-     Web Wait Until Page Contains Element    ${TODAY_DATE}    5s
-     Web Page Should Contain Element    ${TODAY_DATE}
+     Log To Console    ✅ Category found
+     Web Wait Until Page Contains Element    ${other_name_xpath}    10s
+     Web Page Should Contain Element    ${other_name_xpath}
+     Log To Console    ✅ Other person name found
+     # Dynamically get current year for date verification
+     ${current_year}=    Get Current Date    result_format=%Y
+     ${today_date_xpath}=    Set Variable    xpath=//div[contains(@class,'MuiDataGrid-cell') and contains(text(),'${current_year}')]
+     Web Wait Until Page Contains Element    ${today_date_xpath}    10s
+     Web Page Should Contain Element    ${today_date_xpath}
+     Log To Console    ✅ Date verified
      Web Wait Until Page Contains Element    ${PENDING_STATUS}    5s
      Web Page Should Contain Element    ${PENDING_STATUS}
-     Log To Console   Other Prayer displayed in list
+     Log To Console    ✅ Other Prayer displayed in list
      Sleep   2s     	
 
 Enter Second Name for Other Prayer

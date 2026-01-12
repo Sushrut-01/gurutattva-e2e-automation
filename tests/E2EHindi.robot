@@ -2,6 +2,7 @@
 Resource    ../resources/keywords.robot
 Resource    ../resources/test_setup_teardown.robot
 Resource    ../pages/E2EHindiPage.robot
+Resource    ../pages/E2EAudioPage.robot
 
 Test Setup    Test Setup
 Test Teardown    Hindi Test Teardown
@@ -22,6 +23,8 @@ Test Mobile Language Change To Hindi
     [Tags]    e2e    mobile    hindi    language    tc62
 
     Open Gurutattva App
+    Handle First Time Setup
+    Launch Mobile App And Login
 
     # --- Mobile App: Test Language Change to Hindi ---
     Log To Console    🚀 Starting Mobile Language Change Test

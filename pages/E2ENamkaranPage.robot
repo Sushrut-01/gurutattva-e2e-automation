@@ -2,6 +2,7 @@
 Resource   ../resources/libraries.robot
 Resource   ../resources/web_keywords.robot
 Resource   ./namkaranPage.robot
+Resource   ./loginPage.robot
 Library   DateTime
 Library   String
 Library    Collections
@@ -75,6 +76,65 @@ ${APPROVE_NAMKARAN_BUTTON}        xpath=//button[@type="submit"][1]
 ${REJECT_NAMKARAN_BUTTON}          xpath=//button[@type="submit"][2]
 
 *** Keywords ***
+Login As Namkaran User
+    [Documentation]    Login with Community Member (9999999999) for Namkaran tests
+    ...    Step 1: Check which screen we are on (Home or Login)
+    ...    Step 2: If Home screen -> Logout first
+    ...    Step 3: Login with 9999999999
+
+    Log To Console    📱 Checking current screen...
+
+    # Check if on HOME screen (Profile icon visible) OR LOGIN screen (EditText visible)
+    ${on_home}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile"]    5s
+
+    IF    ${on_home}
+        # USER IS ON HOME SCREEN (LOGGED IN) -> LOGOUT FIRST
+        Log To Console    📱 ON HOME SCREEN - User is logged in - LOGGING OUT FIRST
+        Click on the Profile Tab
+        Sleep    2s
+        Click on the Logout Tab
+        Sleep    2s
+        Click on the Yes Button from Logout Alert
+        Sleep    3s
+        Log To Console    ✅ Logged out successfully
+    ELSE
+        # USER IS ON LOGIN SCREEN -> PROCEED TO LOGIN
+        Log To Console    📱 ON LOGIN SCREEN - Proceeding to login directly
+    END
+
+    # NOW LOGIN WITH 9999999999
+    Log To Console    📱 Logging in with Community Member 9999999999
+    Click on the input field
+    Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+    Sleep    0.5s
+    Mobile Input Text    ${LOGIN_EMAIL}    9999999999
+    Click on the Login Button
+    Verify OTP Screen is Displayed
+    Enter Mobile OTP Manually
+
+    # Click Verify button
+    Sleep    2s
+    ${verify_clicked}=    Set Variable    ${FALSE}
+    ${btn_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="Verify"]    5s
+    IF    ${btn_visible}
+        Mobile Click Element    xpath=//android.widget.Button[@content-desc="Verify"]
+        ${verify_clicked}=    Set Variable    ${TRUE}
+        Log To Console    Clicked Verify Button (Button element)
+    END
+    IF    not ${verify_clicked}
+        ${view_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify"]    5s
+        IF    ${view_visible}
+            Mobile Click Element    xpath=//android.view.View[@content-desc="Verify"]
+            ${verify_clicked}=    Set Variable    ${TRUE}
+            Log To Console    Clicked Verify Button (View element)
+        END
+    END
+    Sleep    3s
+
+    # Verify login successful
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Profile"]    15s
+    Log To Console    ✅ Login successful - Now on Home screen
+
 Generate E2E Namkaran Test Data For Bride
     [Documentation]    Generates unique test data for E2E Namkaran validation
     ${random_num}=    Evaluate    random.randint(1000, 9999)    random
@@ -165,18 +225,16 @@ Enter E2E Bride Namkaran Data
     # Enter Email
     namkaranPage.Enter Email Address    ${E2E_NAMKARAN_EMAIL}
 
-    # Phone - Use adaptive index approach (like House/Child)
-    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Phone") or contains(@content-desc,"phone")]    10s
+    # Phone - scroll until Phone Number label is visible, then enter in the correct field
+    Log To Console    🔄 Scrolling to Phone Number field...
+    Scroll Until Element Visible    xpath=//android.view.View[@content-desc="Phone Number *"]
     Sleep    1s
-    ${all_edittexts}=    Mobile Get Webelements    xpath=//android.widget.EditText
-    ${field_count}=    Get Length    ${all_edittexts}
-    ${phone_index}=    Evaluate    ${field_count} - 2
-    Log To Console    🔍 Found ${field_count} EditText fields, using [${phone_index}] for Phone
-    Mobile Click Element    ${all_edittexts}[${phone_index}]
-    Mobile Clear Text    ${all_edittexts}[${phone_index}]
-    Mobile Input Text    ${all_edittexts}[${phone_index}]    ${E2E_NAMKARAN_PHONE}
+    ${bride_phone_locator}=    Set Variable    xpath=//android.view.View[@content-desc="Phone Number *"]/following-sibling::android.view.View//android.widget.EditText
+    Mobile Wait Until Element Is Visible    ${bride_phone_locator}    10s
+    Mobile Click Element    ${bride_phone_locator}
+    Mobile Input Text    ${bride_phone_locator}    ${E2E_NAMKARAN_PHONE}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Log To Console    ✅ Phone Number entered in field [${phone_index}]: ${E2E_NAMKARAN_PHONE}
+    Log To Console    ✅ Bride Phone Number entered: ${E2E_NAMKARAN_PHONE}
 
     # Marriage Place
     namkaranPage.Enter Marriage Place    ${E2E_MARRIAGE_PLACE}
@@ -620,19 +678,14 @@ Enter E2E Business Namkaran Data
     Mobile Swipe    500    1200    500    1400    1000
     Sleep    1s
 
-    # Phone - use adaptive index (same logic as TC13 House)
-    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Owner Phone Number *"]    10s
-    # Get all EditTexts and calculate adaptive index
-    ${all_edittexts}=    Mobile Get Webelements    xpath=//android.widget.EditText
-    ${field_count}=    Get Length    ${all_edittexts}
-    ${phone_index}=    Evaluate    ${field_count} - 2
-    Log To Console    🔍 Found ${field_count} EditText fields, using [${phone_index}] for Owner Phone Number
-    Mobile Click Element    ${all_edittexts}[${phone_index}]
-    Mobile Clear Text    ${all_edittexts}[${phone_index}]
-    Mobile Input Text    ${all_edittexts}[${phone_index}]    ${E2E_BUSINESS_PHONE}
+    # Phone - use specific OWNER_PHONE locator (EditText[2] because EditText[1] is country code dropdown)
+    ${phone_locator}=    Set Variable    xpath=//android.view.View[@content-desc="Owner Phone Number *"]/..//android.widget.EditText[2]
+    Mobile Wait Until Element Is Visible    ${phone_locator}    10s
+    Mobile Click Element    ${phone_locator}
+    Mobile Clear Text    ${phone_locator}
+    Mobile Input Text    ${phone_locator}    ${E2E_BUSINESS_PHONE}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Log To Console    ✅ Phone Number entered at index [${phone_index}]: ${E2E_BUSINESS_PHONE}
-    Sleep    1s
+    Log To Console    ✅ Owner Phone Number entered: ${E2E_BUSINESS_PHONE}
 
     namkaranPage.Enter Business Description    ${E2E_BUSINESS_DESC}
     namkaranPage.Enter Business Address    ${E2E_BUSINESS_ADDRESS}
@@ -709,23 +762,14 @@ Enter E2E House Namkaran Data
     Mobile Swipe    500    1500    500    700    1000
     Sleep    2s
 
-    # Phone - Scroll up slightly to ensure we get the right field count, then use adaptive index
-    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Owner Phone Number *"]    10s
-    Sleep    1s
-    Mobile Swipe    500    1200    500    1400    500
-    Sleep    1s
-    ${all_edittexts}=    Mobile Get Webelements    xpath=//android.widget.EditText
-    ${field_count}=    Get Length    ${all_edittexts}
-    Log To Console    🔍 Found ${field_count} EditText fields after scroll adjustment
-    # Phone field should be at last index or second-to-last
-    ${phone_index}=    Evaluate    ${field_count} - 2
-    Log To Console    🔍 Using index [${phone_index}] for Owner Phone Number
-    Mobile Click Element    ${all_edittexts}[${phone_index}]
-    Mobile Clear Text    ${all_edittexts}[${phone_index}]
-    Mobile Input Text    ${all_edittexts}[${phone_index}]    ${E2E_HOUSE_PHONE}
+    # Phone - use specific OWNER_PHONE locator (EditText[2] because EditText[1] is country code dropdown)
+    ${phone_locator}=    Set Variable    xpath=//android.view.View[@content-desc="Owner Phone Number *"]/..//android.widget.EditText[2]
+    Mobile Wait Until Element Is Visible    ${phone_locator}    10s
+    Mobile Click Element    ${phone_locator}
+    Mobile Clear Text    ${phone_locator}
+    Mobile Input Text    ${phone_locator}    ${E2E_HOUSE_PHONE}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Log To Console    ✅ Phone Number entered in field [${phone_index}]: ${E2E_HOUSE_PHONE}
-    Sleep    1s
+    Log To Console    ✅ Owner Phone Number entered: ${E2E_HOUSE_PHONE}
 
     namkaranPage.Enter Owner house full Address    ${E2E_HOUSE_ADDRESS}
 
@@ -827,22 +871,8 @@ Enter E2E Child Namkaran Data
     # Enter Contact Details using adaptive phone field approach (same as House)
     namkaranPage.Enter Email Address    ${E2E_CHILD_EMAIL}
 
-    # Phone - For Child, phone is the LAST field (not second-to-last like House)
-    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,"Phone") or contains(@content-desc,"phone")]    10s
-    Sleep    1s
-    Mobile Swipe    500    1200    500    1400    500
-    Sleep    1s
-    ${all_edittexts}=    Mobile Get Webelements    xpath=//android.widget.EditText
-    ${field_count}=    Get Length    ${all_edittexts}
-    Log To Console    🔍 Found ${field_count} EditText fields after scroll adjustment
-    # Child has no Address field after Phone, so Phone is the last field
-    ${phone_index}=    Evaluate    ${field_count} - 1
-    Log To Console    🔍 Using index [${phone_index}] (last field) for Phone Number
-    Mobile Click Element    ${all_edittexts}[${phone_index}]
-    Mobile Clear Text    ${all_edittexts}[${phone_index}]
-    Mobile Input Text    ${all_edittexts}[${phone_index}]    ${E2E_CHILD_PHONE}
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Log To Console    ✅ Phone Number entered in field [${phone_index}]: ${E2E_CHILD_PHONE}
+    # Phone - use label-based locator for reliable selection
+    namkaranPage.Enter Phone Number for Child Namkaran    ${E2E_CHILD_PHONE}
 
     # Note: Child Namkaran requires additional fields (DOB, Gender, Birth Time, Birth Place)
     # These will be filled in the test case after this keyword

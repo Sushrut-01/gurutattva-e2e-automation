@@ -474,7 +474,7 @@ Revert App Language To English And Close
     ${home_eng_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="Home"]
     IF    not ${home_eng_clicked}
         # Try Hindi Home icon
-        ${home_hin_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]
+        ${home_hin_clicked}=    Run Keyword And Return Status    Mobile.Click Element    xpath=//android.widget.ImageView[@content-desc="मुख्यपृष्ठ"]
         IF    not ${home_hin_clicked}
             Log To Console    ⚠️ Could not find Home icon - continuing anyway
         ELSE

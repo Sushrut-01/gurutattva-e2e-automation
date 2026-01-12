@@ -95,8 +95,8 @@ Verify that user is able to export the Prayer in CMS
     # --- Mobile App: Add Prayer with Self Option ---
     Open Gurutattva App
     Handle First Time Setup
-    # Launch Mobile App And Login
-	Click on the Explore Tab
+    Launch Mobile App And Login
+    Click on the Explore Tab
     Click on the Prayer Card
     Click on Add Prayer Button
     Close the tooltip info from prayer screen

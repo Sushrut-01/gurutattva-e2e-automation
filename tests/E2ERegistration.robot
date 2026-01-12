@@ -71,7 +71,7 @@ Verify that quick registration on the mobile app reflects correctly in the CMS a
 Verify user is not able to do quick registration on mobile app with already used email id and phone number
      [Tags]  E2E  TC08  Registration  QuickRegistration
     # SEQUENTIAL - DEPENDENT ON TC07
-    # Phone: 8888888888 (SAME AS TC07)
+    # Phone: 9960232311 (SAME AS TC07)
     # This test validates that the user created by TC07 cannot be registered again
     # Tests duplicate prevention for both email and phone number
     # Must run AFTER TC07 passes
@@ -128,30 +128,36 @@ Verify user is not able to do quick registration on mobile app with already used
 Verify that the quick registration user is not able to access Events, Dhyan Kendra, and Podcasts , Home screen on the mobile app, and that a pop-up message is displayed
     [Tags]  E2E  TC09  Registration   QuickRegistration
     # SEQUENTIAL - DEPENDENT ON TC07
-    # Phone: 9999999999 (SAME AS TC07 - logs in with this user)
+    # Phone: 9960232311 (SAME AS TC07 - logs in with this user)
     # This test verifies that quick-registered users have feature access restrictions
     # Logs in the user created by TC07 and tests access restrictions
     # Must run AFTER TC07 passes
     Open Gurutattva App
-	Handle First Time Setup
-	Login As Non Community Member
+    Handle First Time Setup
+    Login As Non Community Member
     Click on the Explore Button
     Click on the DhyanKendra Tab
     Verify Quick Registration Access Restriction Popup
     Click on the Cancel Button from Become a Member Popup
-    # Go back to Home screen using back arrow
-    Click on Back Arrow to Home
-    Sleep    2s
-    # Events Tab - SKIPPED in TC09 (to be verified in TC10)
+    Click on the Events Tab
+    Verify Quick Registration Access Restriction Popup
+    Click on the Cancel Button from Become a Member Popup
+    Click on the Audio Tab
+    Click on the Podcast Tab
+    Verify Quick Registration Access Restriction Popup
+    Click on the Cancel Button from Become a Member Popup
     Close Gurutattva App
 
 Verify that the quick registration user is able to become a member on the mobile app
     [Tags]  E2E  TC10  Registration   QuickRegistration
-    # TC10: Quick Registration user (7600699169) upgrades to Community Member
-    # Using different phone than TC07-09 to avoid conflicts
+    # TC10: Quick Registration user (9960232311) upgrades to Community Member
+    # DEPENDENT ON TC07 - Reuses TC07's Quick Reg user (same as TC08, TC09)
+    # Must run AFTER TC07, TC08, TC09 (LAST in sequence)
+    # After TC10 passes, user becomes Community Member
+    # To rerun: TC07 will delete and recreate the user in its pre-setup
     Open Gurutattva App
     Handle First Time Setup
-    TC10 Login As Quick Registration User
+    Login As Non Community Member
     # Trigger Become a Member flow from Events Tab
     Click on the Events Tab
     Click on the Become a Member Button
@@ -182,11 +188,13 @@ Verify that the quick registration user is able to become a member on the mobile
     Close Gurutattva App
 Verify that Community registration on the mobile app reflects correctly in the CMS and user details are displayed properly in profile and flip card.
     [Tags]  E2E  Registration   CommunityRegistration
-    # Generate unique test data for E2E validation
-    Generate E2E Community Registration Test Data
 
     Open Gurutattva App
     Handle First Time Setup
+    # TC11 Setup: Find available phone number, delete if exists
+    TC11 Pre-Registration Setup
+    # Generate unique test data for E2E validation (mobile number already set by pre-setup)
+    Generate E2E Community Registration Test Data
     Click on Register Text Only
     Click on the Community Registration Tab
     Click on the NO and Second YES Radio Button from Community Registration
@@ -280,10 +288,13 @@ Verify that Community registration on the mobile app reflects correctly in the C
     # Verify Login Screen Is Displayed
     # Close Gurutattva App
 
-Verify that the community registered user is able to access Events, Dhyan Kendra, and Podcasts on the mobile app, and ensure that no pop-up message is displayed    
+Verify that the community registered user is able to access Events, Dhyan Kendra, and Podcasts on the mobile app, and ensure that no pop-up message is displayed
     [Tags]  TC14  E2E   Registration   CommunityRegistration
+    # DEPENDENT ON TC11 - Uses Community Member created in TC11
     Open Gurutattva App
-	Handle First Time Setup
+    Handle First Time Setup
+    # TC14 Setup: Login as Community Member from TC11
+    TC14 Login As Community Member
     Click on the Explore Button
     Click on the DhyanKendra Tab
     Handle DhyanKendra Location

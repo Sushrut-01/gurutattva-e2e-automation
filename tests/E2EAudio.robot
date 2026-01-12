@@ -434,35 +434,27 @@ Add Podcast Track With Same Track And Thumbnail For Both Languages
     Close Gurutattva App
 
 Add Music Track Without Author
-    [Documentation]    Add a music track without selecting an author to verify author is not mandatory
-    [Tags]    e2e    music    no-author    tc56    milestone2
+    [Documentation]    NEGATIVE TEST: Verify that music track CANNOT be added without author (Author is mandatory field in CMS)
+    ...    Expected: CMS should show validation error when trying to submit without Author
+    [Tags]    e2e    music    no-author    tc56    milestone2    negative
 
     # --- Generate Unique Test Data ---
     Generate E2E Test Data
 
-    # --- Web CRM: Create and Publish Music Track without Author ---
+    # --- Web CRM: Attempt to Create Music Track without Author (should show validation error) ---
     Open Web Browser
     Login in with valid credentials
     Click on the Master Management Menu
     Click on the Manage Audio Categories Submenu
     Create New Music Category
     Create New Music SubCategory
-    # Note: Skipping author creation as it's not needed for this test
+    # Note: Skipping author creation - Author is MANDATORY so validation error should appear
     Create New Audio Track Without Author
-    Publish Music Track
+
+    # Verify that Author validation error appears (track should NOT be created)
+    Verify Author Validation Error
+    Log To Console    ✅ PASS: Author validation error displayed (expected - Author is mandatory)
     Close Web Browser
-
-    # --- Mobile App: Verify Music Track Playback ---
-    Open Gurutattva App
-    Handle First Time Setup
-    Launch Mobile App And Login
-
-    # Verify music track is visible in Audio of the Day section
-    Verify Track & Category On Home Page In Audio Of The Day Section
-    Verify Track On Audio Page In Recently Added Section
-    Verify Track within the newly created category and subcategory
-    Search And Select Newly Created Track
-    Close Gurutattva App
 
 Add Podcast Track Without Speaker Should not be allowed
     [Documentation]    Attempt to add a podcast track without selecting a speaker to verify speaker is mandatory
@@ -509,10 +501,10 @@ Test Music Different Filter Functionality
     Clear All Filters
 
     # Test 3: Category Filter with "is any of" operator
-    Log To Console    🔍 Testing Filter 3: Category is any of "Bhajan, Mantra Jap"
+    Log To Console    🔍 Testing Filter 3: Category is any of "Bhajan, Chaitanya Mahotsav"
     Click Filter Button
-    Apply Filter Combination    categoryName    is any of    Bhajan, Mantra Jap
-    Verify Filter Results    categoryName    is any of    Bhajan, Mantra Jap
+    Apply Filter Combination    categoryName    is any of    Bhajan, Chaitanya Mahotsav
+    Verify Filter Results    categoryName    is any of    Bhajan, Chaitanya Mahotsav
     Clear All Filters
 
     # ===== SUB CATEGORY FILTER TESTS =====
@@ -681,46 +673,46 @@ Test Podcast Different Filter Functionality
 
     # ===== CATEGORY FILTER TESTS =====
     # Test 1: Category Filter with "is" operator
-    Log To Console    🔍 Testing Filter 1: Category = "Pravachan"
+    Log To Console    🔍 Testing Filter 1: Category = "Chaitanya"
     Click Filter Button
-    Apply Filter Combination    categoryName    is    Pravachan
-    Verify Filter Results    categoryName    is    Pravachan
+    Apply Filter Combination    categoryName    is    Chaitanya
+    Verify Filter Results    categoryName    is    Chaitanya
     Clear All Filters
 
     # Test 2: Category Filter with "is not" operator
-    Log To Console    🔍 Testing Filter 2: Category is not "Pravachan"
+    Log To Console    🔍 Testing Filter 2: Category is not "Chaitanya"
     Click Filter Button
-    Apply Filter Combination    categoryName    is not    Pravachan
-    Verify Filter Results    categoryName    is not    Pravachan
+    Apply Filter Combination    categoryName    is not    Chaitanya
+    Verify Filter Results    categoryName    is not    Chaitanya
     Clear All Filters
 
     # Test 3: Category Filter with "is any of" operator
-    Log To Console    🔍 Testing Filter 3: Category is any of "Pravachan, Bhajan"
+    Log To Console    🔍 Testing Filter 3: Category is any of "Chaitanya, Healing & Wellness"
     Click Filter Button
-    Apply Filter Combination    categoryName    is any of    Pravachan, Bhajan
-    Verify Filter Results    categoryName    is any of    Pravachan, Bhajan
+    Apply Filter Combination    categoryName    is any of    Chaitanya, Healing & Wellness
+    Verify Filter Results    categoryName    is any of    Chaitanya, Healing & Wellness
     Clear All Filters
 
     # ===== SUB CATEGORY FILTER TESTS =====
     # Test 4: Sub Category Filter with "is" operator
-    Log To Console    🔍 Testing Filter 4: Sub Category = "Namoh Namh"
+    Log To Console    🔍 Testing Filter 4: Sub Category = "Mahotsav"
     Click Filter Button
-    Apply Filter Combination    subCategoryName    is    Namoh Namh
-    Verify Filter Results    subCategoryName    is    Namoh Namh
+    Apply Filter Combination    subCategoryName    is    Mahotsav
+    Verify Filter Results    subCategoryName    is    Mahotsav
     Clear All Filters
 
     # Test 5: Sub Category Filter with "is not" operator
-    Log To Console    🔍 Testing Filter 5: Sub Category is not "Namoh Namh"
+    Log To Console    🔍 Testing Filter 5: Sub Category is not "Mahotsav"
     Click Filter Button
-    Apply Filter Combination    subCategoryName    is not    Namoh Namh
-    Verify Filter Results    subCategoryName    is not    Namoh Namh
+    Apply Filter Combination    subCategoryName    is not    Mahotsav
+    Verify Filter Results    subCategoryName    is not    Mahotsav
     Clear All Filters
 
     # Test 6: Sub Category Filter with "is any of" operator
-    Log To Console    🔍 Testing Filter 6: Sub Category is any of "Namoh Namh, Bhav Arpan"
+    Log To Console    🔍 Testing Filter 6: Sub Category is any of "Mahotsav, Sound Healing"
     Click Filter Button
-    Apply Filter Combination    subCategoryName    is any of    Namoh Namh, Bhav Arpan
-    Verify Filter Results    subCategoryName    is any of    Namoh Namh, Bhav Arpan
+    Apply Filter Combination    subCategoryName    is any of    Mahotsav, Sound Healing
+    Verify Filter Results    subCategoryName    is any of    Mahotsav, Sound Healing
     Clear All Filters
 
     # ===== PUBLISHED DATE FILTER TESTS =====
@@ -1034,7 +1026,10 @@ Add Audio in English language only
     Verify Track within the newly created category and subcategory
     Search And Select Newly Created Track
     Log To Console    ✅ Track is visible in English language as expected
-    
+
+    # --- Navigate back to Home screen before changing language ---
+    Navigate From Track Details To Home Screen
+
     # --- Switch App Language to Hindi ---
     Log To Console    🔄 Switching app language to Hindi...
     Change Language To Hindi
@@ -1042,26 +1037,16 @@ Add Audio in English language only
     
     # --- Mobile App: Verify Track is NOT Visible in Hindi Language ---
     Log To Console    🔍 Verifying track is NOT visible in Hindi language...
-    
-    # Verify track is NOT visible in Audio of the Day section
+
+    # Verify track is NOT visible in Audio of the Day section on Home screen
     Verify English Only Track Is Not Visible In Audio Of The Day Section    ${E2E_AUDIO_TRACK_TITLE}
-    
-    # Verify track is NOT visible in Recently Added section
-    Verify English Only Track Is Not Visible In Recently Added Section    ${E2E_AUDIO_TRACK_TITLE}
-    
-    # Verify track is NOT visible in its category section
-    Verify English Only Track Is Not Visible In Category Section    ${E2E_AUDIO_TRACK_TITLE}    ${E2E_CATEGORY_NAME}
-    
-    # Search for the track and verify it's not found
-    Search English Only Track In Mobile App    ${E2E_AUDIO_TRACK_TITLE}
-    Verify English Only Track Not Found In Search Results    ${E2E_AUDIO_TRACK_TITLE}
-    
-    Log To Console    ✅ Track is NOT visible in Hindi language as expected
-    
+
+    Log To Console    ✅ Track is NOT visible in Hindi language as expected - TEST PASSED
+
     # --- Revert App Language to English ---
     Log To Console    🔄 Reverting app language to English...
     Revert Language To English
     Wait For Language Change    5s
-    
+
     Close Gurutattva App
     

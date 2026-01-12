@@ -70,7 +70,7 @@ ${IMAGE_UPLOAD_BUTTON}                              xpath=(//div[contains(@class
 ${SUBMIT_BUTTON}                                    xpath=//button[@type='submit']
 ${CANCEL_BUTTON}                                    xpath=//button[contains(text(),'Cancel')]
 ${EVENTS_NEXT_MONTH_BUTTON}                         xpath=//button[@aria-label='Next month']
-${EVENTS_29_DAY_BUTTON}                             xpath=//button[@role='gridcell' and text()='29']
+${EVENTS_DAY_BUTTON}                                xpath=//button[@role='gridcell' and text()='15']
 ${EVENTS_PUBLISH_FROM_DATE_VALIDATION_MESSAGE}      xpath=//div[contains(text(),'Publish From Date cannot be after')]
 
 # File Upload Locators
@@ -100,7 +100,7 @@ ${HINDI_EVENTS_TAB}                                 xpath=//android.widget.Image
 ${HINDI_EVENTS_GLOBAL_TAB}                          xpath=//android.view.View[@content-desc="वैश्विक घटनाएं"]
 ${HINDI_FIRST_CARD_STRUCTURE}                       xpath=(//android.view.View[contains(@content-desc, 'से')])[1]
 ${HINDI_EVENTS_BACK_BUTTON}                         xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView
-${HINDI_HOME_SCREEN}                                xpath=//android.widget.ImageView[@content-desc="मुखपृष्ठ"]
+${HINDI_HOME_SCREEN}                                xpath=//android.widget.ImageView[@content-desc="मुख्यपृष्ठ"]
 
 ${LOCAL_EVENTS_SHOW_FILTERS_BUTTON}               xpath=//button[@aria-label='Show filters']
 ${LOCAL_EVENTS_FILTER_VALUE}                      xpath=//input[@placeholder='Filter value']
@@ -520,6 +520,10 @@ Verify Mobile Events Hindi Details
 
     # Navigate back
     Click on the back button from Hindi Detail Screen
+    Sleep    2s
+    # Click back again to go from events list to home page
+    Click on the back button from Hindi Detail Screen
+    Sleep    2s
     Click on the Hindi Home Screen
 
     Log To Console    ✅ Verified Mobile Events Hindi Details for: ${expected_title}
@@ -544,7 +548,7 @@ Select Event to Date
     Sleep    2s
     Web.Click Element    ${EVENTS_NEXT_MONTH_BUTTON}
     Sleep    2s
-    Web.Click Element    ${EVENTS_29_DAY_BUTTON}
+    Web.Click Element    ${EVENTS_DAY_BUTTON}
     Log To Console    Selected Event to Date
 
 Select Event Publish from Date
@@ -564,7 +568,7 @@ Select Event Publish to Date
     Sleep    2s
     Web.Click Element    ${EVENTS_NEXT_MONTH_BUTTON}
     Sleep    2s
-    Web.Click Element    ${EVENTS_29_DAY_BUTTON}
+    Web.Click Element    ${EVENTS_DAY_BUTTON}
     Log To Console    Selected Publish to Date
 
 Select Event Publish from Date for Next Day
@@ -581,7 +585,7 @@ Select Event Publish from Date for Next Day
     ELSE
         Log To Console    Next month button is disabled, using current month
     END
-    Web.Click Element    ${EVENTS_29_DAY_BUTTON}
+    Web.Click Element    ${EVENTS_DAY_BUTTON}
     Log To Console    Selected Publish from Date for Next Day
 
 Select Event Publish to Date for Next Day
@@ -598,7 +602,7 @@ Select Event Publish to Date for Next Day
     ELSE
         Log To Console    Next month button is disabled, using current month
     END
-    Web.Click Element    ${EVENTS_29_DAY_BUTTON}
+    Web.Click Element    ${EVENTS_DAY_BUTTON}
     Log To Console    Selected Publish to Date for Next Day
 
 Enter Events Venue

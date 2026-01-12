@@ -123,20 +123,40 @@ Generate Random Number for Test Data
 Click on the Master Management Menu
     [Documentation]    Clicks on the Master Management menu in the web application (DEPRECATED - redirects to Audio menu)
     Log To Console    ⚠️ WARNING: Master Management menu path is deprecated. Using Audio menu instead.
+    # Wait for page to be fully loaded first
+    Sleep    2s
     # Expand Audio menu if needed
     Web Wait Until Page Contains Element    ${AUDIO_MENU}    10s
     ${is_expanded}=    Run Keyword And Return Status    Web Element Should Be Visible    ${MANAGE_AUDIO_CATEGORIES_SUBMENU}
     IF    not ${is_expanded}
+        # Click Audio menu to expand submenu
         Web Click Element    ${AUDIO_MENU}
-        Sleep    1s
+        # Wait for submenu to fully expand and become enabled
+        Sleep    3s
+        # Verify submenu is now visible
+        Web Wait Until Page Contains Element    ${MANAGE_AUDIO_CATEGORIES_SUBMENU}    10s
+        Log To Console    ✅ Audio menu expanded successfully
+    ELSE
+        Log To Console    ✅ Audio menu already expanded
     END
 
 Click on the Manage Audio Categories Submenu
     [Documentation]    Clicks on the Manage Categories submenu under Audio menu (Updated for new UI)
     # First ensure Audio menu is expanded
     Run Keyword And Ignore Error    Click on the Master Management Menu
+    # Wait for submenu element to be present and enabled
     Web Wait Until Page Contains Element    ${MANAGE_AUDIO_CATEGORIES_SUBMENU}    10s
-    Web Click Element    ${MANAGE_AUDIO_CATEGORIES_SUBMENU}
+    Sleep    2s
+    # Try regular click first
+    TRY
+        Web Click Element    ${MANAGE_AUDIO_CATEGORIES_SUBMENU}
+        Log To Console    ✅ Clicked Manage Categories submenu
+    EXCEPT    AS    ${error}
+        Log To Console    ⚠️ Regular click failed: ${error}, trying JavaScript click...
+        # Fallback to JavaScript click if element is disabled or intercepted
+        Web.Execute Javascript    document.evaluate("//span[contains(text(),'Manage Categories')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();
+        Log To Console    ✅ Clicked Manage Categories submenu using JavaScript
+    END
     Sleep    2s
 
 Click on the Add Category button

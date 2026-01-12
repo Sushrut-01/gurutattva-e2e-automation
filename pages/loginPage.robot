@@ -74,7 +74,7 @@ Select Hindi Language
 Save Settings
     ${isVisible}=    Run Keyword And Return Status    Mobile Element Should Be Visible    ${SAVE_SETTINGS}
     Run Keyword If    ${isVisible}    Mobile Click Element    ${SAVE_SETTINGS}
-    Run Keyword If    ${isVisible}    Log To Console    Settings saved successfully!
+    Run Keyword If    ${isVisible}    Log To Console    ✅ Settings saved successfully!
     IF    not ${isVisible}
         Fail    Save Settings button was not visible and could not be clicked!
     END
@@ -95,7 +95,7 @@ Dismiss Access Denied Popup If Visible
 Click on the input field
     Mobile Wait Until Element Is Visible    ${LOGIN_EMAIL}    5s
     Mobile Click Element    ${LOGIN_EMAIL}
-    Run Keyword And Ignore Error    Mobile Hide Keyboard
+    # Don't hide keyboard - we need it for text input
 
 Click on the Login Button
     Mobile Wait Until Element Is Visible    ${SUBMIT_LOGIN}    5s
@@ -111,6 +111,9 @@ Enter the validate and exist mobile number
 
 Enter the Mobile Number of Quick Registration
     # Fixed phone number for TC07-10 test suite: 9960232311
+    # Clear any existing text in the field first
+    Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
+    Sleep    0.5s
     Mobile Input Text       ${LOGIN_EMAIL}      9960232311
 Enter the validate and exist email address
     Sleep    2s
@@ -541,46 +544,52 @@ Enter Mobile OTP Manually
     Log To Console    ===== OTP ENTRY TIME COMPLETE =====
 
 Enter OTP Automatically
-    [Documentation]    Tries to automatically enter OTP by clicking field and typing
+    [Documentation]    Enters OTP automatically for Flutter app - tap OTP box then use ADB input text
     [Arguments]    ${otp}=999999
     Log To Console    Attempting automatic OTP entry for: ${otp}
+    Sleep    2s
 
-    # Strategy 1: Click first OTP box and use ADB input (works best for Flutter)
-    ${first_box}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[contains(@content-desc, "-")])[1]    3s
-    IF    ${first_box}
-        Log To Console    Found OTP box - clicking and entering via ADB
-        Mobile Click Element    xpath=(//android.view.View[contains(@content-desc, "-")])[1]
-        Sleep    1s
-        # Use ADB to input the OTP text
-        ${result}=    Run Process    adb    shell    input    text    ${otp}
-        Sleep    2s
-        Log To Console    ✅ OTP entered via ADB shell input
-        RETURN
-    END
-
-    # Strategy 2: Try EditText field if available
+    # Strategy 1: Try EditText field first (if available)
     ${edit_field}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[1]    3s
     IF    ${edit_field}
+        Log To Console    Found EditText field - entering OTP directly
         Mobile Click Element    xpath=(//android.widget.EditText)[1]
         Sleep    1s
         Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${otp}
-        Log To Console    ✅ OTP typed into EditText field
+        Run Keyword And Ignore Error    Mobile Hide Keyboard
+        Sleep    1s
+        Log To Console    ✅ OTP typed into EditText field: ${otp}
         RETURN
     END
 
-    # Strategy 3: Direct ADB input without clicking (if keyboard is already up)
-    Log To Console    Trying direct ADB input...
-    ${result}=    Run Process    adb    shell    input    text    ${otp}
+    # Strategy 2: Flutter OTP - tap first box at known coordinates then input text via ADB
+    # Based on Appium Inspector bounds [56,982][1024,1117], first box center is ~(100, 1050)
+    Log To Console    Flutter OTP: Tapping first box at (100, 1050)...
+    Run Process    adb    shell    input    tap    100    1050
     Sleep    2s
 
-    # Verify OTP was entered by checking if "-" is still present
+    # Use adb shell input text (more reliable than keyevent for Flutter)
+    Log To Console    Entering OTP via ADB input text: ${otp}
+    Run Process    adb    shell    input    text    ${otp}
+    Sleep    2s
+    Log To Console    ✅ OTP entered via ADB input text: ${otp}
+
+    # Verify OTP was entered - check if "-" boxes are gone
     ${still_empty}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    2s
     IF    ${still_empty}
-        Log To Console    ⚠️ OTP boxes still empty - entry may have failed
-        Fail    OTP entry failed - boxes still show "-"
+        Log To Console    ⚠️ OTP boxes still show "-" - trying keyevent method...
+        # Try keyevent as backup
+        Run Process    adb    shell    input    tap    100    1050
+        Sleep    1s
+        @{digits}=    Split String To Characters    ${otp}
+        FOR    ${digit}    IN    @{digits}
+            ${keycode}=    Evaluate    int(${digit}) + 7
+            Run Process    adb    shell    input    keyevent    ${keycode}
+            Sleep    0.5s
+        END
+        Sleep    2s
+        Log To Console    ✅ OTP entered via keyevent backup
     END
-
-    Log To Console    ✅ OTP entered successfully
     RETURN
 
     # Sleep    2s

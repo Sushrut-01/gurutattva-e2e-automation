@@ -1,5 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.robot
+Resource    ../resources/libraries.robot
 Resource    ../resources/test_setup_teardown.robot
 Resource    ../pages/registerPage.robot
 Resource    ../pages/loginPage.robot
@@ -8,6 +9,9 @@ Resource    ../resources/web_keywords.robot
 Resource    ../pages/E2ERegistrationPage.robot
 Resource    ../pages/E2ENamkaranPage.robot
 Resource    ../pages/CRM_AudioPage.robot
+Resource    ../pages/E2EAudioPage.robot
+Resource    ../pages/ProfilePage.robot
+Resource    ../pages/eventsPage.robot
 
 Test Setup    Test Setup
 Test Teardown    Test Teardown
@@ -17,6 +21,7 @@ Verify user is able to add Bride Namkaran with NO Option on the mobile app and v
     [Tags]  TC08  Namkaran  Gurutattva  E2E
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Bride
@@ -72,6 +77,7 @@ Verify user is able to add Business Namkaran with NO Option on the mobile app an
     [Tags]    TC09    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Business
@@ -126,6 +132,7 @@ Verify user is able to add House Namkaran with NO Option on the mobile app and v
     [Tags]    TC13    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Login As Namkaran User
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For House
@@ -178,6 +185,7 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
     [Tags]    TC14    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Login As Namkaran User
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Child
@@ -252,6 +260,7 @@ Verify user is able to add Bride Namkaran with YES Option on the mobile app and 
     [Tags]    TC12    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Bride With YES Option
@@ -307,6 +316,7 @@ Verify user is able to add Business Namkaran with YES Option on the mobile app a
     [Tags]    TC15    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Business With YES Option
@@ -359,6 +369,7 @@ Verify user is able to add House Namkaran with YES Option on the mobile app and 
     [Tags]    TC16    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For House With YES Option
@@ -410,6 +421,7 @@ Verify user is able to add Child Namkaran with YES Option on the mobile app and 
     [Tags]    TC17    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Child With YES Option
@@ -473,6 +485,7 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
     [Tags]    TC18    Namkaran    Gurutattva    E2E    Admin
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Bride
@@ -560,6 +573,7 @@ Verify that admin user is able to approve Business Namkaran in CMS and verify th
     [Tags]    TC19    Namkaran    Gurutattva    E2E    Admin
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Business
@@ -638,6 +652,7 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     [Tags]    TC20    Namkaran    Gurutattva    E2E    Admin
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For House
@@ -722,6 +737,7 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     [Tags]    TC21    Namkaran    Gurutattva    E2E    Admin
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Child
@@ -827,6 +843,7 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
     [Tags]    TC22    Namkaran    Gurutattva    E2E    Admin    Reject
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Bride
@@ -906,6 +923,7 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     [Tags]    TC23    Namkaran    Gurutattva    E2E    Admin    Reject
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Business
@@ -985,6 +1003,7 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     [Tags]    TC24    Namkaran    Gurutattva    E2E    Admin    Reject
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For House
@@ -1064,6 +1083,7 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     [Tags]    TC25    Namkaran    Gurutattva    E2E    Admin    Reject
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
 
     # Generate unique test data for this test run
     Generate E2E Namkaran Test Data For Child

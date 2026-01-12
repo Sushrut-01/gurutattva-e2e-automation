@@ -10,6 +10,7 @@ Resource    ../resources/web_keywords.robot
 Resource    ../pages/profilePage.robot
 Resource    ../pages/DhyankendraPage.robot
 Resource    ../pages/E2EPrayerPage.robot
+Resource    ../pages/E2EAudioPage.robot
 
 Test Setup    Test Setup
 Test Teardown    Test Teardown
@@ -95,8 +96,10 @@ Verify that the user is able to add a English event, publish it in the CMS, and 
     # --- Mobile App: Verify English Events Details ---
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
     Clear App Cache And Reopen
     Handle First Time Setup
+    Launch Mobile App And Login
     Click on the Events Tab
     Verify Mobile Events Details    ${E2E_EVENTS_TITLE_EN}
     Close Gurutattva App
@@ -142,8 +145,10 @@ Verify that the user is able to add a Hindi event, publish it in the CMS, and ve
     # --- Mobile App: Verify Hindi Events Details ---
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
     Clear App Cache And Reopen
     Handle First Time Setup
+    Launch Mobile App And Login
     Click on the Profile Tab
     Click on the Language Tab
     Select Hindi from the Language Selection
@@ -212,6 +217,7 @@ Test Add Event Category from CMS and Add Events under that Category
     # --- Mobile App: Verify Categories in Mobile app ---
     Open Gurutattva App With Retry
     Handle First Time Setup With Retry
+    Launch Mobile App And Login
     Wait For App To Be Ready
     Click on the Events Tab With Retry
     Verify Event Category In Mobile App    ${E2E_EVENT_CATEGORY_NAME}
@@ -287,6 +293,7 @@ Test Unpublish Event from CMS and Verify in Mobile App
     # --- Mobile App: Verify Event is NOT visible ---
     Open Gurutattva App With Retry
     Handle First Time Setup With Retry
+    Launch Mobile App And Login
     Wait For App To Be Ready
     Click on the Events Tab With Retry
     Verify Event Category Is Not Visible In Mobile App    ${E2E_EVENT_CATEGORY_NAME}
@@ -300,6 +307,7 @@ Test Event Category Tab In Mobile App
     # --- Mobile App: Open app and navigate to Events ---
     Open Gurutattva App With Retry
     Handle First Time Setup With Retry
+    Launch Mobile App And Login
     Click on the Events Tab With Retry
     Log To Console    ✅ Step 1: Clicked on Events Tab
     
@@ -383,6 +391,7 @@ Test Check Local Event Filter Functionality
     # --- Mobile App: Test Location Filter ---
     Open Gurutattva App With Retry
     Handle First Time Setup With Retry
+    Launch Mobile App And Login
     Click on the Events Tab With Retry
 
     # Click on Local Events Tab
@@ -475,6 +484,7 @@ Sanchalak adds local Event, once Acharya/Super Admin Approves it then only that 
     # --- Mobile App: Verify Approved Event in Local Events ---
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
     Click on the Events Tab
     # Click on Local Events Tab
     Click on Local Events Tab
@@ -540,6 +550,7 @@ Sanchalak adds local event and Acharya/Super Admin Rejects that event.
     Close Web Browser
     Open Gurutattva App
     Handle First Time Setup
+    Launch Mobile App And Login
     Click on the Events Tab
     Validate the rejected event should not display in the mobile app
     Close Gurutattva App

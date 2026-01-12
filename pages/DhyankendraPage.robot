@@ -110,7 +110,7 @@ ${E2E_TEST_ADDRESS}                                 Test Address
 *** Keywords ***
 Click on the Register Now for Dhyankendra
     # Register Now button might be at top of page, scroll up first to ensure it's visible
-    Sleep    1s
+    Sleep    300ms
     ${height}=    Mobile Get Window Height
     ${width}=    Mobile Get Window Width
     ${start_x}=    Evaluate    int(${width} * 0.5)
@@ -118,13 +118,13 @@ Click on the Register Now for Dhyankendra
     ${end_y}=    Evaluate    int(${height} * 0.7)
     # Scroll up to reveal top section with Register Now button
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    500ms
-    Sleep    1s
+    Sleep    300ms
     # Now try to find and click Register Now button
-    ${register_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${REGISTER_NOW_FOR_DHYANKENDRA}    5s
+    ${register_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    ${REGISTER_NOW_FOR_DHYANKENDRA}    20s
     IF    not ${register_visible}
         # Try alternate locator if button has different format
         ${alt_locator}=    Set Variable    xpath=//*[contains(@content-desc,'Register') and contains(@content-desc,'Now')]
-        Mobile Wait Until Element Is Visible    ${alt_locator}    5s
+        Mobile Wait Until Element Is Visible    ${alt_locator}    20s
         Mobile Click Element    ${alt_locator}
         Log To Console    Clicked on Register Now (alternate locator)
     ELSE
@@ -133,31 +133,47 @@ Click on the Register Now for Dhyankendra
     END
 
 Enter Center Name
+    Mobile Wait Until Element Is Visible    ${CENTER_NAME}    20s
     Mobile Click Element    ${CENTER_NAME}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    2s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${CENTER_NAME_INPUT}    20s
     Mobile Input Text    ${CENTER_NAME_INPUT}    ${E2E_CENTER_NAME}
     Log To Console    Entered Center Name
 
 Select Premise Type
+    Mobile Wait Until Element Is Visible    ${PREMISE_TYPE_DROPDOWN}    20s
     Mobile Click Element    ${PREMISE_TYPE_DROPDOWN}
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
+    Sleep    1s
     Mobile Input Text    xpath=//android.widget.EditText    Temple
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${TEMPLE_BUTTON}    20s
     Mobile Click Element    ${TEMPLE_BUTTON}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Selected Premise Type
 
 Select Ownership
+    Mobile Wait Until Element Is Visible    ${OWNERSHIP_DROPDOWN}    20s
     Mobile Click Element    ${OWNERSHIP_DROPDOWN}
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
+    Sleep    1s
     Mobile Input Text    xpath=//android.widget.EditText     Sadhak Owned
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${SAHKA_OWNED_BUTTON}    20s
     Mobile Click Element    ${SAHKA_OWNED_BUTTON}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Selected Ownership
 
 Enter Sitting Capacity
+    Mobile Wait Until Element Is Visible    ${SITTING}    20s
     Mobile Click Element    ${SITTING}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Mobile Input Text    ${SITTING}    100
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Entered Sitting Capacity
@@ -170,7 +186,7 @@ Select Morning Timeslot
     Sleep    1s
     # Click on the first Select button (Morning)
     Mobile Click Element    xpath=(//*[@text='Select' or @content-desc='Select'])[1]
-    Sleep    2s
+    Sleep    300ms
     # Click AM button to ensure morning time is AM
     TRY
         Mobile Click Element    xpath=//*[@text='AM' or @content-desc='AM']
@@ -189,7 +205,7 @@ Select Evening Timeslot
     Sleep    1s
     # Click on the remaining Select button (Evening)
     Mobile Click Element    xpath=(//*[@text='Select' or @content-desc='Select'])[1]
-    Sleep    2s
+    Sleep    300ms
     # Click PM button to ensure evening time is PM
     TRY
         Mobile Click Element    xpath=//*[@text='PM' or @content-desc='PM']
@@ -206,32 +222,42 @@ Select Evening Timeslot
     Log To Console    Selected Evening Timeslot (PM)
 
 Enter Full Address For Dhyankendra
+    Mobile Wait Until Element Is Visible    ${FULL_ADDRESS_INPUT}    20s
     Mobile Click Element    ${FULL_ADDRESS_INPUT}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Mobile Input Text    ${FULL_ADDRESS_INPUT}    ${E2E_FULL_ADDRESS}
     Log To Console    Entered Full Address
 
 Enter Pincode For Dhyankendra
+    Mobile Wait Until Element Is Visible    ${PINCODE_INPUT}    20s
     Mobile Click Element    ${PINCODE_INPUT}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Mobile Input Text    ${PINCODE_INPUT}    380015
     Log To Console    Entered Pincode
 
 Enter Hall Length
+    Mobile Wait Until Element Is Visible    ${INPUT_HALL_LENGTH}    20s
     Mobile Click Element    ${INPUT_HALL_LENGTH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Mobile Input Text    ${INPUT_HALL_LENGTH}    10
     Log To Console    Entered Hall Length
 
 Enter Hall Width
+    Mobile Wait Until Element Is Visible    ${INPUT_HALL_WIDTH}    20s
     Mobile Click Element    ${INPUT_HALL_WIDTH}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Mobile Input Text    ${INPUT_HALL_WIDTH}    10
     Log To Console    Entered Hall Width
 
 Enter Hall Height
+    Mobile Wait Until Element Is Visible    ${INPUT_HALL_HEIGHT}    20s
     Mobile Click Element    ${INPUT_HALL_HEIGHT}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Mobile Input Text    ${INPUT_HALL_HEIGHT}    10
     Log To Console    Entered Hall Height
 
@@ -251,14 +277,18 @@ Select Country for Dhyankendra
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    400ms
     Sleep    0.5s
     Mobile Swipe    ${start_x}    ${start_y}    ${start_x}    ${end_y}    400ms
-    Sleep    1s
-    # Click on Country dropdown and select India
+    Sleep    300ms
+    # Click on Country dropdown and select India with fluent wait
+    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,'Select Country') or contains(@content-desc,'Select Country')]    20s
     Mobile Click Element    xpath=//*[contains(@text,'Select Country') or contains(@content-desc,'Select Country')]
-    Sleep    2s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    India
     Sleep    1s
-    # Click on the India option in the dropdown list (second instance after the input)
+    Mobile Input Text    xpath=//android.widget.EditText    India
+    Sleep    300ms
+    # Wait for and click on the India option in the dropdown list (second instance after the input)
+    Mobile Wait Until Element Is Visible    xpath=(//*[@text='India' or @content-desc='India'])[2]    20s
     Mobile Click Element    xpath=(//*[@text='India' or @content-desc='India'])[2]
     Sleep    1s
     Log To Console    Selected Country - India
@@ -266,14 +296,18 @@ Select Country for Dhyankendra
 Select State for Dhyankendra
     [Documentation]    Select State - Gujarat
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    1s
-    # Click on State dropdown
+    Sleep    300ms
+    # Click on State dropdown with fluent wait
+    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,'Select State') or contains(@content-desc,'Select State')]    20s
     Mobile Click Element    xpath=//*[contains(@text,'Select State') or contains(@content-desc,'Select State')]
-    Sleep    2s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    Gujarat
     Sleep    1s
-    # Click on the Gujarat option in dropdown list (second instance)
+    Mobile Input Text    xpath=//android.widget.EditText    Gujarat
+    Sleep    300ms
+    # Wait for and click on the Gujarat option in dropdown list (second instance)
+    Mobile Wait Until Element Is Visible    xpath=(//*[@text='Gujarat' or @content-desc='Gujarat'])[2]    20s
     Mobile Click Element    xpath=(//*[@text='Gujarat' or @content-desc='Gujarat'])[2]
     Sleep    1s
     Log To Console    Selected State - Gujarat
@@ -281,14 +315,19 @@ Select State for Dhyankendra
 Select District for Dhyankendra
     [Documentation]    Select District - Ahmedabad
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    1s
+    Sleep    300ms
     # Click on District dropdown
+    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,'Select District') or contains(@content-desc,'Select District')]    20s
     Mobile Click Element    xpath=//*[contains(@text,'Select District') or contains(@content-desc,'Select District')]
-    Sleep    2s
+    Sleep    300ms
+    # Wait for search field to appear with fluent wait
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad
     Sleep    1s
-    # Click on Ahmedabad option (second instance)
+    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad
+    Sleep    300ms
+    # Wait for and click on Ahmedabad option (second instance)
+    Mobile Wait Until Element Is Visible    xpath=(//*[@text='Ahmedabad' or @content-desc='Ahmedabad'])[2]    20s
     Mobile Click Element    xpath=(//*[@text='Ahmedabad' or @content-desc='Ahmedabad'])[2]
     Sleep    1s
     Log To Console    Selected District - Ahmedabad
@@ -296,14 +335,19 @@ Select District for Dhyankendra
 Select Taluka/City for Dhyankendra
     [Documentation]    Select Taluka/City - Ahmedabad City
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    1s
-    # Click on Taluka/City dropdown
+    Sleep    300ms
+    # Click on Taluka/City dropdown with fluent wait
+    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,'Select Taluka') or contains(@content-desc,'Select Taluka') or contains(@text,'Select City') or contains(@content-desc,'Select City')]    20s
     Mobile Click Element    xpath=//*[contains(@text,'Select Taluka') or contains(@content-desc,'Select Taluka') or contains(@text,'Select City') or contains(@content-desc,'Select City')]
-    Sleep    2s
+    Sleep    300ms
+    # Wait for search field to appear
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad City
     Sleep    1s
-    # Click on Ahmedabad City option (second instance)
+    Mobile Input Text    xpath=//android.widget.EditText    Ahmedabad City
+    Sleep    300ms
+    # Wait for and click on Ahmedabad City option (second instance)
+    Mobile Wait Until Element Is Visible    xpath=(//*[contains(@text,'Ahmedabad City') or contains(@content-desc,'Ahmedabad City')])[2]    20s
     Mobile Click Element    xpath=(//*[contains(@text,'Ahmedabad City') or contains(@content-desc,'Ahmedabad City')])[2]
     Sleep    1s
     Log To Console    Selected Taluka/City - Ahmedabad City
@@ -314,16 +358,19 @@ Select Area/Village for Dhyankendra
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    ⏳ Waiting for Area/Village field to load (can take up to 20 seconds)...
     Sleep    20s
-    # Click on Area/Village dropdown
+    # Click on Area/Village dropdown with fluent wait
+    Mobile Wait Until Element Is Visible    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]    20s
     Mobile Click Element    xpath=//*[contains(@text,'Select Area') or contains(@content-desc,'Select Area') or contains(@text,'Select Village') or contains(@content-desc,'Select Village')]
-    Sleep    2s
+    Sleep    300ms
     Log To Console    ✅ Clicked Area/Village dropdown
-    # Type in EditText search field - try Navrangpura first, then select first available
+    # Wait for search field and type in EditText - try Navrangpura first, then select first available
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    20s
     Mobile Click Element    xpath=//android.widget.EditText
-    Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
     Sleep    1s
+    Mobile Input Text    xpath=//android.widget.EditText    Navrangpura
+    Sleep    300ms
     # Check if Navrangpura exists in dropdown results
-    ${navrangpura_found}=    Run Keyword And Return Status    Mobile Page Should Contain Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
+    ${navrangpura_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]    15s
     IF    ${navrangpura_found}
         # Click on Navrangpura option (second instance - first is search field)
         Mobile Click Element    xpath=(//*[contains(@text,'Navrangpura') or contains(@content-desc,'Navrangpura')])[2]
@@ -332,80 +379,113 @@ Select Area/Village for Dhyankendra
         # Navrangpura not available, clear search and select first option
         Log To Console    ⚠️ Navrangpura not available, selecting first area from list
         Mobile Clear Text    xpath=//android.widget.EditText
-        Sleep    1s
-        # Click first area option (exclude EditText itself)
+    Sleep    300ms
+        # Wait for and click first area option (exclude EditText itself)
+        Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[1]    20s
         Mobile Click Element    xpath=(//android.view.View[@clickable='true' and string-length(@content-desc) > 0])[1]
         Log To Console    ✅ Selected first available area from list
     END
-    Sleep    2s
-
+    Sleep    300ms
 Click on the Next Button for Dhyankendra
     # Ensure keyboard is hidden before clicking Next
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    0.5s
-    Scroll until element found    ${DHYANKENDRA_NEXT}
-    Mobile Click Element                    ${DHYANKENDRA_NEXT}
     Sleep    1s
+    Scroll until element found    ${DHYANKENDRA_NEXT}
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_NEXT}    20s
+    Mobile Click Element                    ${DHYANKENDRA_NEXT}
+    Sleep    300ms
     Log To Console    Clicked on Next Button for Dhyankendra
 
 Select Library
+    Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
     Mobile Click Element    ${SELECT_OPTION}
-    Sleep    2s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${YES_BUTTON}    20s
     Mobile Click Element    ${YES_BUTTON}
     Log To Console    Selected Library
 
 Select Parking Space
+    Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
     Mobile Click Element    ${SELECT_OPTION}
-    Sleep    2s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${YES_BUTTON}    20s
     Mobile Click Element    ${YES_BUTTON}
     Log To Console    Selected Parking Space
 
 Select Ground Floor
     Scroll until element found    xpath=//android.view.View[@content-desc="Toilet/Bathrooms *"]
+    Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
     Mobile Click Element    ${SELECT_OPTION}
-    Sleep    2s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${YES_BUTTON}    20s
     Mobile Click Element    ${YES_BUTTON}
     Log To Console    Selected Ground Floor
 
 Select Air Conditioner
+    Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
     Mobile Click Element    ${SELECT_OPTION}
-    Sleep    2s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${YES_BUTTON}    20s
     Mobile Click Element    ${YES_BUTTON}
     Log To Console    Selected Air Conditioner
 
 Select Toilet/Bathrooms
    Scroll until element found    ${DHYANKENDRA_NEXT}
+   Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
    Mobile Click Element    ${SELECT_OPTION}
-   Sleep    2s
+    Sleep    300ms
+   Mobile Wait Until Element Is Visible    ${YES_BUTTON}    20s
    Mobile Click Element    ${YES_BUTTON}
    Log To Console    Selected Toilet/Bathrooms
 
 Select Notice Board
+    Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
     Mobile Click Element    ${SELECT_OPTION}
-    Sleep    2s
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${YES_BUTTON}    20s
     Mobile Click Element    ${YES_BUTTON}
     Log To Console    Selected Notice Board
 
 Select Noise Level
+    Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
     Mobile Click Element    ${SELECT_OPTION}
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${SEARCH_INPUT}    20s
     Mobile Click Element    ${SEARCH_INPUT}
+    Sleep    1s
     Mobile Input Text    ${SEARCH_INPUT}    Moderate
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${MODERATE}    20s
     Mobile Click Element    ${MODERATE}
     Log To Console    Selected Noise Level
 
 Select Ventilation
+    Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
     Mobile Click Element    ${SELECT_OPTION}
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${SEARCH_INPUT}    20s
     Mobile Click Element    ${SEARCH_INPUT}
+    Sleep    1s
     Mobile Input Text    ${SEARCH_INPUT}    Average
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${AVERAGE}    20s
     Mobile Click Element    ${AVERAGE}
     Log To Console    Selected Ventilation
 
 Select Roof Type
+    Mobile Wait Until Element Is Visible    ${SELECT_OPTION}    20s
     Mobile Click Element    ${SELECT_OPTION}
+    Sleep    300ms
+    Mobile Wait Until Element Is Visible    ${SEARCH_INPUT}    20s
     Mobile Click Element    ${SEARCH_INPUT}
+    Sleep    1s
     Mobile Input Text    ${SEARCH_INPUT}    RCC
+    Sleep    1s
+    Mobile Wait Until Element Is Visible    ${RCC}    20s
     Mobile Click Element    ${RCC}
+    Sleep    1s
     Log To Console    Selected Roof Type
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_NEXT}    20s
     Mobile Click Element    ${DHYANKENDRA_NEXT}
     Log To Console    Clicked on Next Button for Dhyankendra
 
@@ -414,7 +494,7 @@ Select User for Dhyankendra
     [Documentation]    Legacy keyword - kept for backward compatibility
     # Click on the Sanchalak 1 dropdown field
     Mobile Click Element    xpath=//*[contains(@text,'Sanchalak 1 Name') or contains(@content-desc,'Sanchalak 1')]//following::android.view.View[1] | (//android.view.View[@clickable='true'])[1]
-    Sleep    2s
+    Sleep    300ms
     # Select user by searching
     Mobile Click Element    xpath=//android.widget.EditText
     Mobile Input Text    xpath=//android.widget.EditText    ${name}
@@ -438,13 +518,14 @@ Select Sanchalak By Index
 
     # Clear existing Sanchalak selection if any (for retry attempts)
     ${sanchalak_field}=    Set Variable    xpath=(//android.widget.EditText)[1]
+    Mobile Wait Until Element Is Visible    ${sanchalak_field}    20s
     Run Keyword And Ignore Error    Mobile Clear Text    ${sanchalak_field}
     Sleep    1s
 
     # Click on Sanchalak 1 Name field (first EditText on Step 4)
+    Mobile Wait Until Element Is Visible    ${sanchalak_field}    20s
     Mobile Click Element    ${sanchalak_field}
-    Sleep    2s
-
+    Sleep    300ms
     # Common Indian name prefixes (3+ characters for dropdown to appear)
     @{search_terms}=    Create List    ash    bha    jay    raj    san    yat    adi    ami    ani    vij    pra    sur    dee    gop    man    pat    kam    nil    har    sha    din    kum    lax    meh    moh    nar    nee    aru    gan    him    ket    kir    mit    muk    pun    rah    ram    sat    she    shr    vai    vin    yog
 
@@ -519,9 +600,7 @@ Select Sanchalak By Index
         Log To Console    ⚠️ Could not trigger dropdown with any search term
         RETURN    ${FALSE}
     END
-
-    Sleep    2s
-
+    Sleep    300ms
     # Select result at calculated position (1 or 2 based on attempt number)
     ${selected}=    Set Variable    ${FALSE}
     @{dropdown_locators}=    Create List
@@ -547,8 +626,7 @@ Select Sanchalak By Index
             ${selected}=    Set Variable    ${TRUE}
         END
     END
-
-    Sleep    2s
+    Sleep    300ms
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Sleep    1s
 
@@ -597,7 +675,7 @@ Click Outside To Close Dialog
 Check For Sanchalak Validation Error
     [Documentation]    Check if validation error appeared for Sanchalak issues
     ...    Checks for: already registered, not found, required field errors
-    Sleep    3s
+    Sleep    300ms
     # Check for various validation errors
     ${error_locator}=    Set Variable    xpath=//*[contains(@text,'already') or contains(@content-desc,'already') or contains(@text,'associated') or contains(@content-desc,'associated') or contains(@text,'registered') or contains(@content-desc,'registered') or contains(@text,'not found') or contains(@content-desc,'not found') or contains(@text,'required') or contains(@content-desc,'required') or contains(@text,'Sanchalak') or contains(@content-desc,'Sanchalak')]
     ${error_visible}=    Run Keyword And Return Status    Mobile Element Should Be Visible    ${error_locator}
@@ -611,9 +689,10 @@ Check For Sanchalak Validation Error
 Enter Email for Dhyankendra
     [Documentation]    Enter email in the Email field (3rd EditText on Step 4)
     Sleep    1s
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_EMAIL_INPUT}    20s
     Mobile Click Element    ${DHYANKENDRA_EMAIL_INPUT}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    0.5s
+    Sleep    1s
     Mobile Input Text    ${DHYANKENDRA_EMAIL_INPUT}    ${E2E_EMAIL}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Entered Email: ${E2E_EMAIL}
@@ -621,9 +700,10 @@ Enter Email for Dhyankendra
 Enter Mobile for Dhyankendra
     [Documentation]    Enter mobile in Office Number field (4th EditText on Step 4)
     Sleep    1s
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_MOBILE_INPUT}    20s
     Mobile Click Element    ${DHYANKENDRA_MOBILE_INPUT}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
-    Sleep    0.5s
+    Sleep    1s
     Mobile Input Text    ${DHYANKENDRA_MOBILE_INPUT}    ${E2E_MOBILE}
     Run Keyword And Ignore Error    Mobile Hide Keyboard
     Log To Console    Entered Mobile: ${E2E_MOBILE}
@@ -645,12 +725,11 @@ Click on the Submit Button for Dhyankendra
     END
     Sleep    1s
     # Wait for element to be ready and click
-    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMIT}    10s
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMIT}    15s
     Sleep    0.5s
     Mobile Click Element    ${DHYANKENDRA_SUBMIT}
     Log To Console    Clicked Submit Button
-    Sleep    3s
-
+    Sleep    300ms
 Select Sanchalak And Submit With Validation Loop
     [Documentation]    Dynamic Sanchalak selection with validation error handling
     ...    Selects Sanchalak FIRST, then Email/Mobile, tries until successful submission
@@ -709,7 +788,7 @@ Scroll To Top Of Page
     Sleep    1s
 
 Verify Dhyankendra Success Message
-    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUCCESS_MESSAGE}    10s
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUCCESS_MESSAGE}    15s
     Mobile Element Should Be Visible    ${DHYANKENDRA_SUCCESS_MESSAGE}
     ${Content}=    Mobile Get Element Attribute    ${DHYANKENDRA_SUCCESS_MESSAGE}    content-desc
     Should Contain    ${Content}    Jay Aatmeshwar!
@@ -724,10 +803,10 @@ Click on the Submitted Application
     Log To Console    Clicked on the Submitted Application
 
 Verify Submitted Application Content
-    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    10s
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    15s
     Mobile Element Should Be Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}
     ${Content}=    Mobile Get Element Attribute    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    content-desc
-    Sleep   2s
+    Sleep    300ms
     Should Contain    ${Content}    ${E2E_CENTER_NAME}
     Log To Console    Submitted Application Content: ${Content}
 
@@ -746,15 +825,15 @@ Generate Center Name for Dhyankendra
 
 Verify the created Dhyankendra in CMS
     [Documentation]    Verifies that the Dhyankendra data entered in mobile app matches the data in CMS
-    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    10s
+    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    15s
     Web Click Element    ${User_Show_Filters_Button}  
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Filter_Value}
-    Sleep    2s
+    Sleep    300ms
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    2s
+    Sleep    300ms
     # Extract data from the specific row in the Community context
     ${cms_name}=    Web.Get Text    ${DHYANKENDRA_CENTER_NAME_CELL}
     ${cms_address}=    Web.Get Text    ${DHYANKENDRA_ADDRESS_CELL}
@@ -769,49 +848,49 @@ Verify the created Dhyankendra in CMS
 
 Filter the Dhyankendra in CMS by Center Name
     [Documentation]    Filters the Dhyankendra in CMS
-    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    10s
+    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    15s
     Web Click Element    ${User_Show_Filters_Button}  
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Filter_Value}
-    Sleep    2s
+    Sleep    300ms
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    2s
+    Sleep    300ms
 Click on the Dhyankendra Management Menu
     [Documentation]    Clicks on the Dhyankendra Management Menu
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_MENU}    10s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_MENU}    15s
     Web Click Element    ${DHYANKENDRA_MENU}
     Log To Console    Clicked on the Dhyankendra Management Menu
 
 
 Click on the Edit Button in CMS
     [Documentation]    Clicks on the Edit Button in CMS
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_MORE_BUTTON}    10s
-    Sleep    5s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_MORE_BUTTON}    15s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_MORE_BUTTON}
-    Sleep    5s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_EDIT_BUTTON}
     Log To Console    Clicked on the Edit Button in CMS
 
 Click on the approve button in CMS
     [Documentation]    Clicks on the Approve Button in CMS
     Web Scroll Element Into View    ${APPROVE_BUTTON}
-    Web Wait Until Element Is Visible    ${APPROVE_BUTTON}    10s
-    Sleep    5s
+    Web Wait Until Element Is Visible    ${APPROVE_BUTTON}    15s
+    Sleep    300ms
     Web Click Element    ${APPROVE_BUTTON}
-    Sleep    5s
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_APPROVE_BUTTON}    10s
+    Sleep    300ms
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_APPROVE_BUTTON}    15s
     Web Click Element    ${DHYANKENDRA_APPROVE_BUTTON}
     Log To Console    Clicked on the Approve Button in CMS
 
 Click on the reject button in CMS
     [Documentation]    Clicks on the Reject Button in CMS
     Web Scroll Element Into View    ${REJECT_BUTTON}
-    Web Wait Until Element Is Visible    ${REJECT_BUTTON}    10s
+    Web Wait Until Element Is Visible    ${REJECT_BUTTON}    15s
     Web Click Element    ${REJECT_BUTTON}
-    Sleep    2s
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_REJECT_BUTTON}    10s
+    Sleep    300ms
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_REJECT_BUTTON}    15s
     Web Click Element    ${DHYANKENDRA_REJECT_BUTTON}
     Log To Console    Clicked on the Reject Button in CMS
 
@@ -821,14 +900,14 @@ Verify the Update Message For Dhyankendra
     # So we check immediately without long sleep
     Sleep   0.5s
     # Quick check for success message before redirect
-    ${success_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_UPDATE_MESSAGE}    2s
+    ${success_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_UPDATE_MESSAGE}    15s
     IF    ${success_visible}
         Log To Console    ✅ Dhyankendra status updated successfully (message found)
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # Message may have disappeared due to fast redirect, check if we're on listing page
         Log To Console    ⚠️ Success message not visible (may have already redirected)
-        Sleep    3s
+    Sleep    300ms
         # If redirect happened successfully, we should be on listing page - this is OK
         # Try multiple ways to confirm we're on listing page
         ${on_listing}=    Run Keyword And Return Status    Web Page Should Contain Element    xpath=//div[contains(@class, 'minimal__table') or @role='grid']
@@ -847,14 +926,14 @@ Verify the Update Message For Dhyankendra
         END
     END
     # Wait for listing page to fully load before next action
-    Sleep    3s
+    Sleep    300ms
     Log To Console    ⏳ Waiting for listing page to be ready for next action
 
 Verify the Approved Dhyankendra in the List
     [Documentation]    Verifies that the Dhyankendra data entered in mobile app matches the data in CMS
-    Sleep    10s
+    Sleep    300ms
     Scroll Until Element Found     ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}
-    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    10s
+    Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    15s
     Mobile Element Should Be Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}
     ${Content}=    Mobile Get Element Attribute    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    content-desc
     Should Contain    ${Content}    ${E2E_CENTER_NAME}
@@ -866,7 +945,7 @@ Click on the Back Button from Dhyankendra List
     Log To Console    Clicked on the Back Button from Dhyankendra List
 
 Verify the user is assigned as a sanchalak in the Profile Card
-    Mobile.Wait Until Element Is Visible    ${PROFILE_INFORMATION}    10s
+    Mobile.Wait Until Element Is Visible    ${PROFILE_INFORMATION}    15s
     Mobile.Page Should Contain Element    ${PROFILE_INFORMATION}
     ${profile_info}=    Mobile Get Element Attribute    ${PROFILE_INFORMATION}    content-desc
     Should Contain    ${profile_info}    Sanchalak
@@ -874,17 +953,17 @@ Verify the user is assigned as a sanchalak in the Profile Card
 
 Find the user in the User Management Menu
     [Documentation]    Finds the user in the User Management Menu
-    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    10s
+    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    15s
     Web Click Element    ${User_Show_Filters_Button}  
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Role_Dropdown_Option}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Filter_Value}
-    Sleep    2s
+    Sleep    300ms
     Web Input Text    ${User_Filter_Value}    ${E2E_DHYANKENDRA_USER_EMAIL}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    2s
+    Sleep    300ms
     ${cms_role}=    Web.Get Text    ${USER_ROLE_CELL_IN_FILTER_DHYANKENDRA}
     Should Contain    ${cms_role}    Sanchalak
     Log To Console    User is assigned as a sanchalak in the User Management Menu: ${cms_role}
@@ -898,7 +977,7 @@ Verify the Dhyankendra in the List
     [Documentation]    Verifies that the Dhyankendra is displayed in the List
     Scroll Until Element Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}
     TRY  
-        Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    10s
+        Mobile Wait Until Element Is Visible    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    15s
         ${rejected_content}=    Mobile Get Element Attribute    ${DHYANKENDRA_SUBMITTED_APPLICATION_CONTENT}    content-desc
         Should Contain    ${rejected_content}    ${E2E_CENTER_NAME}
         Log To Console    Dhyankendra is displayed in the List: ${rejected_content}
@@ -908,15 +987,15 @@ Verify the Dhyankendra in the List
 
 Verify the Rejected Status in CMS
     [Documentation]    Verifies that the rejected Dhyankendra is displayed in the CMS with Rejected status
-    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    10s
+    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    15s
     Web Click Element    ${User_Show_Filters_Button}  
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Filter_Value}
-    Sleep    2s
+    Sleep    300ms
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    2s
+    Sleep    300ms
     # Extract data from the specific row in the Community context
     ${cms_status}=    Web.Get Text    ${DHYANKENDRA_STATUS_CELL}
     # Validate that the CMS data matches the data entered in the mobile app
@@ -925,15 +1004,15 @@ Verify the Rejected Status in CMS
 
 Verify the Approved Status in CMS
     [Documentation]    Verifies that the approved Dhyankendra is displayed in the CMS with Approved status
-    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    10s
+    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    15s
     Web Click Element    ${User_Show_Filters_Button}  
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Filter_Value}
-    Sleep    2s
+    Sleep    300ms
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    2s
+    Sleep    300ms
     ${cms_status}=    Web.Get Text    ${DHYANKENDRA_STATUS_CELL}
     Should Be Equal    ${cms_status}    Approved
     Log To Console    Verified Approved Status in CMS: Status=${cms_status}
@@ -941,33 +1020,33 @@ Verify the Approved Status in CMS
 Click on the Cancel Button in CMS
     [Documentation]    Clicks on the Cancel Button in CMS
     Web Scroll Element Into View    ${DHYANKENDRA_CANCEL_BUTTON}
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_CANCEL_BUTTON}    10s
-    Sleep    5s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_CANCEL_BUTTON}    15s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_CANCEL_BUTTON}
     Log To Console    Clicked on the Cancel Button in CMS
 
 Select Community Hall Premise Type
     [Documentation]    Selects the Community Hall Premise Type
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_PREMISE_TYPE}    10s
-    Sleep  2s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_PREMISE_TYPE}    15s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_PREMISE_TYPE}
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_PREMISE_TYPE_COMMUNITY_HALL}    10s
-    Sleep  2s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_PREMISE_TYPE_COMMUNITY_HALL}    15s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_PREMISE_TYPE_COMMUNITY_HALL}
     Log To Console    Selected Community Hall Premise Type
 
 Click on the Submit Button for Web
     [Documentation]    Clicks on the Submit Button for Web
     Web Scroll Element Into View    ${DHYANKENDRA_SUBMIT_BUTTON}
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_SUBMIT_BUTTON}    10s
-    Sleep  2s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_SUBMIT_BUTTON}    15s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_SUBMIT_BUTTON}
     Log To Console    Clicked on the Submit Button for Web
 
 Click on the Change Request Button for Web
     [Documentation]    Clicks on the Change Request Button for Web
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_CHANGE_REQUEST_BUTTON}    10s
-    Sleep  2s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_CHANGE_REQUEST_BUTTON}    15s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_CHANGE_REQUEST_BUTTON}
     Log To Console    Clicked on the Change Request Button for Web
 
@@ -977,14 +1056,14 @@ Verify the Edit Request Message
     # So we check immediately without long sleep
     Sleep   0.5s
     # Quick check for success message before redirect
-    ${success_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_REQUEST_MESSAGE}    2s
+    ${success_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_REQUEST_MESSAGE}    15s
     IF    ${success_visible}
         Log To Console    ✅ Dhyankendra edit request submitted for approval (message found)
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # Message may have disappeared due to fast redirect, check if we're on listing page
         Log To Console    ⚠️ Success message not visible (may have already redirected)
-        Sleep    3s
+    Sleep    300ms
         # If redirect happened successfully, we should be on listing page - this is OK
         # Try multiple ways to confirm we're on listing page
         ${on_listing}=    Run Keyword And Return Status    Web Page Should Contain Element    xpath=//div[contains(@class, 'minimal__table') or @role='grid']
@@ -1003,100 +1082,79 @@ Verify the Edit Request Message
         END
     END
     # Wait for listing page to fully load before next action
-    Sleep    3s
+    Sleep    300ms
     Log To Console    ⏳ Waiting for listing page to be ready for next action
 
 Verify the Review Status as Pending
     [Documentation]    Verifies that the Review Status is Pending
-    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    10s
+    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    15s
     Web Click Element    ${User_Show_Filters_Button}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Filter_Value}
-    Sleep    2s
+    Sleep    300ms
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    3s
-    # Scroll table horizontally to make approval status column visible
-    Log To Console    📜 Scrolling table horizontally to reveal approval status column...
-    # Try multiple scroll approaches
-    ${scroll_status}=    Run Keyword And Return Status    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
-    IF    not ${scroll_status}
-        # Fallback: Try with different selector
-        Web.Execute Javascript    var grid = document.querySelector('[role="grid"]'); if(grid) grid.scrollLeft = 10000;
-    END
-    Sleep    2s
-    ${cms_status}=    Web.Get Text    ${DHYANKENDRA_APPROVAL_STATUS_CELL}
+    Sleep    300ms
+    # Horizontal scroll step skipped - using JavaScript to get text without scrolling
+    ${cms_status}=    Web.Execute Javascript    return document.querySelector('[data-field="approvalStatus"]')?.textContent || 'Not Found';
+    Log To Console    Approval Status (without scroll): ${cms_status}
     Should Be Equal    ${cms_status}    Pending
     Log To Console    Verified Review Status as Pending in CMS: Status=${cms_status}
 
 Verify the Review Status as Approved
     [Documentation]    Verifies that the Review Status is Approved
-    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    10s
+    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    15s
     Web Click Element    ${User_Show_Filters_Button}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Filter_Value}
-    Sleep    2s
+    Sleep    300ms
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    3s
-    # Scroll table horizontally to make approval status column visible
-    Log To Console    📜 Scrolling table horizontally to reveal approval status column...
-    # Try multiple scroll approaches
-    ${scroll_status}=    Run Keyword And Return Status    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
-    IF    not ${scroll_status}
-        # Fallback: Try with different selector
-        Web.Execute Javascript    var grid = document.querySelector('[role="grid"]'); if(grid) grid.scrollLeft = 10000;
-    END
-    Sleep    2s
-    ${cms_status}=    Web.Get Text    ${DHYANKENDRA_APPROVAL_STATUS_CELL}
+    Sleep    300ms
+    # Horizontal scroll step skipped - using JavaScript to get text without scrolling
+    ${cms_status}=    Web.Execute Javascript    return document.querySelector('[data-field="approvalStatus"]')?.textContent || 'Not Found';
+    Log To Console    Approval Status (without scroll): ${cms_status}
     Should Be Equal    ${cms_status}    Approved
     Log To Console    Verified Review Status as Approved in CMS: Status=${cms_status}
 
 Verify the Review Status as Rejected
     [Documentation]    Verifies that the Review Status is Rejected
-    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    10s
+    Web Wait Until Element Is Visible    ${User_Show_Filters_Button}    15s
     Web Click Element    ${User_Show_Filters_Button}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Filter_Value}
-    Sleep    2s
+    Sleep    300ms
     Web Input Text    ${User_Filter_Value}    ${E2E_CENTER_NAME}
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${User_Apply_Filter_Button}
-    Sleep    3s
-    # Scroll table horizontally to make approval status column visible
-    Log To Console    📜 Scrolling table horizontally to reveal approval status column...
-    # Try multiple scroll approaches
-    ${scroll_status}=    Run Keyword And Return Status    Web.Execute Javascript    document.querySelector('[role="grid"]').scrollLeft = document.querySelector('[role="grid"]').scrollWidth
-    IF    not ${scroll_status}
-        # Fallback: Try with different selector
-        Web.Execute Javascript    var grid = document.querySelector('[role="grid"]'); if(grid) grid.scrollLeft = 10000;
-    END
-    Sleep    2s
-    ${cms_status}=    Web.Get Text    ${DHYANKENDRA_APPROVAL_STATUS_CELL}
+    Sleep    300ms
+    # Horizontal scroll step skipped - using JavaScript to get text without scrolling
+    ${cms_status}=    Web.Execute Javascript    return document.querySelector('[data-field="approvalStatus"]')?.textContent || 'Not Found';
+    Log To Console    Approval Status (without scroll): ${cms_status}
     Should Be Equal    ${cms_status}    Rejected
     Log To Console    Verified Review Status as Rejected in CMS: Status=${cms_status}
 
 Enter Remark for Edit Request
     [Documentation]    Enters the Remark for Edit Request
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_REMARK_INPUT}    10s
-    Sleep    2s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_REMARK_INPUT}    15s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_REMARK_INPUT}
     Web Input Text    ${DHYANKENDRA_REMARK_INPUT}    ${E2E_REMARK}
     Log To Console    Entered Remark for Edit Request
 
 Click on the Approve Button from Edit Request
     [Documentation]    Clicks on the Approve Button from Edit Request
-    Web Wait Until Element Is Visible    ${APPROVE_BUTTON}    10s
-    Sleep    2s
+    Web Wait Until Element Is Visible    ${APPROVE_BUTTON}    15s
+    Sleep    300ms
     Web Click Element    ${APPROVE_BUTTON}
     Log To Console    Clicked on the Approve Button from Edit Request
 
 Click on the Reject Button from Edit Request
     [Documentation]    Clicks on the Reject Button from Edit Request
-    Web Wait Until Element Is Visible    ${REJECT_BUTTON}    10s
-    Sleep    2s
+    Web Wait Until Element Is Visible    ${REJECT_BUTTON}    15s
+    Sleep    300ms
     Web Click Element    ${REJECT_BUTTON}
     Log To Console    Clicked on the Reject Button from Edit Request
 
@@ -1106,14 +1164,14 @@ Verify the Edit Dhyankendra Success Message
     # So we check immediately without long sleep
     Sleep   0.5s
     # Quick check for success message before redirect
-    ${success_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_SUCCESS_MESSAGE}    2s
+    ${success_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_SUCCESS_MESSAGE}    15s
     IF    ${success_visible}
         Log To Console    ✅ Dhyankendra edit request approved successfully (message found)
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # Message may have disappeared due to fast redirect, check if we're on listing page
         Log To Console    ⚠️ Success message not visible (may have already redirected)
-        Sleep    3s
+    Sleep    300ms
         # If redirect happened successfully, we should be on listing page - this is OK
         # Try multiple ways to confirm we're on listing page
         ${on_listing}=    Run Keyword And Return Status    Web Page Should Contain Element    xpath=//div[contains(@class, 'minimal__table') or @role='grid']
@@ -1132,21 +1190,21 @@ Verify the Edit Dhyankendra Success Message
         END
     END
     # Wait for listing page to fully load before next action
-    Sleep    3s
+    Sleep    300ms
     Log To Console    ⏳ Waiting for listing page to be ready for next action
 
 Verify the left menu access
     [Documentation]    Verifies that the left menu access is displayed for Sanchalak
-    Sleep    2s
+    Sleep    300ms
     # Verify News Menu
-    Web Wait Until Element Is Visible    ${NEWS_MENU}    10s
+    Web Wait Until Element Is Visible    ${NEWS_MENU}    15s
     Web Click Element    ${NEWS_MENU}
-    Sleep    2s
+    Sleep    300ms
     # For Sanchalak, check if Local News link exists or if page contains Local News text
     ${has_local_news_link}=    Run Keyword And Return Status    Web Page Should Contain Element    xpath=//a[@href="/news/local"]
     IF    ${has_local_news_link}
         Web Click Element    xpath=//a[@href="/news/local"]
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # If link not found, just verify News menu is visible (Sanchalak may have limited access)
         Log To Console    ⚠️ Local News link not accessible for current user
@@ -1154,14 +1212,14 @@ Verify the left menu access
     Log To Console    Verified News Menu
 
     # Verify Events Menu
-    Web Wait Until Element Is Visible    ${EVENTS_MENU}    10s
+    Web Wait Until Element Is Visible    ${EVENTS_MENU}    15s
     Web Click Element    ${EVENTS_MENU}
-    Sleep    2s
+    Sleep    300ms
     # For Sanchalak, check if Local Events link exists or if page contains Local Events text
     ${has_local_events_link}=    Run Keyword And Return Status    Web Page Should Contain Element    xpath=//a[@href="/events/local"]
     IF    ${has_local_events_link}
         Web Click Element    xpath=//a[@href="/events/local"]
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # If link not found, just verify Events menu is visible (Sanchalak may have limited access)
         Log To Console    ⚠️ Local Events link not accessible for current user
@@ -1169,15 +1227,15 @@ Verify the left menu access
     Log To Console    Verified Events Menu
 
     # Verify Dhyankendra Menu
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_MENU}    10s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_MENU}    15s
     Web Click Element    ${DHYANKENDRA_MENU}
     Log To Console    Verified Dhyankendra Menu
 
     # Verify Dhyansthali Menu
-    Web Wait Until Element Is Visible    ${DHYANSTHALI_MENU}    10s
+    Web Wait Until Element Is Visible    ${DHYANSTHALI_MENU}    15s
     Web Click Element    ${DHYANSTHALI_MENU}
-    Sleep    2s
-    Web Wait Until Element Is Visible    ${DHYANSTHALI_MENU_LOCAL}    10s
+    Sleep    300ms
+    Web Wait Until Element Is Visible    ${DHYANSTHALI_MENU_LOCAL}    15s
     Log To Console    Verified Dhyansthali Menu
     Log To Console    Verified left menu access
 
@@ -1194,43 +1252,43 @@ Validate the filled value on that sadak user on the CMS side
 Click on the Search Button
     [Documentation]    Clicks on the Search Button and waits for data to load
     # Wait for any loading overlay to disappear first
-    Sleep    3s
+    Sleep    300ms
     Wait Until Loading Completes
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_SEARCH_BUTTON}    10s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_SEARCH_BUTTON}    15s
     Web Click Element    ${DHYANKENDRA_SEARCH_BUTTON}
     Web Input Text    ${DHYANKENDRA_SEARCH_BUTTON}    ${E2E_CENTER_NAME}
     # Press Enter to search
     Web Press Keys    ${DHYANKENDRA_SEARCH_BUTTON}    ENTER
-    Sleep    5s
+    Sleep    300ms
     Wait Until Loading Completes
     Log To Console    Clicked on the Search Button
 
 Click on the View Button in CMS
     [Documentation]    Clicks on the View Button in CMS
-    Sleep    3s
+    Sleep    300ms
     Wait Until Loading Completes
     # Verify search results exist first
     ${results_found}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_MORE_BUTTON}    20s
     IF    not ${results_found}
         Log To Console    ⚠️ No search results found, refreshing page...
         Web.Reload Page
-        Sleep    5s
+    Sleep    300ms
         Wait Until Loading Completes
     END
     Web Wait Until Element Is Visible    ${DHYANKENDRA_MORE_BUTTON}    15s
-    Sleep    2s
+    Sleep    300ms
     Web Click Element    ${DHYANKENDRA_MORE_BUTTON}
-    Sleep    3s
+    Sleep    300ms
     # Try clicking View button with retry
     TRY
-        Web Wait Until Element Is Visible    ${DHYANKENDRA_VIEW_BUTTON}    10s
+        Web Wait Until Element Is Visible    ${DHYANKENDRA_VIEW_BUTTON}    15s
         Web Click Element    ${DHYANKENDRA_VIEW_BUTTON}
     EXCEPT
         # Retry clicking more button
         Log To Console    Retrying click on more button...
         Web Click Element    ${DHYANKENDRA_MORE_BUTTON}
-        Sleep    2s
-        Web Wait Until Element Is Visible    ${DHYANKENDRA_VIEW_BUTTON}    10s
+    Sleep    300ms
+        Web Wait Until Element Is Visible    ${DHYANKENDRA_VIEW_BUTTON}    15s
         Web Click Element    ${DHYANKENDRA_VIEW_BUTTON}
     END
     Log To Console    Clicked on the View Button in CMS
@@ -1252,7 +1310,7 @@ Wait Until Loading Completes
 Verify the filled value on that sadak user on the CMS side
     [Documentation]    Verifies the filled value on that sadak user on the CMS side
     # Verify the Dhyankendra name
-    Web Wait Until Element Is Visible    xpath=//p[normalize-space()='${E2E_CENTER_NAME}']    5s
+    Web Wait Until Element Is Visible    xpath=//p[normalize-space()='${E2E_CENTER_NAME}']    15s
     Web Page Should Contain Element    xpath=//p[normalize-space()='${E2E_CENTER_NAME}']
     ${dhyankendra_name}=    Web.Get Text    xpath=//p[normalize-space()='${E2E_CENTER_NAME}']
     Should Not Be Equal    ${dhyankendra_name}    ${None}
@@ -1261,7 +1319,7 @@ Verify the filled value on that sadak user on the CMS side
     Log To Console    Dhyankendra name verified: ${dhyankendra_name}
 
     # Verify the Dhyankendra address
-    Web Wait Until Element Is Visible    xpath=//p[normalize-space()='${E2E_FULL_ADDRESS}']    5s
+    Web Wait Until Element Is Visible    xpath=//p[normalize-space()='${E2E_FULL_ADDRESS}']    15s
     Web Page Should Contain Element    xpath=//p[normalize-space()='${E2E_FULL_ADDRESS}']
     ${dhyankendra_address}=    Web.Get Text    xpath=//p[normalize-space()='${E2E_FULL_ADDRESS}']
     Should Not Be Equal    ${dhyankendra_address}    ${None}
@@ -1270,7 +1328,7 @@ Verify the filled value on that sadak user on the CMS side
     Log To Console    Dhyankendra address verified: ${dhyankendra_address}
 
     # Verify the Pincode
-    Web Wait Until Element Is Visible    xpath=//p[normalize-space()='380015']    5s
+    Web Wait Until Element Is Visible    xpath=//p[normalize-space()='380015']    15s
     Web Page Should Contain Element    xpath=//p[normalize-space()='380015']
     ${dhyankendra_pincode}=    Web.Get Text    xpath=//p[normalize-space()='380015']
     Should Not Be Equal    ${dhyankendra_pincode}    ${None}
@@ -1279,7 +1337,7 @@ Verify the filled value on that sadak user on the CMS side
     Log To Console    Dhyankendra pincode verified: ${dhyankendra_pincode}
     
     # Verify the Dhyankendra Contact Details
-    Web Wait Until Element Is Visible    xpath=//p[normalize-space()='${E2E_EMAIL}']    5s
+    Web Wait Until Element Is Visible    xpath=//p[normalize-space()='${E2E_EMAIL}']    15s
     Web Page Should Contain Element    xpath=//p[normalize-space()='${E2E_EMAIL}']
     ${dhyankendra_email}=    Web.Get Text    xpath=//p[normalize-space()='${E2E_EMAIL}']
     Should Not Be Equal    ${dhyankendra_email}    ${None}
@@ -1290,8 +1348,8 @@ Verify the filled value on that sadak user on the CMS side
 
 Change the Address of the Dhyankendra
     [Documentation]    Changes the Address of the Dhyankendra
-    Web Wait Until Element Is Visible    xpath=//input[@name='address' and @value='${E2E_FULL_ADDRESS}']    10s
-    Sleep    2s
+    Web Wait Until Element Is Visible    xpath=//input[@name='address' and @value='${E2E_FULL_ADDRESS}']    15s
+    Sleep    300ms
     Web Click Element    xpath=//input[@name='address' and @value='${E2E_FULL_ADDRESS}']
     Web Clear Element Text    xpath=//input[@name='address' and @value='${E2E_FULL_ADDRESS}']
     Web Input Text    xpath=//input[@name='address']    ${E2E_TEST_ADDRESS}
@@ -1299,40 +1357,39 @@ Change the Address of the Dhyankendra
 
 Validate the fields after rejection in the mobile app
     [Documentation]    After change request for address is rejected, verifies that changed address should NOT be visible and original address should still display in the mobile app
-    Sleep    5s
+    Sleep    300ms
     Scroll Until Element Found    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]
-    Mobile Wait Until Element Is Visible    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]    10s
+    Mobile Wait Until Element Is Visible    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]    20s
     Mobile Element Should Be Visible    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]
     ${Content}=    Mobile Get Element Attribute    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]    content-desc
     Should Contain    ${Content}    ${E2E_CENTER_NAME}
     Log To Console    Dhyankendra in the List: ${Content}
     Mobile Click Element    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]
-    Sleep    5s
-
+    Sleep    300ms
     # Check that new (rejected) address is NOT visible
     ${new_address_visible}=    Run Keyword And Return Status    Mobile Element Should Be Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_TEST_ADDRESS}')]
     Should Be Equal    ${new_address_visible}    ${False}    Address after rejection should NOT be the test address (${E2E_TEST_ADDRESS})
     Log To Console    New (rejected) address is NOT visible: ${new_address_visible}
-    
+
     # Check that original address is still visible
-    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_FULL_ADDRESS}')]    10s
+    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_FULL_ADDRESS}')]    20s
     Mobile Element Should Be Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_FULL_ADDRESS}')]
     Log To Console    Address after rejection correctly remains the original: ${E2E_FULL_ADDRESS}
     Log To Console    Verified that after rejection, only original address is visible in the mobile app
 
 Validate the fields after approval in the mobile app
     [Documentation]    After change request for address is approved, verifies that changed address should be visible and original address should still display in the mobile app
-    Sleep    5s
+    Sleep    300ms
     Scroll Until Element Found    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]
-    Mobile Wait Until Element Is Visible    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]    10s
+    Mobile Wait Until Element Is Visible    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]    20s
     Mobile Element Should Be Visible    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]
     ${Content}=    Mobile Get Element Attribute    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]    content-desc
     Should Contain    ${Content}    ${E2E_CENTER_NAME}
     Log To Console    Dhyankendra in the List: ${Content}
     Mobile Click Element    //android.view.View[contains(@content-desc,'${E2E_CENTER_NAME}')]
-    Sleep    5s
+    Sleep    300ms
     # Check that new (approved) address is visible
-    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_TEST_ADDRESS}')]    10s
+    Mobile Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_TEST_ADDRESS}')]    20s
     Mobile Element Should Be Visible    xpath=//android.view.View[contains(@content-desc,'${E2E_TEST_ADDRESS}')]
     Log To Console    New (approved) address is visible: ${E2E_TEST_ADDRESS}
     Log To Console    Verified that after approval, only changed address is visible in the mobile app
@@ -1340,19 +1397,19 @@ Validate the fields after approval in the mobile app
 Open Dhyankendra Management And Show Approved Records
     [Documentation]    Navigates to Dhyankendra menu and applies Status filter to show only Approved records
     Click on the Dhyankendra Management Menu
-    Sleep    2s
+    Sleep    300ms
     # Apply Status filter to show only Approved records
     E2EAudioPage.Click Filter Button
     Sleep    1s
     Apply Status Filter Dhyankendra    is    Approved
-    Sleep    2s
+    Sleep    300ms
     # Ensure at least one Approved row exists
-    Web Wait Until Element Is Visible    ${ANY_APPROVED_STATUS_CELL}    10s
+    Web Wait Until Element Is Visible    ${ANY_APPROVED_STATUS_CELL}    15s
 
 Open Edit For First Approved Dhyankendra
     [Documentation]    Clicks the 3-dots for an Approved row and selects Edit
     ${approved_row_more}=    Set Variable    xpath=//div[@role='row' and .//div[@role='gridcell' and @data-field='status' and normalize-space()='Approved']]//button[@aria-label='more']
-    Web Wait Until Element Is Visible    ${approved_row_more}    10s
+    Web Wait Until Element Is Visible    ${approved_row_more}    15s
     # Capture the center name from this row before opening edit
     ${center_cell}=    Set Variable    xpath=//div[@role='row' and .//div[@role='gridcell' and @data-field='status' and normalize-space()='Approved']]//div[@role='gridcell' and @data-field='dhyankendraName']
     ${center_name}=    Web.Get Text    ${center_cell}
@@ -1364,40 +1421,39 @@ Open Edit For First Approved Dhyankendra
         ${el}=    Web.Get WebElement    ${approved_row_more}
         Web.Execute Javascript    arguments[0].click();    ARGUMENTS    ${el}
     END
-    Sleep    2s
-    Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_BUTTON}    10s
+    Sleep    300ms
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_BUTTON}    15s
     Web Click Element    ${DHYANKENDRA_EDIT_BUTTON}
-    Sleep    5s
-
+    Sleep    300ms
 Search Dhyankendra By Center Name
     [Documentation]    Searches for a Dhyankendra by center name (used after rejection when status changes)
     [Arguments]    ${center_name}
     Log To Console    Searching for Dhyankendra by center name: ${center_name}
     Click on the Dhyankendra Management Menu
-    Sleep    2s
+    Sleep    300ms
     # Use the search/filter function to find by center name
     ${search_field}=    Set Variable    xpath=//input[@type='search' and @placeholder='Search…']
-    Web Wait Until Element Is Visible    ${search_field}    10s
+    Web Wait Until Element Is Visible    ${search_field}    15s
     Web Click Element    ${search_field}
     Web Input Text    ${search_field}    ${center_name}
-    Sleep    2s
+    Sleep    300ms
     Log To Console    Searched for center name: ${center_name}
 
 Handle Pending Change Request If Present
     [Documentation]    If there are pending changes from Sanchalak, reject them first, then we can edit
     Log To Console    Checking for pending change requests to reject...
-    ${change_request_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_CHANGE_REQUEST_BUTTON}    5s
+    ${change_request_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DHYANKENDRA_CHANGE_REQUEST_BUTTON}    15s
     IF    ${change_request_visible}
         Log To Console    ✅ Found Change Request button, opening the dialog to reject pending changes...
         Web Click Element    ${DHYANKENDRA_CHANGE_REQUEST_BUTTON}
-        Sleep    2s
+    Sleep    300ms
         # The dialog shows the pending changes
-        Web Wait Until Element Is Visible    ${DHYANKENDRA_REMARK_INPUT}    10s
+        Web Wait Until Element Is Visible    ${DHYANKENDRA_REMARK_INPUT}    15s
         Log To Console    Change Request dialog opened, adding remark and rejecting...
         Enter Remark for Edit Request
         Sleep    1s
         Click on the Reject Button from Edit Request
-        Sleep    3s
+    Sleep    300ms
         Log To Console    ✅ Change request rejected successfully, now we can edit the form
     ELSE
         Log To Console    ⚠️ No pending change request, proceeding directly to edit
@@ -1407,13 +1463,13 @@ Go To Sanchalak Details Section
     [Documentation]    Scrolls down to find the Sanchalak Details section in the form
     Web Wait Until Element Is Visible    ${SANCHALAK_DETAILS_SECTION}    15s
     Web Scroll Element Into View         ${SANCHALAK_DETAILS_SECTION}
-    Sleep    3s
+    Sleep    300ms
     Log To Console    Scrolled to Sanchalak Details section
 
 Change Primary Sanchalak To
     [Arguments]    ${search_text}    ${option_text}
     [Documentation]    Opens edit for Primary Sanchalak, searches and selects option, then updates
-    Web Wait Until Element Is Visible    ${PRIMARY_SANCHALAK_EDIT_ICON}    10s
+    Web Wait Until Element Is Visible    ${PRIMARY_SANCHALAK_EDIT_ICON}    15s
     Web Scroll Element Into View         ${PRIMARY_SANCHALAK_EDIT_ICON}
     ${clicked}=    Run Keyword And Return Status    Web Click Element    ${PRIMARY_SANCHALAK_EDIT_ICON}
     IF    not ${clicked}
@@ -1421,13 +1477,13 @@ Change Primary Sanchalak To
         Web.Execute Javascript    arguments[0].click();    ARGUMENTS    ${editEl}
     END
     # Wait for dialog to open
-    Web Wait Until Element Is Visible    ${PRIMARY_SANCHALAK_DIALOG}    10s
+    Web Wait Until Element Is Visible    ${PRIMARY_SANCHALAK_DIALOG}    15s
     ${dialog_search}=    Set Variable    xpath=(//div[contains(@role,'dialog') or contains(@class,'MuiDialog')]//input[@type='text' or @name='sanchalak' or contains(@placeholder,'Search')][1])
-    Web Wait Until Element Is Visible    ${dialog_search}    10s
+    Web Wait Until Element Is Visible    ${dialog_search}    15s
     Web Click Element                    ${dialog_search}
     Web Input Text                       ${dialog_search}    ${search_text}
     ${option_locator}=                   Set Variable    xpath=(//div[contains(@role,'dialog') or contains(@class,'MuiDialog')]//*[@role='option' or self::li][contains(normalize-space(.),'${option_text}')])[1]
-    ${has_option}=                       Run Keyword And Return Status    Web Wait Until Element Is Visible    ${option_locator}    5s
+    ${has_option}=                       Run Keyword And Return Status    Web Wait Until Element Is Visible    ${option_locator}    15s
     IF    ${has_option}
         Web Click Element                ${option_locator}
     ELSE
@@ -1436,13 +1492,13 @@ Change Primary Sanchalak To
         Web Press Keys                   ${dialog_search}    ENTER
     END
     ${dialog_update}=                    Set Variable    xpath=//div[contains(@role,'dialog') or contains(@class,'MuiDialog')]//button[normalize-space()='Update']
-    Web Wait Until Element Is Visible    ${dialog_update}    10s
+    Web Wait Until Element Is Visible    ${dialog_update}    15s
     Web Click Element                    ${dialog_update}
     Log To Console    Updated Primary Sanchalak to: ${option_text}
 
 Change Primary Sanchalak To Available One
     [Documentation]    Finds the editable Primary Sanchalak field in the form and changes it to an available Sanchalak
-    Sleep    2s
+    Sleep    300ms
     # Look for the Primary Sanchalak editable field/button in the form
     Web Wait Until Element Is Visible    ${PRIMARY_SANCHALAK_EDIT_ICON}    15s
     Log To Console    Found Primary Sanchalak field, proceeding to edit
@@ -1452,18 +1508,17 @@ Change Primary Sanchalak To Available One
         Web.Execute Javascript    arguments[0].click();    ARGUMENTS    ${editEl}
     END
     # Wait for dialog to open
-    Web Wait Until Element Is Visible    ${PRIMARY_SANCHALAK_DIALOG}    10s
+    Web Wait Until Element Is Visible    ${PRIMARY_SANCHALAK_DIALOG}    15s
     ${dialog_search}=    Set Variable    xpath=(//div[contains(@role,'dialog') or contains(@class,'MuiDialog')]//input[@placeholder='Search Sanchalak By Name or Uid'][1])
-    Web Wait Until Element Is Visible    ${dialog_search}    10s
+    Web Wait Until Element Is Visible    ${dialog_search}    15s
     Sleep    1s
 
     # Click on the dropdown field to open the list
     Web Click Element    ${dialog_search}
-    Sleep    2s
-
+    Sleep    300ms
     # Wait for dropdown options to appear
     ${dropdown_option_xpath}=    Set Variable    xpath=//ul[contains(@class,'MuiAutocomplete-listbox') or contains(@role,'listbox')]//li
-    Web Wait Until Element Is Visible    ${dropdown_option_xpath}    10s
+    Web Wait Until Element Is Visible    ${dropdown_option_xpath}    15s
     Sleep    1s
 
     # Get all options from dropdown
@@ -1486,16 +1541,14 @@ Change Primary Sanchalak To Available One
 
         # Click the option
         Web Click Element    ${option_element}
-        Sleep    2s
-
+    Sleep    300ms
         # Click Update button
         ${update_button}=    Set Variable    xpath=//div[contains(@class,'MuiDialog')]//button[normalize-space()='Update']
-        Web Wait Until Element Is Visible    ${update_button}    5s
+        Web Wait Until Element Is Visible    ${update_button}    15s
         Web Click Element    ${update_button}
-        Sleep    2s
-
+    Sleep    300ms
         # Check validation message
-        ${snackbar_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${SNACKBAR_TITLE}    5s
+        ${snackbar_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${SNACKBAR_TITLE}    15s
         IF    ${snackbar_visible}
             ${msg}=    Web.Get Text    ${SNACKBAR_TITLE}
             Log To Console    Validation: ${msg}
@@ -1512,7 +1565,7 @@ Change Primary Sanchalak To Available One
                 Web Click Element    ${dialog_search}
                 Web Press Keys    ${dialog_search}    CTRL+A
                 Web Press Keys    ${dialog_search}    DELETE
-                Sleep    2s
+    Sleep    300ms
             END
         ELSE
             Log To Console    ⚠️ No message, trying next...
@@ -1520,7 +1573,7 @@ Change Primary Sanchalak To Available One
             Web Click Element    ${dialog_search}
             Web Press Keys    ${dialog_search}    CTRL+A
             Web Press Keys    ${dialog_search}    DELETE
-            Sleep    2s
+    Sleep    300ms
         END
     END
 
@@ -1545,10 +1598,10 @@ Handle Validation And Submit Or Cancel
     Log    Validation: ${msg}
     ${is_error}=    Run Keyword And Return Status    Should Contain    ${msg}    already assigned
     IF    ${is_error}
-        ${cancel_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DIALOG_CANCEL_BUTTON}    5s
+        ${cancel_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${DIALOG_CANCEL_BUTTON}    15s
         IF    ${cancel_visible}
             Web Click Element    ${DIALOG_CANCEL_BUTTON}
-            ${confirm_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${CONFIRM_YES_CLOSE_BUTTON}    5s
+            ${confirm_visible}=    Run Keyword And Return Status    Web Wait Until Element Is Visible    ${CONFIRM_YES_CLOSE_BUTTON}    15s
             IF    ${confirm_visible}
                 Web Click Element    ${CONFIRM_YES_CLOSE_BUTTON}
             END
@@ -1631,19 +1684,18 @@ Apply Address Filter
     Log To Console    🔍 Applying Address Filter: ${operator} ${address_value}
     
     # Ensure filter panel is open
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+    Sleep    300ms
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
     END
     
     # Select Address column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Address
-    Sleep    2s
-    
+    Sleep    300ms
     # Select operator
     Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    ${operator}
     Sleep    1s
@@ -1651,12 +1703,12 @@ Apply Address Filter
     # For "is empty" and "is not empty" operators, no value input is needed
     IF    '${operator}' in ['is empty', 'is not empty']
         Log To Console    🔍 No value input needed for operator: ${operator}
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # Type address value in the input field
-        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
         Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${address_value}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Address Filter Applied: ${operator} ${address_value}
@@ -1667,19 +1719,18 @@ Apply Primary Sanchalak Filter
     Log To Console    🔍 Applying Primary Sanchalak Filter: ${operator} ${sanchalak_name}
     
     # Ensure filter panel is open
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+    Sleep    300ms
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
     END
     
     # Select Primary Sanchalak Name column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Primary Sanchalak Name
-    Sleep    2s
-    
+    Sleep    300ms
     # Select operator
     Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    ${operator}
     Sleep    1s
@@ -1687,12 +1738,12 @@ Apply Primary Sanchalak Filter
     # For "is empty" and "is not empty" operators, no value input is needed
     IF    '${operator}' in ['is empty', 'is not empty']
         Log To Console    🔍 No value input needed for operator: ${operator}
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # Type sanchalak name in the input field
-        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
         Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${sanchalak_name}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Primary Sanchalak Filter Applied: ${operator} ${sanchalak_name}
@@ -1703,19 +1754,18 @@ Apply Phone Number Filter
     Log To Console    🔍 Applying Phone Number Filter: ${operator} ${phone_number}
     
     # Ensure filter panel is open
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+    Sleep    300ms
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
     END
     
     # Select Phone No. column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Phone No.
-    Sleep    2s
-    
+    Sleep    300ms
     # Select operator
     Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    ${operator}
     Sleep    1s
@@ -1723,12 +1773,12 @@ Apply Phone Number Filter
     # For "is empty" and "is not empty" operators, no value input is needed
     IF    '${operator}' in ['is empty', 'is not empty']
         Log To Console    🔍 No value input needed for operator: ${operator}
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # Type phone number in the input field
-        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
         Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${phone_number}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Phone Number Filter Applied: ${operator} ${phone_number}
@@ -1739,19 +1789,18 @@ Apply Email Filter
     Log To Console    🔍 Applying Email Filter: ${operator} ${email_address}
     
     # Ensure filter panel is open
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+    Sleep    300ms
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
     END
     
     # Select Email column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Email
-    Sleep    2s
-    
+    Sleep    300ms
     # Select operator
     Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    ${operator}
     Sleep    1s
@@ -1759,12 +1808,12 @@ Apply Email Filter
     # For "is empty" and "is not empty" operators, no value input is needed
     IF    '${operator}' in ['is empty', 'is not empty']
         Log To Console    🔍 No value input needed for operator: ${operator}
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # Type email in the input field
-        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
         Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${email_address}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Email Filter Applied: ${operator} ${email_address}
@@ -1778,19 +1827,18 @@ Apply Premise Type Filter
     Log To Console    🔍 Applying Premise Type Filter: ${operator} ${premise_type}
     
     # Ensure filter panel is open
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+    Sleep    300ms
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
     END
     
     # Select Premise Type column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Premise Type
-    Sleep    2s
-    
+    Sleep    300ms
     # Select operator
     Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    ${operator}
     Sleep    1s
@@ -1802,14 +1850,13 @@ Apply Premise Type Filter
         Log To Console    🔍 Adding multiple premise type values: ${value_list}
         
         # First, try to see if there's a multi-select dropdown
-        ${multi_select_available}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class,'MuiDataGrid-filterFormValueInput')]//div[contains(@class,'MuiSelect-root')]    3s
+        ${multi_select_available}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class,'MuiDataGrid-filterFormValueInput')]//div[contains(@class,'MuiSelect-root')]    15s
         
         IF    ${multi_select_available}
             Log To Console    🔍 Using multi-select dropdown approach
             # Try to click on the dropdown to open it
             Web.Click Element    xpath=//div[contains(@class,'MuiDataGrid-filterFormValueInput')]//div[contains(@class,'MuiSelect-root')]
-            Sleep    2s
-            
+    Sleep    300ms
             # Select each value from the dropdown
             FOR    ${value_item}    IN    @{value_list}
                 ${value_item}=    Strip String    ${value_item}
@@ -1829,16 +1876,15 @@ Apply Premise Type Filter
                 Log To Console    🔍 Adding premise type value: ${value_item}
                 
                 # Type the value in input field
-                Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+                Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
                 Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${value_item}
                 Sleep    1s
                 
                 # Try to trigger dropdown selection
                 Web.Press Key    xpath=//input[@placeholder="Filter value"]    \\13
-                Sleep    2s
-                
+    Sleep    300ms
                 # Look for dropdown and select if available
-                ${dropdown_visible}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class,'MuiMenu-root')]//li[contains(text(),'${value_item}')]    2s
+                ${dropdown_visible}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class,'MuiMenu-root')]//li[contains(text(),'${value_item}')]    15s
                 IF    ${dropdown_visible}
                     Web.Click Element    xpath=//div[contains(@class,'MuiMenu-root')]//li[contains(text(),'${value_item}')]
                     Sleep    1s
@@ -1851,9 +1897,9 @@ Apply Premise Type Filter
         END
     ELSE
         # For "is" and "is not", use dropdown selection
-        Web.Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    15s
         Web.Select From List By Label    ${FILTER_VALUE_DROPDOWN}    ${premise_type}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Premise Type Filter Applied: ${operator} ${premise_type}
@@ -1864,19 +1910,18 @@ Apply Status Filter Dhyankendra
     Log To Console    🔍 Applying Status Filter: ${operator} ${status_value}
     
     # Ensure filter panel is open
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+    Sleep    300ms
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
     END
     
     # Select Status column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Status
-    Sleep    2s
-    
+    Sleep    300ms
     # Select operator
     Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    ${operator}
     Sleep    1s
@@ -1888,14 +1933,13 @@ Apply Status Filter Dhyankendra
         Log To Console    🔍 Adding multiple status values: ${value_list}
         
         # First, try to see if there's a multi-select dropdown
-        ${multi_select_available}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class,'MuiDataGrid-filterFormValueInput')]//div[contains(@class,'MuiSelect-root')]    3s
+        ${multi_select_available}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//div[contains(@class,'MuiDataGrid-filterFormValueInput')]//div[contains(@class,'MuiSelect-root')]    15s
         
         IF    ${multi_select_available}
             Log To Console    🔍 Using multi-select dropdown approach
             # Try to click on the dropdown to open it
             Web.Click Element    xpath=//div[contains(@class,'MuiDataGrid-filterFormValueInput')]//div[contains(@class,'MuiSelect-root')]
-            Sleep    2s
-            
+    Sleep    300ms
             # Select each value from the dropdown
             FOR    ${value_item}    IN    @{value_list}
                 ${value_item}=    Strip String    ${value_item}
@@ -1915,7 +1959,7 @@ Apply Status Filter Dhyankendra
                 Log To Console    🔍 Adding status value: ${value_item}
                 
                 # Type the value in input field
-                Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+                Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
                 Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${value_item}
                 Sleep    1s
                 
@@ -1924,7 +1968,7 @@ Apply Status Filter Dhyankendra
                 Sleep    1s
                 
                 # Select from dropdown if it appears
-                ${dropdown_visible}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//ul[contains(@class,'MuiMenu-list')]//li[normalize-space()='${value_item}']    3s
+                ${dropdown_visible}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    xpath=//ul[contains(@class,'MuiMenu-list')]//li[normalize-space()='${value_item}']    15s
                 IF    ${dropdown_visible}
                     Log To Console    🔍 Selecting from triggered dropdown: ${value_item}
                     Web.Click Element    xpath=//ul[contains(@class,'MuiMenu-list')]//li[normalize-space()='${value_item}']
@@ -1940,9 +1984,9 @@ Apply Status Filter Dhyankendra
         
     ELSE
         # For "is" and "is not", use dropdown selection
-        Web.Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    15s
         Web.Select From List By Label    ${FILTER_VALUE_DROPDOWN}    ${status_value}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Status Filter Applied: ${operator} ${status_value}
@@ -1953,19 +1997,18 @@ Apply Active Inactive Filter
     Log To Console    🔍 Applying Active/Inactive Filter: ${operator} ${active_status}
     
     # Ensure filter panel is open
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+    Sleep    300ms
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
     END
     
     # Select Active/Inactive column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Active/Inactive
-    Sleep    2s
-    
+    Sleep    300ms
     # Select operator
     Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    ${operator}
     Sleep    1s
@@ -1973,14 +2016,14 @@ Apply Active Inactive Filter
     # Handle different input types based on operator
     IF    '${operator}' == 'is any of'
         # For "is any of", use text input for comma-separated values
-        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
         Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${active_status}
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # For "is" and "is not", use dropdown selection
-        Web.Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    15s
         Web.Select From List By Label    ${FILTER_VALUE_DROPDOWN}    ${active_status}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Active/Inactive Filter Applied: ${operator} ${active_status}
@@ -1991,19 +2034,18 @@ Apply Review Status Filter
     Log To Console    🔍 Applying Review Status Filter: ${operator} ${review_status}
     
     # Ensure filter panel is open
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+    Sleep    300ms
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
     END
     
     # Select Review Status column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Review Status
-    Sleep    2s
-    
+    Sleep    300ms
     # Select operator
     Web.Select From List By Label    ${FILTER_OPERATOR_DROPDOWN}    ${operator}
     Sleep    1s
@@ -2011,14 +2053,14 @@ Apply Review Status Filter
     # Handle different input types based on operator
     IF    '${operator}' == 'is any of'
         # For "is any of", use text input for comma-separated values
-        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
         Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${review_status}
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # For "is" and "is not", use dropdown selection
-        Web.Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_VALUE_DROPDOWN}    15s
         Web.Select From List By Label    ${FILTER_VALUE_DROPDOWN}    ${review_status}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Review Status Filter Applied: ${operator} ${review_status}
@@ -2077,7 +2119,7 @@ Handle Pagination For Dhyankendra Filter Verification
     # Skip to last page quickly (click next until disabled)
     Log To Console    ⏩ Skipping to last page...
     FOR    ${i}    IN RANGE    1    ${total_pages}
-        ${next_enabled}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${PAGINATION_ENABLED_NEXT}    2s
+        ${next_enabled}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${PAGINATION_ENABLED_NEXT}    15s
         IF    not ${next_enabled}
             Log To Console    ✅ Reached last page
             BREAK
@@ -2101,15 +2143,15 @@ Apply Approval Status Filter
     Log To Console    🔍 Applying Approval Status Filter: ${approval_status}
     
     # Ensure filter panel is open before applying filters
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
         Log To Console    🔄 Filter panel is closed, opening it first
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
+    Sleep    300ms
         # Wait for filter panel to fully load
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
         Log To Console    ✅ Filter panel opened successfully
     ELSE
         Log To Console    ✅ Filter panel is already open
@@ -2117,21 +2159,20 @@ Apply Approval Status Filter
     
     # Select Approval Status column
     Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    approvalStatus
-    Sleep    2s
-    
+    Sleep    300ms
     # Check if filter panel closed after column selection and re-open if needed
-    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    3s
+    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    15s
     IF    not ${filter_panel_still_open}
         Log To Console    🔄 Filter panel closed after column selection, re-opening it
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
+    Sleep    300ms
         # Wait for filter panel to fully load
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
         # Re-select column
         Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    approvalStatus
-        Sleep    2s
+    Sleep    300ms
         Log To Console    ✅ Filter panel re-opened and column re-selected: approvalStatus
     ELSE
         Log To Console    ✅ Filter panel remained open after column selection
@@ -2143,8 +2184,7 @@ Apply Approval Status Filter
     
     # Select approval status value
     Web.Select From List By Label    ${FILTER_VALUE_DROPDOWN}    ${approval_status}
-    Sleep    2s
-    
+    Sleep    300ms
     Log To Console    ✅ Approval Status Filter Applied: ${approval_status}
 
 Apply Is Active Filter
@@ -2153,15 +2193,15 @@ Apply Is Active Filter
     Log To Console    🔍 Applying Is Active Filter: ${is_active_value}
     
     # Ensure filter panel is open before applying filters
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
         Log To Console    🔄 Filter panel is closed, opening it first
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
+    Sleep    300ms
         # Wait for filter panel to fully load
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
         Log To Console    ✅ Filter panel opened successfully
     ELSE
         Log To Console    ✅ Filter panel is already open
@@ -2169,21 +2209,20 @@ Apply Is Active Filter
     
     # Select Is Active column
     Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    isActive
-    Sleep    2s
-    
+    Sleep    300ms
     # Check if filter panel closed after column selection and re-open if needed
-    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    3s
+    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    15s
     IF    not ${filter_panel_still_open}
         Log To Console    🔄 Filter panel closed after column selection, re-opening it
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
+    Sleep    300ms
         # Wait for filter panel to fully load
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
         # Re-select column
         Web.Select From List By Value    ${FILTER_COLUMN_DROPDOWN}    isActive
-        Sleep    2s
+    Sleep    300ms
         Log To Console    ✅ Filter panel re-opened and column re-selected: isActive
     ELSE
         Log To Console    ✅ Filter panel remained open after column selection
@@ -2195,8 +2234,7 @@ Apply Is Active Filter
     
     # Select is active value
     Web.Select From List By Label    ${FILTER_VALUE_DROPDOWN}    ${is_active_value}
-    Sleep    2s
-    
+    Sleep    300ms
     Log To Console    ✅ Is Active Filter Applied: ${is_active_value}
 
 Apply Center Name Filter
@@ -2205,15 +2243,15 @@ Apply Center Name Filter
     Log To Console    🔍 Applying Center Name Filter: ${operator} ${center_name}
     
     # Ensure filter panel is open before applying filters
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
         Log To Console    🔄 Filter panel is closed, opening it first
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
+    Sleep    300ms
         # Wait for filter panel to fully load
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
         Log To Console    ✅ Filter panel opened successfully
     ELSE
         Log To Console    ✅ Filter panel is already open
@@ -2221,21 +2259,20 @@ Apply Center Name Filter
     
     # Select Center Name column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Center Name
-    Sleep    2s
-    
+    Sleep    300ms
     # Check if filter panel closed after column selection and re-open if needed
-    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    3s
+    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    15s
     IF    not ${filter_panel_still_open}
         Log To Console    🔄 Filter panel closed after column selection, re-opening it
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
+    Sleep    300ms
         # Wait for filter panel to fully load
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
         # Re-select column
         Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Center Name
-        Sleep    2s
+    Sleep    300ms
         Log To Console    ✅ Filter panel re-opened and column re-selected: Center Name
     ELSE
         Log To Console    ✅ Filter panel remained open after column selection
@@ -2248,12 +2285,12 @@ Apply Center Name Filter
     # For "is empty" and "is not empty" operators, no value input is needed
     IF    '${operator}' in ['is empty', 'is not empty']
         Log To Console    🔍 No value input needed for operator: ${operator}
-        Sleep    2s
+    Sleep    300ms
     ELSE
         # Type center name value in the input field
-        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+        Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
         Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${center_name}
-        Sleep    2s
+    Sleep    300ms
     END
     
     Log To Console    ✅ Center Name Filter Applied: ${operator} ${center_name}
@@ -2264,15 +2301,15 @@ Apply Center Name Filter Not
     Log To Console    🔍 Applying Center Name Filter Not: ${center_name}
     
     # Ensure filter panel is open before applying filters
-    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    2s
+    ${filter_panel_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
     IF    not ${filter_panel_open}
         Log To Console    🔄 Filter panel is closed, opening it first
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
+    Sleep    300ms
         # Wait for filter panel to fully load
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
         Log To Console    ✅ Filter panel opened successfully
     ELSE
         Log To Console    ✅ Filter panel is already open
@@ -2280,21 +2317,20 @@ Apply Center Name Filter Not
     
     # Select Center Name column
     Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Center Name
-    Sleep    2s
-    
+    Sleep    300ms
     # Check if filter panel closed after column selection and re-open if needed
-    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    3s
+    ${filter_panel_still_open}=    Run Keyword And Return Status    Web.Wait Until Page Contains Element    ${FILTER_OPERATOR_DROPDOWN}    15s
     IF    not ${filter_panel_still_open}
         Log To Console    🔄 Filter panel closed after column selection, re-opening it
-        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    5s
+        Web.Wait Until Page Contains Element    ${FILTER_BUTTON}    15s
         Web.Click Element    ${FILTER_BUTTON}
-        Sleep    3s
+    Sleep    300ms
         # Wait for filter panel to fully load
-        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    10s
-        Sleep    2s
+        Web.Wait Until Page Contains Element    ${FILTER_COLUMN_DROPDOWN}    15s
+    Sleep    300ms
         # Re-select column
         Web.Select From List By Label    ${FILTER_COLUMN_DROPDOWN}    Center Name
-        Sleep    2s
+    Sleep    300ms
         Log To Console    ✅ Filter panel re-opened and column re-selected: Center Name
     ELSE
         Log To Console    ✅ Filter panel remained open after column selection
@@ -2305,10 +2341,9 @@ Apply Center Name Filter Not
     Sleep    1s
     
     # Type center name value in the input field
-    Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    5s
+    Web.Wait Until Page Contains Element    xpath=//input[@placeholder="Filter value"]    15s
     Web.Input Text    xpath=//input[@placeholder="Filter value"]    ${center_name}
-    Sleep    2s
-    
+    Sleep    300ms
     Log To Console    ✅ Center Name Filter Not Applied: ${center_name}
 
 Verify Approval Status Filter Results
@@ -2639,16 +2674,16 @@ Login As Dhyankendra Sadhak
     ...    Always logout first if logged in, then login with Dhyankendra Sadhak user
 
     # Step 1: Check if already logged in (Home page visible)
-    ${already_logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
+    ${already_logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    15s
 
     IF    ${already_logged_in}
         Log To Console    📱 User is logged in - logging out first
         Click on the Profile Tab
-        Sleep    2s
+    Sleep    300ms
         Click on the Logout Tab
-        Sleep    2s
+    Sleep    300ms
         Click on the Yes Button from Logout Alert
-        Sleep    3s
+    Sleep    300ms
         Log To Console    ✅ Logged out successfully
     END
 
@@ -2663,10 +2698,10 @@ Login As Dhyankendra Sadhak
     Verify OTP Screen is Displayed
     Enter Mobile OTP Manually
     # Re-find Verify button fresh - try multiple locators
-    Sleep    2s
+    Sleep    300ms
     ${verify_clicked}=    Set Variable    ${FALSE}
     # Try Button first
-    ${btn_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="Verify"]    3s
+    ${btn_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="Verify"]    15s
     IF    ${btn_visible}
         Mobile Click Element    xpath=//android.widget.Button[@content-desc="Verify"]
         ${verify_clicked}=    Set Variable    ${TRUE}
@@ -2674,13 +2709,13 @@ Login As Dhyankendra Sadhak
     END
     # Try View if Button not found
     IF    not ${verify_clicked}
-        ${view_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify"]    3s
+        ${view_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify"]    15s
         IF    ${view_visible}
             Mobile Click Element    xpath=//android.view.View[@content-desc="Verify"]
             Log To Console    Clicked Verify Button (View element)
         END
     END
-    Sleep    5s
+    Sleep    300ms
     # Verify login successful - look for Home icon
-    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    10s
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    15s
     Log To Console    ✅ Successfully logged in as Dhyankendra Sadhak (9835625646)

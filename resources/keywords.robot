@@ -1,6 +1,7 @@
 *** Settings ***
 Resource   libraries.robot
 Resource   variables.robot
+Resource   ../pages/ProfilePage.robot
 
 *** Variables ***
 ${SKIP_INTRO_GUIDE}               xpath=//android.widget.Button[@content-desc="Skip"]
@@ -89,12 +90,10 @@ Ensure Device Ready
     Log To Console    ===== Device Ready Check Completed =====
 
 Open Gurutattva App
-    [Documentation]    Opens Gurutattva app with proper session creation and retry logic
-    ...    If app is in background or on device home screen, it will activate the app
-
+    [Documentation]    Opens Gurutattva app with proper session creation
     Log To Console    ===== Opening Gurutattva App =====
 
-    # Open application with minimal capabilities for testing
+    # Open application with capabilities
     Mobile Open Application    ${REMOTE_URL}
     ...    platformName=${PLATFORM_NAME}
     ...    deviceName=${DEVICE_NAME}
@@ -108,7 +107,7 @@ Open Gurutattva App
     ...    skipServerInstallation=false
     ...    skipDeviceInitialization=false
     ...    disableWindowAnimation=true
-    ...    systemPort=8204
+    ...    systemPort=8210
     ...    uiautomator2ServerReadTimeout=120000
     ...    uiautomator2ServerLaunchTimeout=120000
     ...    uiautomator2ServerInstallTimeout=120000
@@ -118,31 +117,8 @@ Open Gurutattva App
     ...    skipLogcatCapture=true
 
     # Give app time to fully launch
-    Sleep    5s
-
-    # Check if app is actually in foreground, if not activate it
-    ${app_state}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//*[@resource-id="${APP_PACKAGE}:id/*"]    3s
-    IF    not ${app_state}
-        Log To Console    ⚠️ App not in foreground - activating app...
-        Mobile.Activate Application    ${APP_PACKAGE}
-        Sleep    3s
-        Log To Console    ✅ App activated from background/home screen
-    END
-
-    # Check if user is logged in (Home page visible) and logout if needed
-    ${user_logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    3s
-    IF    ${user_logged_in}
-        Log To Console    ⚠️ User is logged in - logging out to start fresh...
-        Click on the Profile Tab
-        Sleep    2s
-        Click on the Logout Tab
-        Sleep    2s
-        Click on the Yes Button from Logout Alert
-        Sleep    3s
-        Log To Console    ✅ User logged out - ready for test
-    ELSE
-        Log To Console    ✅ No user logged in - ready for test
-    END
+    Sleep    8s
+    Log To Console    📱 App launched - ready for Handle First Time Setup
 
     Log To Console    ===== Gurutattva App Opened Successfully =====
 
