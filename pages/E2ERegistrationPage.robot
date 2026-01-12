@@ -1176,7 +1176,7 @@ TC10 Login As Quick Registration User
     Mobile Input Text    ${LOGIN_EMAIL}    7600699169
     Click on the Login Button
     Verify OTP Screen is Displayed
-    Enter Mobile OTP Manually
+    Enter OTP Automatically    999999
     Sleep    300ms
     Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify"]    15s
     Mobile Click Element    xpath=//android.view.View[@content-desc="Verify"]
@@ -1354,7 +1354,7 @@ TC14 Login As Community Member
     Mobile Input Text    ${LOGIN_EMAIL}    ${tc11_phone}
     Click on the Login Button
     Verify OTP Screen is Displayed
-    Enter Mobile OTP Manually
+    Enter OTP Automatically    999999
     Sleep    300ms
     Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="Verify"]    15s
     Mobile Click Element    xpath=//android.view.View[@content-desc="Verify"]

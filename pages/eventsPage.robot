@@ -181,7 +181,7 @@ Remove Bookmark icon from events list screen
     Enter the validate and exist mobile number
     Click on the Login Button
     Verify OTP Screen is Displayed
-    Enter Mobile OTP Manually
+    Enter OTP Automatically    999999
     Click on the Verify Button
 
 Login As Community Member
@@ -218,7 +218,7 @@ Login As Non Community Member
     Enter the Mobile Number of Quick Registration
     Click on the Login Button
     Verify OTP Screen is Displayed
-    Enter Mobile OTP Manually
+    Enter OTP Automatically    999999
     # Re-find Verify button fresh - try multiple locators
     Sleep    2s
     ${verify_clicked}=    Set Variable    ${FALSE}

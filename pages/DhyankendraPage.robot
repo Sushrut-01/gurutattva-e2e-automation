@@ -2696,7 +2696,7 @@ Login As Dhyankendra Sadhak
     Mobile Input Text    ${LOGIN_EMAIL}    9835625646
     Click on the Login Button
     Verify OTP Screen is Displayed
-    Enter Mobile OTP Manually
+    Enter OTP Automatically    999999
     # Re-find Verify button fresh - try multiple locators
     Sleep    300ms
     ${verify_clicked}=    Set Variable    ${FALSE}

@@ -110,7 +110,7 @@ Login As Namkaran User
     Mobile Input Text    ${LOGIN_EMAIL}    9999999999
     Click on the Login Button
     Verify OTP Screen is Displayed
-    Enter Mobile OTP Manually
+    Enter OTP Automatically    999999
 
     # Click Verify button
     Sleep    2s

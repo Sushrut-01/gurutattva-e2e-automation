@@ -48,7 +48,7 @@ Verify that quick registration on the mobile app reflects correctly in the CMS a
     Select Area/Village for Register Screen
     Click on the Quick Registration Button
     Verify OTP Screen is Displayed
-    Enter Mobile OTP Manually
+    Enter OTP Automatically    999999
     Click on the Verify Button
     Verify Home Screen is Displayed
     Click on the Profile Tab
@@ -204,7 +204,7 @@ Verify that Community registration on the mobile app reflects correctly in the C
     Fill the Personal and Address Information for Community Registration
     Fill the Personal,Select Unmarried and Education Information
     Verify OTP Screen is Displayed
-    Enter Mobile OTP Manually
+    Enter OTP Automatically    999999
     Click on the Verify Button
     Verify Home Screen is Displayed
     Click on the Profile Tab
