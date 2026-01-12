@@ -562,11 +562,40 @@ Enter OTP Automatically
         RETURN
     END
 
-    # Strategy 2: Flutter OTP - tap first box at known coordinates then input text via ADB
-    # Based on Appium Inspector bounds [56,982][1024,1117], first box center is ~(100, 1050)
-    Log To Console    Flutter OTP: Tapping first box at (100, 1050)...
-    Run Process    adb    shell    input    tap    100    1050
-    Sleep    2s
+    # Strategy 2: Flutter OTP - Get actual coordinates dynamically
+    Log To Console    Flutter OTP: Finding OTP box element...
+    ${dash_box}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    3s
+
+    IF    ${dash_box}
+        # Get real coordinates from the actual element
+        TRY
+            ${location}=    Mobile Get Element Location    xpath=(//android.view.View[@content-desc="-"])[1]
+            ${size}=    Mobile Get Element Size    xpath=(//android.view.View[@content-desc="-"])[1]
+            ${tap_x}=    Evaluate    int(${location['x']} + ${size['width']}/2)
+            ${tap_y}=    Evaluate    int(${location['y']} + ${size['height']}/2)
+            Log To Console    📍 OTP box found at (${location['x']}, ${location['y']}), size: ${size['width']}x${size['height']}
+            Log To Console    📍 Tapping center at: (${tap_x}, ${tap_y})
+            Run Process    adb    shell    input    tap    ${tap_x}    ${tap_y}
+            Sleep    2s
+        EXCEPT
+            Log To Console    ⚠️ Could not get coordinates, using fallback (100, 1050)
+            Run Process    adb    shell    input    tap    100    1050
+            Sleep    2s
+        END
+    ELSE
+        # Fallback if dash box not found
+        Log To Console    ⚠️ Dash box not found, using fallback coordinates (100, 1050)
+        Run Process    adb    shell    input    tap    100    1050
+        Sleep    2s
+    END
+
+    # Check if keyboard opened (confirms tap worked)
+    ${keyboard_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.FrameLayout[contains(@resource-id,'inputmethod')]    2s
+    IF    ${keyboard_visible}
+        Log To Console    ✅ Keyboard opened - OTP box has focus!
+    ELSE
+        Log To Console    ⚠️ WARNING: Keyboard did NOT open - tap may have failed!
+    END
 
     # Use adb shell input text (more reliable than keyevent for Flutter)
     Log To Console    Entering OTP via ADB input text: ${otp}
