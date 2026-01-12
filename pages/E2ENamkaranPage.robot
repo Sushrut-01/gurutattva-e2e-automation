@@ -110,10 +110,22 @@ Login As Namkaran User
     Mobile Input Text    ${LOGIN_EMAIL}    9999999999
     Click on the Login Button
     Verify OTP Screen is Displayed
+
+    # Wait explicitly for OTP input fields to be ready before entering OTP
+    Sleep    3s
+    ${otp_ready}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    5s
+    IF    not ${otp_ready}
+        # If dash boxes not visible, try EditText field
+        Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[1]    5s
+        Log To Console    ✅ OTP EditText field is ready
+    ELSE
+        Log To Console    ✅ OTP dash boxes are ready
+    END
+
     Enter OTP Automatically    999999
 
     # Click Verify button
-    Sleep    2s
+    Sleep    3s
     ${verify_clicked}=    Set Variable    ${FALSE}
     ${btn_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.Button[@content-desc="Verify"]    5s
     IF    ${btn_visible}
