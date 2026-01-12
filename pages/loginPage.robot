@@ -546,50 +546,95 @@ Enter Mobile OTP Manually
 Enter OTP Automatically
     [Documentation]    Enters OTP automatically for Flutter app - tap OTP box then use ADB input text
     [Arguments]    ${otp}=999999
-    Log To Console    Attempting automatic OTP entry for: ${otp}
+    Log To Console    \n╔════════════════════════════════════════════════════╗
+    Log To Console    ║  Starting Automatic OTP Entry: ${otp}
+    Log To Console    ╚════════════════════════════════════════════════════╝
     Sleep    2s
 
     # Strategy 1: Try EditText field first (if available)
+    Log To Console    📱 Strategy 1: Checking for EditText field...
     ${edit_field}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.widget.EditText)[1]    3s
     IF    ${edit_field}
-        Log To Console    Found EditText field - entering OTP directly
+        Log To Console    ✅ Found EditText field - entering OTP directly
         Mobile Click Element    xpath=(//android.widget.EditText)[1]
         Sleep    1s
         Mobile Input Text    xpath=(//android.widget.EditText)[1]    ${otp}
         Run Keyword And Ignore Error    Mobile Hide Keyboard
-        Sleep    1s
-        Log To Console    ✅ OTP typed into EditText field: ${otp}
+        Sleep    2s
+        Log To Console    ✅ OTP entered successfully via EditText: ${otp}
         RETURN
     END
+    Log To Console    ⚠️ EditText field not found, trying Flutter method...
 
-    # Strategy 2: Flutter OTP - tap first box at known coordinates then input text via ADB
-    # Based on Appium Inspector bounds [56,982][1024,1117], first box center is ~(100, 1050)
-    Log To Console    Flutter OTP: Tapping first box at (100, 1050)...
-    Run Process    adb    shell    input    tap    100    1050
+    # Strategy 2: Flutter OTP with improved tap and focus
+    Log To Console    📱 Strategy 2: Using Flutter OTP entry method...
+
+    # Try to find OTP boxes/fields and get their coordinates
+    ${dash_boxes_found}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    3s
+
+    IF    ${dash_boxes_found}
+        Log To Console    ✅ Found OTP dash boxes
+        # Get location of first dash box
+        TRY
+            ${location}=    Mobile Get Element Location    xpath=(//android.view.View[@content-desc="-"])[1]
+            ${x}=    Set Variable    ${location}[x]
+            ${y}=    Set Variable    ${location}[y]
+            # Add offset to center of element
+            ${tap_x}=    Evaluate    ${x} + 50
+            ${tap_y}=    Evaluate    ${y} + 30
+            Log To Console    📍 Tapping OTP box at coordinates: (${tap_x}, ${tap_y})
+        EXCEPT
+            # Fallback to hardcoded coordinates
+            ${tap_x}=    Set Variable    100
+            ${tap_y}=    Set Variable    1050
+            Log To Console    ⚠️ Using fallback coordinates: (${tap_x}, ${tap_y})
+        END
+    ELSE
+        # Use default coordinates
+        ${tap_x}=    Set Variable    100
+        ${tap_y}=    Set Variable    1050
+        Log To Console    ⚠️ Dash boxes not found, using default coordinates: (${tap_x}, ${tap_y})
+    END
+
+    # Tap the OTP field to focus
+    Run Process    adb    shell    input    tap    ${tap_x}    ${tap_y}
+    Sleep    1s
+    Log To Console    ✅ Tapped OTP field
+
+    # Clear any existing input
+    Run Process    adb    shell    input    keyevent    KEYCODE_DEL
+    Run Process    adb    shell    input    keyevent    KEYCODE_DEL
+    Sleep    0.5s
+
+    # Enter OTP using keyevent method (most reliable for Flutter)
+    Log To Console    ⌨️ Entering OTP digits one by one...
+    @{digits}=    Split String To Characters    ${otp}
+    FOR    ${digit}    IN    @{digits}
+        ${keycode}=    Evaluate    int(${digit}) + 7
+        Run Process    adb    shell    input    keyevent    ${keycode}
+        Log To Console    ✓ Entered digit: ${digit}
+        Sleep    0.3s
+    END
     Sleep    2s
+    Log To Console    ✅ All OTP digits entered: ${otp}
 
-    # Use adb shell input text (more reliable than keyevent for Flutter)
-    Log To Console    Entering OTP via ADB input text: ${otp}
-    Run Process    adb    shell    input    text    ${otp}
-    Sleep    2s
-    Log To Console    ✅ OTP entered via ADB input text: ${otp}
-
-    # Verify OTP was entered - check if "-" boxes are gone
+    # Verify OTP was entered successfully
     ${still_empty}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    2s
     IF    ${still_empty}
-        Log To Console    ⚠️ OTP boxes still show "-" - trying keyevent method...
-        # Try keyevent as backup
-        Run Process    adb    shell    input    tap    100    1050
+        Log To Console    ⚠️ WARNING: OTP boxes still show dashes - OTP entry may have failed!
+        Log To Console    🔄 Retrying with ADB text input method...
+
+        # Retry: Tap and use text input
+        Run Process    adb    shell    input    tap    ${tap_x}    ${tap_y}
         Sleep    1s
-        @{digits}=    Split String To Characters    ${otp}
-        FOR    ${digit}    IN    @{digits}
-            ${keycode}=    Evaluate    int(${digit}) + 7
-            Run Process    adb    shell    input    keyevent    ${keycode}
-            Sleep    0.5s
-        END
+        Run Process    adb    shell    input    text    ${otp}
         Sleep    2s
-        Log To Console    ✅ OTP entered via keyevent backup
+        Log To Console    ✅ Retry complete with text input method
+    ELSE
+        Log To Console    ✅ OTP entry verified - dashes are gone!
     END
+
+    Log To Console    ╚════════════════════════════════════════════════════╝
     RETURN
 
     # Sleep    2s
