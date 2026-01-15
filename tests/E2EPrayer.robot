@@ -20,6 +20,7 @@ End-to-End Integration: Verify that user is able to add Prayer with Self Option 
     # --- Mobile App: Add Prayer with Self Option ---
     Open Gurutattva App
 	Handle First Time Setup
+    Sleep    3s
     Launch Mobile App And Login
 	Click on the Explore Tab
     Click on the Prayer Card
@@ -56,6 +57,7 @@ End-to-End Integration:Verify that user is able to add Prayer with Other Option 
     # --- Mobile App: Add Prayer with Other Option ---
     Open Gurutattva App
 	Handle First Time Setup
+    Sleep    3s
     Launch Mobile App And Login
 	Click on the Explore Tab
     Click on the Prayer Card
