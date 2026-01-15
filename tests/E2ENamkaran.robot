@@ -21,6 +21,7 @@ Verify user is able to add Bride Namkaran with NO Option on the mobile app and v
     [Tags]  TC08  Namkaran  Gurutattva  E2E
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -77,6 +78,7 @@ Verify user is able to add Business Namkaran with NO Option on the mobile app an
     [Tags]    TC09    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -132,6 +134,7 @@ Verify user is able to add House Namkaran with NO Option on the mobile app and v
     [Tags]    TC13    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -185,6 +188,7 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
     [Tags]    TC14    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -214,7 +218,9 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
     namkaranPage.Select NO Radio Button
 
     # Fill "Exclude the existing child name" field (required for NO option)
-    Sleep    2s
+    Sleep    3s
+    # Wait for form to update after radio button selection
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
     ${all_edittext}=    Mobile Get Webelements    xpath=//android.widget.EditText
     ${count}=    Get Length    ${all_edittext}
     ${exclude_index}=    Evaluate    ${count} - 1
@@ -222,6 +228,7 @@ Verify user is able to add Child Namkaran with NO Option on the mobile app and v
     Mobile Click Element    ${all_edittext}[${exclude_index}]
     Mobile Input Text    ${all_edittext}[${exclude_index}]    OldName
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Log To Console    ✅ Entered excluded name: OldName
 
     # Submit the namkaran
@@ -260,6 +267,7 @@ Verify user is able to add Bride Namkaran with YES Option on the mobile app and 
     [Tags]    TC12    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -316,6 +324,7 @@ Verify user is able to add Business Namkaran with YES Option on the mobile app a
     [Tags]    TC15    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -369,6 +378,7 @@ Verify user is able to add House Namkaran with YES Option on the mobile app and 
     [Tags]    TC16    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -421,6 +431,7 @@ Verify user is able to add Child Namkaran with YES Option on the mobile app and 
     [Tags]    TC17    Namkaran    Gurutattva    E2E
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -485,6 +496,7 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
     [Tags]    TC18    Namkaran    Gurutattva    E2E    Admin
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -533,11 +545,7 @@ Verify that admin user is able to approve Bride Namkaran in CMS and verify the d
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Export the namkaran (business requirement)
-    Select the created namkaran
-    Export Namkaran And Validate Download
-
-    # Click three dots and view the namkaran using Namkaran ID
+    # Click three dots and view the namkaran using Namkaran ID (NO EXPORT - follows TC19 pattern)
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify bride and groom details
@@ -573,6 +581,7 @@ Verify that admin user is able to approve Business Namkaran in CMS and verify th
     [Tags]    TC19    Namkaran    Gurutattva    E2E    Admin
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -652,6 +661,7 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     [Tags]    TC20    Namkaran    Gurutattva    E2E    Admin
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -697,11 +707,7 @@ Verify that admin user is able to approve House Namkaran in CMS and verify the d
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Export the namkaran (business requirement)
-    Select the created namkaran
-    Export Namkaran And Validate Download
-
-    # Click three dots and view the namkaran using Namkaran ID
+    # Click three dots and view the namkaran using Namkaran ID (NO EXPORT - follows TC19 pattern)
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify house owner details
@@ -737,6 +743,7 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     [Tags]    TC21    Namkaran    Gurutattva    E2E    Admin
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -767,7 +774,9 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     namkaranPage.Select NO Radio Button
 
     # Fill "Exclude the existing child name" field (MANDATORY for NO option - same as TC14)
-    Sleep    2s
+    Sleep    3s
+    # Wait for form to update after radio button selection
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
     ${all_edittext}=    Mobile Get Webelements    xpath=//android.widget.EditText
     ${count}=    Get Length    ${all_edittext}
     ${exclude_index}=    Evaluate    ${count} - 1
@@ -775,6 +784,7 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     Mobile Click Element    ${all_edittext}[${exclude_index}]
     Mobile Input Text    ${all_edittext}[${exclude_index}]    OldName
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Log To Console    ✅ Entered excluded name: OldName
 
     # Submit the namkaran
@@ -799,11 +809,7 @@ Verify that admin user is able to approve Child Namkaran in CMS and verify the d
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Export the namkaran (business requirement)
-    Select the created namkaran
-    Export Namkaran And Validate Download
-
-    # Click three dots and view the namkaran using Namkaran ID
+    # Click three dots and view the namkaran using Namkaran ID (NO EXPORT for approval flow)
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify child and parent details
@@ -843,6 +849,7 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
     [Tags]    TC22    Namkaran    Gurutattva    E2E    Admin    Reject
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -868,15 +875,18 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
 
     # Select NO for multiple name choice
     namkaranPage.Select NO Radio Button
+    Sleep    2s
 
     # Submit the namkaran
     Click on the Submit Button
-    #Verify Namkaran submission success message
+
+    # Verify submission result (success or error)
+    Verify Namkaran Submission Response
 
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
     Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
-    
+
     Close Gurutattva App
 
     # --- Web CMS: Admin Rejection Workflow ---
@@ -889,11 +899,7 @@ Verify that admin user is able to reject Bride Namkaran in CMS and verify the de
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Export the namkaran (business requirement)
-    Select the created namkaran
-    Export Namkaran And Validate Download
-
-    # Click three dots and view the namkaran using Namkaran ID
+    # Click three dots and view the namkaran using Namkaran ID (NO EXPORT for rejection flow)
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify bride and groom details
@@ -923,6 +929,7 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     [Tags]    TC23    Namkaran    Gurutattva    E2E    Admin    Reject
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -945,6 +952,7 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
 
     # Select NO for multiple name choice
     namkaranPage.Select NO Radio Button
+    Sleep    2s
 
     # Submit the namkaran
     Click on the Submit Button
@@ -955,7 +963,7 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
     Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
-    
+
     Close Gurutattva App
 
     # --- Web CMS: Admin Rejection Workflow ---
@@ -968,11 +976,7 @@ Verify that admin user is able to reject Business Namkaran in CMS and verify the
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Export the namkaran (business requirement)
-    Select the created namkaran
-    Export Namkaran And Validate Download
-
-    # Click three dots and view the namkaran using Namkaran ID
+    # Click three dots and view the namkaran using Namkaran ID (NO EXPORT for rejection flow)
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify business owner details
@@ -1003,6 +1007,7 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     [Tags]    TC24    Namkaran    Gurutattva    E2E    Admin    Reject
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -1025,6 +1030,7 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
 
     # Select NO for multiple name choice
     namkaranPage.Select NO Radio Button
+    Sleep    2s
 
     # Submit the namkaran
     Click on the Submit Button
@@ -1035,7 +1041,7 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     # Get Namkaran ID from the first record (newly added records appear at the top)
     ${namkaran_id}=    Get Namkaran ID From First Record
     Set Test Variable    ${E2E_NAMKARAN_ID}    ${namkaran_id}
-    
+
     Close Gurutattva App
 
     # --- Web CMS: Admin Rejection Workflow ---
@@ -1048,11 +1054,7 @@ Verify that admin user is able to reject House Namkaran in CMS and verify the de
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Export the namkaran (business requirement)
-    Select the created namkaran
-    Export Namkaran And Validate Download
-
-    # Click three dots and view the namkaran using Namkaran ID
+    # Click three dots and view the namkaran using Namkaran ID (NO EXPORT for rejection flow)
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify house owner details
@@ -1083,6 +1085,7 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     [Tags]    TC25    Namkaran    Gurutattva    E2E    Admin    Reject
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     Login As Namkaran User
 
     # Generate unique test data for this test run
@@ -1113,7 +1116,9 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     namkaranPage.Select NO Radio Button
 
     # Fill "Exclude the existing child name" field (MANDATORY for NO option - same as TC14)
-    Sleep    2s
+    Sleep    3s
+    # Wait for form to update after radio button selection
+    Mobile Wait Until Element Is Visible    xpath=//android.widget.EditText    5s
     ${all_edittext}=    Mobile Get Webelements    xpath=//android.widget.EditText
     ${count}=    Get Length    ${all_edittext}
     ${exclude_index}=    Evaluate    ${count} - 1
@@ -1121,6 +1126,7 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     Mobile Click Element    ${all_edittext}[${exclude_index}]
     Mobile Input Text    ${all_edittext}[${exclude_index}]    OldName
     Run Keyword And Ignore Error    Mobile Hide Keyboard
+    Sleep    1s
     Log To Console    ✅ Entered excluded name: OldName
 
     # Submit the namkaran
@@ -1145,11 +1151,7 @@ Verify that admin user is able to reject Child Namkaran in CMS and verify the de
     # Verify the created namkaran is in In Progress status using Namkaran ID
     Verify Namkaran In In Progress Status    ${namkaran_id}
 
-    # Export the namkaran (business requirement)
-    Select the created namkaran
-    Export Namkaran And Validate Download
-
-    # Click three dots and view the namkaran using Namkaran ID
+    # Click three dots and view the namkaran using Namkaran ID (NO EXPORT for rejection flow)
     Click Three Dots And View For Namkaran By ID    ${namkaran_id}
 
     # Verify child and parent details

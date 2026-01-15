@@ -195,6 +195,7 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Generate Center Name for Dhyankendra
     Open Gurutattva App
     Handle First Time Setup
+    Sleep    3s
     # Login as Sadhak user (9835625646) to access Dhyankendra tab
     Login As Dhyankendra Sadhak
     Click on the Explore Button

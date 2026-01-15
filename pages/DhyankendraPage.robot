@@ -2674,26 +2674,32 @@ Login As Dhyankendra Sadhak
     ...    Always logout first if logged in, then login with Dhyankendra Sadhak user
 
     # Step 1: Check if already logged in (Home page visible)
-    ${already_logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    15s
+    ${already_logged_in}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.ImageView[@content-desc="Home"]    5s
 
     IF    ${already_logged_in}
         Log To Console    📱 User is logged in - logging out first
         Click on the Profile Tab
-    Sleep    300ms
+        Sleep    2s
         Click on the Logout Tab
-    Sleep    300ms
+        Sleep    2s
         Click on the Yes Button from Logout Alert
-    Sleep    300ms
+        Sleep    3s
         Log To Console    ✅ Logged out successfully
     END
 
     # Step 2: Now login with Dhyankendra Sadhak user (9835625646)
     Log To Console    📱 Logging in with Dhyankendra Sadhak user 9835625646
+    Sleep    2s
+    Log To Console    🔍 About to click on input field...
     Click on the input field
+    Log To Console    ✅ Input field clicked successfully
     # Enter mobile number 9835625646
+    Sleep    1s
     Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
     Sleep    0.5s
+    Log To Console    🔍 About to enter phone number...
     Mobile Input Text    ${LOGIN_EMAIL}    9835625646
+    Log To Console    ✅ Phone number entered successfully
     Click on the Login Button
     Verify OTP Screen is Displayed
     Enter OTP Automatically    999999

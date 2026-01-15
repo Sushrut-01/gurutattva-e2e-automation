@@ -107,7 +107,6 @@ Open Gurutattva App
     ...    skipServerInstallation=false
     ...    skipDeviceInitialization=false
     ...    disableWindowAnimation=true
-    ...    systemPort=8210
     ...    uiautomator2ServerReadTimeout=120000
     ...    uiautomator2ServerLaunchTimeout=120000
     ...    uiautomator2ServerInstallTimeout=120000
@@ -117,7 +116,7 @@ Open Gurutattva App
     ...    skipLogcatCapture=true
 
     # Give app time to fully launch
-    Sleep    8s
+    Sleep    10s
     Log To Console    📱 App launched - ready for Handle First Time Setup
 
     Log To Console    ===== Gurutattva App Opened Successfully =====
