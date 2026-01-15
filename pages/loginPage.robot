@@ -115,6 +115,8 @@ Enter the Mobile Number of Quick Registration
     Run Keyword And Ignore Error    Mobile Clear Text    ${LOGIN_EMAIL}
     Sleep    0.5s
     Mobile Input Text       ${LOGIN_EMAIL}      9960232311
+    # CRITICAL: Hide keyboard after entering phone number so OTP boxes are visible
+    Run Keyword And Ignore Error    Mobile Hide Keyboard
 Enter the validate and exist email address
     Sleep    2s
     Mobile Click Element    ${EmailRadioBtn}
@@ -562,39 +564,76 @@ Enter OTP Automatically
         RETURN
     END
 
-    # Strategy 2: Flutter OTP - Get actual coordinates dynamically
+    # Strategy 2: Flutter OTP - Try multiple click methods to ensure keyboard opens
     Log To Console    Flutter OTP: Finding OTP box element...
-    ${dash_box}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    3s
+    ${dash_box}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=(//android.view.View[@content-desc="-"])[1]    5s
 
     IF    ${dash_box}
-        # Get real coordinates from the actual element
+        Log To Console    ✅ OTP dash box found - trying to focus it...
+        ${keyboard_opened}=    Set Variable    ${FALSE}
+
+        # Method 1: Try Appium native click (best for Flutter focus events)
+        Log To Console    📍 Method 1: Trying Appium Mobile Click Element...
         TRY
-            ${location}=    Mobile Get Element Location    xpath=(//android.view.View[@content-desc="-"])[1]
-            ${size}=    Mobile Get Element Size    xpath=(//android.view.View[@content-desc="-"])[1]
-            ${tap_x}=    Evaluate    int(${location['x']} + ${size['width']}/2)
-            ${tap_y}=    Evaluate    int(${location['y']} + ${size['height']}/2)
-            Log To Console    📍 OTP box found at (${location['x']}, ${location['y']}), size: ${size['width']}x${size['height']}
-            Log To Console    📍 Tapping center at: (${tap_x}, ${tap_y})
-            Run Process    adb    shell    input    tap    ${tap_x}    ${tap_y}
+            Mobile Click Element    xpath=(//android.view.View[@content-desc="-"])[1]
             Sleep    2s
+            ${keyboard_opened}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.FrameLayout[contains(@resource-id,'inputmethod')]    2s
+            IF    ${keyboard_opened}
+                Log To Console    ✅ SUCCESS: Keyboard opened with Appium click!
+            ELSE
+                Log To Console    ⚠️ Appium click didn't open keyboard - trying next method...
+            END
         EXCEPT
-            Log To Console    ⚠️ Could not get coordinates, using fallback (100, 1050)
-            Run Process    adb    shell    input    tap    100    1050
-            Sleep    2s
+            Log To Console    ⚠️ Appium click failed - trying next method...
+        END
+
+        # Method 2: If keyboard still not open, try ADB tap with dynamic coordinates
+        IF    not ${keyboard_opened}
+            Log To Console    📍 Method 2: Trying ADB tap with dynamic coordinates...
+            TRY
+                ${location}=    Mobile Get Element Location    xpath=(//android.view.View[@content-desc="-"])[1]
+                ${size}=    Mobile Get Element Size    xpath=(//android.view.View[@content-desc="-"])[1]
+                ${tap_x}=    Evaluate    int(${location['x']} + ${size['width']}/2)
+                ${tap_y}=    Evaluate    int(${location['y']} + ${size['height']}/2)
+                Log To Console    📍 OTP box at (${location['x']}, ${location['y']}), tapping center: (${tap_x}, ${tap_y})
+                Run Process    adb    shell    input    tap    ${tap_x}    ${tap_y}
+                Sleep    2s
+                ${keyboard_opened}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.FrameLayout[contains(@resource-id,'inputmethod')]    2s
+                IF    ${keyboard_opened}
+                    Log To Console    ✅ SUCCESS: Keyboard opened with ADB tap!
+                ELSE
+                    Log To Console    ⚠️ ADB tap didn't open keyboard - trying fallback...
+                END
+            EXCEPT
+                Log To Console    ⚠️ Could not get coordinates - trying fallback...
+            END
+        END
+
+        # Method 3: Last resort - multiple taps at fallback coordinates
+        IF    not ${keyboard_opened}
+            Log To Console    📍 Method 3: Trying multiple taps at fallback coordinates...
+            FOR    ${i}    IN RANGE    3
+                Log To Console    📍 Tap attempt ${i+1}/3 at (100, 1050)
+                Run Process    adb    shell    input    tap    100    1050
+                Sleep    1s
+                ${keyboard_opened}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.FrameLayout[contains(@resource-id,'inputmethod')]    2s
+                IF    ${keyboard_opened}
+                    Log To Console    ✅ SUCCESS: Keyboard opened on attempt ${i+1}!
+                    BREAK
+                END
+            END
+        END
+
+        # Final check
+        IF    not ${keyboard_opened}
+            Log To Console    ❌ ERROR: All methods failed - keyboard did NOT open!
+            Log To Console    ⚠️ Proceeding anyway, but OTP entry may fail...
         END
     ELSE
         # Fallback if dash box not found
         Log To Console    ⚠️ Dash box not found, using fallback coordinates (100, 1050)
         Run Process    adb    shell    input    tap    100    1050
         Sleep    2s
-    END
-
-    # Check if keyboard opened (confirms tap worked)
-    ${keyboard_visible}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.widget.FrameLayout[contains(@resource-id,'inputmethod')]    2s
-    IF    ${keyboard_visible}
-        Log To Console    ✅ Keyboard opened - OTP box has focus!
-    ELSE
-        Log To Console    ⚠️ WARNING: Keyboard did NOT open - tap may have failed!
     END
 
     # Use adb shell input text (more reliable than keyevent for Flutter)

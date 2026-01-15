@@ -31,7 +31,7 @@ ${FNameInputField}                 xpath=(//android.widget.EditText)[1]
 ${MNameInputField}                 xpath=(//android.widget.EditText)[2]
 ${LNameInputField}                 xpath=(//android.widget.EditText)[3]
 ${EmailInputField}                 xpath=//android.view.View[contains(@content-desc,"Email") or contains(@content-desc,"email")]/following-sibling::android.widget.EditText[1]
-${PhoneInputField}                 xpath=//android.view.View[contains(@content-desc,"Phone") or contains(@content-desc,"phone") or contains(@content-desc,"Mobile")]/following-sibling::android.widget.EditText[1]
+${PhoneInputField}                 xpath=//android.view.View[contains(@content-desc,"Phone") or contains(@content-desc,"phone") or contains(@content-desc,"Mobile")]/following-sibling::android.view.View[1]//android.widget.EditText
 ${MarriageInputfield}              xpath=//android.view.View[contains(@content-desc,"Marriage Place")]/following-sibling::android.widget.EditText[1]
 ${AddressInputField}               xpath=//android.widget.EditText
 
@@ -119,7 +119,7 @@ ${THIRD_OWNER_FIRST_NAME}          xpath=//android.view.View[@content-desc="Thir
 ${THIRD_OWNER_MIDDLE_NAME}         xpath=//android.view.View[@content-desc="Third Owner Middle Name"]/following-sibling::android.widget.EditText[1]
 ${THIRD_OWNER_LAST_NAME}           xpath=//android.view.View[@content-desc="Third Owner Last Name"]/following-sibling::android.widget.EditText[1]
 ${OWNER_EMAIL}                     xpath=//android.view.View[@content-desc="Owner Email *"]/following-sibling::android.widget.EditText[1]
-${OWNER_PHONE}                     xpath=//android.view.View[@content-desc="Owner Phone Number *"]/..//android.widget.EditText[2]
+${OWNER_PHONE}                     xpath=//android.view.View[@content-desc="Owner Phone Number *"]/following-sibling::android.view.View[1]//android.widget.EditText
 ${BUSINESS_DESC}                   xpath=//android.view.View[@content-desc="Business Description *"]/following-sibling::android.widget.EditText[1]
 ${FULL_ADDRESS}                    xpath=//android.view.View[@content-desc="Business Full Address *"]/following-sibling::android.widget.EditText[1]
 ${HOUSE_FULL_ADDRESS}              xpath=//android.view.View[contains(@content-desc,"House") and contains(@content-desc,"Address")]/following-sibling::android.widget.EditText[1]
@@ -142,7 +142,7 @@ ${NAMKARAN_CATEGORIES}             xpath=//android.view.View[contains(@content-d
 ${NAMKARAN_ADD_CONTENT}            xpath=//android.widget.ImageView[contains(@content-desc,'Namkaran')][1]
 ${ADD_NAMKARAN_TEXT}               xpath=//android.view.View[contains(@content-desc,'NO NAMKARAN FOUND.')]
 
-# Web CMS - Export functionality locators
+# Web CMS - Export functionality locators (Same as Prayer module - proven working)
 ${NAMKARAN_SELECT_ROW}            xpath=//input[@aria-label='Select row']
 ${NAMKARAN_EXPORT_BUTTON}         xpath=//button[normalize-space()='Export']
 ${NAMKARAN_EXPORTED_STATUS}       xpath=//span[contains(text(),'Exported')]
@@ -155,7 +155,7 @@ ${NAMKARAN_EXPORTED_STATUS}       xpath=//span[contains(text(),'Exported')]
 Click on the Explore Menu
     [Documentation]    Navigate to Explore menu in the mobile app
     ...    Used to access the Namkaran section from main app navigation
-    Mobile Wait Until Element Is Visible    ${EXPLORE_MENU}    15s
+    Mobile Wait Until Element Is Visible    ${EXPLORE_MENU}    20s
     Mobile Click Element    ${EXPLORE_MENU}
     Log To Console    ✅ Clicked on Explore Menu
 
@@ -466,8 +466,7 @@ Enter Phone Number for Child Namkaran
     [Arguments]    ${PHONE_NUMBER}=1234567890
     [Documentation]    Enter phone number in Child Namkaran form
     ...    @param PHONE_NUMBER: Phone number to enter (default: 1234567890)
-    ...    Scrolls to Father section first before entering phone
-    Scroll Up Until Element Visible            ${Father_Title}
+    ...    Phone field is visible after entering Father details and Email - no scroll needed
     Mobile Wait Until Element Is Visible   ${PhoneInputField}    10s
     Mobile Click Element    ${PhoneInputField}
     Mobile Input Text    ${PhoneInputField}    ${PHONE_NUMBER}

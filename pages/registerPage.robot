@@ -1075,6 +1075,7 @@ Fill the Personal,Select Unmarried and Education Information
     Select Marital Status For Personal Information
     Click on the Education Level Field
     Click on the Education Qualification Field
+    Click on the Education Qualification Sub-Category Field for Personal Information
     Click on the Occupation Type Field
     Click on the Occupation Field
     Click on the register Button from Community Registration
@@ -1088,14 +1089,14 @@ Select DOB For Personal Information
   Sleep    3s  # Wait for date picker to load
 
   # PROVEN PATTERN from namkaranPage.robot: Click on current year text FIRST to open year picker
-  Log To Console    📅 Opening year picker by clicking on current year (2025)
+  Log To Console    📅 Opening year picker by clicking on current year (2026)
   ${year_picker_opened}=    Set Variable    ${FALSE}
 
-  # Try to click on 2025 year text to open year picker
-  ${status_open}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="2025"]    15s
+  # Try to click on 2026 year text to open year picker
+  ${status_open}=    Run Keyword And Return Status    Mobile Wait Until Element Is Visible    xpath=//android.view.View[@content-desc="2026"]    15s
   IF    ${status_open}
-      Mobile Click Element    xpath=//android.view.View[@content-desc="2025"]
-      Log To Console    ✅ Clicked on 2025 to open year picker
+      Mobile Click Element    xpath=//android.view.View[@content-desc="2026"]
+      Log To Console    ✅ Clicked on 2026 to open year picker
       ${year_picker_opened}=    Set Variable    ${TRUE}
       Sleep    2s  # Wait for year picker to open
   END
