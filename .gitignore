@@ -47,6 +47,12 @@ email_args.json
 *_output.txt
 nul
 run_*_debug.bat
+tmpclaude-*
+temp_*.robot
+appium_inspector_config.json
+dryrun.txt
+Appium Json Capabilities .txt
+FRAMEWORK_ANALYSIS_AND_SOLUTIONS.md
 
 # Claude Code
 .claude/
