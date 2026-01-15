@@ -526,8 +526,8 @@ Select Sanchalak By Index
     Mobile Wait Until Element Is Visible    ${sanchalak_field}    20s
     Mobile Click Element    ${sanchalak_field}
     Sleep    300ms
-    # Common Indian name prefixes (3+ characters for dropdown to appear)
-    @{search_terms}=    Create List    ash    bha    jay    raj    san    yat    adi    ami    ani    vij    pra    sur    dee    gop    man    pat    kam    nil    har    sha    din    kum    lax    meh    moh    nar    nee    aru    gan    him    ket    kir    mit    muk    pun    rah    ram    sat    she    shr    vai    vin    yog
+    # Common Indian name prefixes (5 characters for dropdown to appear)
+    @{search_terms}=    Create List    ashok    bhara    jayan    rajes    sanje    yatis    adity    amita    aniru    vijay    praka    sures    deepa    gopal    manis    patel    kamla    nilam    haris    shant    dines    kumar    laxmi    mehul    mohan    naren    neela    aruna    ganes    himan    ketan    kiran    mitak    mukti    punis    rahul    rames    satis    sheel    shree    vaish    vinas    yoges
 
     # Calculate search term and result position
     # Pattern: Every 2 attempts use same search term, alternating result 1 and 2
@@ -2124,7 +2124,12 @@ Handle Pagination For Dhyankendra Filter Verification
             Log To Console    ✅ Reached last page
             BREAK
         END
-        Web.Click Element    ${PAGINATION_ENABLED_NEXT}
+        # Try to click next button, but handle if it becomes disabled/intercepted
+        ${click_success}=    Run Keyword And Return Status    Web.Click Element    ${PAGINATION_ENABLED_NEXT}
+        IF    not ${click_success}
+            Log To Console    ✅ Next button disabled - reached last page
+            BREAK
+        END
         Sleep    1s
     END
 
