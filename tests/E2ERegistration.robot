@@ -187,7 +187,7 @@ Verify that the quick registration user is able to become a member on the mobile
     Click on the Yes Button from Logout Alert
     Close Gurutattva App
 Verify that Community registration on the mobile app reflects correctly in the CMS and user details are displayed properly in profile and flip card.
-    [Tags]  E2E  Registration   CommunityRegistration
+    [Tags]  TC11  E2E  Registration   CommunityRegistration
 
     Open Gurutattva App
     Handle First Time Setup
@@ -253,27 +253,27 @@ Verify that Community registration on the mobile app reflects correctly in the C
 #     Close Gurutattva App
 
 # Verify that the user is able to complete community registration using both YES and NO options, on the mobile app and confirm that the user is reflected correctly in the CSM
-#     [Tags]  TC12  CommunityRegistration
-#     # # Generate unique test data for E2E validation
-#     Generate E2E Community Registration Test Data
+#    [Tags]  TC12  CommunityRegistration
+    # # Generate unique test data for E2E validation
+#    Generate E2E Community Registration Test Data
 
-#     Open Gurutattva App
-#     Handle First Time Setup
-#     Click on the Register Link
-#     Click on the Community Registration Tab
-#     Click on the NO and Second YES Radio Button from Community Registration
-#     Click on the Next Button from Community Registration
-#     Handle Location Permission
-#     Select Dhyankendra and click on the Next Button
-#     Fill the Personal and Address Information for Community Registration
-#     Fill the Personal,Select Unmarried and Education Information
-#     Verify OTP Screen is Displayed
-#     Enter Email OTP Manually
-#     Click on the Verify Button
-#     Verify Home Screen is Displayed
-#     Close Gurutattva App
+#    Open Gurutattva App
+#    Handle First Time Setup
+#    Click on Register Text Only
+#    Click on the Community Registration Tab
+#    Click on the NO and Second YES Radio Button from Community Registration
+#    Click on the Next Button from Community Registration
+#    Handle Location Permission
+#    Select Dhyankendra and click on the Next Button
+#    Fill the Personal and Address Information for Community Registration
+#    Fill the Personal,Select Unmarried and Education Information
+#    Verify OTP Screen is Displayed
+#    Enter OTP Automatically    999999
+#    Click on the Verify Button
+#    Verify Home Screen is Displayed
+#    Close Gurutattva App
 
-    #Verify the user is reflected correctly in the CSM
+    #  Verify the user is reflected correctly in the CSM
     Open Web Browser
     Login in with valid credentials
     Click on the User Management Menu for Community Registration
