@@ -1,5 +1,159 @@
-robotframework
-robotframework-appiumlibrary
-Appium-Python-Client
-selenium
-robotframework-seleniumlibrary
+# ============================================================================
+# Gurutattva E2E Automation - Python Dependencies
+# ============================================================================
+# Last Updated: 2026-01-16
+# Python Version Required: 3.12+
+# Node.js Version Required: 20.x LTS (for Appium)
+#
+# Installation:
+#   pip install -r requirements.txt
+#
+# Installation with Virtual Environment (Recommended):
+#   python -m venv venv
+#   venv\Scripts\activate          # Windows
+#   source venv/bin/activate       # Linux/Mac
+#   pip install -r requirements.txt
+#
+# Update all packages:
+#   pip install --upgrade -r requirements.txt
+#
+# Check installed versions:
+#   pip freeze
+# ============================================================================
+
+# ============================================================================
+# CORE TESTING FRAMEWORKS
+# ============================================================================
+
+# Robot Framework - Main test automation framework
+robotframework>=7.0.1
+
+# Selenium Library for Robot Framework - Web automation
+robotframework-seleniumlibrary>=6.2.0
+
+# Appium Library for Robot Framework - Mobile automation
+robotframework-appiumlibrary>=2.0.0
+
+# ============================================================================
+# WEB AUTOMATION
+# ============================================================================
+
+# Selenium WebDriver - Browser automation
+selenium>=4.16.0
+
+# WebDriver Manager - Automatic ChromeDriver/GeckoDriver management
+webdriver-manager>=4.0.1
+
+# ============================================================================
+# MOBILE AUTOMATION
+# ============================================================================
+
+# Appium Python Client - Mobile automation driver
+Appium-Python-Client>=3.1.0
+
+# ============================================================================
+# HTTP & API TESTING
+# ============================================================================
+
+# HTTP requests library - For API calls and utilities
+requests>=2.31.0
+
+# ============================================================================
+# DATA HANDLING & PROCESSING
+# ============================================================================
+
+# XML/HTML parsing
+lxml>=5.0.0
+
+# Excel file handling (for test data if needed)
+openpyxl>=3.1.2
+
+# Python Imaging Library - Image processing and screenshots
+Pillow>=10.1.0
+
+# Date and time utilities
+python-dateutil>=2.8.2
+
+# ============================================================================
+# REPORTING & PARALLEL EXECUTION
+# ============================================================================
+
+# Parallel test execution for Robot Framework
+robotframework-pabot>=2.17.0
+
+# Enhanced logging with colors
+colorlog>=6.8.0
+
+# ============================================================================
+# EMAIL REPORTING (Already used in send_email.py)
+# ============================================================================
+
+# Email handling (smtplib is built-in, no package needed)
+# SSL/TLS support (ssl is built-in)
+
+# ============================================================================
+# DEVELOPMENT TOOLS (Optional - Uncomment if needed)
+# ============================================================================
+
+# Code formatting
+# autopep8>=2.0.4
+# black>=23.12.0
+
+# Linting
+# pylint>=3.0.3
+# flake8>=7.0.0
+
+# Type checking
+# mypy>=1.8.0
+
+# ============================================================================
+# NOTES & BEST PRACTICES
+# ============================================================================
+#
+# 1. Version Pinning:
+#    - Using >= for flexibility while maintaining minimum versions
+#    - For production, consider exact versions (==) for reproducibility
+#
+# 2. Virtual Environment:
+#    - Always use virtual environment to avoid package conflicts
+#    - Keeps project dependencies isolated
+#
+# 3. Updating Dependencies:
+#    - Review release notes before updating
+#    - Test thoroughly after updates
+#    - Update one package at a time for large projects
+#
+# 4. Common Issues:
+#    - If installation fails, upgrade pip first:
+#      python -m pip install --upgrade pip
+#    - If package conflicts occur, create fresh virtual environment
+#
+# 5. Platform-Specific:
+#    - Some packages may require C++ build tools on Windows
+#    - Install Visual Studio Build Tools if needed
+#
+# ============================================================================
+# EXTERNAL DEPENDENCIES (Not Python packages)
+# ============================================================================
+#
+# These must be installed separately:
+#
+# 1. Node.js v20.x LTS
+#    Download: https://nodejs.org/
+#
+# 2. Appium Server (via npm)
+#    npm install -g appium
+#    npm install -g appium-uiautomator2-driver
+#
+# 3. Android SDK / ADB
+#    Via Android Studio: https://developer.android.com/studio
+#    OR SDK Command Line Tools
+#
+# 4. Java JDK 11+
+#    Download: https://adoptium.net/
+#
+# 5. Web Browsers (for Selenium)
+#    - Chrome: https://www.google.com/chrome/
+#    - Firefox: https://www.mozilla.org/firefox/
+#
+# ============================================================================
