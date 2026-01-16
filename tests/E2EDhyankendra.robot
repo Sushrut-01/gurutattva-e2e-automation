@@ -229,112 +229,12 @@ Login from Mobile as Sadhak and register for Dhyankendra. Compare all the fields
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    # Dynamic Sanchalak selection with validation loop
-    # Enters Email/Mobile once, then tries Sanchalaks by index until one is not already registered
-    Select Sanchalak And Submit With Validation Loop
+    # TC64 specifically selects "Vaishali" and stores the full name for TC66
+    Select Vaishali As Sanchalak For TC64
+    Click on the Submit Button for Dhyankendra
     Close Gurutattva App
     # --- CMS Validation by Super Admin ---
     Validate the filled value on that sadak user on the CMS side
-
-Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the changes requeted. check reflection in mobile app.
-    [Tags]  E2E  TC67  Dhyankendra
-    # Mobile: Sadhak user (OTP-based) - Register Dhyankendra
-    # CMS Step 1: Super Admin (sushrut.nistane@rysun.com / Sharu@051220) - Initial approval
-    # CMS Step 2: Sanchalak - Vaishali/Vaishub (patilvaishub@gmail.com / Lavanya@21) - Request changes
-    # CMS Step 3: Super Admin - Reject the requested changes
-    # Mobile: Sadhak user - Verify rejection reflected in app
-    # All credentials from: Roles & Rights Module
-    Generate Center Name for Dhyankendra
-    # --- Step 1: Mobile Registration by Sadhak ---
-    Open Gurutattva App
-    Handle First Time Setup
-    # Login as Sadhak user (9835625646) to access Dhyankendra tab
-    Login As Dhyankendra Sadhak
-    Click on the Explore Button
-    Click on the DhyanKendra Tab
-    Handle DhyanKendra Location
-    Click on the Register Now for Dhyankendra
-    Enter Center Name
-    Select Premise Type
-    Select Ownership
-    Enter Sitting Capacity
-    Select Morning Timeslot
-    Select Evening Timeslot
-    Click on the Next Button for Dhyankendra
-    Enter Full Address For Dhyankendra
-    Enter Pincode For Dhyankendra
-    Select Country for Dhyankendra
-    Select State for Dhyankendra
-    Select District for Dhyankendra
-    Select Taluka/City for Dhyankendra
-    Select Area/Village for Dhyankendra
-    Click on the Next Button for Dhyankendra
-    Enter Hall Length
-    Enter Hall Width
-    Enter Hall Height
-    Select Library
-    Select Parking Space
-    Select Ground Floor
-    Select Air Conditioner
-    Select Toilet/Bathrooms
-    Select Notice Board
-    Select Noise Level
-    Select Ventilation
-    Select Roof Type
-    Select Sanchalak And Submit With Validation Loop
-    Close Gurutattva App
-
-    # --- Step 2: Super Admin Approval ---
-    Open Web Browser
-    Login in with valid credentials
-    Click on the Dhyankendra Management Menu
-    Click on the Search Button
-    Click on the Edit Button in CMS
-    Click on the Change Request Button for Web
-    Enter Remark for Edit Request
-    Click on the Approve Button from Edit Request
-    Verify the Edit Dhyankendra Success Message
-    Click on the Dhyankendra Management Menu
-    Click on the Search Button
-    Verify the Approved Status in CMS
-    Close Web Browser
-
-    # --- Step 3: Sanchalak Request Changes ---
-    Open Web Browser
-    Login in with Sanchalak credentials
-    Click on the Dhyankendra Management Menu
-    Click on the Search Button
-    Click on the Edit Button in CMS
-    Change the Address of the Dhyankendra
-    Select Community Hall Premise Type
-    Click on the Submit Button for Web
-    Verify the Edit Request Message
-    # Already on Dhyankendra listing page after submit, no need to navigate away
-    Click on the Search Button
-    Verify the Review Status as Pending
-    Close Web Browser
-
-    # --- Step 4: Super Admin REJECTS Changes ---
-    Open Web Browser
-    Login in with valid credentials
-    Click on the Dhyankendra Management Menu
-    Click on the Search Button
-    Verify the Review Status as Pending
-    Click on the Edit Button in CMS
-    Click on the Change Request Button for Web
-    Enter Remark for Edit Request
-    Click on the Reject Button from Edit Request
-    Click on the Dhyankendra Management Menu
-    Click on the Search Button
-    Verify the Review Status as Rejected
-    Close Web Browser
-
-    # --- Step 5: Mobile Validation - Verify Rejection ---
-    Open Gurutattva App
-    Handle First Time Setup
-    Click on the DhyanKendra Tab
-    Validate the fields after rejection in the mobile app
-    Close Gurutattva App
 
 Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the changes requeted. Check refleciton in Mobile app.
     [Tags]  E2E  TC66  Dhyankendra
@@ -381,7 +281,9 @@ Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya approves the chan
     Select Noise Level
     Select Ventilation
     Select Roof Type
-    Select Sanchalak And Submit With Validation Loop
+    # TC66 also uses "Vaishali" and stores the full name for TC67
+    Select Vaishali As Sanchalak For TC64
+    Click on the Submit Button for Dhyankendra
     Close Gurutattva App
 
     # --- Step 2: Super Admin Approval ---
@@ -444,24 +346,167 @@ Change the Primary Sanchalak from Dhyankendra and add other sanchalak
     Open Web Browser
     Login in with valid credentials
     Click on the Dhyankendra Management Menu
-    Open Dhyankendra Management And Show Approved Records
-    Open Edit For First Approved Dhyankendra
-    Handle Pending Change Request If Present
-    # After rejecting, page navigates back to listing. Now search by center name (status is now Rejected)
-    Log To Console    After rejecting, searching for the same record by center name...
+    # Search for TC66's Dhyankendra by center name using filter
+    Log To Console    Searching for TC66's Dhyankendra: ${E2E_DHYANKENDRA_NAME}
     Search Dhyankendra By Center Name    ${E2E_DHYANKENDRA_NAME}
     Sleep    2s
-    # Open edit for the record found by center name
-    ${row_more}=    Set Variable    xpath=//div[@role='row']//button[@aria-label='more']
+    # Open edit for the found Dhyankendra - find the row that contains our center name
+    ${row_more}=    Set Variable    xpath=//div[@role='row' and .//div[@data-field='dhyankendraName' and contains(text(),'${E2E_DHYANKENDRA_NAME}')]]//button[@aria-label='more']
     Web Wait Until Element Is Visible    ${row_more}    10s
+    Log To Console    Found the row for center: ${E2E_DHYANKENDRA_NAME}
     Web Scroll Element Into View         ${row_more}
     Web Click Element    ${row_more}
     Sleep    2s
     Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_BUTTON}    10s
     Web Click Element    ${DHYANKENDRA_EDIT_BUTTON}
     Sleep    5s
-    # Now edit the Primary Sanchalak (no Change Request button this time)
+    # Handle any pending change requests before editing
+    Handle Pending Change Request If Present
+    # Now edit the Primary Sanchalak
     Go To Sanchalak Details Section
     Change Primary Sanchalak To Available One
     Verify Sanchalak Update Outcome
+    Close Web Browser
+
+Sanchalak edits any field of Dhyankendra. Super Admin/ Acharya Rejectes the changes requeted. check reflection in mobile app.
+    [Tags]  E2E  TC67  Dhyankendra
+    # Mobile: Sadhak user (OTP-based) - Register Dhyankendra
+    # CMS Step 1: Super Admin (sushrut.nistane@rysun.com / Sharu@051220) - Initial approval
+    # CMS Step 2: Sanchalak - Vaishali/Vaishub (patilvaishub@gmail.com / Lavanya@21) - Request changes
+    # CMS Step 3: Super Admin - Reject the requested changes
+    # Mobile: Sadhak user - Verify rejection reflected in app
+    # All credentials from: Roles & Rights Module
+    Generate Center Name for Dhyankendra
+    # --- Step 1: Mobile Registration by Sadhak ---
+    Open Gurutattva App
+    Handle First Time Setup
+    # Login as Sadhak user (9835625646) to access Dhyankendra tab
+    Login As Dhyankendra Sadhak
+    Click on the Explore Button
+    Click on the DhyanKendra Tab
+    Handle DhyanKendra Location
+    Click on the Register Now for Dhyankendra
+    Enter Center Name
+    Select Premise Type
+    Select Ownership
+    Enter Sitting Capacity
+    Select Morning Timeslot
+    Select Evening Timeslot
+    Click on the Next Button for Dhyankendra
+    Enter Full Address For Dhyankendra
+    Enter Pincode For Dhyankendra
+    Select Country for Dhyankendra
+    Select State for Dhyankendra
+    Select District for Dhyankendra
+    Select Taluka/City for Dhyankendra
+    Select Area/Village for Dhyankendra
+    Click on the Next Button for Dhyankendra
+    Enter Hall Length
+    Enter Hall Width
+    Enter Hall Height
+    Select Library
+    Select Parking Space
+    Select Ground Floor
+    Select Air Conditioner
+    Select Toilet/Bathrooms
+    Select Notice Board
+    Select Noise Level
+    Select Ventilation
+    Select Roof Type
+    # TC67 uses "Vaishali" (freed by TC68) - requires execution order: TC64→TC66→TC68→TC67
+    Select Vaishali As Sanchalak For TC64
+    Click on the Submit Button for Dhyankendra
+    Close Gurutattva App
+
+    # --- Step 2: Super Admin Approval ---
+    Open Web Browser
+    Login in with valid credentials
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Click on the Edit Button in CMS
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Approve Button from Edit Request
+    Verify the Edit Dhyankendra Success Message
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Verify the Approved Status in CMS
+    Close Web Browser
+
+    # --- Step 3: Sanchalak Request Changes ---
+    Open Web Browser
+    Login in with Sanchalak credentials
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Click on the Edit Button in CMS
+    Change the Address of the Dhyankendra
+    Select Community Hall Premise Type
+    Click on the Submit Button for Web
+    Verify the Edit Request Message
+    # Already on Dhyankendra listing page after submit, no need to navigate away
+    Click on the Search Button
+    Verify the Review Status as Pending
+    Close Web Browser
+
+    # --- Step 4: Super Admin REJECTS Changes ---
+    Open Web Browser
+    Login in with valid credentials
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Verify the Review Status as Pending
+    Click on the Edit Button in CMS
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Reject Button from Edit Request
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Verify the Review Status as Rejected
+    Close Web Browser
+
+    # --- Step 5: Mobile Validation - Verify Rejection ---
+    Open Gurutattva App
+    Handle First Time Setup
+    Click on the DhyanKendra Tab
+    Validate the fields after rejection in the mobile app
+    Close Gurutattva App
+
+Super Admin changes Sanchalak1 of TC67's Dhyankendra to free Vaishali
+    [Tags]    E2E    Web    Dhyankendra    TC69
+    # Role: Super Admin (sushrut.nistane@rysun.com / Sharu@051220)
+    # Reason: Free Vaishali from TC67's Dhyankendra by changing Sanchalak1 to someone else
+    # Uses TC67's center name to search and edit
+    Open Web Browser
+    Login in with valid credentials
+    Click on the Dhyankendra Management Menu
+    # Search for TC67's Dhyankendra by center name using filter
+    Log To Console    Searching for TC67's Dhyankendra: ${E2E_DHYANKENDRA_NAME}
+    Search Dhyankendra By Center Name    ${E2E_DHYANKENDRA_NAME}
+    Sleep    2s
+    # Open edit for the found Dhyankendra - find the row that contains our center name
+    ${row_more}=    Set Variable    xpath=//div[@role='row' and .//div[@data-field='dhyankendraName' and contains(text(),'${E2E_DHYANKENDRA_NAME}')]]//button[@aria-label='more']
+    Web Wait Until Element Is Visible    ${row_more}    10s
+    Log To Console    Found the row for center: ${E2E_DHYANKENDRA_NAME}
+    Web Scroll Element Into View         ${row_more}
+    Web Click Element    ${row_more}
+    Sleep    2s
+    Web Wait Until Element Is Visible    ${DHYANKENDRA_EDIT_BUTTON}    10s
+    Web Click Element    ${DHYANKENDRA_EDIT_BUTTON}
+    Sleep    5s
+    # Handle any pending change requests before editing (TC67 has rejected change request)
+    Handle Pending Change Request If Present
+    # Now edit the Primary Sanchalak
+    Go To Sanchalak Details Section
+    Change Primary Sanchalak To Available One
+    # Submit the form to trigger Change Request
+    Click on the Submit Button for Web
+    Sleep    3s
+    Log To Console    Waiting for success popup to appear and settle
+    # Approve the change request (keyword now scrolls to top automatically)
+    Click on the Change Request Button for Web
+    Enter Remark for Edit Request
+    Click on the Approve Button from Edit Request
+    Verify the Edit Dhyankendra Success Message
+    Click on the Dhyankendra Management Menu
+    Click on the Search Button
+    Verify the Review Status as Approved
     Close Web Browser
