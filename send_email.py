@@ -125,14 +125,14 @@ def get_test_statistics(report_dir):
             content = f.read()
         
         import re
-        total_match = re.search(r'tests="(\d+)"', content)
         pass_match = re.search(r'pass="(\d+)"', content)
         fail_match = re.search(r'fail="(\d+)"', content)
-        
-        total_tests = int(total_match.group(1)) if total_match else 0
+
         passed_tests = int(pass_match.group(1)) if pass_match else 0
         failed_tests = int(fail_match.group(1)) if fail_match else 0
-        
+        # Calculate total from passed + failed (more reliable than parsing tests attribute)
+        total_tests = passed_tests + failed_tests
+
         print(f"📊 Test Statistics - Total: {total_tests}, Passed: {passed_tests}, Failed: {failed_tests}")
         return total_tests, passed_tests, failed_tests
         
