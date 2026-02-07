@@ -1,8 +1,13 @@
 # 🚀 Gurutattva E2E Testing - Complete Setup Guide for Team Members
 
-**Last Updated:** January 16, 2026
+**Last Updated:** February 7, 2026
 **Setup Type:** Desktop/Laptop Android Testing with Appium
-**Repository:** https://github.com/Sushrut-01/gurutattva-e2e-automation
+
+## Repository Links (Both are in sync)
+| Platform | Clone URL |
+|----------|-----------|
+| **GitHub** | https://github.com/Sushrut-01/gurutattva-e2e-automation |
+| **Azure DevOps** | https://dev.azure.com/WarishKumar-Rysun/Gurutattva_E2E_Automation/_git/Gurutattva_E2E_Automation |
 
 ---
 
@@ -128,10 +133,15 @@ https://github.com/appium/appium-inspector/releases
 ### Step 1: Clone Repository
 
 ```bash
-# Clone from GitHub
 cd D:\  # or your preferred directory
+
+# Option 1: Clone from GitHub
 git clone https://github.com/Sushrut-01/gurutattva-e2e-automation.git
 cd gurutattva-e2e-automation
+
+# Option 2: Clone from Azure DevOps
+git clone https://dev.azure.com/WarishKumar-Rysun/Gurutattva_E2E_Automation/_git/Gurutattva_E2E_Automation
+cd Gurutattva_E2E_Automation
 
 # Switch to master branch (has all latest fixes)
 git checkout master
@@ -616,14 +626,15 @@ git pull origin master
 
 ## 📞 Support Contacts
 
-- **Repository:** https://github.com/Sushrut-01/gurutattva-e2e-automation
+- **GitHub Repository:** https://github.com/Sushrut-01/gurutattva-e2e-automation
+- **Azure DevOps Repository:** https://dev.azure.com/WarishKumar-Rysun/Gurutattva_E2E_Automation
 - **Issues:** Create GitHub issue with error details
 - **Team Lead:** Sushrut (sushrut.nistane@rysun.com)
 
 ---
 
-**Last Updated:** January 16, 2026
-**Document Version:** 2.0
+**Last Updated:** February 7, 2026
+**Document Version:** 2.1
 **Maintained By:** Automation Team
 
 ---
